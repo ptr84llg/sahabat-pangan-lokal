@@ -1,0 +1,617 @@
+[gd_scene format=3]
+
+[sub_resource type="StyleBoxFlat" id="ModalPanel"]
+bg_color = Color(0.99, 0.98, 0.94, 0.995)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.43, 0.31, 0.15, 0.64)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0.02, 0.04, 0.02, 0.34)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="PrimaryButton"]
+bg_color = Color(0.94, 0.68, 0.12, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="PrimaryHover"]
+bg_color = Color(1, 0.78, 0.22, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="SecondaryButton"]
+bg_color = Color(0.99, 0.98, 0.94, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.47, 0.35, 0.18, 0.44)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="SecondaryHover"]
+bg_color = Color(0.9, 0.95, 0.8, 0.99)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.34, 0.57, 0.2, 0.76)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="DangerButton"]
+bg_color = Color(0.99, 0.94, 0.9, 0.99)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.68, 0.31, 0.2, 0.55)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="DangerHover"]
+bg_color = Color(0.98, 0.82, 0.77, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72, 0.24, 0.16, 0.76)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="TeamTitleStyle"]
+bg_color = Color(0.91, 0.96, 0.85, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="TeamMemberStyle"]
+bg_color = Color(0.99, 0.98, 0.94, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.48, 0.4, 0.24, 0.35)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="ResetNoteStyle"]
+bg_color = Color(1, 0.96, 0.84, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.54, 0.18, 0.42)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="MainMenuModalLayer" type="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ModalMask" type="ColorRect" parent="."]
+visible = false
+z_index = 900
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.32)
+mouse_filter = 0
+
+[node name="AboutModal" type="PanelContainer" parent="."]
+visible = false
+z_index = 1000
+custom_minimum_size = Vector2(900, 560)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -280.0
+offset_right = 450.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("ModalPanel")
+
+[node name="OuterMargin" type="MarginContainer" parent="AboutModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="ModalVBox" type="VBoxContainer" parent="AboutModal/OuterMargin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="Label" parent="AboutModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 28
+text = "TENTANG"
+
+[node name="HeaderSeparator" type="HSeparator" parent="AboutModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+
+[node name="AboutBodyScroll" type="ScrollContainer" parent="AboutModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="AboutBody" type="VBoxContainer" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="Paragraph1" type="Label" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.28, 0.28, 0.22, 1)
+theme_override_font_sizes/font_size = 17
+text = "Sahabat Pangan Lokal merupakan permainan edukasi interaktif yang dirancang untuk memperkenalkan pangan lokal kepada siswa sekolah dasar melalui petualangan dan berbagai tantangan berbasis skenario."
+autowrap_mode = 3
+
+[node name="Paragraph2" type="Label" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.28, 0.28, 0.22, 1)
+theme_override_font_sizes/font_size = 17
+text = "Pemain diajak mengenali berbagai jenis pangan lokal, memilih pangan dalam kehidupan sehari-hari, berbelanja bahan pangan di pasar, menyelesaikan tantangan di dapur, hingga mengikuti Festival Pangan Lokal."
+autowrap_mode = 3
+
+[node name="Paragraph3" type="Label" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.28, 0.28, 0.22, 1)
+theme_override_font_sizes/font_size = 17
+text = "Permainan ini dikembangkan melalui kegiatan penelitian oleh tim dosen Universitas PGRI Silampari."
+autowrap_mode = 3
+
+[node name="TeamTitlePanel" type="PanelContainer" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("TeamTitleStyle")
+
+[node name="TeamTitle" type="Label" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamTitlePanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 20
+text = "TIM PENGEMBANG"
+horizontal_alignment = 1
+
+[node name="TeamGrid" type="GridContainer" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 12
+columns = 3
+
+[node name="Firdaus" type="PanelContainer" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("TeamMemberStyle")
+[node name="Margin" type="MarginContainer" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid/Firdaus"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+[node name="Column" type="VBoxContainer" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid/Firdaus/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+[node name="Name" type="Label" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid/Firdaus/Margin/Column"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 16
+text = "Firdaus, S.Pd., M.Ds."
+horizontal_alignment = 1
+autowrap_mode = 3
+[node name="Role" type="Label" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid/Firdaus/Margin/Column"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.36, 0.28, 1)
+theme_override_font_sizes/font_size = 14
+text = "Konseptor permainan, skenario, dan alur cerita."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="EliSuryani" type="PanelContainer" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("TeamMemberStyle")
+[node name="Margin" type="MarginContainer" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid/EliSuryani"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+[node name="Column" type="VBoxContainer" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid/EliSuryani/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+[node name="Name" type="Label" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid/EliSuryani/Margin/Column"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 16
+text = "Eli Suryani, S.Pd., M.Sn."
+horizontal_alignment = 1
+autowrap_mode = 3
+[node name="Role" type="Label" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid/EliSuryani/Margin/Column"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.36, 0.28, 1)
+theme_override_font_sizes/font_size = 14
+text = "Konsep visual, narasi, dan antarmuka permainan."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="MardiansyahPutra" type="PanelContainer" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("TeamMemberStyle")
+[node name="Margin" type="MarginContainer" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid/MardiansyahPutra"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+[node name="Column" type="VBoxContainer" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid/MardiansyahPutra/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+[node name="Name" type="Label" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid/MardiansyahPutra/Margin/Column"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 16
+text = "Mardiansyah Putra, S.Kom., M.Kom."
+horizontal_alignment = 1
+autowrap_mode = 3
+[node name="Role" type="Label" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody/TeamGrid/MardiansyahPutra/Margin/Column"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.36, 0.28, 1)
+theme_override_font_sizes/font_size = 14
+text = "Pengembang game dan algoritma permainan."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Institution" type="Label" parent="AboutModal/OuterMargin/ModalVBox/AboutBodyScroll/AboutBody"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.4, 0.24, 1)
+theme_override_font_sizes/font_size = 15
+text = "Universitas PGRI Silampari • 2026"
+horizontal_alignment = 1
+
+[node name="FooterSeparator" type="HSeparator" parent="AboutModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+[node name="AboutFooter" type="HBoxContainer" parent="AboutModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+[node name="AboutCloseButton" type="Button" parent="AboutModal/OuterMargin/ModalVBox/AboutFooter"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.22, 0.15, 0.04, 1)
+theme_override_styles/normal = SubResource("PrimaryButton")
+theme_override_styles/hover = SubResource("PrimaryHover")
+text = "TUTUP"
+
+[node name="ExitConfirmationModal" type="PanelContainer" parent="."]
+visible = false
+z_index = 1000
+custom_minimum_size = Vector2(600, 270)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -135.0
+offset_right = 300.0
+offset_bottom = 135.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("ModalPanel")
+[node name="OuterMargin" type="MarginContainer" parent="ExitConfirmationModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+[node name="ModalVBox" type="VBoxContainer" parent="ExitConfirmationModal/OuterMargin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+[node name="Header" type="Label" parent="ExitConfirmationModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 26
+text = "KELUAR PERMAINAN"
+[node name="HeaderSeparator" type="HSeparator" parent="ExitConfirmationModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+[node name="BodyScroll" type="ScrollContainer" parent="ExitConfirmationModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+[node name="Body" type="CenterContainer" parent="ExitConfirmationModal/OuterMargin/ModalVBox/BodyScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+[node name="Question" type="Label" parent="ExitConfirmationModal/OuterMargin/ModalVBox/BodyScroll/Body"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_font_sizes/font_size = 22
+text = "Yakin menutup permainan?"
+horizontal_alignment = 1
+[node name="FooterSeparator" type="HSeparator" parent="ExitConfirmationModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+[node name="ModalFooter" type="HBoxContainer" parent="ExitConfirmationModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+[node name="ExitCancelButton" type="Button" parent="ExitConfirmationModal/OuterMargin/ModalVBox/ModalFooter"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_colors/font_pressed_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_colors/font_focus_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("SecondaryButton")
+theme_override_styles/hover = SubResource("SecondaryHover")
+theme_override_styles/pressed = SubResource("SecondaryHover")
+theme_override_styles/focus = SubResource("SecondaryHover")
+text = "BATAL"
+[node name="ExitConfirmButton" type="Button" parent="ExitConfirmationModal/OuterMargin/ModalVBox/ModalFooter"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.48, 0.18, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.4, 0.1, 0.06, 1)
+theme_override_colors/font_pressed_color = Color(0.4, 0.1, 0.06, 1)
+theme_override_colors/font_focus_color = Color(0.4, 0.1, 0.06, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("DangerButton")
+theme_override_styles/hover = SubResource("DangerHover")
+theme_override_styles/pressed = SubResource("DangerHover")
+theme_override_styles/focus = SubResource("DangerHover")
+text = "KELUAR"
+
+[node name="ResetGameModal" type="PanelContainer" parent="."]
+visible = false
+z_index = 1000
+custom_minimum_size = Vector2(720, 380)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -190.0
+offset_right = 360.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("ModalPanel")
+[node name="OuterMargin" type="MarginContainer" parent="ResetGameModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 22
+[node name="ModalVBox" type="VBoxContainer" parent="ResetGameModal/OuterMargin"]
+layout_mode = 2
+theme_override_constants/separation = 15
+[node name="Header" type="Label" parent="ResetGameModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 26
+text = "RESET GAME"
+[node name="HeaderSeparator" type="HSeparator" parent="ResetGameModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+[node name="BodyScroll" type="ScrollContainer" parent="ResetGameModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+[node name="Body" type="VBoxContainer" parent="ResetGameModal/OuterMargin/ModalVBox/BodyScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+alignment = 1
+[node name="Question" type="Label" parent="ResetGameModal/OuterMargin/ModalVBox/BodyScroll/Body"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_font_sizes/font_size = 21
+text = "Yakin status permainan saat ini mau di hapus dan diulang?"
+horizontal_alignment = 1
+autowrap_mode = 3
+[node name="NotePanel" type="PanelContainer" parent="ResetGameModal/OuterMargin/ModalVBox/BodyScroll/Body"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("ResetNoteStyle")
+[node name="NoteMargin" type="MarginContainer" parent="ResetGameModal/OuterMargin/ModalVBox/BodyScroll/Body/NotePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+[node name="Note" type="Label" parent="ResetGameModal/OuterMargin/ModalVBox/BodyScroll/Body/NotePanel/NoteMargin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.34, 0.1, 1)
+theme_override_font_sizes/font_size = 15
+text = "Reset game tidak menghapus riwayat permainan yang pernah ditamatkan sebelumnya."
+horizontal_alignment = 1
+autowrap_mode = 3
+[node name="FooterSeparator" type="HSeparator" parent="ResetGameModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+[node name="ModalFooter" type="HBoxContainer" parent="ResetGameModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+[node name="ResetGameCancelButton" type="Button" parent="ResetGameModal/OuterMargin/ModalVBox/ModalFooter"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("SecondaryButton")
+theme_override_styles/hover = SubResource("SecondaryHover")
+theme_override_styles/pressed = SubResource("SecondaryHover")
+text = "BATAL"
+[node name="ResetGameConfirmButton" type="Button" parent="ResetGameModal/OuterMargin/ModalVBox/ModalFooter"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.48, 0.18, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.4, 0.1, 0.06, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("DangerButton")
+theme_override_styles/hover = SubResource("DangerHover")
+theme_override_styles/pressed = SubResource("DangerHover")
+text = "RESET GAME"
+
+[node name="DeviceModal" type="PanelContainer" parent="."]
+visible = false
+z_index = 1000
+custom_minimum_size = Vector2(920, 580)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -460.0
+offset_top = -290.0
+offset_right = 460.0
+offset_bottom = 290.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("ModalPanel")
+[node name="OuterMargin" type="MarginContainer" parent="DeviceModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+[node name="ModalVBox" type="VBoxContainer" parent="DeviceModal/OuterMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+[node name="Header" type="Label" parent="DeviceModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 28
+text = "PERANGKAT ANDA"
+[node name="HeaderSeparator" type="HSeparator" parent="DeviceModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+[node name="ModalBodyScroll" type="ScrollContainer" parent="DeviceModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+[node name="ModalBody" type="VBoxContainer" parent="DeviceModal/OuterMargin/ModalVBox/ModalBodyScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+[node name="FooterSeparator" type="HSeparator" parent="DeviceModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+[node name="ModalFooter" type="HBoxContainer" parent="DeviceModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+[node name="CloseButton" type="Button" parent="DeviceModal/OuterMargin/ModalVBox/ModalFooter"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.22, 0.15, 0.04, 1)
+theme_override_styles/normal = SubResource("PrimaryButton")
+theme_override_styles/hover = SubResource("PrimaryHover")
+theme_override_styles/pressed = SubResource("PrimaryHover")
+text = "TUTUP"
+
+[node name="HistoryModal" type="PanelContainer" parent="."]
+visible = false
+z_index = 1000
+custom_minimum_size = Vector2(960, 600)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = -300.0
+offset_right = 480.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("ModalPanel")
+[node name="OuterMargin" type="MarginContainer" parent="HistoryModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+[node name="ModalVBox" type="VBoxContainer" parent="HistoryModal/OuterMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+[node name="Header" type="Label" parent="HistoryModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 28
+text = "RIWAYAT PERMAINAN"
+[node name="HeaderSeparator" type="HSeparator" parent="HistoryModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+[node name="ModalBodyScroll" type="ScrollContainer" parent="HistoryModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+[node name="ModalBody" type="VBoxContainer" parent="HistoryModal/OuterMargin/ModalVBox/ModalBodyScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+[node name="FooterSeparator" type="HSeparator" parent="HistoryModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+[node name="ModalFooter" type="HBoxContainer" parent="HistoryModal/OuterMargin/ModalVBox"]
+layout_mode = 2
+[node name="CloseButton" type="Button" parent="HistoryModal/OuterMargin/ModalVBox/ModalFooter"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.22, 0.15, 0.04, 1)
+theme_override_styles/normal = SubResource("PrimaryButton")
+theme_override_styles/hover = SubResource("PrimaryHover")
+theme_override_styles/pressed = SubResource("PrimaryHover")
+text = "TUTUP"

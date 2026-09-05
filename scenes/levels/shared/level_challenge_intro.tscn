@@ -1,0 +1,244 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/shared/level_challenge_intro.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/visual/ui/logo_game.png" id="2_logo"]
+
+[sub_resource type="StyleBoxFlat" id="MainPanelStyle"]
+bg_color = Color(0.9843, 0.9725, 0.9137, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+
+[sub_resource type="StyleBoxFlat" id="TitlePanelStyle"]
+bg_color = Color(0.012, 0.35, 0.23, 1)
+
+[sub_resource type="StyleBoxLine" id="SeparatorStyle"]
+color = Color(0.3294, 0.5098, 0.2078, 1)
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormalStyle"]
+bg_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="ButtonHoverStyle"]
+bg_color = Color(0.07, 0.43, 0.29, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressedStyle"]
+bg_color = Color(0, 0.27, 0.18, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="ButtonDisabledStyle"]
+bg_color = Color(0.4, 0.5, 0.42, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[node name="LevelChallengeIntro" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1")
+
+[node name="InputBlocker" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0, 0, 0, 0)
+
+[node name="ChallengeUI" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainPanel" type="Panel" parent="ChallengeUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 88.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("MainPanelStyle")
+
+[node name="ContentMargin" type="MarginContainer" parent="ChallengeUI/MainPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 38
+theme_override_constants/margin_top = 138
+theme_override_constants/margin_right = 38
+theme_override_constants/margin_bottom = 18
+
+[node name="ContentVBox" type="VBoxContainer" parent="ChallengeUI/MainPanel/ContentMargin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleCenter" type="CenterContainer" parent="ChallengeUI/MainPanel/ContentMargin/ContentVBox"]
+custom_minimum_size = Vector2(0, 112)
+layout_mode = 2
+
+[node name="ChallengeTitlePanel" type="PanelContainer" parent="ChallengeUI/MainPanel/ContentMargin/ContentVBox/TitleCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(840, 108)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TitlePanelStyle")
+
+[node name="TitleMargin" type="MarginContainer" parent="ChallengeUI/MainPanel/ContentMargin/ContentVBox/TitleCenter/ChallengeTitlePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 10
+
+[node name="ChallengeTitle" type="Label" parent="ChallengeUI/MainPanel/ContentMargin/ContentVBox/TitleCenter/ChallengeTitlePanel/TitleMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "NAMA TANTANGAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 40
+
+[node name="InstructionArea" type="MarginContainer" parent="ChallengeUI/MainPanel/ContentMargin/ContentVBox"]
+custom_minimum_size = Vector2(0, 118)
+layout_mode = 2
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 70
+theme_override_constants/margin_bottom = 8
+
+[node name="ChallengeInstruction" type="RichTextLabel" parent="ChallengeUI/MainPanel/ContentMargin/ContentVBox/InstructionArea"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+scroll_active = false
+autowrap_mode = 3
+fit_content = false
+text = "[center]PETUNJUK TANTANGAN[/center]"
+theme_override_colors/default_color = Color(0.3294, 0.5098, 0.2078, 1)
+theme_override_font_sizes/normal_font_size = 26
+
+[node name="FlexibleSpacer" type="Control" parent="ChallengeUI/MainPanel/ContentMargin/ContentVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Separator" type="HSeparator" parent="ChallengeUI/MainPanel/ContentMargin/ContentVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+theme_override_styles/separator = SubResource("SeparatorStyle")
+
+[node name="ButtonCenter" type="CenterContainer" parent="ChallengeUI/MainPanel/ContentMargin/ContentVBox"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="ChallengeUI/MainPanel/ContentMargin/ContentVBox/ButtonCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(580, 84)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.88, 0.9, 0.84, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("ButtonNormalStyle")
+theme_override_styles/hover = SubResource("ButtonHoverStyle")
+theme_override_styles/pressed = SubResource("ButtonPressedStyle")
+theme_override_styles/disabled = SubResource("ButtonDisabledStyle")
+text = "MULAI TANTANGAN"
+
+[node name="GameLogo" type="TextureRect" parent="ChallengeUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -105.0
+offset_top = 0.0
+offset_right = 105.0
+offset_bottom = 200.0
+grow_horizontal = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+z_index = 30
+texture = ExtResource("2_logo")
+
+[node name="PortraitBlocker" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+z_index = 100
+
+[node name="DimBackground" type="ColorRect" parent="PortraitBlocker"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.05, 0.02, 0.96)
+mouse_filter = 0
+
+[node name="RotateCenter" type="CenterContainer" parent="PortraitBlocker"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="RotateMessage" type="Label" parent="PortraitBlocker/RotateCenter"]
+layout_mode = 2
+text = "PUTAR PERANGKAT\nGame hanya dapat dimainkan dalam posisi landscape."
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24

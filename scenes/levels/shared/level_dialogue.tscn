@@ -1,0 +1,340 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/shared/level_dialogue.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/visual/ui/logo_game.png" id="2_logo"]
+[ext_resource type="Texture2D" path="res://assets/visual/npc/ibu/standing.png" id="3_npc_preview"]
+[ext_resource type="Texture2D" path="res://assets/visual/character_select/character_01_female_standing.png" id="4_player_preview"]
+
+[sub_resource type="StyleBoxFlat" id="DialoguePanelStyle"]
+bg_color = Color(0.9843, 0.9725, 0.9137, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.3294, 0.5098, 0.2078, 1)
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="NameInactiveStyle"]
+bg_color = Color(0.9843, 0.9725, 0.9137, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.3294, 0.5098, 0.2078, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+
+[sub_resource type="StyleBoxFlat" id="NameActiveStyle"]
+bg_color = Color(1, 1, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.3294, 0.5098, 0.2078, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+
+[sub_resource type="StyleBoxLine" id="SeparatorStyle"]
+color = Color(0.3294, 0.5098, 0.2078, 1)
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormalStyle"]
+bg_color = Color(0.3294, 0.5098, 0.2078, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="ButtonHoverStyle"]
+bg_color = Color(0.39, 0.59, 0.24, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressedStyle"]
+bg_color = Color(0.26, 0.42, 0.16, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="ButtonDisabledStyle"]
+bg_color = Color(0.46, 0.52, 0.4, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="LevelDialogue" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1")
+name_inactive_style = SubResource("NameInactiveStyle")
+name_active_style = SubResource("NameActiveStyle")
+
+[node name="UIRoot" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CharacterLayer" type="Control" parent="UIRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+z_index = 10
+
+[node name="NPCSlot" type="Control" parent="UIRoot/CharacterLayer"]
+layout_mode = 1
+offset_left = 50.0
+offset_top = 5.0
+offset_right = 450.0
+offset_bottom = 395.0
+mouse_filter = 2
+
+[node name="NPCPortrait" type="TextureRect" parent="UIRoot/CharacterLayer/NPCSlot"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+texture = ExtResource("3_npc_preview")
+
+[node name="PlayerSlot" type="Control" parent="UIRoot/CharacterLayer"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -380.0
+offset_top = 25.0
+offset_right = -50.0
+offset_bottom = 385.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="PlayerPortrait" type="TextureRect" parent="UIRoot/CharacterLayer/PlayerSlot"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+texture = ExtResource("4_player_preview")
+
+[node name="DialogueLayer" type="Control" parent="UIRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+z_index = 20
+
+[node name="DialoguePanel" type="Panel" parent="UIRoot/DialogueLayer"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -355.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("DialoguePanelStyle")
+
+[node name="NPCNamePanel" type="PanelContainer" parent="UIRoot/DialogueLayer"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -407.0
+offset_right = 415.0
+offset_bottom = -350.0
+grow_vertical = 0
+mouse_filter = 2
+z_index = 30
+theme_override_styles/panel = SubResource("NameInactiveStyle")
+
+[node name="NPCName" type="Label" parent="UIRoot/DialogueLayer/NPCNamePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "IBU"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.3294, 0.5098, 0.2078, 1)
+
+[node name="PlayerNamePanel" type="PanelContainer" parent="UIRoot/DialogueLayer"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -415.0
+offset_top = -407.0
+offset_right = 0.0
+offset_bottom = -350.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+z_index = 30
+theme_override_styles/panel = SubResource("NameInactiveStyle")
+
+[node name="PlayerName" type="Label" parent="UIRoot/DialogueLayer/PlayerNamePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "PEMAIN"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.3294, 0.5098, 0.2078, 1)
+
+[node name="GameLogo" type="TextureRect" parent="UIRoot/DialogueLayer"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -112.5
+offset_top = 255.0
+offset_right = 112.5
+offset_bottom = 480.0
+grow_horizontal = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+z_index = 40
+texture = ExtResource("2_logo")
+
+[node name="TextMargin" type="MarginContainer" parent="UIRoot/DialogueLayer/DialoguePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 90
+theme_override_constants/margin_top = 105
+theme_override_constants/margin_right = 90
+theme_override_constants/margin_bottom = 92
+
+[node name="TextCenter" type="CenterContainer" parent="UIRoot/DialogueLayer/DialoguePanel/TextMargin"]
+layout_mode = 2
+
+[node name="DialogueText" type="RichTextLabel" parent="UIRoot/DialogueLayer/DialoguePanel/TextMargin/TextCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(900, 130)
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 3
+text = "[center]TEKS PERCAKAPAN[/center]"
+theme_override_colors/default_color = Color(0.3294, 0.5098, 0.2078, 1)
+theme_override_font_sizes/normal_font_size = 25
+
+[node name="BottomMargin" type="MarginContainer" parent="UIRoot/DialogueLayer/DialoguePanel"]
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 70.0
+offset_top = -82.0
+offset_right = -70.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BottomVBox" type="VBoxContainer" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Separator" type="HSeparator" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+theme_override_styles/separator = SubResource("SeparatorStyle")
+
+[node name="ButtonCenter" type="CenterContainer" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox/ButtonCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(270, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.88, 0.9, 0.84, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("ButtonNormalStyle")
+theme_override_styles/hover = SubResource("ButtonHoverStyle")
+theme_override_styles/pressed = SubResource("ButtonPressedStyle")
+theme_override_styles/disabled = SubResource("ButtonDisabledStyle")
+text = "LANJUTKAN"
+
+[node name="PortraitBlocker" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+z_index = 100
+
+[node name="DimBackground" type="ColorRect" parent="PortraitBlocker"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.05, 0.02, 0.96)
+mouse_filter = 0
+
+[node name="RotateCenter" type="CenterContainer" parent="PortraitBlocker"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="RotateMessage" type="Label" parent="PortraitBlocker/RotateCenter"]
+layout_mode = 2
+text = "PUTAR PERANGKAT\nGame hanya dapat dimainkan dalam posisi landscape."
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24

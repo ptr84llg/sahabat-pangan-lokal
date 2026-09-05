@@ -1,0 +1,361 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/app/character_select.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/visual/character_select/bg_character_select.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/visual/character_select/top_frame.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/visual/character_select/bottom_frame.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/visual/character_select/check_list.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/visual/ui/logo_game.png" id="6"]
+
+[sub_resource type="StyleBoxFlat" id="CardNormal"]
+bg_color = Color(0.96, 0.98, 0.95, 0.78)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.64, 0.69, 0.64, 0.62)
+
+[sub_resource type="StyleBoxFlat" id="SelectedFrame"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.33, 0.58, 0.20, 1)
+
+[sub_resource type="StyleBoxFlat" id="ChoiceButton"]
+bg_color = Color(0.48, 0.50, 0.44, 0.92)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="ChoiceHover"]
+bg_color = Color(0.38, 0.52, 0.28, 0.96)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="BackStyle"]
+bg_color = Color(0.96, 0.98, 0.91, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.29, 0.50, 0.19, 0.90)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="BackHover"]
+bg_color = Color(0.86, 0.94, 0.75, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.46, 0.16, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="ContinueStyle"]
+bg_color = Color(0.46, 0.61, 0.30, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.26, 0.46, 0.17, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="ContinueHover"]
+bg_color = Color(0.55, 0.70, 0.36, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.26, 0.46, 0.17, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="ContinueDisabled"]
+bg_color = Color(0.77, 0.78, 0.69, 0.78)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.56, 0.57, 0.51, 0.50)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="CharacterSelectScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 6
+mouse_filter = 2
+
+[node name="TopFrame" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 120.0
+grow_horizontal = 2
+texture = ExtResource("3")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="GreetingLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 180.0
+offset_top = 18.0
+offset_right = 1100.0
+offset_bottom = 55.0
+theme_override_colors/font_color = Color(0.96, 0.98, 0.93, 1)
+theme_override_font_sizes/font_size = 30
+text = "Hai.. Pemain"
+horizontal_alignment = 1
+
+[node name="InstructionLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 61.0
+offset_right = 1100.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(0.96, 0.98, 0.93, 1)
+theme_override_font_sizes/font_size = 23
+text = "Silahkan pilih karakter yang akan menemani kamu"
+horizontal_alignment = 1
+
+[node name="SlotACard" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 270.0
+offset_top = 165.0
+offset_right = 528.0
+offset_bottom = 552.0
+theme_override_styles/panel = SubResource("CardNormal")
+
+[node name="SlotASelectedFrame" type="Panel" parent="SlotACard"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("SelectedFrame")
+mouse_filter = 2
+
+[node name="SlotAAvatar" type="TextureRect" parent="SlotACard"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -46.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="SlotACheck" type="TextureRect" parent="SlotACard"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 10.0
+offset_right = 251.0
+offset_bottom = 77.0
+texture = ExtResource("5")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="SlotAButton" type="Button" parent="SlotACard"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -44.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.98, 0.98, 0.92, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("ChoiceButton")
+theme_override_styles/hover = SubResource("ChoiceHover")
+theme_override_styles/pressed = SubResource("ChoiceHover")
+text = "PILIH"
+
+[node name="SlotBCard" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 739.0
+offset_top = 165.0
+offset_right = 997.0
+offset_bottom = 552.0
+theme_override_styles/panel = SubResource("CardNormal")
+
+[node name="SlotBSelectedFrame" type="Panel" parent="SlotBCard"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("SelectedFrame")
+mouse_filter = 2
+
+[node name="SlotBAvatar" type="TextureRect" parent="SlotBCard"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -46.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="SlotBCheck" type="TextureRect" parent="SlotBCard"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 10.0
+offset_right = 251.0
+offset_bottom = 77.0
+texture = ExtResource("5")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="SlotBButton" type="Button" parent="SlotBCard"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -44.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.98, 0.98, 0.92, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("ChoiceButton")
+theme_override_styles/hover = SubResource("ChoiceHover")
+theme_override_styles/pressed = SubResource("ChoiceHover")
+text = "PILIH"
+
+[node name="GameLogo" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 548.0
+offset_top = 272.0
+offset_right = 732.0
+offset_bottom = 456.0
+texture = ExtResource("6")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="BottomFrame" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="SelectedLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 275.0
+offset_top = 661.0
+offset_right = 1005.0
+offset_bottom = 705.0
+theme_override_colors/font_color = Color(0.20, 0.34, 0.14, 1)
+theme_override_font_sizes/font_size = 18
+text = "Pilih salah satu karakter untuk memulai perjalanan."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="BackButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 34.0
+offset_top = 666.0
+offset_right = 229.0
+offset_bottom = 704.0
+theme_override_colors/font_color = Color(0.24, 0.39, 0.17, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("BackStyle")
+theme_override_styles/hover = SubResource("BackHover")
+theme_override_styles/pressed = SubResource("BackHover")
+text = "KEMBALI"
+
+[node name="ContinueButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1051.0
+offset_top = 666.0
+offset_right = 1247.0
+offset_bottom = 704.0
+disabled = true
+theme_override_colors/font_color = Color(0.96, 0.98, 0.93, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.46, 0.48, 0.42, 0.82)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("ContinueStyle")
+theme_override_styles/hover = SubResource("ContinueHover")
+theme_override_styles/pressed = SubResource("ContinueHover")
+theme_override_styles/disabled = SubResource("ContinueDisabled")
+text = "LANJUTKAN"

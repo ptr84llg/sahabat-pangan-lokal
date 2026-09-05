@@ -1,0 +1,611 @@
+[gd_scene format=3 uid="uid://dfuxsxgwhtqxh"]
+
+[ext_resource type="Script" uid="uid://be22oll1tghhk" path="res://scripts/app/main_map.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://ctjlpu4muiidw" path="res://assets/visual/main_map/bg_main_map.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://bp600q82wep1s" path="res://assets/visual/main_map/small_logo.png" id="3_logo"]
+[ext_resource type="Texture2D" uid="uid://b72q8alcltgq" path="res://assets/visual/main_map/coin.png" id="4_coin"]
+[ext_resource type="Texture2D" uid="uid://chba2txb8sujv" path="res://assets/visual/main_map/medal.png" id="5_medal"]
+[ext_resource type="Texture2D" uid="uid://d07dok7lbx1d3" path="res://assets/visual/main_map/rumah_active.png" id="6_rumah_active"]
+[ext_resource type="Texture2D" uid="uid://cv8q2t8yl8p0k" path="res://assets/visual/main_map/rumah_hover.png" id="7_rumah_hover"]
+[ext_resource type="Texture2D" uid="uid://4176cpiigpyo" path="res://assets/visual/main_map/sekolah_active.png" id="8_sekolah_active"]
+[ext_resource type="Texture2D" uid="uid://dpetmi2pvywvx" path="res://assets/visual/main_map/sekolah_hover.png" id="9_sekolah_hover"]
+[ext_resource type="Texture2D" uid="uid://byktcvdkhu2eh" path="res://assets/visual/main_map/sekolah_disabled.png" id="10_sekolah_disabled"]
+[ext_resource type="Texture2D" uid="uid://dtoj28phucmam" path="res://assets/visual/main_map/pasar_active.png" id="11_pasar_active"]
+[ext_resource type="Texture2D" uid="uid://c88tv1v3xp6ph" path="res://assets/visual/main_map/pasar_hover.png" id="12_pasar_hover"]
+[ext_resource type="Texture2D" uid="uid://djyxrgly3a8ps" path="res://assets/visual/main_map/pasar_disabled.png" id="13_pasar_disabled"]
+[ext_resource type="Texture2D" uid="uid://co2mk61g2oesk" path="res://assets/visual/main_map/dapur_active.png" id="14_dapur_active"]
+[ext_resource type="Texture2D" uid="uid://b6xdivdfc8xaf" path="res://assets/visual/main_map/dapur_hover.png" id="15_dapur_hover"]
+[ext_resource type="Texture2D" uid="uid://c4v3s36f3yyt" path="res://assets/visual/main_map/dapur_disabled.png" id="16_dapur_disabled"]
+[ext_resource type="Texture2D" uid="uid://jd4bt62x3nic" path="res://assets/visual/main_map/festival_active.png" id="17_festival_active"]
+[ext_resource type="Texture2D" uid="uid://c0lkkfw7b0gsj" path="res://assets/visual/main_map/festival_hover.png" id="18_festival_hover"]
+[ext_resource type="Texture2D" uid="uid://dqi4cy7ipdchc" path="res://assets/visual/main_map/festival_disabled.png" id="19_festival_disabled"]
+
+[sub_resource type="StyleBoxFlat" id="NavNormal"]
+bg_color = Color(0.95, 0.98, 0.86, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.31, 0.48, 0.19, 0.88)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="NavHover"]
+bg_color = Color(1, 0.6172309, 0.5560652, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9764706, 0.047058824, 0, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dt5nb"]
+bg_color = Color(0.5764706, 0.7764706, 0.34901962, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="InfoPanelStyle"]
+bg_color = Color(0.9, 1, 0.92, 0.96)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.03, 0.36, 0.15, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+shadow_color = Color(0.02, 0.08, 0.03, 0.22)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StartNormal"]
+bg_color = Color(0.93, 0.97, 0.82, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.34, 0.5, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StartHover"]
+bg_color = Color(0.4392157, 0.827451, 0.9529412, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.039215688, 0.22352941, 0.27450982, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StartDisabled"]
+bg_color = Color(0.82, 0.83, 0.77, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.56, 0.5, 0.7)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="AvatarFrameStyle"]
+bg_color = Color(0.98, 0.99, 0.94, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.23, 0.48, 0.16, 1)
+corner_radius_top_left = 88
+corner_radius_top_right = 88
+corner_radius_bottom_right = 88
+corner_radius_bottom_left = 88
+
+[sub_resource type="StyleBoxFlat" id="NamePlateStyle"]
+bg_color = Color(0.4392157, 0.827451, 0.9529412, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.34, 0.51, 0.2, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="ExitModalStyle"]
+bg_color = Color(0.99, 0.98, 0.94, 0.995)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.43, 0.31, 0.15, 0.64)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0.02, 0.04, 0.02, 0.34)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="ExitSecondary"]
+bg_color = Color(0.99, 0.98, 0.94, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.47, 0.35, 0.18, 0.44)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="ExitSecondaryHover"]
+bg_color = Color(0.9, 0.95, 0.8, 0.99)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.34, 0.57, 0.2, 0.76)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="ExitDanger"]
+bg_color = Color(0.99, 0.94, 0.9, 0.99)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.68, 0.31, 0.2, 0.55)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="ExitDangerHover"]
+bg_color = Color(0.98, 0.82, 0.77, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72, 0.24, 0.16, 0.76)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[node name="MainMapScene" type="Control" unique_id=1124977562]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="OuterBackground" type="ColorRect" parent="." unique_id=727182693]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.03, 0.15, 0.11, 1)
+
+[node name="MapCanvas" type="Control" parent="." unique_id=73738961]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 1671.0
+offset_bottom = 941.0
+mouse_filter = 1
+
+[node name="Background" type="TextureRect" parent="MapCanvas" unique_id=878953821]
+layout_mode = 0
+offset_right = 1671.0
+offset_bottom = 941.0
+mouse_filter = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+
+[node name="TopBand" type="ColorRect" parent="MapCanvas" unique_id=567758774]
+layout_mode = 0
+offset_right = 1671.0
+offset_bottom = 95.0
+mouse_filter = 2
+color = Color(0.03, 0.3, 0.27, 0.82)
+
+[node name="BottomBand" type="ColorRect" parent="MapCanvas" unique_id=1823387593]
+layout_mode = 0
+offset_top = 836.0
+offset_right = 1671.0
+offset_bottom = 941.0
+mouse_filter = 2
+color = Color(0.97, 0.98, 0.87, 0.78)
+
+[node name="BackButton" type="Button" parent="MapCanvas" unique_id=1163617325]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 22.0
+offset_top = 18.0
+offset_right = 227.0
+offset_bottom = 76.0
+theme_override_colors/font_color = Color(0.26, 0.42, 0.16, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.34, 0.11, 1)
+theme_override_font_sizes/font_size = 29
+theme_override_styles/normal = SubResource("NavNormal")
+theme_override_styles/pressed = SubResource("NavHover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_dt5nb")
+text = "KEMBALI"
+
+[node name="ExitButton" type="Button" parent="MapCanvas" unique_id=2075145656]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1442.0
+offset_top = 18.0
+offset_right = 1647.0
+offset_bottom = 76.0
+theme_override_colors/font_color = Color(0.26, 0.42, 0.16, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.34, 0.11, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.9764706, 0.047058824, 0, 1)
+theme_override_font_sizes/font_size = 29
+theme_override_styles/normal = SubResource("NavNormal")
+theme_override_styles/pressed = SubResource("NavHover")
+theme_override_styles/hover = SubResource("NavHover")
+text = "KELUAR"
+
+[node name="LevelInfoPanel" type="PanelContainer" parent="MapCanvas" unique_id=1117975120]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 96.0
+offset_right = 1190.0
+offset_bottom = 321.0
+theme_override_styles/panel = SubResource("InfoPanelStyle")
+
+[node name="SmallLogo" type="TextureRect" parent="MapCanvas" unique_id=415882785]
+layout_mode = 0
+offset_left = 749.0
+offset_top = 8.0
+offset_right = 922.0
+offset_bottom = 190.0
+mouse_filter = 2
+texture = ExtResource("3_logo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LevelTitle" type="Label" parent="MapCanvas" unique_id=1144497922]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 515.0
+offset_top = 118.0
+offset_right = 775.0
+offset_bottom = 170.0
+theme_override_colors/font_color = Color(0.03, 0.5, 0.08, 1)
+theme_override_font_sizes/font_size = 42
+text = "Rumah"
+uppercase = true
+
+[node name="LevelTitleUnderline" type="ColorRect" parent="MapCanvas" unique_id=805642603]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 515.0
+offset_top = 171.0
+offset_right = 665.0
+offset_bottom = 174.0
+mouse_filter = 2
+color = Color(0.03, 0.5, 0.08, 1)
+
+[node name="LevelStatus" type="Label" parent="MapCanvas" unique_id=816598173]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 995.0
+offset_top = 120.0
+offset_right = 1160.0
+offset_bottom = 165.0
+theme_override_font_sizes/font_size = 27
+text = "TERSEDIA"
+horizontal_alignment = 2
+
+[node name="LevelDescription" type="Label" parent="MapCanvas" unique_id=1046187602]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 515.0
+offset_top = 193.0
+offset_right = 955.0
+offset_bottom = 275.0
+theme_override_colors/font_color = Color(0.03, 0.45, 0.07, 1)
+theme_override_font_sizes/font_size = 23
+text = "Kenali pangan lokal pertama melalui kegiatan memilih dan mencocokkan bahan pangan di rumah."
+horizontal_alignment = 3
+autowrap_mode = 3
+
+[node name="StartLevelButton" type="Button" parent="MapCanvas" unique_id=712031846]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1008.0
+offset_top = 245.0
+offset_right = 1160.0
+offset_bottom = 289.0
+theme_override_colors/font_color = Color(0.3, 0.46, 0.18, 1)
+theme_override_colors/font_hover_color = Color(0.039215688, 0.22352941, 0.27450982, 1)
+theme_override_colors/font_disabled_color = Color(0.52, 0.54, 0.48, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StartNormal")
+theme_override_styles/pressed = SubResource("StartHover")
+theme_override_styles/hover = SubResource("StartHover")
+theme_override_styles/disabled = SubResource("StartDisabled")
+text = "MULAI"
+
+[node name="Location_1" type="TextureButton" parent="MapCanvas" unique_id=313366605]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 70.0
+offset_top = 350.0
+offset_right = 370.0
+offset_bottom = 692.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("6_rumah_active")
+texture_hover = ExtResource("7_rumah_hover")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Location_2" type="TextureButton" parent="MapCanvas" unique_id=2124968341]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 365.0
+offset_top = 375.0
+offset_right = 660.0
+offset_bottom = 710.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("8_sekolah_active")
+texture_hover = ExtResource("9_sekolah_hover")
+texture_disabled = ExtResource("10_sekolah_disabled")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Location_3" type="TextureButton" parent="MapCanvas" unique_id=1914842581]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 690.0
+offset_top = 390.0
+offset_right = 975.0
+offset_bottom = 710.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("11_pasar_active")
+texture_hover = ExtResource("12_pasar_hover")
+texture_disabled = ExtResource("13_pasar_disabled")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Location_4" type="TextureButton" parent="MapCanvas" unique_id=494487835]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1000.0
+offset_top = 383.0
+offset_right = 1295.0
+offset_bottom = 703.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("14_dapur_active")
+texture_hover = ExtResource("15_dapur_hover")
+texture_disabled = ExtResource("16_dapur_disabled")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Location_5" type="TextureButton" parent="MapCanvas" unique_id=3799694]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1315.0
+offset_top = 385.0
+offset_right = 1610.0
+offset_bottom = 715.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("17_festival_active")
+texture_hover = ExtResource("18_festival_hover")
+texture_disabled = ExtResource("19_festival_disabled")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="CoinIcon" type="TextureRect" parent="MapCanvas" unique_id=123411407]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 848.0
+offset_right = 96.0
+offset_bottom = 924.0
+mouse_filter = 2
+texture = ExtResource("4_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ScoreLabel" type="Label" parent="MapCanvas" unique_id=323678406]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 106.0
+offset_top = 850.0
+offset_right = 536.0
+offset_bottom = 920.0
+theme_override_colors/font_color = Color(0.22, 0.24, 0.2, 1)
+theme_override_font_sizes/font_size = 41
+text = "SKOR 0 / 500"
+vertical_alignment = 1
+
+[node name="MedalIcon" type="TextureRect" parent="MapCanvas" unique_id=252193119]
+layout_mode = 0
+offset_left = 1574.0
+offset_top = 845.0
+offset_right = 1646.0
+offset_bottom = 925.0
+mouse_filter = 2
+texture = ExtResource("5_medal")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MedalLabel" type="Label" parent="MapCanvas" unique_id=1697524885]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1270.0
+offset_top = 850.0
+offset_right = 1560.0
+offset_bottom = 920.0
+theme_override_colors/font_color = Color(0.22, 0.24, 0.2, 1)
+theme_override_font_sizes/font_size = 41
+text = "MEDALI 0 / 5"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PlayerAvatarFrame" type="PanelContainer" parent="MapCanvas" unique_id=535110018]
+layout_mode = 0
+offset_left = 748.0
+offset_top = 727.0
+offset_right = 923.0
+offset_bottom = 902.0
+theme_override_styles/panel = SubResource("AvatarFrameStyle")
+
+[node name="PlayerAvatar" type="TextureRect" parent="MapCanvas/PlayerAvatarFrame" unique_id=942099153]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlayerNamePlate" type="PanelContainer" parent="MapCanvas" unique_id=2016780617]
+layout_mode = 0
+offset_left = 680.0
+offset_top = 878.0
+offset_right = 991.0
+offset_bottom = 932.0
+theme_override_styles/panel = SubResource("NamePlateStyle")
+
+[node name="PlayerNameLabel" type="Label" parent="MapCanvas/PlayerNamePlate" unique_id=722312944]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.39, 0.14, 1)
+theme_override_font_sizes/font_size = 40
+text = "Pemain"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExitModalMask" type="ColorRect" parent="." unique_id=1829931618]
+unique_name_in_owner = true
+visible = false
+z_index = 900
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.32)
+
+[node name="ExitConfirmationModal" type="PanelContainer" parent="." unique_id=1023396290]
+unique_name_in_owner = true
+visible = false
+z_index = 1000
+custom_minimum_size = Vector2(600, 270)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -135.0
+offset_right = 300.0
+offset_bottom = 135.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("ExitModalStyle")
+
+[node name="OuterMargin" type="MarginContainer" parent="ExitConfirmationModal" unique_id=1318969880]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="ModalVBox" type="VBoxContainer" parent="ExitConfirmationModal/OuterMargin" unique_id=464216503]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="Label" parent="ExitConfirmationModal/OuterMargin/ModalVBox" unique_id=280157644]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 26
+text = "KELUAR PERMAINAN"
+
+[node name="HeaderSeparator" type="HSeparator" parent="ExitConfirmationModal/OuterMargin/ModalVBox" unique_id=820069689]
+layout_mode = 2
+
+[node name="ExitBodyScroll" type="ScrollContainer" parent="ExitConfirmationModal/OuterMargin/ModalVBox" unique_id=610906910]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ExitBody" type="CenterContainer" parent="ExitConfirmationModal/OuterMargin/ModalVBox/ExitBodyScroll" unique_id=424746835]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Question" type="Label" parent="ExitConfirmationModal/OuterMargin/ModalVBox/ExitBodyScroll/ExitBody" unique_id=643225186]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_font_sizes/font_size = 22
+text = "Yakin menutup permainan?"
+horizontal_alignment = 1
+
+[node name="FooterSeparator" type="HSeparator" parent="ExitConfirmationModal/OuterMargin/ModalVBox" unique_id=1864009492]
+layout_mode = 2
+
+[node name="ModalFooter" type="HBoxContainer" parent="ExitConfirmationModal/OuterMargin/ModalVBox" unique_id=1455021696]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ExitCancelButton" type="Button" parent="ExitConfirmationModal/OuterMargin/ModalVBox/ModalFooter" unique_id=1550869662]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("ExitSecondary")
+theme_override_styles/pressed = SubResource("ExitSecondaryHover")
+theme_override_styles/hover = SubResource("ExitSecondaryHover")
+text = "BATAL"
+
+[node name="ExitConfirmButton" type="Button" parent="ExitConfirmationModal/OuterMargin/ModalVBox/ModalFooter" unique_id=1338886513]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.48, 0.18, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.4, 0.1, 0.06, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("ExitDanger")
+theme_override_styles/pressed = SubResource("ExitDangerHover")
+theme_override_styles/hover = SubResource("ExitDangerHover")
+text = "KELUAR"

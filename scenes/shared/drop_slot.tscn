@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://b102wvoc8nhco"]
+
+[ext_resource type="Script" uid="uid://540yn17jrrku" path="res://scripts/shared/drop_slot.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="SlotStyle"]
+bg_color = Color(0.91, 0.95, 0.92, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.33, 0.49, 0.4, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="DropSlot" type="PanelContainer" unique_id=1263115634]
+custom_minimum_size = Vector2(220, 126)
+theme_override_styles/panel = SubResource("SlotStyle")
+script = ExtResource("1")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=224586764]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="VBox" unique_id=126216215]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Nama Pangan"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="VBox" unique_id=1091283343]
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+mouse_filter = 2

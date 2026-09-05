@@ -1,0 +1,336 @@
+{
+  "content_version": "1.1-normalized",
+  "document_date": "2026-08-18",
+  "groups": [
+	{
+	  "group_id": "group_staple_root",
+	  "display_name": "Pangan Pokok dan Umbi"
+	},
+	{
+	  "group_id": "group_vegetable",
+	  "display_name": "Sayuran"
+	},
+	{
+	  "group_id": "group_fruit",
+	  "display_name": "Buah"
+	},
+	{
+	  "group_id": "group_fishery",
+	  "display_name": "Hasil Perikanan"
+	}
+  ],
+  "foods": [
+	{
+	  "food_id": "food_rice",
+	  "display_name": "Beras",
+	  "group_id": "group_staple_root",
+	  "introduced_level": 1,
+	  "coin_value": 6,
+	  "coin_value_status": "LOCKED_L3",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_cassava",
+	  "display_name": "Singkong",
+	  "group_id": "group_staple_root",
+	  "introduced_level": 1,
+	  "coin_value": 4,
+	  "coin_value_status": "LOCKED_L3",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_water_spinach",
+	  "display_name": "Kangkung",
+	  "group_id": "group_vegetable",
+	  "introduced_level": 1,
+	  "coin_value": 2,
+	  "coin_value_status": "LOCKED_L3",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_spinach",
+	  "display_name": "Bayam",
+	  "group_id": "group_vegetable",
+	  "introduced_level": 1,
+	  "coin_value": 2,
+	  "coin_value_status": "BALANCING_DRAFT_V1_1",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_banana",
+	  "display_name": "Pisang",
+	  "group_id": "group_fruit",
+	  "introduced_level": 1,
+	  "coin_value": 2,
+	  "coin_value_status": "LOCKED_L3",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_papaya",
+	  "display_name": "Pepaya",
+	  "group_id": "group_fruit",
+	  "introduced_level": 1,
+	  "coin_value": 3,
+	  "coin_value_status": "LOCKED_L3",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_corn",
+	  "display_name": "Jagung",
+	  "group_id": "group_staple_root",
+	  "introduced_level": 2,
+	  "coin_value": 5,
+	  "coin_value_status": "BALANCING_DRAFT_V1_1",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_sweet_potato",
+	  "display_name": "Ubi Jalar",
+	  "group_id": "group_staple_root",
+	  "introduced_level": 2,
+	  "coin_value": 4,
+	  "coin_value_status": "BALANCING_DRAFT_V1_1",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_eggplant",
+	  "display_name": "Terung",
+	  "group_id": "group_vegetable",
+	  "introduced_level": 2,
+	  "coin_value": 3,
+	  "coin_value_status": "LOCKED_L3",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_cucumber",
+	  "display_name": "Ketimun",
+	  "group_id": "group_vegetable",
+	  "introduced_level": 2,
+	  "coin_value": 2,
+	  "coin_value_status": "BALANCING_DRAFT_V1_1",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_mango",
+	  "display_name": "Mangga",
+	  "group_id": "group_fruit",
+	  "introduced_level": 2,
+	  "coin_value": 3,
+	  "coin_value_status": "BALANCING_DRAFT_V1_1",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_guava",
+	  "display_name": "Jambu Biji",
+	  "group_id": "group_fruit",
+	  "introduced_level": 2,
+	  "coin_value": 3,
+	  "coin_value_status": "BALANCING_DRAFT_V1_1",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_tilapia",
+	  "display_name": "Ikan Nila",
+	  "group_id": "group_fishery",
+	  "introduced_level": 3,
+	  "coin_value": 6,
+	  "coin_value_status": "LOCKED_L3",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "food_id": "food_catfish",
+	  "display_name": "Ikan Lele",
+	  "group_id": "group_fishery",
+	  "introduced_level": 3,
+	  "coin_value": 5,
+	  "coin_value_status": "LOCKED_L3",
+	  "validation_status": "PROVISIONAL"
+	}
+  ],
+  "processed_foods": [
+	{
+	  "processed_food_id": "processed_banana_cassava_compote",
+	  "display_name": "Kolak Pisang-Singkong",
+	  "ingredient_a_id": "food_banana",
+	  "ingredient_b_id": "food_cassava",
+	  "process_id": "process_boiled",
+	  "validation_status": "PROVISIONAL"
+	},
+	{
+	  "processed_food_id": "processed_spinach_corn_clear_soup",
+	  "display_name": "Sayur Bening Bayam-Jagung",
+	  "ingredient_a_id": "food_spinach",
+	  "ingredient_b_id": "food_corn",
+	  "process_id": "process_boiled",
+	  "validation_status": "PROVISIONAL"
+	},
+	{
+	  "processed_food_id": "processed_water_spinach_eggplant_stirfry",
+	  "display_name": "Tumis Kangkung-Terung",
+	  "ingredient_a_id": "food_water_spinach",
+	  "ingredient_b_id": "food_eggplant",
+	  "process_id": "process_stir_fried",
+	  "validation_status": "PROVISIONAL"
+	},
+	{
+	  "processed_food_id": "processed_papaya_mango_rujak",
+	  "display_name": "Rujak Buah Pepaya-Mangga",
+	  "ingredient_a_id": "food_papaya",
+	  "ingredient_b_id": "food_mango",
+	  "process_id": "process_mixed",
+	  "validation_status": "PROVISIONAL"
+	}
+  ],
+  "level_1": {
+	"new_rule": "Introduce definition of pangan lokal before Literacy Challenge",
+	"food_ids": [
+	  "food_rice",
+	  "food_cassava",
+	  "food_water_spinach",
+	  "food_spinach",
+	  "food_banana",
+      "food_papaya"
+	],
+	"literacy_retry": true
+  },
+  "level_2": {
+	"preview_state": "PREVIEW_PANGAN_BARU",
+	"preview_food_ids": [
+	  "food_corn",
+	  "food_sweet_potato",
+	  "food_eggplant",
+	  "food_cucumber",
+	  "food_mango",
+      "food_guava"
+	],
+	"batch_size": 6
+  },
+  "level_3": {
+	"coin_budget": 15,
+	"eligible_food_ids": [
+	  "food_rice",
+	  "food_cassava",
+	  "food_water_spinach",
+	  "food_eggplant",
+	  "food_banana",
+	  "food_papaya",
+	  "food_tilapia",
+      "food_catfish"
+	]
+  },
+  "level_4": {
+	"countdown_seconds": 120,
+	"countdown_status": "PLAYTEST_BASELINE",
+	"order_count": 4,
+	"processed_food_ids": [
+	  "processed_banana_cassava_compote",
+	  "processed_spinach_corn_clear_soup",
+	  "processed_water_spinach_eggplant_stirfry",
+      "processed_papaya_mango_rujak"
+	],
+	"new_food_allowed": false
+  },
+  "level_5": {
+	"bank_food_ids": [
+	  "food_rice",
+	  "food_cassava",
+	  "food_water_spinach",
+	  "food_spinach",
+	  "food_banana",
+	  "food_papaya",
+	  "food_corn",
+	  "food_sweet_potato",
+	  "food_eggplant",
+	  "food_cucumber",
+	  "food_mango",
+	  "food_guava",
+	  "food_tilapia",
+      "food_catfish"
+	],
+	"lane_distribution": [
+	  7,
+	  7
+	],
+	"main_timer_seconds": 240,
+	"main_timer_status": "PLAYTEST_BASELINE",
+	"timer_expiry_behavior": "continue_main_game_bonus_time_zero",
+	"schema_max_scores": {
+	  "schema_1": 10,
+	  "schema_2": 12,
+	  "schema_3": 13,
+	  "schema_4": 15
+	},
+	"schema_score_floor": {
+	  "schema_1": 5,
+	  "schema_2": 6,
+	  "schema_3": 7,
+	  "schema_4": 8
+	},
+	"schema_invalid_penalty": 1,
+	"time_bonus_bands": [
+	  {
+		"min_remaining_ratio": 0.5,
+		"bonus": 10
+	  },
+	  {
+		"min_remaining_ratio": 0.25,
+		"bonus": 7
+	  },
+	  {
+		"min_remaining_ratio": 1e-06,
+		"bonus": 4
+	  },
+	  {
+		"min_remaining_ratio": 0.0,
+		"bonus": 0
+	  }
+	],
+	"quiz": {
+	  "question_count": 5,
+	  "seconds_per_question": 30,
+	  "score_correct": 8,
+	  "score_wrong": 0,
+	  "score_timeout": 0,
+	  "retry": false,
+	  "shuffle_questions": true,
+	  "shuffle_answers": true
+	}
+  },
+  "map": {
+	"states": [
+	  "LOCKED",
+	  "AVAILABLE",
+	  "COMPLETED",
+      "FINAL_COMPLETED"
+	],
+	"stars_enabled": false,
+	"champion_label_enabled": false,
+	"runtime_text_baked_into_image": false
+  },
+  "time_model": {
+	"entity": "LevelSession",
+	"active_duration_includes_level4_retries": true
+  },
+  "processes": [
+	{
+	  "process_id": "process_boiled",
+	  "display_name": "Direbus",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "process_id": "process_stir_fried",
+	  "display_name": "Ditumis",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "process_id": "process_mixed",
+	  "display_name": "Dicampur",
+	  "validation_status": "LOCKED"
+	},
+	{
+	  "process_id": "process_steamed",
+	  "display_name": "Dikukus",
+	  "validation_status": "DISTRACTOR_DRAFT"
+	}
+  ]
+}

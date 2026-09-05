@@ -1,0 +1,352 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/shared/level_complete_screen.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/visual/ui/logo_game.png" id="2_logo"]
+[ext_resource type="Texture2D" path="res://assets/visual/ui/icons/good.svg" id="3_complete_icon"]
+
+[sub_resource type="StyleBoxFlat" id="MainPanelStyle"]
+bg_color = Color(0.93, 0.925, 0.875, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0.4078, 0.2431, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+
+[sub_resource type="StyleBoxFlat" id="InfoPanelStyle"]
+bg_color = Color(0.82, 0.87, 0.93, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0.4078, 0.2431, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormalStyle"]
+bg_color = Color(0.3451, 0.5608, 0.1961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3451, 0.5608, 0.1961, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxFlat" id="ButtonHoverStyle"]
+bg_color = Color(0.4, 0.62, 0.24, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.62, 0.24, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressedStyle"]
+bg_color = Color(0.27, 0.47, 0.16, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.27, 0.47, 0.16, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxFlat" id="ButtonDisabledStyle"]
+bg_color = Color(0.45, 0.53, 0.39, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.53, 0.39, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+
+[node name="LevelCompleteScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1")
+
+[node name="InputBlocker" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0, 0, 0, 0)
+
+[node name="OverlayRoot" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainPanel" type="Panel" parent="OverlayRoot"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 88.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("MainPanelStyle")
+
+[node name="MainMargin" type="MarginContainer" parent="OverlayRoot/MainPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 46
+theme_override_constants/margin_top = 82
+theme_override_constants/margin_right = 46
+theme_override_constants/margin_bottom = 24
+
+[node name="MainVBox" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 14
+
+[node name="TitleCenter" type="CenterContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+
+[node name="CompletionTitleRow" type="HBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/TitleCenter"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 16
+
+[node name="LevelCompleteTitle" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/TitleCenter/CompletionTitleRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "LEVEL 1 SELESAI"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.3451, 0.5608, 0.1961, 1)
+theme_override_font_sizes/font_size = 44
+
+[node name="CompleteIcon" type="TextureRect" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/TitleCenter/CompletionTitleRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(66, 66)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+texture = ExtResource("3_complete_icon")
+
+[node name="InfoPanel" type="PanelContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 270)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("InfoPanelStyle")
+
+[node name="InfoMargin" type="MarginContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 18
+
+[node name="ContentVBox" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="CompletionMessage" type="RichTextLabel" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = false
+scroll_active = false
+fit_content = true
+text = "Kamu telah menyelesaikan level ini."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+theme_override_colors/default_color = Color(0.0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/normal_font_size = 24
+
+[node name="MetricsVBox" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 6
+
+[node name="DurationRow" type="HBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="DurationTitle" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/DurationRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(170, 0)
+text = "Durasi"
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="DurationValue" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/DurationRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "02:18"
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="ScoreRow" type="HBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="ScoreTitle" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/ScoreRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(170, 0)
+text = "Poin"
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="ScoreValue" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/ScoreRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "60"
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="ResultRow" type="HBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="ResultTitle" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/ResultRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(170, 0)
+text = "Hasil"
+vertical_alignment = 0
+theme_override_colors/font_color = Color(0.0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="ResultValue" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/ResultRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "6/6"
+vertical_alignment = 0
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="BadgeRow" type="HBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="BadgeTitle" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/BadgeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(170, 0)
+text = "Badge"
+vertical_alignment = 0
+theme_override_colors/font_color = Color(0.0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="BadgeValue" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/BadgeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Penjelajah Pangan Lokal"
+vertical_alignment = 0
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="ButtonCenter" type="CenterContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox"]
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+
+[node name="PrimaryButton" type="Button" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/ButtonCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(470, 72)
+layout_mode = 2
+text = "LANJUT"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("ButtonNormalStyle")
+theme_override_styles/hover = SubResource("ButtonHoverStyle")
+theme_override_styles/pressed = SubResource("ButtonPressedStyle")
+theme_override_styles/focus = SubResource("ButtonNormalStyle")
+theme_override_styles/disabled = SubResource("ButtonDisabledStyle")
+[node name="GameLogo" type="TextureRect" parent="OverlayRoot"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(148, 148)
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -74.0
+offset_top = -2.0
+offset_right = 74.0
+offset_bottom = 146.0
+grow_horizontal = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+texture = ExtResource("2_logo")

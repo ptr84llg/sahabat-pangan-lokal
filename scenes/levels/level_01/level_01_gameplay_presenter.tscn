@@ -1,0 +1,435 @@
+[gd_scene format=3 uid="uid://d0st2mxxlk0we"]
+
+[ext_resource type="Script" uid="uid://dbxp4cyx4rb80" path="res://scripts/levels/level_01/level_01_gameplay_presenter.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://d3n01qo5f4ffo" path="res://assets/visual/ui/logo_game.png" id="2_logo"]
+
+[sub_resource type="StyleBoxFlat" id="BoardStyle"]
+bg_color = Color(0.9764706, 0.9647059, 0.8862745, 0.6862745)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uo4h6"]
+bg_color = Color(0.012, 0.35, 0.23, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+
+[sub_resource type="StyleBoxFlat" id="WhiteBorderStyle"]
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.012, 0.35, 0.23, 1)
+
+[sub_resource type="StyleBoxFlat" id="GreenStyle"]
+bg_color = Color(0.012, 0.35, 0.23, 1)
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5rmbn"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_af43a"]
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 0.9490196, 0, 1)
+border_width_bottom = 3
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oscwe"]
+bg_color = Color(1, 1, 1, 1)
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hmhmc"]
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 0.9490196, 0, 1)
+border_width_bottom = 3
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_right = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s7va5"]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="TransparentStyle"]
+bg_color = Color(0.976, 0.965, 0.886, 0)
+border_color = Color(0.976, 0.965, 0.886, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vcnld"]
+bg_color = Color(0.012, 0.35, 0.23, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.012, 0.35, 0.23, 1)
+
+[sub_resource type="StyleBoxFlat" id="FoodFrameStyle"]
+bg_color = Color(0.99, 0.99, 0.975, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="HintFrameStyle"]
+bg_color = Color(0.99, 0.99, 0.975, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_bottom_right = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tssn2"]
+bg_color = Color(0.012, 0.35, 0.23, 1)
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="LevelBadgeStyle"]
+bg_color = Color(1, 0.9490196, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 15
+corner_radius_bottom_left = 15
+
+[node name="Level01GameplayPresenter" type="Control" unique_id=1005032692]
+z_index = 240
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="RecreatedMainBoard" type="PanelContainer" parent="." unique_id=1982272573]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 64.0
+offset_right = -4.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("BoardStyle")
+
+[node name="BoardMargin" type="MarginContainer" parent="RecreatedMainBoard" unique_id=944325478]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 12
+
+[node name="GameplayVBox" type="VBoxContainer" parent="RecreatedMainBoard/BoardMargin" unique_id=134486336]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="InfoRow" type="HBoxContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox" unique_id=1426009670]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MissionColumn" type="VBoxContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow" unique_id=1725400724]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = -2
+
+[node name="MissionTitleRow" type="HBoxContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/MissionColumn" unique_id=213766316]
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="MissionTitlePanel" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/MissionColumn/MissionTitleRow" unique_id=311875351]
+custom_minimum_size = Vector2(210, 38)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uo4h6")
+
+[node name="MissionTitle" type="Label" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/MissionColumn/MissionTitleRow/MissionTitlePanel" unique_id=432063033]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "MISI UTAMA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MissionSpacer" type="Control" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/MissionColumn/MissionTitleRow" unique_id=1532425095]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MissionBody" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/MissionColumn" unique_id=421477562]
+layout_mode = 2
+size_flags_vertical = 3
+offset_transform_enabled = true
+theme_override_styles/panel = SubResource("WhiteBorderStyle")
+
+[node name="MissionMargin" type="MarginContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/MissionColumn/MissionBody" unique_id=1917197565]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="MissionValue" type="Label" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/MissionColumn/MissionBody/MissionMargin" unique_id=294788823]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.05490196, 0.3882353, 0.23921569, 1)
+theme_override_font_sizes/font_size = 34
+text = "Cocokkan semua gambar pangan dengan namanya."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatsPanel" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow" unique_id=276131972]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.48
+theme_override_styles/panel = SubResource("GreenStyle")
+
+[node name="StatsMargin" type="MarginContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel" unique_id=123958834]
+layout_mode = 2
+
+[node name="StatsRow" type="HBoxContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin" unique_id=907857843]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow" unique_id=63917944]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_5rmbn")
+
+[node name="ScoreBox" type="VBoxContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelContainer" unique_id=923148881]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelContainer/ScoreBox" unique_id=197938523]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_af43a")
+text = "POIN GAME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Underline" type="ColorRect" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelContainer/ScoreBox" unique_id=526995349]
+visible = false
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(1, 0.95, 0, 1)
+
+[node name="ScoreValue" type="Label" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelContainer/ScoreBox" unique_id=612117507]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+theme_override_font_sizes/font_size = 40
+text = "0 / 60"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatsDivider" type="ColorRect" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow" unique_id=881842844]
+visible = false
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+color = Color(1, 0.95, 0, 1)
+
+[node name="PanelContainer2" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow" unique_id=614141023]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_oscwe")
+
+[node name="ProgressBox" type="VBoxContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelContainer2" unique_id=1269096623]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelContainer2/ProgressBox" unique_id=977953979]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_hmhmc")
+text = "KECOCOKAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Underline" type="ColorRect" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelContainer2/ProgressBox" unique_id=1923755178]
+visible = false
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(1, 0.95, 0, 1)
+
+[node name="MatchValue" type="Label" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelContainer2/ProgressBox" unique_id=1390680090]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+theme_override_font_sizes/font_size = 40
+text = "0 / 6"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow" unique_id=593737735]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_s7va5")
+
+[node name="TargetFrame" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox" unique_id=1875670404]
+custom_minimum_size = Vector2(0, 166)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("TransparentStyle")
+
+[node name="TargetsHost" type="MarginContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/TargetFrame" unique_id=489793021]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="InstructionBar" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox" unique_id=1118399746]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vcnld")
+
+[node name="InstructionLabel" type="Label" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InstructionBar" unique_id=23418205]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 34
+text = "Letakkan gambar pangan di bawah ini pada kotak sesuai namanya."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BottomRow" type="HBoxContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox" unique_id=261066267]
+custom_minimum_size = Vector2(0, 122)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = -4
+
+[node name="FoodTrayFrame" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/BottomRow" unique_id=1105468552]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("FoodFrameStyle")
+
+[node name="FoodMargin" type="MarginContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/BottomRow/FoodTrayFrame" unique_id=1533851502]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="FoodTrayHost" type="CenterContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/BottomRow/FoodTrayFrame/FoodMargin" unique_id=1054783305]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HintFrame" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/BottomRow" unique_id=493832236]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("HintFrameStyle")
+
+[node name="HintHost" type="CenterContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/BottomRow/HintFrame" unique_id=1894152006]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BottomFrameStroke" type="ColorRect" parent="." unique_id=1916384390]
+visible = false
+z_index = 80
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -12.0
+offset_right = -4.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.012, 0.35, 0.23, 1)
+
+[node name="GameHeader" type="PanelContainer" parent="." unique_id=869197375]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -325.0
+offset_top = 25.0
+offset_right = 325.0
+offset_bottom = 97.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tssn2")
+
+[node name="HeaderRow" type="HBoxContainer" parent="GameHeader" unique_id=1309627922]
+layout_mode = 2
+
+[node name="LevelBadge" type="PanelContainer" parent="GameHeader/HeaderRow" unique_id=92135516]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("LevelBadgeStyle")
+
+[node name="LevelLabel" type="Label" parent="GameHeader/HeaderRow/LevelBadge" unique_id=727285648]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+theme_override_font_sizes/font_size = 40
+text = "LEVEL 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameTitle" type="Label" parent="GameHeader/HeaderRow" unique_id=1233648239]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+text = "PERMAINAN PERTAMA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameLogo" type="TextureRect" parent="." unique_id=84724929]
+unique_name_in_owner = true
+z_index = 2
+layout_mode = 0
+offset_left = 1090.0
+offset_right = 1206.0
+offset_bottom = 114.0
+scale = Vector2(1.7, 1.7)
+mouse_filter = 2
+texture = ExtResource("2_logo")
+expand_mode = 1
+stretch_mode = 5

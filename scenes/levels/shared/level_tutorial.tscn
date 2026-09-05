@@ -1,0 +1,371 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/shared/level_tutorial.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/visual/ui/logo_game.png" id="2_logo"]
+[ext_resource type="PackedScene" path="res://scenes/levels/shared/level_tutorial_food_card.tscn" id="3_food_card"]
+[ext_resource type="Texture2D" path="res://assets/visual/foods/food_corn.png" id="4_preview_a"]
+[ext_resource type="Texture2D" path="res://assets/visual/foods/food_sweet_potato.png" id="5_preview_b"]
+[ext_resource type="Texture2D" path="res://assets/visual/foods/food_eggplant.png" id="6_preview_c"]
+
+[sub_resource type="StyleBoxFlat" id="MainPanelStyle"]
+bg_color = Color(0.9843, 0.9725, 0.9137, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.3294, 0.5098, 0.2078, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+
+[sub_resource type="StyleBoxFlat" id="TitleTabStyle"]
+bg_color = Color(0.3294, 0.5098, 0.2078, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+
+[sub_resource type="StyleBoxLine" id="SeparatorStyle"]
+color = Color(0.3294, 0.5098, 0.2078, 1)
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="Level2MessageStyle"]
+bg_color = Color(0.91, 0.95, 0.98, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3294, 0.5098, 0.2078, 1)
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormalStyle"]
+bg_color = Color(0.3294, 0.5098, 0.2078, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="ButtonHoverStyle"]
+bg_color = Color(0.39, 0.59, 0.24, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressedStyle"]
+bg_color = Color(0.26, 0.42, 0.16, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="ButtonDisabledStyle"]
+bg_color = Color(0.46, 0.52, 0.40, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="LevelTutorial" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1")
+
+[node name="TutorialUI" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="MainPanel" type="Panel" parent="TutorialUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -462.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 0
+z_index = 10
+theme_override_styles/panel = SubResource("MainPanelStyle")
+
+[node name="ContentMargin" type="MarginContainer" parent="TutorialUI/MainPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -105.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_top = 52
+theme_override_constants/margin_right = 70
+theme_override_constants/margin_bottom = 20
+
+[node name="ContentCenter" type="CenterContainer" parent="TutorialUI/MainPanel/ContentMargin"]
+layout_mode = 2
+
+[node name="TutorialContent" type="VBoxContainer" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1040, 280)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 9
+
+[node name="StepLabel" type="Label" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+visible = false
+text = "LANGKAH TUTORIAL"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.3294, 0.5098, 0.2078, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="IllustrationRow" type="HBoxContainer" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 155)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="IllustrationA" type="TextureRect" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/IllustrationRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 155)
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+texture = ExtResource("4_preview_a")
+
+[node name="IllustrationB" type="TextureRect" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/IllustrationRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 155)
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+texture = ExtResource("5_preview_b")
+
+[node name="IllustrationC" type="TextureRect" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/IllustrationRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 155)
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+texture = ExtResource("6_preview_c")
+
+[node name="InstructionText" type="RichTextLabel" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 3
+text = "[center]AREA TUTORIAL[/center]"
+theme_override_colors/default_color = Color(0.3294, 0.5098, 0.2078, 1)
+theme_override_font_sizes/normal_font_size = 24
+
+[node name="Level2RichContent" type="VBoxContainer" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1040, 280)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Level2IntroLabel" type="Label" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level2RichContent"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Di Level 2, kamu akan mengenal 6 (enam) pangan baru, yaitu:"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.3294, 0.5098, 0.2078, 1)
+theme_override_font_sizes/font_size = 25
+
+[node name="Level2FoodRow" type="HBoxContainer" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level2RichContent"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 144)
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="Level2Food1" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level2RichContent/Level2FoodRow" instance=ExtResource("3_food_card")]
+unique_name_in_owner = true
+
+[node name="Level2Food2" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level2RichContent/Level2FoodRow" instance=ExtResource("3_food_card")]
+unique_name_in_owner = true
+
+[node name="Level2Food3" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level2RichContent/Level2FoodRow" instance=ExtResource("3_food_card")]
+unique_name_in_owner = true
+
+[node name="Level2Food4" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level2RichContent/Level2FoodRow" instance=ExtResource("3_food_card")]
+unique_name_in_owner = true
+
+[node name="Level2Food5" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level2RichContent/Level2FoodRow" instance=ExtResource("3_food_card")]
+unique_name_in_owner = true
+
+[node name="Level2Food6" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level2RichContent/Level2FoodRow" instance=ExtResource("3_food_card")]
+unique_name_in_owner = true
+[node name="Level2MessagePanel" type="PanelContainer" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level2RichContent"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("Level2MessageStyle")
+
+[node name="Margin" type="MarginContainer" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level2RichContent/Level2MessagePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="Level2MessageLabel" type="Label" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level2RichContent/Level2MessagePanel/Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Nantinya kamu akan memindahkan setiap pangan ke kelompoknya masing-masing."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.3294, 0.5098, 0.2078, 1)
+theme_override_font_sizes/font_size = 21
+
+[node name="BottomMargin" type="MarginContainer" parent="TutorialUI/MainPanel"]
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 70.0
+offset_top = -92.0
+offset_right = -70.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BottomVBox" type="VBoxContainer" parent="TutorialUI/MainPanel/BottomMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Separator" type="HSeparator" parent="TutorialUI/MainPanel/BottomMargin/BottomVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+theme_override_styles/separator = SubResource("SeparatorStyle")
+
+[node name="ButtonCenter" type="CenterContainer" parent="TutorialUI/MainPanel/BottomMargin/BottomVBox"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="TutorialUI/MainPanel/BottomMargin/BottomVBox/ButtonCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(270, 52)
+layout_mode = 2
+text = "LANJUTKAN"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.88, 0.90, 0.84, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("ButtonNormalStyle")
+theme_override_styles/hover = SubResource("ButtonHoverStyle")
+theme_override_styles/pressed = SubResource("ButtonPressedStyle")
+theme_override_styles/focus = SubResource("ButtonHoverStyle")
+theme_override_styles/disabled = SubResource("ButtonDisabledStyle")
+[node name="TitleTab" type="PanelContainer" parent="TutorialUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -207.0
+offset_top = 203.0
+offset_right = 207.0
+offset_bottom = 263.0
+grow_horizontal = 2
+mouse_filter = 2
+z_index = 20
+theme_override_styles/panel = SubResource("TitleTabStyle")
+
+[node name="TitleLabel" type="Label" parent="TutorialUI/TitleTab"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TUTORIAL"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+
+[node name="GameLogo" type="TextureRect" parent="TutorialUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -110.0
+offset_top = 10.0
+offset_right = 110.0
+offset_bottom = 190.0
+grow_horizontal = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+z_index = 30
+texture = ExtResource("2_logo")
+
+[node name="PortraitBlocker" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+z_index = 100
+
+[node name="DimBackground" type="ColorRect" parent="PortraitBlocker"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.05, 0.02, 0.96)
+mouse_filter = 0
+
+[node name="RotateCenter" type="CenterContainer" parent="PortraitBlocker"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="RotateMessage" type="Label" parent="PortraitBlocker/RotateCenter"]
+layout_mode = 2
+text = "PUTAR PERANGKAT\nGame hanya dapat dimainkan dalam posisi landscape."
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24

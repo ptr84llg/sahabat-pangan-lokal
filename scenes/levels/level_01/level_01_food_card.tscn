@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://cm4cafddk0y7g"]
+
+[ext_resource type="Script" uid="uid://c5chjdp6l77i3" path="res://scripts/levels/level_01/level_01_food_card.gd" id="1"]
+[ext_resource type="Script" uid="uid://ewxyjqld3ce0" path="res://scripts/shared/food_glyph.gd" id="2"]
+
+[sub_resource type="StyleBoxFlat" id="CardStyle"]
+bg_color = Color(1, 0.985, 0.93, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.55, 0.22, 0.88)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.12)
+shadow_size = 4
+
+[node name="Level01FoodCard" type="PanelContainer" unique_id=1144638743]
+custom_minimum_size = Vector2(124, 104)
+theme_override_styles/panel = SubResource("CardStyle")
+script = ExtResource("1")
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=181766431]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="Stack" type="Control" parent="Margin" unique_id=89431046]
+custom_minimum_size = Vector2(108, 90)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="FoodImage" type="TextureRect" parent="Margin/Stack" unique_id=29082551]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Glyph" type="Control" parent="Margin/Stack" unique_id=275519386]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2")
+
+[node name="NameLabel" type="Label" parent="Margin/Stack" unique_id=1872636271]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+
+[node name="CoinLabel" type="Label" parent="Margin/Stack" unique_id=323308176]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0

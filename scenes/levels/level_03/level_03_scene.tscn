@@ -1,0 +1,1298 @@
+[gd_scene load_steps=21 format=3]
+[ext_resource type="Script" path="res://scripts/levels/level_03/level_03_controller.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/levels/level_03/shopping_controller.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/visual/ui/logo_game.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/visual/ui/keranjang.svg" id="5"]
+[sub_resource type="StyleBoxFlat" id="PanelStyle"]
+bg_color = Color(0.98,0.98,0.95,0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25,0.44,0.34,1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_left = 14
+corner_radius_bottom_right = 14
+[sub_resource type="StyleBoxFlat" id="GameplayFrameStyle"]
+bg_color = Color(0.965, 0.945, 0.84, 0.94)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.055, 0.36, 0.22, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+[sub_resource type="StyleBoxFlat" id="GreenStyle"]
+bg_color = Color(0.055, 0.39, 0.24, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.035, 0.28, 0.16, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+[sub_resource type="StyleBoxFlat" id="YellowStyle"]
+bg_color = Color(0.96, 0.96, 0.04, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.055, 0.36, 0.22, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+[sub_resource type="StyleBoxFlat" id="WhiteStyle"]
+bg_color = Color(0.99, 0.99, 0.97, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.055, 0.36, 0.22, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+[sub_resource type="StyleBoxFlat" id="GreenFillStyle"]
+bg_color = Color(0.055, 0.39, 0.24, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_left = 1
+corner_radius_bottom_right = 1
+[sub_resource type="StyleBoxFlat" id="YellowFillStyle"]
+bg_color = Color(0.96, 0.96, 0.04, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_left = 1
+corner_radius_bottom_right = 1
+[sub_resource type="StyleBoxFlat" id="WhiteFillStyle"]
+bg_color = Color(0.99, 0.99, 0.97, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_left = 1
+corner_radius_bottom_right = 1
+[sub_resource type="StyleBoxFlat" id="SoftGreenButtonStyle"]
+bg_color = Color(0.86, 0.92, 0.80, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.055, 0.36, 0.22, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+[sub_resource type="StyleBoxFlat" id="OrangeButtonStyle"]
+bg_color = Color(1, 0.31, 0.02, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.055, 0.36, 0.22, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+[sub_resource type="StyleBoxFlat" id="SquareFrameStyle"]
+bg_color = Color(0.965, 0.945, 0.84, 0.94)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.055, 0.36, 0.22, 1)
+[sub_resource type="StyleBoxFlat" id="SquareGreenStyle"]
+bg_color = Color(0.055, 0.39, 0.24, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.035, 0.28, 0.16, 1)
+[sub_resource type="StyleBoxFlat" id="SquareWhiteStyle"]
+bg_color = Color(0.99, 0.99, 0.97, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.055, 0.36, 0.22, 1)
+[sub_resource type="StyleBoxFlat" id="SquareSoftGreenButtonStyle"]
+bg_color = Color(0.86, 0.92, 0.80, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.055, 0.36, 0.22, 1)
+[sub_resource type="StyleBoxFlat" id="SquareOrangeButtonStyle"]
+bg_color = Color(1, 0.31, 0.02, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.055, 0.36, 0.22, 1)
+[sub_resource type="StyleBoxFlat" id="BlockerStyle"]
+bg_color = Color(0.96, 0.95, 0.87, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.055, 0.36, 0.22, 1)
+[node name="Level3" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+[node name="SafeArea" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 42.0
+offset_top = 30.0
+offset_right = -42.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="Screens" type="Control" parent="SafeArea"]
+layout_mode = 2
+[node name="ThemePanel" type="PanelContainer" parent="SafeArea/Screens"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -210.0
+offset_right = 350.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("PanelStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/ThemePanel"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+[node name="Level" type="Label" parent="SafeArea/Screens/ThemePanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "LEVEL 3"
+horizontal_alignment = 1
+[node name="Title" type="Label" parent="SafeArea/Screens/ThemePanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "BELANJA PANGAN LOKAL"
+horizontal_alignment = 1
+[node name="Location" type="Label" parent="SafeArea/Screens/ThemePanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "PASAR"
+horizontal_alignment = 1
+[node name="ThemeStartButton" type="Button" parent="SafeArea/Screens/ThemePanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0,58)
+layout_mode = 2
+text = "MULAI"
+[node name="DialoguePanel" type="PanelContainer" parent="SafeArea/Screens"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -250.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("PanelStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/DialoguePanel"]
+layout_mode = 2
+[node name="SpeakerLabel" type="Label" parent="SafeArea/Screens/DialoguePanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+[node name="DialogueText" type="Label" parent="SafeArea/Screens/DialoguePanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0,115)
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+autowrap_mode = 2
+[node name="DialogueNextButton" type="Button" parent="SafeArea/Screens/DialoguePanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0,52)
+layout_mode = 2
+text = "LANJUT"
+[node name="TutorialPanel" type="PanelContainer" parent="SafeArea/Screens"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -390.0
+offset_top = -220.0
+offset_right = 390.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("PanelStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/TutorialPanel"]
+layout_mode = 2
+[node name="Title" type="Label" parent="SafeArea/Screens/TutorialPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "BELANJA DAN KOIN PANGAN"
+horizontal_alignment = 1
+[node name="TutorialText" type="Label" parent="SafeArea/Screens/TutorialPanel/VBox"]
+custom_minimum_size = Vector2(0,220)
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "Seret pangan dari lapak ke keranjang. Pilih satu pangan dari setiap kelompok. Koin berkurang saat pangan masuk dan kembali saat pangan dikembalikan ke lapak. Jangan melebihi 15 Koin Pangan."
+autowrap_mode = 2
+vertical_alignment = 1
+[node name="TutorialContinueButton" type="Button" parent="SafeArea/Screens/TutorialPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0,52)
+layout_mode = 2
+text = "COBA SEKARANG"
+[node name="TutorialSkipButton" type="Button" parent="SafeArea/Screens/TutorialPanel/VBox"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0,44)
+layout_mode = 2
+text = "LEWATI"
+[node name="MainGameHUD" type="Control" parent="SafeArea/Screens"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="GameplayFrame" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("SquareFrameStyle")
+[node name="GameplayMargin" type="MarginContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+[node name="MainVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+[node name="TopRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox"]
+custom_minimum_size = Vector2(0, 108)
+layout_mode = 2
+theme_override_constants/separation = 6
+[node name="TopLeft" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+[node name="HeaderCenter" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/TopRow/TopLeft"]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+[node name="HeaderFrame" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/TopRow/TopLeft/HeaderCenter"]
+custom_minimum_size = Vector2(700, 58)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SquareWhiteStyle")
+[node name="HeaderBar" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/TopRow/TopLeft/HeaderCenter/HeaderFrame"]
+layout_mode = 2
+theme_override_constants/separation = 0
+[node name="LevelBadge" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/TopRow/TopLeft/HeaderCenter/HeaderFrame/HeaderBar"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("YellowFillStyle")
+[node name="Label" type="Label" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/TopRow/TopLeft/HeaderCenter/HeaderFrame/HeaderBar/LevelBadge"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 32
+text = "LEVEL 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="GameTitle" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/TopRow/TopLeft/HeaderCenter/HeaderFrame/HeaderBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("GreenFillStyle")
+[node name="Label" type="Label" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/TopRow/TopLeft/HeaderCenter/HeaderFrame/HeaderBar/GameTitle"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.96, 0.04, 1)
+theme_override_font_sizes/font_size = 29
+text = "PERMAINAN PERTAMA"
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="MissionBar" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/TopRow/TopLeft"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SquareGreenStyle")
+[node name="MissionLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/TopRow/TopLeft/MissionBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.96, 0.04, 1)
+theme_override_font_sizes/font_size = 21
+text = "Pilih 4 pangan, satu dari setiap kelompok, tanpa melebihi 15 Koin Pangan."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+[node name="LogoCenter" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/TopRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+[node name="Logo" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/TopRow/LogoCenter"]
+custom_minimum_size = Vector2(124, 96)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 5
+[node name="BodyRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 6
+[node name="MarketPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("SquareWhiteStyle")
+[node name="MarketMargin" type="MarginContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/MarketPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+[node name="MarketCenter" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/MarketPanel/MarketMargin"]
+layout_mode = 2
+[node name="MarketTray" type="GridContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/MarketPanel/MarketMargin/MarketCenter"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 4
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 12
+[node name="MarketBlocker" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/MarketPanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("BlockerStyle")
+[node name="MarketBlockerCenter" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/MarketPanel/MarketBlocker"]
+layout_mode = 2
+[node name="MarketBlockerText" type="Label" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/MarketPanel/MarketBlocker/MarketBlockerCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 22
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+[node name="SideHUD" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_constants/separation = 6
+[node name="CoinPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/SideHUD"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SquareWhiteStyle")
+[node name="CoinVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/SideHUD/CoinPanel"]
+layout_mode = 2
+theme_override_constants/separation = 0
+[node name="CoinTitle" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/SideHUD/CoinPanel/CoinVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_styles/panel = SubResource("YellowFillStyle")
+[node name="Label" type="Label" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/SideHUD/CoinPanel/CoinVBox/CoinTitle"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 20
+text = "KOIN TERSISA"
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="CoinLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/SideHUD/CoinPanel/CoinVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 38
+text = "15"
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="HintPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/SideHUD"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SquareWhiteStyle")
+[node name="HintCenter" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/SideHUD/HintPanel"]
+layout_mode = 2
+[node name="HintButton" type="Button" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/SideHUD/HintPanel/HintCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("SquareSoftGreenButtonStyle")
+text = "PETUNJUK"
+[node name="BackPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/SideHUD"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SquareWhiteStyle")
+[node name="BackCenter" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/SideHUD/BackPanel"]
+layout_mode = 2
+[node name="BackButton" type="Button" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BodyRow/SideHUD/BackPanel/BackCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("SquareSoftGreenButtonStyle")
+text = "KEMBALI"
+[node name="BottomRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox"]
+custom_minimum_size = Vector2(0, 184)
+layout_mode = 2
+theme_override_constants/separation = 6
+[node name="CartIconPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow"]
+custom_minimum_size = Vector2(132, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SquareGreenStyle")
+[node name="CartCenter" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/CartIconPanel"]
+layout_mode = 2
+[node name="CartIcon" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/CartIconPanel/CartCenter"]
+custom_minimum_size = Vector2(102, 102)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5")
+expand_mode = 1
+stretch_mode = 5
+[node name="BasketPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("SquareWhiteStyle")
+[node name="BasketMargin" type="MarginContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/BasketPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+[node name="BasketCenter" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/BasketPanel/BasketMargin"]
+layout_mode = 2
+[node name="BasketGrid" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/BasketPanel/BasketMargin/BasketCenter"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 6
+[node name="PaymentPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow"]
+custom_minimum_size = Vector2(184, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SquareWhiteStyle")
+[node name="PaymentVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/PaymentPanel"]
+layout_mode = 2
+theme_override_constants/separation = 0
+[node name="TotalTitle" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/PaymentPanel/PaymentVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_styles/panel = SubResource("GreenFillStyle")
+[node name="Label" type="Label" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/PaymentPanel/PaymentVBox/TotalTitle"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.96, 0.04, 1)
+theme_override_font_sizes/font_size = 19
+text = "TOTAL BELANJA"
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="TotalValueLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/PaymentPanel/PaymentVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 36
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="CheckShoppingButton" type="Button" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/PaymentPanel/PaymentVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+disabled = true
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = SubResource("SquareOrangeButtonStyle")
+text = "BAYAR"
+[node name="ChecklistPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SquareWhiteStyle")
+[node name="ChecklistMargin" type="MarginContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/ChecklistPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+[node name="ChecklistVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/ChecklistPanel/ChecklistMargin"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 7
+[node name="ChecklistStapleLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/ChecklistPanel/ChecklistMargin/ChecklistVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 19
+text = "[ ] Pangan Pokok/Umbi"
+[node name="ChecklistVegetableLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/ChecklistPanel/ChecklistMargin/ChecklistVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 19
+text = "[ ] Sayuran"
+[node name="ChecklistFruitLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/ChecklistPanel/ChecklistMargin/ChecklistVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 19
+text = "[ ] Buah"
+[node name="ChecklistFishLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameplayFrame/GameplayMargin/MainVBox/BottomRow/ChecklistPanel/ChecklistMargin/ChecklistVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 19
+text = "[ ] Hasil Perikanan"
+[node name="DeadEndMask" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.58)
+[node name="DeadEndCenter" type="CenterContainer" parent="DeadEndMask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="DeadEndDialog" type="PanelContainer" parent="DeadEndMask/DeadEndCenter"]
+custom_minimum_size = Vector2(560, 260)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SquareWhiteStyle")
+[node name="DeadEndMargin" type="MarginContainer" parent="DeadEndMask/DeadEndCenter/DeadEndDialog"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 18
+[node name="DeadEndVBox" type="VBoxContainer" parent="DeadEndMask/DeadEndCenter/DeadEndDialog/DeadEndMargin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+[node name="DeadEndTitle" type="Label" parent="DeadEndMask/DeadEndCenter/DeadEndDialog/DeadEndMargin/DeadEndVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 28
+text = "KOIN TIDAK CUKUP"
+horizontal_alignment = 1
+[node name="DeadEndHeaderSeparator" type="HSeparator" parent="DeadEndMask/DeadEndCenter/DeadEndDialog/DeadEndMargin/DeadEndVBox"]
+layout_mode = 2
+[node name="DeadEndBodyScroll" type="ScrollContainer" parent="DeadEndMask/DeadEndCenter/DeadEndDialog/DeadEndMargin/DeadEndVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+[node name="DeadEndBody" type="VBoxContainer" parent="DeadEndMask/DeadEndCenter/DeadEndDialog/DeadEndMargin/DeadEndVBox/DeadEndBodyScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+[node name="DeadEndMessageLabel" type="Label" parent="DeadEndMask/DeadEndCenter/DeadEndDialog/DeadEndMargin/DeadEndVBox/DeadEndBodyScroll/DeadEndBody"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.30, 0.20, 1)
+theme_override_font_sizes/font_size = 20
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+[node name="DeadEndPenaltyLabel" type="Label" parent="DeadEndMask/DeadEndCenter/DeadEndDialog/DeadEndMargin/DeadEndVBox/DeadEndBodyScroll/DeadEndBody"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.16, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+text = ""
+horizontal_alignment = 1
+autowrap_mode = 2
+[node name="DeadEndFooterSeparator" type="HSeparator" parent="DeadEndMask/DeadEndCenter/DeadEndDialog/DeadEndMargin/DeadEndVBox"]
+layout_mode = 2
+[node name="DeadEndFooter" type="HBoxContainer" parent="DeadEndMask/DeadEndCenter/DeadEndDialog/DeadEndMargin/DeadEndVBox"]
+layout_mode = 2
+[node name="DeadEndConfirmButton" type="Button" parent="DeadEndMask/DeadEndCenter/DeadEndDialog/DeadEndMargin/DeadEndVBox/DeadEndFooter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("SquareOrangeButtonStyle")
+text = "MENGERTI"
+[node name="MainGameSuccessPanel" type="PanelContainer" parent="SafeArea/Screens"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -330.0
+offset_top = -150.0
+offset_right = 330.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("PanelStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameSuccessPanel"]
+layout_mode = 2
+[node name="MainSuccessText" type="Label" parent="SafeArea/Screens/MainGameSuccessPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+horizontal_alignment = 1
+autowrap_mode = 2
+[node name="MainSuccessNextButton" type="Button" parent="SafeArea/Screens/MainGameSuccessPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0,52)
+layout_mode = 2
+text = "LANJUT KE TANTANGAN LITERASI"
+[node name="LiteracyHUD" type="PanelContainer" parent="SafeArea/Screens"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("GameplayFrameStyle")
+
+[node name="Game2Margin" type="MarginContainer" parent="SafeArea/Screens/LiteracyHUD"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="Game2VBox" type="VBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="HeaderRow" type="HBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox"]
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HeaderLeftSpacer" type="Control" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/HeaderRow"]
+custom_minimum_size = Vector2(104, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HeaderCenter" type="CenterContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HeaderBar" type="HBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/HeaderRow/HeaderCenter"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="LevelBox" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/HeaderRow/HeaderCenter/HeaderBar"]
+custom_minimum_size = Vector2(176, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("YellowStyle")
+
+[node name="LevelLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/HeaderRow/HeaderCenter/HeaderBar/LevelBox"]
+layout_mode = 2
+text = "LEVEL 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 30
+
+[node name="TitleBox" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/HeaderRow/HeaderCenter/HeaderBar"]
+custom_minimum_size = Vector2(480, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("GreenStyle")
+
+[node name="LiteracyTitle" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/HeaderRow/HeaderCenter/HeaderBar/TitleBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "PERMAINAN KEDUA"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.96, 0.96, 0.04, 1)
+theme_override_font_sizes/font_size = 27
+
+[node name="Game2Logo" type="TextureRect" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/HeaderRow"]
+custom_minimum_size = Vector2(104, 66)
+layout_mode = 2
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="BodyRow" type="HBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="MainGameColumn" type="VBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 6
+
+[node name="MissionPanel" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("WhiteStyle")
+
+[node name="MissionRow" type="HBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/MissionPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MissionBadge" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/MissionPanel/MissionRow"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("YellowStyle")
+
+[node name="MissionBadgeLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/MissionPanel/MissionRow/MissionBadge"]
+layout_mode = 2
+text = "MISI"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="MissionText" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/MissionPanel/MissionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+vertical_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.055, 0.30, 0.19, 1)
+theme_override_font_sizes/font_size = 19
+
+[node name="PuzzleArea" type="HBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 220)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="ReferenceColumn" type="VBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 6
+
+[node name="CoinHeader" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/ReferenceColumn"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_styles/panel = SubResource("YellowStyle")
+
+[node name="CoinHeaderLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/ReferenceColumn/CoinHeader"]
+layout_mode = 2
+text = "KOIN TERSEDIA"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="CoinValuePanel" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/ReferenceColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("WhiteStyle")
+
+[node name="ReferenceCoinValue" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/ReferenceColumn/CoinValuePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 KOIN"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 31
+
+[node name="TargetHeader" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/ReferenceColumn"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_styles/panel = SubResource("YellowStyle")
+
+[node name="TargetHeaderLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/ReferenceColumn/TargetHeader"]
+layout_mode = 2
+text = "TARGET"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="TargetValuePanel" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/ReferenceColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("WhiteStyle")
+
+[node name="ReferenceTargetValue" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/ReferenceColumn/TargetValuePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 27
+
+[node name="FlowCenter" type="CenterContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+
+[node name="FlowPanel" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/FlowCenter"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_override_styles/panel = SubResource("YellowStyle")
+
+[node name="FlowLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/FlowCenter/FlowPanel"]
+layout_mode = 2
+text = ">"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 58
+
+[node name="TargetPanel" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(330, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("WhiteStyle")
+
+[node name="TargetVBox" type="VBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/TargetPanel"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="TargetPanelTitle" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/TargetPanel/TargetVBox"]
+layout_mode = 2
+text = "KOTAK TARGET"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="ChallengeSlotHolder" type="CenterContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/PuzzleArea/TargetPanel/TargetVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RearrangeSummaryArea" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 220)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("WhiteStyle")
+
+[node name="SummaryVBox" type="VBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/RearrangeSummaryArea"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 6
+
+[node name="SummaryTitle" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/RearrangeSummaryArea/SummaryVBox"]
+layout_mode = 2
+text = "KERANJANG SAAT INI"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="BasketSummaryCenter" type="CenterContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/RearrangeSummaryArea/SummaryVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BasketSummaryTray" type="HBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/RearrangeSummaryArea/SummaryVBox/BasketSummaryCenter"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="RearrangeStatusRow" type="HBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/RearrangeSummaryArea/SummaryVBox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RearrangeCoinPanel" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/RearrangeSummaryArea/SummaryVBox/RearrangeStatusRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("YellowStyle")
+
+[node name="RearrangeCoinValue" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/RearrangeSummaryArea/SummaryVBox/RearrangeStatusRow/RearrangeCoinPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SISA KOIN: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 20
+
+[node name="RearrangeFlowPanel" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/RearrangeSummaryArea/SummaryVBox/RearrangeStatusRow"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("GreenStyle")
+
+[node name="RearrangeFlowLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/RearrangeSummaryArea/SummaryVBox/RearrangeStatusRow/RearrangeFlowPanel"]
+layout_mode = 2
+text = ">"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.96, 0.96, 0.04, 1)
+theme_override_font_sizes/font_size = 34
+
+[node name="RearrangeTargetPanel" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/RearrangeSummaryArea/SummaryVBox/RearrangeStatusRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("SoftGreenButtonStyle")
+
+[node name="RearrangeTargetValue" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/RearrangeSummaryArea/SummaryVBox/RearrangeStatusRow/RearrangeTargetPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TARGET: BUAH"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 20
+
+[node name="InstructionBar" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn"]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_styles/panel = SubResource("GreenStyle")
+
+[node name="InstructionLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/InstructionBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.96, 0.96, 0.04, 1)
+theme_override_font_sizes/font_size = 20
+
+[node name="CandidateTrayPanel" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn"]
+custom_minimum_size = Vector2(0, 190)
+layout_mode = 2
+theme_override_styles/panel = SubResource("WhiteStyle")
+
+[node name="CandidateMargin" type="MarginContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/CandidateTrayPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="CandidateVBox" type="VBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/CandidateTrayPanel/CandidateMargin"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="ChallengeFeedback" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/CandidateTrayPanel/CandidateMargin/CandidateVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 17
+
+[node name="ChoiceTrayHolder" type="CenterContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/CandidateTrayPanel/CandidateMargin/CandidateVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ChallengeChoiceTray" type="HBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/MainGameColumn/CandidateTrayPanel/CandidateMargin/CandidateVBox/ChoiceTrayHolder"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="SideBar" type="VBoxContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ScoreHeader" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/SideBar"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_styles/panel = SubResource("YellowStyle")
+
+[node name="ScoreHeaderLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/SideBar/ScoreHeader"]
+layout_mode = 2
+text = "SKOR"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 23
+
+[node name="ScoreValuePanel" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/SideBar"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("WhiteStyle")
+
+[node name="LiteracyScoreLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/SideBar/ScoreValuePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 / 30"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 24
+
+[node name="RoundHeader" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/SideBar"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_styles/panel = SubResource("YellowStyle")
+
+[node name="RoundHeaderLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/SideBar/RoundHeader"]
+layout_mode = 2
+text = "RONDE"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="RoundValuePanel" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/SideBar"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("WhiteStyle")
+
+[node name="LiteracyRoundLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/SideBar/RoundValuePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1 / 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 26
+
+[node name="StatusHeader" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/SideBar"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_styles/panel = SubResource("YellowStyle")
+
+[node name="StatusHeaderLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/SideBar/StatusHeader"]
+layout_mode = 2
+text = "STATUS"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 21
+
+[node name="StatusValuePanel" type="PanelContainer" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/SideBar"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("WhiteStyle")
+
+[node name="LiteracyStatusLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/Game2Margin/Game2VBox/BodyRow/SideBar/StatusValuePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SIAP"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 20
+[node name="ResultPanel" type="PanelContainer" parent="SafeArea/Screens"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -190.0
+offset_right = 350.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("PanelStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/ResultPanel"]
+layout_mode = 2
+[node name="ResultScore" type="Label" parent="SafeArea/Screens/ResultPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+horizontal_alignment = 1
+[node name="ResultSummary" type="Label" parent="SafeArea/Screens/ResultPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+autowrap_mode = 2
+[node name="ResultNextButton" type="Button" parent="SafeArea/Screens/ResultPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0,52)
+layout_mode = 2
+text = "LIHAT PANGAN"
+[node name="InfoPanel" type="PanelContainer" parent="SafeArea/Screens"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -430.0
+offset_top = -250.0
+offset_right = 430.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("PanelStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/InfoPanel"]
+layout_mode = 2
+[node name="InfoTitle" type="Label" parent="SafeArea/Screens/InfoPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+[node name="InfoImage" type="TextureRect" parent="SafeArea/Screens/InfoPanel/VBox"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+[node name="InfoGroup" type="Label" parent="SafeArea/Screens/InfoPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+[node name="InfoCoin" type="Label" parent="SafeArea/Screens/InfoPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+[node name="InfoText" type="Label" parent="SafeArea/Screens/InfoPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0,270)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 2
+vertical_alignment = 1
+[node name="InfoDisclaimer" type="Label" parent="SafeArea/Screens/InfoPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Koin Pangan adalah nilai simulasi dalam permainan, bukan harga pasar sebenarnya."
+horizontal_alignment = 1
+autowrap_mode = 2
+[node name="InfoCounter" type="Label" parent="SafeArea/Screens/InfoPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+[node name="InfoNextButton" type="Button" parent="SafeArea/Screens/InfoPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0,48)
+layout_mode = 2
+text = "LANJUT"
+[node name="BadgePanel" type="PanelContainer" parent="SafeArea/Screens"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -180.0
+offset_right = 350.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("PanelStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/BadgePanel"]
+layout_mode = 2
+[node name="BadgeName" type="Label" parent="SafeArea/Screens/BadgePanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+[node name="BadgeDescription" type="Label" parent="SafeArea/Screens/BadgePanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+autowrap_mode = 2
+[node name="BadgeNextButton" type="Button" parent="SafeArea/Screens/BadgePanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0,50)
+layout_mode = 2
+text = "LANJUT"
+[node name="ClosingPanel" type="PanelContainer" parent="SafeArea/Screens"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -250.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("PanelStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/ClosingPanel"]
+layout_mode = 2
+[node name="ClosingSpeaker" type="Label" parent="SafeArea/Screens/ClosingPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+[node name="ClosingText" type="Label" parent="SafeArea/Screens/ClosingPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0,120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 2
+[node name="ClosingNextButton" type="Button" parent="SafeArea/Screens/ClosingPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0,50)
+layout_mode = 2
+text = "LANJUT"
+[node name="FeedbackToast" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 170.0
+offset_top = 8.0
+offset_right = -170.0
+offset_bottom = 48.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+[node name="ShoppingController" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2")
