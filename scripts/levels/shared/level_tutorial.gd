@@ -36,6 +36,11 @@ const LEVEL2_TUTORIAL_FOODS: Array[Dictionary] = [
 @onready var illustration_c: TextureRect = %IllustrationC
 @onready var instruction_text: RichTextLabel = %InstructionText
 @onready var continue_button: Button = %ContinueButton
+@onready var level1_interactive_content: VBoxContainer = %Level1InteractiveContent
+@onready var level1_instruction: RichTextLabel = %Level1Instruction
+@onready var level1_source_holder: CenterContainer = %Level1SourceHolder
+@onready var level1_demo_food: FoodCard = %Level1DemoFood
+@onready var level1_demo_target: FoodDropSlot = %Level1DemoTarget
 @onready var level2_rich_content: VBoxContainer = %Level2RichContent
 @onready var level2_food_1: VBoxContainer = %Level2Food1
 @onready var level2_food_2: VBoxContainer = %Level2Food2
@@ -47,6 +52,10 @@ const LEVEL2_TUTORIAL_FOODS: Array[Dictionary] = [
 
 var _source_panel: Control
 var _continue_target: Button
+var _level_no: int = 0
+var _level1_active: bool = false
+var _level1_completed: bool = false
+var _level1_demo_drag_active: bool = false
 
 
 func _ready() -> void:
@@ -54,8 +63,38 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_force_landscape()
 	continue_button.pressed.connect(_on_continue_pressed)
+	level1_demo_food.gui_input.connect(_on_level1_demo_food_gui_input)
+	level1_demo_target.drop_received.connect(_on_level1_tutorial_drop_received)
 	get_viewport().size_changed.connect(_check_orientation)
 	_check_orientation()
+
+
+func _notification(what: int) -> void:
+	if not _level1_active:
+		return
+
+	if what == NOTIFICATION_DRAG_BEGIN:
+		var drag_data: Variant = get_viewport().gui_get_drag_data()
+
+		if _is_level1_demo_drag(drag_data):
+			_level1_demo_drag_active = true
+			_set_level1_instruction(
+				"Sekarang pindahkan pangan ke kotak kosong di sebelah kanan, lalu lepaskan."
+			)
+		return
+
+	if what != NOTIFICATION_DRAG_END or not _level1_demo_drag_active:
+		return
+
+	_level1_demo_drag_active = false
+
+	if _level1_completed:
+		return
+
+	if not get_viewport().gui_is_drag_successful():
+		_set_level1_instruction(
+			"Belum masuk ke kotak target. Klik dan tahan pangan, lalu coba lagi."
+		)
 
 
 func present(
@@ -64,6 +103,12 @@ func present(
 	body_text: String,
 	continue_target: Button
 ) -> void:
+	var reset_level1: bool = (
+		_source_panel != source_panel
+		or not visible
+		or not _level1_active
+	)
+
 	_source_panel = source_panel
 	_continue_target = continue_target
 
@@ -71,21 +116,36 @@ func present(
 		_source_panel.visible = false
 
 	var host: Node = get_parent()
-	var level_no: int = 0
+	_level_no = 0
 
 	if host != null:
-		level_no = int(host.get_meta("level_no", 0))
+		_level_no = int(host.get_meta("level_no", 0))
 
-	var use_level2_rich: bool = level_no == 2
+	var use_level1_interactive: bool = _level_no == 1
+	var use_level2_rich: bool = _level_no == 2
 
+	level1_interactive_content.visible = use_level1_interactive
 	level2_rich_content.visible = use_level2_rich
-	step_label.visible = not use_level2_rich
+	step_label.visible = not use_level1_interactive and not use_level2_rich
 	illustration_row.visible = false
-	instruction_text.visible = not use_level2_rich
+	instruction_text.visible = not use_level1_interactive and not use_level2_rich
 
-	if use_level2_rich:
+	if use_level1_interactive:
+		_level1_active = true
+
+		if reset_level1:
+			_reset_level1_interactive()
+		else:
+			_sync_level1_continue_state()
+	elif use_level2_rich:
+		_level1_active = false
+		_level1_demo_drag_active = false
 		_present_level2_rich_content()
+		continue_button.text = "LANJUTKAN"
+		continue_button.disabled = _continue_target == null
 	else:
+		_level1_active = false
+		_level1_demo_drag_active = false
 		step_label.text = step_text.strip_edges()
 		step_label.visible = not step_label.text.is_empty()
 
@@ -96,8 +156,9 @@ func present(
 		)
 
 		_refresh_illustrations()
+		continue_button.text = "LANJUTKAN"
+		continue_button.disabled = _continue_target == null
 
-	continue_button.disabled = _continue_target == null
 	visible = true
 	_check_orientation()
 
@@ -106,7 +167,121 @@ func hide_presenter() -> void:
 	visible = false
 	_source_panel = null
 	_continue_target = null
+	_level_no = 0
+	_level1_active = false
+	_level1_demo_drag_active = false
 
+
+func _reset_level1_interactive() -> void:
+	_level1_completed = false
+	_level1_demo_drag_active = false
+
+	var current_parent: Node = level1_demo_food.get_parent()
+
+	if current_parent != level1_source_holder:
+		if current_parent != null:
+			current_parent.remove_child(level1_demo_food)
+
+		level1_source_holder.add_child(level1_demo_food)
+
+	level1_demo_food.set_market_selected(false)
+	level1_demo_food.setup(
+		"food_rice",
+		"",
+		"",
+		-1,
+		false,
+		false,
+		"food_card"
+	)
+	level1_demo_target.setup("food_rice", "")
+	level1_demo_target.title_label.visible = false
+	_set_level1_instruction(
+		"Klik dan tahan gambar pangan di sebelah kiri."
+	)
+	_sync_level1_continue_state()
+
+
+func _sync_level1_continue_state() -> void:
+	continue_button.text = "MULAI BERMAIN"
+	continue_button.disabled = (
+		not _level1_completed
+		or _continue_target == null
+	)
+
+
+func _set_level1_instruction(message: String, success: bool = false) -> void:
+	if success:
+		level1_instruction.text = (
+			"[center][b]Bagus![/b]\n"
+			+ message
+			+ "[/center]"
+		)
+		return
+
+	level1_instruction.text = (
+		"[center]" + message + "[/center]"
+	)
+
+
+func _on_level1_demo_food_gui_input(event: InputEvent) -> void:
+	if not _level1_active or _level1_completed:
+		return
+
+	if event is InputEventMouseButton:
+		var mouse_event: InputEventMouseButton = event as InputEventMouseButton
+
+		if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed:
+			_set_level1_instruction(
+				"Sekarang pindahkan pangan ke kotak kosong di sebelah kanan, lalu lepaskan."
+			)
+			return
+
+	if event is InputEventScreenTouch:
+		var touch_event: InputEventScreenTouch = event as InputEventScreenTouch
+
+		if touch_event.pressed:
+			_set_level1_instruction(
+				"Sekarang pindahkan pangan ke kotak kosong di sebelah kanan, lalu lepaskan."
+			)
+
+
+func _is_level1_demo_drag(data: Variant) -> bool:
+	if not data is Dictionary:
+		return false
+
+	var drag_data: Dictionary = data
+	var source_card: Variant = drag_data.get("card")
+
+	return (
+		source_card == level1_demo_food
+		and str(drag_data.get("food_id", "")) == "food_rice"
+		and str(drag_data.get("kind", "")) == "food_card"
+	)
+
+
+func _on_level1_tutorial_drop_received(
+	food_id: String,
+	source_card: FoodCard,
+	slot: FoodDropSlot
+) -> void:
+	if not _level1_active or _level1_completed:
+		return
+
+	if source_card != level1_demo_food or slot != level1_demo_target:
+		return
+
+	if food_id != "food_rice":
+		source_card.show_wrong_feedback()
+		return
+
+	level1_demo_target.accept_card(source_card)
+	_level1_completed = true
+	_set_level1_instruction(
+		"Tutorial cara bermain sudah selesai.",
+		true
+	)
+	_sync_level1_continue_state()
 
 func _refresh_illustrations() -> void:
 	var textures: Array[Texture2D] = []
@@ -221,6 +396,9 @@ func _set_level2_food_card(
 
 func _on_continue_pressed() -> void:
 	if not is_instance_valid(_continue_target):
+		return
+
+	if _level_no == 1 and not _level1_completed:
 		return
 
 	_continue_target.emit_signal("pressed")

@@ -22,6 +22,8 @@ content_margin_bottom = 2.0
 bg_color = Color(0.84313726, 1, 0.90588236, 1)
 border_width_bottom = 3
 border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
 
 [node name="Level01DropSlot" type="PanelContainer" unique_id=942047930]
 custom_minimum_size = Vector2(210, 116)

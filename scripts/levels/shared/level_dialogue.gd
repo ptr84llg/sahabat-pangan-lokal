@@ -91,9 +91,12 @@ func present(
 	if is_instance_valid(_source_panel):
 		_source_panel.visible = false
 
+	var formatted_body_text: String = _format_dialogue_text(
+		body_text
+	)
 	dialogue_text.text = (
 		"[center]" +
-		body_text.strip_edges() +
+		formatted_body_text.strip_edges() +
 		"[/center]"
 	)
 
@@ -107,6 +110,26 @@ func hide_presenter() -> void:
 	visible = false
 	_source_panel = null
 	_continue_target = null
+
+
+func _format_dialogue_text(body_text: String) -> String:
+	var player_display_name: String = "Pemain"
+
+	if (
+		is_instance_valid(GameState)
+		and GameState.has_method("player_display_name")
+	):
+		player_display_name = str(
+			GameState.player_display_name()
+		).strip_edges()
+
+	if player_display_name.is_empty():
+		player_display_name = "Pemain"
+
+	return body_text.replace(
+		"{player_name}",
+		player_display_name
+	)
 
 
 func _refresh_character_state() -> void:

@@ -189,11 +189,13 @@ custom_minimum_size = Vector2(900, 130)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/default_color = Color(0.3294, 0.5098, 0.2078, 1)
-theme_override_font_sizes/normal_font_size = 25
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
 bbcode_enabled = true
 text = "[center]TEKS PERCAKAPAN[/center]"
 fit_content = true
 scroll_active = false
+horizontal_alignment = 3
 
 [node name="BottomMargin" type="MarginContainer" parent="UIRoot/DialogueLayer/DialoguePanel" unique_id=1653288547]
 layout_mode = 1

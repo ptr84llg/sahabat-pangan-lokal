@@ -74,8 +74,10 @@ var literacy_score: int = 0
 var main_score: int = 0
 var final_score: int = 0
 var info_index: int = 0
-var dialogue_step: int = 0
-var tutorial_step: int = 0
+var dialogue_lines: Array = []
+var dialogue_index: int = 0
+var closing_lines: Array = []
+var closing_index: int = 0
 var literacy_game_start_active_ms: int = -1
 
 func _ready() -> void:
@@ -122,7 +124,7 @@ func _connect_ui() -> void:
 	%ResultNextButton.pressed.connect(_show_info)
 	%InfoNextButton.pressed.connect(_advance_info)
 	%BadgeNextButton.pressed.connect(_show_closing)
-	%ClosingMapButton.pressed.connect(_finish_level)
+	%ClosingMapButton.pressed.connect(_on_closing_next)
 
 	matching_controller.progress_changed.connect(_on_progress_changed)
 	matching_controller.feedback.connect(_show_feedback)
@@ -238,44 +240,48 @@ func _show_theme() -> void:
 
 func _show_opening_dialogue() -> void:
 	set_state("DIALOGUE_OPENING")
-	dialogue_step = 0
+	dialogue_lines = level_config.get("dialogue", {}).get("opening", [])
+	dialogue_index = 0
 	_set_character_layer(false)
 	show_only(screens, dialogue_panel)
+	_render_dialogue_line()
 
-	%SpeakerLabel.text = str(
-		level_config.get("dialogue", {}).get("opening_speaker", "Ibu")
-	)
-	%DialogueText.text = str(
-		level_config.get("dialogue", {}).get("opening_text", "")
-	)
-	%DialogueNextButton.text = "LANJUT"
-	_set_dialogue_speaker(%SpeakerLabel.text)
 
 func _on_dialogue_next() -> void:
-	if dialogue_step == 0:
-		set_state("DIALOGUE_MISSION")
-		dialogue_step = 1
-		%SpeakerLabel.text = _player_speaker_name()
-		%DialogueText.text = str(
-			level_config.get("dialogue", {}).get("mission_player", "")
-		)
-		%DialogueNextButton.text = "LANJUT"
-		_set_dialogue_speaker(%SpeakerLabel.text)
+	dialogue_index += 1
+
+	if dialogue_index < dialogue_lines.size():
+		_render_dialogue_line()
 		return
 
-	if dialogue_step == 1:
-		dialogue_step = 2
-		%SpeakerLabel.text = str(
-			level_config.get("dialogue", {}).get("mission_speaker", "Ibu")
-		)
-		%DialogueText.text = str(
-			level_config.get("dialogue", {}).get("mission_text", "")
-		)
-		%DialogueNextButton.text = "SIAP"
-		_set_dialogue_speaker(%SpeakerLabel.text)
+	if current_state == "DIALOGUE_OPENING":
+		set_state("DIALOGUE_MISSION")
+		dialogue_lines = level_config.get("dialogue", {}).get("mission", [])
+		dialogue_index = 0
+		_render_dialogue_line()
 		return
 
 	_show_tutorial()
+
+
+func _render_dialogue_line() -> void:
+	if dialogue_lines.is_empty():
+		return
+
+	if dialogue_index < 0 or dialogue_index >= dialogue_lines.size():
+		return
+
+	var line: Dictionary = dialogue_lines[dialogue_index]
+	%SpeakerLabel.text = str(line.get("speaker", ""))
+	%DialogueText.text = str(line.get("text", ""))
+	_set_dialogue_speaker(%SpeakerLabel.text)
+
+	var is_last: bool = dialogue_index == dialogue_lines.size() - 1
+	%DialogueNextButton.text = (
+		"SIAP"
+		if current_state == "DIALOGUE_MISSION" and is_last
+		else "LANJUT"
+	)
 
 func _apply_speaker_focus(mother_active: bool) -> void:
 	mother_card.add_theme_stylebox_override(
@@ -312,33 +318,18 @@ func _make_character_style(active: bool) -> StyleBoxFlat:
 	return style
 
 func _show_tutorial() -> void:
-	set_state("TUTORIAL_PICK")
+	set_state("TUTORIAL_INTERACTIVE")
 	_set_character_layer(false)
 	show_only(screens, tutorial_panel)
 
-	%TutorialStepLabel.text = "LANGKAH 1 DARI 2"
-	%TutorialText.text = (
-		"1. Tekan dan tahan gambar pangan.\n"
-		+ "2. Seret gambar menuju nama yang sesuai."
-	)
-	%TutorialContinueButton.text = "LANJUT"
+	%TutorialStepLabel.text = "LATIHAN LANGSUNG"
+	%TutorialText.text = "Klik dan tahan gambar pangan di sebelah kiri."
+	%TutorialContinueButton.text = "MULAI BERMAIN"
 	%TutorialSkipButton.visible = bool(
 		SettingsManager.get_flag("tutorial_level_01_seen", false)
 	)
-	tutorial_step = 0
 
 func _on_tutorial_continue() -> void:
-	if tutorial_step == 0:
-		tutorial_step = 1
-		set_state("TUTORIAL_DROP")
-		%TutorialStepLabel.text = "LANGKAH 2 DARI 2"
-		%TutorialText.text = (
-			"Lepaskan gambar pada nama yang sesuai.\n"
-			+ "Jika belum cocok, kartu akan kembali dan kamu bisa mencoba lagi."
-		)
-		%TutorialContinueButton.text = "COBA SEKARANG"
-		return
-
 	SettingsManager.set_flag("tutorial_level_01_seen", true)
 	_start_gameplay()
 
@@ -712,10 +703,42 @@ func _show_closing() -> void:
 	set_state("CLOSING_DIALOGUE")
 	_set_character_layer(false)
 	show_only(screens, closing_panel)
-	%ClosingText.text = str(
-		level_config.get("dialogue", {}).get("closing_text", "")
-	)
-	_set_dialogue_speaker("Ibu")
+	closing_lines = level_config.get("dialogue", {}).get("closing", [])
+	closing_index = 0
+	_render_closing_line()
+
+
+func _render_closing_line() -> void:
+	if closing_lines.is_empty():
+		%ClosingText.text = ""
+		%ClosingMapButton.text = "KEMBALI KE PETA"
+		_set_dialogue_speaker("Ibu")
+		return
+
+	if closing_index < 0 or closing_index >= closing_lines.size():
+		return
+
+	var line: Dictionary = closing_lines[closing_index]
+	var speaker_name: String = str(line.get("speaker", "Ibu"))
+	%ClosingText.text = str(line.get("text", ""))
+	_set_dialogue_speaker(speaker_name)
+
+	var is_last: bool = closing_index == closing_lines.size() - 1
+	%ClosingMapButton.text = "KEMBALI KE PETA" if is_last else "LANJUTKAN"
+
+
+func _on_closing_next() -> void:
+	if closing_lines.is_empty():
+		_finish_level()
+		return
+
+	closing_index += 1
+
+	if closing_index < closing_lines.size():
+		_render_closing_line()
+		return
+
+	_finish_level()
 
 func _finish_level() -> void:
 	set_state("LEVEL_COMPLETE")

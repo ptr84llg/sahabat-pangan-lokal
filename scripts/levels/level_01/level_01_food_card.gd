@@ -21,6 +21,7 @@ func _ready() -> void:
 		bool(get_meta("show_name", false)),
 		bool(get_meta("show_coin", false))
 	)
+	set_process(false)
 
 
 func _apply_visual(
@@ -95,6 +96,8 @@ func _get_drag_data(
 	set_drag_preview(preview)
 
 	_drag_visual_active = true
+	set_process(true)
+	DisplayServer.cursor_set_shape(DisplayServer.CURSOR_DRAG)
 	var source_color: Color = modulate
 	source_color.a = 0.34
 	modulate = source_color
@@ -108,6 +111,17 @@ func _get_drag_data(
 	}
 
 
+func _process(_delta: float) -> void:
+	if not _drag_visual_active:
+		set_process(false)
+		return
+
+	# Godot GUI drag-and-drop normally shows CURSOR_FORBIDDEN over
+	# controls that cannot receive the payload. Level 1 intentionally
+	# keeps the native drag/grab cursor while a food card is being held.
+	DisplayServer.cursor_set_shape(DisplayServer.CURSOR_DRAG)
+
+
 func _notification(what: int) -> void:
 	if what != NOTIFICATION_DRAG_END:
 		return
@@ -116,6 +130,8 @@ func _notification(what: int) -> void:
 		return
 
 	_drag_visual_active = false
+	set_process(false)
+	DisplayServer.cursor_set_shape(DisplayServer.CURSOR_ARROW)
 
 	if locked:
 		return

@@ -29,9 +29,9 @@ func _ready() -> void:
     %PlayerName.text = GameState.player_display_name()
 
     lines = [
-        "%s, hari ini petualanganmu dimulai. Kamu akan menjelajah lima tempat untuk mengenal pangan lokal di sekitarmu." % GameState.player_display_name(),
-        "Di setiap tempat, kamu akan bermain sambil belajar. Ada tugas mengenali bahan, mengelompokkan pangan, belanja cermat, mengolah makanan, lalu mengikuti festival pangan lokal.",
-        "Mulailah dari Rumah. Selesaikan setiap misi dengan teliti agar tempat berikutnya terbuka dan koleksi panganmu semakin lengkap."
+        "%s...\nHari ini petualanganmu dimulai.\nKamu akan menjelajah lima tempat untuk mengenal pangan lokal di sekitarmu." % GameState.player_display_name(),
+        "Di setiap tempat, kamu akan bermain sambil belajar.\nAda tugas mengenali bahan, mengelompokkan pangan, belanja cermat, mengolah makanan, lalu mengikuti festival pangan lokal.",
+        "Mulailah dari Rumah.\nSelesaikan setiap misi dengan teliti agar tempat berikutnya terbuka dan koleksi panganmu semakin lengkap."
     ]
 
     %BackButton.pressed.connect(_back)

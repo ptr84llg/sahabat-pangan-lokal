@@ -64,7 +64,12 @@
         "text": "Baik, Bu. Aku akan mengelompokkannya satu per satu."
       }
     ],
-    "closing": "Sekarang kamu sudah tahu bahwa pangan yang kita kenal dapat dikelompokkan berdasarkan jenisnya. Pengetahuan itu akan kamu gunakan pada misi berikutnya."
+    "closing": [
+      {
+        "speaker": "Ibu Guru",
+        "text": "Sekarang kamu sudah tahu bahwa pangan yang kita kenal dapat dikelompokkan berdasarkan jenisnya. Pengetahuan itu akan kamu gunakan pada misi berikutnya."
+      }
+    ]
   },
   "food_details": {
     "food_rice": {

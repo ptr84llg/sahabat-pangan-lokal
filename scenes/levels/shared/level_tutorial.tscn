@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://d0hnh5ptdq6s6" path="res://assets/visual/foods/food_corn.png" id="4_preview_a"]
 [ext_resource type="Texture2D" uid="uid://cpixmdnoxquhf" path="res://assets/visual/foods/food_sweet_potato.png" id="5_preview_b"]
 [ext_resource type="Texture2D" uid="uid://1y5bdbc8ggl4" path="res://assets/visual/foods/food_eggplant.png" id="6_preview_c"]
+[ext_resource type="PackedScene" uid="uid://cm4cafddk0y7g" path="res://scenes/levels/level_01/level_01_food_card.tscn" id="7_level1_food_card"]
+[ext_resource type="PackedScene" uid="uid://co4jca72irilv" path="res://scenes/levels/level_01/level_01_drop_slot.tscn" id="8_level1_drop_slot"]
 
 [sub_resource type="StyleBoxFlat" id="MainPanelStyle"]
 bg_color = Color(0.9843, 0.9725, 0.9137, 1)
@@ -178,14 +180,68 @@ custom_minimum_size = Vector2(0, 76)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/default_color = Color(0.3294, 0.5098, 0.2078, 1)
-theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 33
 bbcode_enabled = true
 text = "[center]AREA TUTORIAL[/center]"
 fit_content = true
 scroll_active = false
 
+[node name="Level1InteractiveContent" type="VBoxContainer" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent" unique_id=975464361]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(1040, 280)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Level1Instruction" type="RichTextLabel" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level1InteractiveContent" unique_id=1022647494]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0.3294, 0.5098, 0.2078, 1)
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 31
+bbcode_enabled = true
+text = "[center]Klik dan tahan gambar pangan di sebelah kiri.[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="Level1PracticeRow" type="HBoxContainer" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level1InteractiveContent" unique_id=576461884]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 178)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 70
+alignment = 1
+
+[node name="Level1SourceHolder" type="CenterContainer" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level1InteractiveContent/Level1PracticeRow" unique_id=311740174]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(290, 150)
+layout_mode = 2
+
+[node name="Level1DemoFood" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level1InteractiveContent/Level1PracticeRow/Level1SourceHolder" unique_id=726064719 instance=ExtResource("7_level1_food_card")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Level1Arrow" type="Label" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level1InteractiveContent/Level1PracticeRow" unique_id=1665502366]
+custom_minimum_size = Vector2(290, 150)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3294, 0.5098, 0.2078, 1)
+theme_override_font_sizes/font_size = 44
+text = ">>>>"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Level1DemoTarget" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent/Level1InteractiveContent/Level1PracticeRow" unique_id=2021824527 instance=ExtResource("8_level1_drop_slot")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(290, 150)
+layout_mode = 2
+
 [node name="Level2RichContent" type="VBoxContainer" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent" unique_id=469903678]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(1040, 280)
 layout_mode = 2
 size_flags_horizontal = 3

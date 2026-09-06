@@ -41,6 +41,8 @@ var foods_by_id: Dictionary = {}
 var level_session: Dictionary = {}
 var dialogue_lines: Array = []
 var dialogue_index := 0
+var closing_lines: Array = []
+var closing_index: int = 0
 var main_score := 0
 var literacy_score := 0
 var final_score := 0
@@ -81,7 +83,7 @@ func _connect_ui() -> void:
 	%ResultNextButton.pressed.connect(_show_info)
 	%InfoNextButton.pressed.connect(_advance_info)
 	%BadgeNextButton.pressed.connect(_show_closing)
-	%ClosingMapButton.pressed.connect(_finish_level)
+	%ClosingMapButton.pressed.connect(_on_closing_next)
 	%RoundCompleteNextButton.pressed.connect(_on_round_complete_next_pressed)
 	grouping_controller.progress_changed.connect(_on_progress_changed)
 	grouping_controller.batch_completed.connect(_on_batch_completed)
@@ -1046,8 +1048,42 @@ func _show_badge() -> void:
 func _show_closing() -> void:
 	set_state("CLOSING_DIALOGUE")
 	show_only(screens, closing_panel)
-	%ClosingText.text = str(level_config.get("dialogue", {}).get("closing", ""))
-	_set_dialogue_speaker("Ibu Guru")
+	closing_lines = level_config.get("dialogue", {}).get("closing", [])
+	closing_index = 0
+	_render_closing_line()
+
+
+func _render_closing_line() -> void:
+	if closing_lines.is_empty():
+		%ClosingText.text = ""
+		%ClosingMapButton.text = "KEMBALI KE PETA"
+		_set_dialogue_speaker("Ibu Guru")
+		return
+
+	if closing_index < 0 or closing_index >= closing_lines.size():
+		return
+
+	var line: Dictionary = closing_lines[closing_index]
+	var speaker_name: String = str(line.get("speaker", "Ibu Guru"))
+	%ClosingText.text = str(line.get("text", ""))
+	_set_dialogue_speaker(speaker_name)
+
+	var is_last: bool = closing_index == closing_lines.size() - 1
+	%ClosingMapButton.text = "KEMBALI KE PETA" if is_last else "LANJUTKAN"
+
+
+func _on_closing_next() -> void:
+	if closing_lines.is_empty():
+		_finish_level()
+		return
+
+	closing_index += 1
+
+	if closing_index < closing_lines.size():
+		_render_closing_line()
+		return
+
+	_finish_level()
 
 func _finish_level() -> void:
 	set_state("LEVEL_COMPLETE")

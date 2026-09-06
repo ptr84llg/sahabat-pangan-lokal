@@ -40,13 +40,44 @@
 	}
   },
   "dialogue": {
-	"opening_speaker": "Ibu",
-	"opening_text": "Pagi! Sebelum berangkat ke sekolah, bantu Ibu mengenali beberapa pangan yang sudah disiapkan, ya.",
-	"mission_player": "Baik, Bu. Apa yang harus aku lakukan?",
-	"mission_speaker": "Ibu",
-	"mission_text": "Pangan lokal adalah pangan yang dikenal dan dimanfaatkan masyarakat sesuai potensi daerah setempat. Sekarang cocokkan gambar pangan dengan namanya dan kenali satu per satu dengan teliti.",
-	"closing_speaker": "Ibu",
-	"closing_text": "Sekarang kamu sudah mengenal beberapa pangan lokal. Bawa pengetahuan itu untuk menyelesaikan misi berikutnya."
+	"opening": [
+	  {
+		"speaker": "Ibu",
+		"text": "Selamat Pagi [b]{player_name}[/b] Anakku!\nSebelum berangkat ke sekolah, bantu Ibu mengenali beberapa pangan yang sudah disiapkan, ya."
+	  }
+	],
+	"mission": [
+	  {
+		"speaker": "Pemain",
+		"text": "Baik, Ibu.\nApa yang harus aku lakukan?"
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Pangan lokal adalah pangan yang dikenal dan dimanfaatkan masyarakat sesuai potensi daerahnya."
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Kamu akan mencocokkan gambar pangan dan menempatkannya sesuai dengan namanya."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Baik Ibu. Aku mengerti.\nBagaimana aku melakukannya?"
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Kamu akan diajarkan cara memindahkan gambar pangan pada tempatnya.\n[font space_spacing=4][b]Apakah kamu siap Anakku?[/b][/font]"
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Aku siap Ibu!"
+	  }
+	],
+	"closing": [
+	  {
+		"speaker": "Ibu",
+		"text": "Kamu hebat Anakku!.\nSekarang kamu sudah mengenal beberapa pangan lokal.\nBawa pengetahuan itu untuk menyelesaikan misi berikutnya."
+	  }
+	]
   },
   "literacy": {
 	"question_id": "l1_q01",
