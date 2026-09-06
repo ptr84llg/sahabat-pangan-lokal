@@ -30,15 +30,16 @@ func _ready() -> void:
     _set_progress(50.0)
     await get_tree().create_timer(0.12).timeout
 
-    var payload: Dictionary = SaveManager.load_payload()
-    if not payload.is_empty():
-        SettingsManager.import_state(payload.get("settings", {}))
-        GameState.initialize(payload.get("game_state", {}))
-    else:
-        GameState.initialize()
+    if not SaveManager.initialize_native_storage():
+        _fail("Penyimpanan permainan gagal disiapkan.")
+        return
 
-    if not SaveManager.refresh_v3_shadow():
-        push_warning("Shadow storage schema v3 belum dapat diperbarui. Save legacy tetap aktif.")
+    SettingsManager.import_state(SaveManager.load_native_settings())
+    GameState.initialize(SaveManager.load_native_game_state())
+
+    if not SaveManager.save_now():
+        _fail("Penyimpanan permainan gagal disimpan.")
+        return
 
     _set_progress(75.0)
     await get_tree().create_timer(0.12).timeout
