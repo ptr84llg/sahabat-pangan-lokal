@@ -1,0 +1,262 @@
+[gd_scene format=3 uid="uid://qhc8e2fbt5c3"]
+
+[ext_resource type="Script" uid="uid://hycx6m51ce50" path="res://scripts/levels/shared/level_intro.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://d3n01qo5f4ffo" path="res://assets/visual/ui/logo_game.png" id="2_logo"]
+
+[sub_resource type="StyleBoxFlat" id="MainPanelStyle"]
+bg_color = Color(18.609732, 18.401594, 17.360907, 0.8627451)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.32941177, 0.50980395, 0.20784314, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+
+[sub_resource type="StyleBoxLine" id="SeparatorStyle"]
+color = Color(0.3294, 0.5098, 0.2078, 1)
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormalStyle"]
+bg_color = Color(0.3294, 0.5098, 0.2078, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressedStyle"]
+bg_color = Color(0.26, 0.42, 0.16, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="ButtonHoverStyle"]
+bg_color = Color(0.39, 0.59, 0.24, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="ButtonDisabledStyle"]
+bg_color = Color(0.46, 0.52, 0.4, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="LevelTabStyle"]
+bg_color = Color(0.99215686, 0.3764706, 0.003921569, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[node name="LevelIntro" type="Control" unique_id=395170394]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1")
+
+[node name="UIRoot" type="Control" parent="." unique_id=1680786313]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainPanel" type="Panel" parent="UIRoot" unique_id=1486524761]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("MainPanelStyle")
+
+[node name="ContentMargin" type="MarginContainer" parent="UIRoot/MainPanel" unique_id=1970898660]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 90
+theme_override_constants/margin_top = 75
+theme_override_constants/margin_right = 90
+theme_override_constants/margin_bottom = 25
+
+[node name="ContentCenter" type="CenterContainer" parent="UIRoot/MainPanel/ContentMargin" unique_id=1722095851]
+layout_mode = 2
+
+[node name="IntroText" type="RichTextLabel" parent="UIRoot/MainPanel/ContentMargin/ContentCenter" unique_id=560378099]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(850, 190)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0.3294, 0.5098, 0.2078, 1)
+theme_override_font_sizes/normal_font_size = 40
+theme_override_font_sizes/bold_font_size = 40
+theme_override_font_sizes/bold_italics_font_size = 40
+bbcode_enabled = true
+text = "[center]PENJELASAN AWAL[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="BottomMargin" type="MarginContainer" parent="UIRoot/MainPanel" unique_id=1712632069]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 70.0
+offset_top = -92.0
+offset_right = -70.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BottomVBox" type="VBoxContainer" parent="UIRoot/MainPanel/BottomMargin" unique_id=966718720]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Separator" type="HSeparator" parent="UIRoot/MainPanel/BottomMargin/BottomVBox" unique_id=247747657]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+theme_override_styles/separator = SubResource("SeparatorStyle")
+
+[node name="ButtonRow" type="HBoxContainer" parent="UIRoot/MainPanel/BottomMargin/BottomVBox" unique_id=1920995816]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="UIRoot/MainPanel/BottomMargin/BottomVBox/ButtonRow" unique_id=640191272]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(270, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.88, 0.9, 0.84, 1)
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = SubResource("ButtonNormalStyle")
+theme_override_styles/pressed = SubResource("ButtonPressedStyle")
+theme_override_styles/hover = SubResource("ButtonHoverStyle")
+theme_override_styles/disabled = SubResource("ButtonDisabledStyle")
+text = "KEMBALI"
+
+[node name="Spacer" type="Control" parent="UIRoot/MainPanel/BottomMargin/BottomVBox/ButtonRow" unique_id=770183627]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="ContinueButton" type="Button" parent="UIRoot/MainPanel/BottomMargin/BottomVBox/ButtonRow" unique_id=333239652]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(270, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.88, 0.9, 0.84, 1)
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = SubResource("ButtonNormalStyle")
+theme_override_styles/pressed = SubResource("ButtonPressedStyle")
+theme_override_styles/hover = SubResource("ButtonHoverStyle")
+theme_override_styles/disabled = SubResource("ButtonDisabledStyle")
+text = "LANJUTKAN"
+
+[node name="LevelTab" type="PanelContainer" parent="UIRoot" unique_id=314195485]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -207.0
+offset_top = 295.0
+offset_right = 207.0
+offset_bottom = 355.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("LevelTabStyle")
+
+[node name="LevelName" type="Label" parent="UIRoot/LevelTab" unique_id=676271661]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 33
+text = "RUMAH"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Logo" type="TextureRect" parent="UIRoot" unique_id=539856808]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -185.0
+offset_top = 3.000001
+offset_right = 35.0
+offset_bottom = 183.0
+grow_horizontal = 2
+scale = Vector2(1.6, 1.6)
+mouse_filter = 2
+texture = ExtResource("2_logo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PortraitBlocker" type="Control" parent="." unique_id=1707809051]
+unique_name_in_owner = true
+visible = false
+z_index = 100
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DimBackground" type="ColorRect" parent="PortraitBlocker" unique_id=408167574]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.05, 0.02, 0.96)
+
+[node name="RotateCenter" type="CenterContainer" parent="PortraitBlocker" unique_id=1653798407]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="RotateMessage" type="Label" parent="PortraitBlocker/RotateCenter" unique_id=1418366796]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "PUTAR PERANGKAT
+Game hanya dapat dimainkan dalam posisi landscape."
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,387 @@
+[gd_scene format=3 uid="uid://01j6r3evlgif"]
+
+[ext_resource type="Script" uid="uid://ymo1vbp8xn5" path="res://scripts/levels/shared/level_food_information.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://d3n01qo5f4ffo" path="res://assets/visual/ui/logo_game.png" id="2_logo"]
+[ext_resource type="Texture2D" uid="uid://d3ep33rlg8j" path="res://assets/visual/ui/icons/book-open-white.svg" id="3_book_icon"]
+[ext_resource type="Texture2D" uid="uid://baug5wh57ay00" path="res://assets/visual/foods/food_rice.png" id="4_food_preview"]
+
+[sub_resource type="StyleBoxFlat" id="MainPanelStyle"]
+bg_color = Color(0.975, 0.965, 0.9, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0.36, 0.22, 1)
+
+[sub_resource type="StyleBoxFlat" id="FoodImagePanelStyle"]
+bg_color = Color(0.985, 0.985, 0.975, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0.36, 0.22, 1)
+
+[sub_resource type="StyleBoxLine" id="SeparatorStyle"]
+color = Color(0, 0.36, 0.22, 1)
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="DescriptionPanelStyle"]
+bg_color = Color(0.89, 0.93, 0.97, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.05, 0.18, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormalStyle"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0, 0.4, 0.24, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.4, 0.24, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressedStyle"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0, 0.3, 0.18, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.3, 0.18, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="ButtonHoverStyle"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.06, 0.48, 0.3, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.06, 0.48, 0.3, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="ButtonDisabledStyle"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.42, 0.5, 0.42, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42, 0.5, 0.42, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="HeaderPanelStyle"]
+bg_color = Color(0, 0.36, 0.22, 1)
+
+[node name="LevelFoodInformation" type="Control" unique_id=260056116]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="InputBlocker" type="ColorRect" parent="." unique_id=279482903]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="InformationUI" type="Control" parent="." unique_id=241780795]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainPanel" type="Panel" parent="InformationUI" unique_id=692228750]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 64.0
+offset_right = -4.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("MainPanelStyle")
+
+[node name="ContentMargin" type="MarginContainer" parent="InformationUI/MainPanel" unique_id=766311642]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 92
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="ContentArea" type="HBoxContainer" parent="InformationUI/MainPanel/ContentMargin" unique_id=1672086037]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="LeftColumn" type="VBoxContainer" parent="InformationUI/MainPanel/ContentMargin/ContentArea" unique_id=1808321089]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="FoodImagePanel" type="PanelContainer" parent="InformationUI/MainPanel/ContentMargin/ContentArea/LeftColumn" unique_id=1544087699]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("FoodImagePanelStyle")
+
+[node name="ImageMargin" type="MarginContainer" parent="InformationUI/MainPanel/ContentMargin/ContentArea/LeftColumn/FoodImagePanel" unique_id=1920029869]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="FoodImageCenter" type="CenterContainer" parent="InformationUI/MainPanel/ContentMargin/ContentArea/LeftColumn/FoodImagePanel/ImageMargin" unique_id=627557332]
+layout_mode = 2
+
+[node name="FoodImage" type="TextureRect" parent="InformationUI/MainPanel/ContentMargin/ContentArea/LeftColumn/FoodImagePanel/ImageMargin/FoodImageCenter" unique_id=1919156602]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(285, 285)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_food_preview")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CounterLabel" type="Label" parent="InformationUI/MainPanel/ContentMargin/ContentArea/LeftColumn" unique_id=1773316002]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 28
+text = "1/6"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightColumn" type="VBoxContainer" parent="InformationUI/MainPanel/ContentMargin/ContentArea" unique_id=338002798]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="FoodName" type="Label" parent="InformationUI/MainPanel/ContentMargin/ContentArea/RightColumn" unique_id=838537645]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.04, 0.04, 0.04, 1)
+theme_override_font_sizes/font_size = 32
+text = "NAMA PANGAN"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="NameSeparator" type="HSeparator" parent="InformationUI/MainPanel/ContentMargin/ContentArea/RightColumn" unique_id=550024867]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+theme_override_styles/separator = SubResource("SeparatorStyle")
+
+[node name="FoodType" type="Label" parent="InformationUI/MainPanel/ContentMargin/ContentArea/RightColumn" unique_id=2107466944]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.05, 0.05, 0.05, 1)
+theme_override_font_sizes/font_size = 22
+text = "Jenis :"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="DescriptionPanel" type="PanelContainer" parent="InformationUI/MainPanel/ContentMargin/ContentArea/RightColumn" unique_id=166086114]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("DescriptionPanelStyle")
+
+[node name="DescriptionScroll" type="ScrollContainer" parent="InformationUI/MainPanel/ContentMargin/ContentArea/RightColumn/DescriptionPanel" unique_id=260550966]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DescriptionMargin" type="MarginContainer" parent="InformationUI/MainPanel/ContentMargin/ContentArea/RightColumn/DescriptionPanel/DescriptionScroll" unique_id=1175698]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 16
+
+[node name="FoodDescription" type="RichTextLabel" parent="InformationUI/MainPanel/ContentMargin/ContentArea/RightColumn/DescriptionPanel/DescriptionScroll/DescriptionMargin" unique_id=642044999]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 240)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.04, 0.14, 0.1, 1)
+theme_override_font_sizes/normal_font_size = 26
+fit_content = true
+scroll_active = false
+
+[node name="BottomActionRow" type="HBoxContainer" parent="InformationUI/MainPanel/ContentMargin/ContentArea/RightColumn" unique_id=2109697730]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+
+[node name="ActionSpacer" type="Control" parent="InformationUI/MainPanel/ContentMargin/ContentArea/RightColumn/BottomActionRow" unique_id=2062780645]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="ActionButton" type="Button" parent="InformationUI/MainPanel/ContentMargin/ContentArea/RightColumn/BottomActionRow" unique_id=809308356]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 62)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.88, 0.9, 0.84, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("ButtonNormalStyle")
+theme_override_styles/pressed = SubResource("ButtonPressedStyle")
+theme_override_styles/hover = SubResource("ButtonHoverStyle")
+theme_override_styles/disabled = SubResource("ButtonDisabledStyle")
+theme_override_styles/focus = SubResource("ButtonNormalStyle")
+text = "BERIKUTNYA"
+
+[node name="HeaderPanel" type="PanelContainer" parent="InformationUI" unique_id=1563410156]
+unique_name_in_owner = true
+z_index = 20
+layout_mode = 0
+offset_left = 8.0
+offset_top = 68.0
+offset_right = 371.0
+offset_bottom = 154.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("HeaderPanelStyle")
+
+[node name="HeaderMargin" type="MarginContainer" parent="InformationUI/HeaderPanel" unique_id=611571739]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 8
+
+[node name="HeaderHBox" type="HBoxContainer" parent="InformationUI/HeaderPanel/HeaderMargin" unique_id=2138879677]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="HeaderIcon" type="TextureRect" parent="InformationUI/HeaderPanel/HeaderMargin/HeaderHBox" unique_id=839997672]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_book_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HeaderTitle" type="Label" parent="InformationUI/HeaderPanel/HeaderMargin/HeaderHBox" unique_id=374040817]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 33
+text = "INFORMASI PANGAN"
+vertical_alignment = 1
+
+[node name="GameLogo" type="TextureRect" parent="InformationUI" unique_id=653979435]
+unique_name_in_owner = true
+z_index = 30
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -240.0
+offset_top = -5.0000014
+offset_right = -110.0
+offset_bottom = 125.0
+grow_horizontal = 0
+scale = Vector2(1.75, 1.75)
+mouse_filter = 2
+texture = ExtResource("2_logo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PortraitBlocker" type="Control" parent="." unique_id=786889211]
+unique_name_in_owner = true
+visible = false
+z_index = 100
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DimBackground" type="ColorRect" parent="PortraitBlocker" unique_id=1068792558]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.05, 0.02, 0.96)
+
+[node name="RotateCenter" type="CenterContainer" parent="PortraitBlocker" unique_id=1492417293]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="RotateMessage" type="Label" parent="PortraitBlocker/RotateCenter" unique_id=1046032449]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "PUTAR PERANGKAT
+Game hanya dapat dimainkan dalam posisi landscape."
+horizontal_alignment = 1
+vertical_alignment = 1

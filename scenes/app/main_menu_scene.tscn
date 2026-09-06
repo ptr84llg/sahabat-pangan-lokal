@@ -1,0 +1,826 @@
+[gd_scene format=3 uid="uid://dxao682xup5p8"]
+
+[ext_resource type="Script" uid="uid://bg6hyv5wwpkyk" path="res://scripts/app/main_menu.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://hibs2uavf70q" path="res://assets/visual/backgrounds/bg_main_menu.jpg" id="2"]
+[ext_resource type="Texture2D" uid="uid://d3n01qo5f4ffo" path="res://assets/visual/ui/logo_game.png" id="3"]
+
+[ext_resource type="PackedScene" path="res://scenes/app/main_menu_modal_layer.tscn" id="70A_modal_layer"]
+
+[sub_resource type="StyleBoxFlat" id="MenuPanel"]
+bg_color = Color(0.97, 0.96, 0.9, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.46, 0.31, 0.14, 0.58)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
+shadow_color = Color(0.05, 0.06, 0.03, 0.26)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="PrimaryButton"]
+bg_color = Color(0.94, 0.68, 0.12, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="PrimaryPressed"]
+bg_color = Color(0.84, 0.58, 0.09, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="PrimaryHover"]
+bg_color = Color(1, 0.78, 0.22, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="SecondaryButton"]
+bg_color = Color(0.99, 0.98, 0.94, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.47, 0.35, 0.18, 0.44)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="SecondaryHover"]
+bg_color = Color(0.9, 0.95, 0.8, 0.99)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.34, 0.57, 0.2, 0.76)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="DangerButton"]
+bg_color = Color(0.99, 0.94, 0.9, 0.99)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.68, 0.31, 0.2, 0.55)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="DangerHover"]
+bg_color = Color(0.98, 0.82, 0.77, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72, 0.24, 0.16, 0.76)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="ModalPanel"]
+bg_color = Color(0.99, 0.98, 0.94, 0.99)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.43, 0.31, 0.15, 0.64)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0.02, 0.04, 0.02, 0.34)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="GalleryPanelStyle70A"]
+bg_color = Color(0.97, 0.96, 0.92, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.58, 0.48, 0.3, 0.24)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+content_margin_left = 14.0
+content_margin_top = 14.0
+content_margin_right = 14.0
+content_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxFlat" id="GalleryTabSelected70A"]
+bg_color = Color(0.93, 0.7, 0.1, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.74, 0.56, 0.1, 0.6)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="GalleryTabUnselected70A"]
+bg_color = Color(0.92, 0.91, 0.87, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.56, 0.51, 0.42, 0.26)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="GalleryTabHovered70A"]
+bg_color = Color(0.96, 0.88, 0.58, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.74, 0.56, 0.1, 0.4)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+[node name="MainMenuScene" type="Control" unique_id=118514520]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="TextureRect" parent="." unique_id=479837013]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Shade" type="ColorRect" parent="." unique_id=1696251975]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.02, 0.07, 0.03, 0.1)
+
+[node name="Safe" type="MarginContainer" parent="." unique_id=187044039]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 52.0
+offset_top = 38.0
+offset_right = -52.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBox" type="HBoxContainer" parent="Safe" unique_id=1716681964]
+layout_mode = 2
+theme_override_constants/separation = 42
+
+[node name="MarginContainer" type="MarginContainer" parent="Safe/HBox" unique_id=1023712149]
+layout_mode = 2
+theme_override_constants/margin_left = 250
+
+[node name="MarginContainer" type="MarginContainer" parent="Safe/HBox/MarginContainer" unique_id=1107340618]
+layout_mode = 2
+
+[node name="Brand" type="VBoxContainer" parent="Safe/HBox" unique_id=1310734392]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="GameLogo" type="TextureRect" parent="Safe/HBox/Brand" unique_id=436121320]
+custom_minimum_size = Vector2(470, 365)
+layout_mode = 2
+texture = ExtResource("3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Desc" type="Label" parent="Safe/HBox/Brand" unique_id=201075399]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.03, 0.05, 0.02, 0.82)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 21
+text = "Kenali pangan lokal melalui perjalanan seru
+Rumah • Sekolah • Pasar • Dapur • Festival"
+horizontal_alignment = 1
+
+[node name="GalleryPreview" type="Label" parent="Safe/HBox/Brand" unique_id=925701298]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.92)
+theme_override_colors/font_shadow_color = Color(0.03, 0.05, 0.02, 0.72)
+theme_override_font_sizes/font_size = 14
+text = "Koleksi terbuka: 0 bahan • 0 olahan"
+horizontal_alignment = 1
+
+[node name="AutosaveLabel" type="Label" parent="Safe/HBox/Brand" unique_id=2108434232]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.92)
+theme_override_colors/font_shadow_color = Color(0.03, 0.05, 0.02, 0.72)
+theme_override_font_sizes/font_size = 14
+text = "Tersimpan otomatis di perangkat ini"
+horizontal_alignment = 1
+
+[node name="MenuPanel" type="PanelContainer" parent="Safe/HBox" unique_id=1276990520]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("MenuPanel")
+
+[node name="MenuMargin" type="MarginContainer" parent="Safe/HBox/MenuPanel" unique_id=1701527017]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 22
+
+[node name="Menu" type="VBoxContainer" parent="Safe/HBox/MenuPanel/MenuMargin" unique_id=1981431272]
+layout_mode = 2
+theme_override_constants/separation = 9
+alignment = 1
+
+[node name="NewRunButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu" unique_id=1502450421]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.13, 0.04, 1)
+theme_override_colors/font_focus_color = Color(0.2, 0.13, 0.04, 1)
+theme_override_colors/font_pressed_color = Color(0.2, 0.13, 0.04, 1)
+theme_override_colors/font_hover_color = Color(0.2, 0.13, 0.04, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("PrimaryButton")
+theme_override_styles/pressed = SubResource("PrimaryPressed")
+theme_override_styles/hover = SubResource("PrimaryHover")
+theme_override_styles/focus = SubResource("PrimaryHover")
+text = "MULAI PERJALANAN BARU"
+
+[node name="ContinueButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu" unique_id=1523137824]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_focus_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_pressed_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("SecondaryButton")
+theme_override_styles/pressed = SubResource("SecondaryHover")
+theme_override_styles/hover = SubResource("SecondaryHover")
+theme_override_styles/focus = SubResource("SecondaryHover")
+text = "LANJUTKAN PERJALANAN"
+
+[node name="Divider" type="HSeparator" parent="Safe/HBox/MenuPanel/MenuMargin/Menu" unique_id=986445589]
+layout_mode = 2
+
+[node name="GalleryButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu" unique_id=1306319062]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_colors/font_focus_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_pressed_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_styles/normal = SubResource("SecondaryButton")
+theme_override_styles/pressed = SubResource("SecondaryHover")
+theme_override_styles/hover = SubResource("SecondaryHover")
+theme_override_styles/focus = SubResource("SecondaryHover")
+text = "GALERI PANGAN"
+
+[node name="DeviceButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_colors/font_focus_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_pressed_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_styles/normal = SubResource("SecondaryButton")
+theme_override_styles/pressed = SubResource("SecondaryHover")
+theme_override_styles/hover = SubResource("SecondaryHover")
+theme_override_styles/focus = SubResource("SecondaryHover")
+text = "PERANGKAT ANDA"
+
+[node name="HistoryButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_colors/font_focus_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_pressed_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_styles/normal = SubResource("SecondaryButton")
+theme_override_styles/pressed = SubResource("SecondaryHover")
+theme_override_styles/hover = SubResource("SecondaryHover")
+theme_override_styles/focus = SubResource("SecondaryHover")
+text = "RIWAYAT PERMAINAN"
+
+[node name="SettingsButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu" unique_id=1030190656]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_colors/font_focus_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_pressed_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_styles/normal = SubResource("SecondaryButton")
+theme_override_styles/pressed = SubResource("SecondaryHover")
+theme_override_styles/hover = SubResource("SecondaryHover")
+theme_override_styles/focus = SubResource("SecondaryHover")
+text = "PENGATURAN AUDIO"
+
+[node name="AboutButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu" unique_id=1085574948]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_colors/font_focus_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_pressed_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_styles/normal = SubResource("SecondaryButton")
+theme_override_styles/pressed = SubResource("SecondaryHover")
+theme_override_styles/hover = SubResource("SecondaryHover")
+theme_override_styles/focus = SubResource("SecondaryHover")
+text = "TENTANG"
+
+[node name="ResetDataButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu" unique_id=1982501295]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.18, 0.1, 1)
+theme_override_colors/font_focus_color = Color(0.42, 0.12, 0.07, 1)
+theme_override_colors/font_pressed_color = Color(0.42, 0.12, 0.07, 1)
+theme_override_colors/font_hover_color = Color(0.42, 0.12, 0.07, 1)
+theme_override_styles/normal = SubResource("DangerButton")
+theme_override_styles/pressed = SubResource("DangerHover")
+theme_override_styles/hover = SubResource("DangerHover")
+theme_override_styles/focus = SubResource("DangerHover")
+text = "RESET DATA"
+
+[node name="QuitButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu" unique_id=854473735]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38, 0.17, 0.1, 1)
+theme_override_colors/font_focus_color = Color(0.38, 0.17, 0.1, 1)
+theme_override_colors/font_pressed_color = Color(0.38, 0.17, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.38, 0.17, 0.1, 1)
+theme_override_styles/normal = SubResource("SecondaryButton")
+theme_override_styles/pressed = SubResource("DangerHover")
+theme_override_styles/hover = SubResource("DangerHover")
+theme_override_styles/focus = SubResource("DangerHover")
+text = "KELUAR"
+
+[node name="NoticePanel" type="PanelContainer" parent="." unique_id=187620403]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -120.0
+offset_right = 280.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("ModalPanel")
+
+[node name="NoticeMargin" type="MarginContainer" parent="NoticePanel" unique_id=791353792]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="NoticeVBox" type="VBoxContainer" parent="NoticePanel/NoticeMargin" unique_id=469619617]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="NoticeHeader" type="Label" parent="NoticePanel/NoticeMargin/NoticeVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 26
+text = "INFORMASI"
+
+[node name="NoticeHeaderSeparator" type="HSeparator" parent="NoticePanel/NoticeMargin/NoticeVBox"]
+layout_mode = 2
+
+[node name="NoticeBodyScroll" type="ScrollContainer" parent="NoticePanel/NoticeMargin/NoticeVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="NoticeBody" type="VBoxContainer" parent="NoticePanel/NoticeMargin/NoticeVBox/NoticeBodyScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NoticeText" type="Label" parent="NoticePanel/NoticeMargin/NoticeVBox/NoticeBodyScroll/NoticeBody" unique_id=1917068550]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_font_sizes/font_size = 22
+text = "Pesan"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="NoticeFooterSeparator" type="HSeparator" parent="NoticePanel/NoticeMargin/NoticeVBox"]
+layout_mode = 2
+
+[node name="NoticeFooter" type="HBoxContainer" parent="NoticePanel/NoticeMargin/NoticeVBox"]
+layout_mode = 2
+
+[node name="NoticeClose" type="Button" parent="NoticePanel/NoticeMargin/NoticeVBox/NoticeFooter" unique_id=906548155]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.22, 0.15, 0.04, 1)
+theme_override_styles/normal = SubResource("PrimaryButton")
+theme_override_styles/hover = SubResource("PrimaryHover")
+text = "TUTUP"
+
+[node name="GalleryPanel" type="PanelContainer" parent="." unique_id=197434418]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 120.0
+offset_top = 72.0
+offset_right = -120.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("ModalPanel")
+
+[node name="GalleryMargin" type="MarginContainer" parent="GalleryPanel" unique_id=1377157973]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="GalleryVBox" type="VBoxContainer" parent="GalleryPanel/GalleryMargin" unique_id=406296801]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="GalleryHeader" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox" unique_id=1857090506]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 28
+text = "GALERI PANGAN"
+
+[node name="GallerySub" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox" unique_id=123808906]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.36, 0.28, 1)
+theme_override_font_sizes/font_size = 18
+text = "Pilih kategori koleksi untuk melihat bahan pangan, pangan olahan, atau medali yang sudah kamu peroleh."
+autowrap_mode = 3
+
+[node name="GalleryHeaderSeparator" type="HSeparator" parent="GalleryPanel/GalleryMargin/GalleryVBox"]
+layout_mode = 2
+
+[node name="GalleryBody" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="GalleryEmptyState" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody" unique_id=693739098]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.38, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+text = "Koleksi masih kosong. Mulai perjalanan baru dan selesaikan misi pertamamu."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="GalleryTabs" type="TabContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+theme_override_font_sizes/font_size = 18
+theme_override_styles/panel = SubResource("GalleryPanelStyle70A")
+theme_override_styles/tab_selected = SubResource("GalleryTabSelected70A")
+theme_override_styles/tab_unselected = SubResource("GalleryTabUnselected70A")
+theme_override_styles/tab_hovered = SubResource("GalleryTabHovered70A")
+
+[node name="BAHAN PANGAN" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="FreshCountLabel" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/BAHAN PANGAN" unique_id=949902797]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 20
+text = "0 bahan ditemukan"
+horizontal_alignment = 1
+
+[node name="FreshScroll" type="ScrollContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/BAHAN PANGAN"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="FreshFoodList" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/BAHAN PANGAN/FreshScroll" unique_id=1292471213]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="PANGAN OLAHAN" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ProcessedCountLabel" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/PANGAN OLAHAN" unique_id=1770190213]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 20
+text = "0 olahan ditemukan"
+horizontal_alignment = 1
+
+[node name="ProcessedScroll" type="ScrollContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/PANGAN OLAHAN"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="ProcessedFoodList" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/PANGAN OLAHAN/ProcessedScroll" unique_id=920536854]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="MEDALI" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MedalCountLabel" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/MEDALI"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.38, 0.08, 1)
+theme_override_font_sizes/font_size = 20
+text = "0 medali diperoleh"
+horizontal_alignment = 1
+
+[node name="MedalScroll" type="ScrollContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/MEDALI"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="MedalList" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/MEDALI/MedalScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="GalleryFooterSeparator" type="HSeparator" parent="GalleryPanel/GalleryMargin/GalleryVBox"]
+layout_mode = 2
+
+[node name="GalleryFooter" type="HBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox"]
+layout_mode = 2
+
+[node name="GalleryClose" type="Button" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryFooter" unique_id=1861585633]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.22, 0.15, 0.04, 1)
+theme_override_styles/normal = SubResource("PrimaryButton")
+theme_override_styles/hover = SubResource("PrimaryHover")
+text = "TUTUP GALERI"
+
+[node name="AudioPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -220.0
+offset_right = 360.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("ModalPanel")
+
+[node name="AudioMargin" type="MarginContainer" parent="AudioPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="AudioVBox" type="VBoxContainer" parent="AudioPanel/AudioMargin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="AudioTitle" type="Label" parent="AudioPanel/AudioMargin/AudioVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 28
+text = "PENGATURAN AUDIO"
+
+[node name="AudioHeaderSeparator" type="HSeparator" parent="AudioPanel/AudioMargin/AudioVBox"]
+layout_mode = 2
+
+[node name="AudioBodyScroll" type="ScrollContainer" parent="AudioPanel/AudioMargin/AudioVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="AudioBody" type="VBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="GlobalSoundRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="GlobalSoundLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/GlobalSoundRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 0)
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_font_sizes/font_size = 20
+text = "Suara Global"
+
+[node name="GlobalSoundCheckBox" type="CheckBox" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/GlobalSoundRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+button_pressed = true
+
+[node name="MusicRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="MusicLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MusicRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 0)
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_font_sizes/font_size = 20
+text = "Suara Musik Latar"
+
+[node name="MusicSlider" type="HSlider" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MusicRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 100.0
+value = 80.0
+
+[node name="MusicValue" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MusicRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(72, 0)
+theme_override_colors/font_color = Color(0.55, 0.38, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+text = "80%"
+horizontal_alignment = 2
+
+[node name="SfxRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="SfxLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/SfxRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 0)
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_font_sizes/font_size = 20
+text = "Suara Efek"
+
+[node name="SfxSlider" type="HSlider" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/SfxRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 100.0
+value = 80.0
+
+[node name="SfxValue" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/SfxRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(72, 0)
+theme_override_colors/font_color = Color(0.55, 0.38, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+text = "80%"
+horizontal_alignment = 2
+
+[node name="ButtonHoverRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ButtonHoverLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/ButtonHoverRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 0)
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_font_sizes/font_size = 20
+text = "Efek Tombol Hover"
+
+[node name="ButtonHoverCheckBox" type="CheckBox" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/ButtonHoverRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+button_pressed = true
+
+[node name="ButtonClickRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ButtonClickLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/ButtonClickRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 0)
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_font_sizes/font_size = 20
+text = "Efek Tombol Click"
+
+[node name="ButtonClickCheckBox" type="CheckBox" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/ButtonClickRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+button_pressed = true
+
+[node name="MouseClickRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="MouseClickLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MouseClickRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 0)
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_font_sizes/font_size = 20
+text = "Efek Mouse Click"
+
+[node name="MouseClickCheckBox" type="CheckBox" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MouseClickRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+button_pressed = true
+
+[node name="AudioFooterSeparator" type="HSeparator" parent="AudioPanel/AudioMargin/AudioVBox"]
+layout_mode = 2
+
+[node name="AudioFooter" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox"]
+layout_mode = 2
+
+[node name="AudioClose" type="Button" parent="AudioPanel/AudioMargin/AudioVBox/AudioFooter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.22, 0.15, 0.04, 1)
+theme_override_styles/normal = SubResource("PrimaryButton")
+theme_override_styles/hover = SubResource("PrimaryHover")
+text = "TUTUP"
+
+[node name="ManualModalLayer" parent="." instance=ExtResource("70A_modal_layer")]

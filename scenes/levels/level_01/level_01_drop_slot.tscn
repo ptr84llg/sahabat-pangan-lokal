@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://co4jca72irilv"]
+
+[ext_resource type="Script" uid="uid://limsp46bcr5q" path="res://scripts/levels/level_01/level_01_drop_slot.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="SlotStyle"]
+bg_color = Color(0.94, 0.98, 0.9, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 0.22, 0.85)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+shadow_color = Color(0, 0, 0, 0.1)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m2sf2"]
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
+border_width_bottom = 3
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+
+[node name="Level01DropSlot" type="PanelContainer" unique_id=942047930]
+custom_minimum_size = Vector2(210, 116)
+theme_override_styles/panel = SubResource("SlotStyle")
+script = ExtResource("1")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=1304943874]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="VBox" unique_id=676919349]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_m2sf2")
+text = "Pangan"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="VBox" unique_id=1659383544]
+custom_minimum_size = Vector2(0, 84)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2

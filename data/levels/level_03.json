@@ -1,0 +1,135 @@
+{
+  "level_id": "level_03",
+  "title": "Belanja Pangan Lokal",
+  "location": "Pasar",
+  "max_score": 100,
+  "tutorial_flag_key": "shopping_tutorial_seen",
+  "next_level_id": "level_04",
+  "coin_budget": 15,
+  "food_ids": [
+    "food_rice",
+    "food_cassava",
+    "food_water_spinach",
+    "food_eggplant",
+    "food_banana",
+    "food_papaya",
+    "food_tilapia",
+    "food_catfish"
+  ],
+  "group_ids": [
+    "group_staple_root",
+    "group_vegetable",
+    "group_fruit",
+    "group_fishery"
+  ],
+  "dialogue": {
+    "opening": [
+      {
+        "speaker": "Pedagang",
+        "text": "Kamu sudah bisa mengenali dan mengelompokkan pangan. Sekarang kita akan mencoba memilih pangan saat berbelanja."
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Di lapak ini ada beberapa pilihan pangan. Kamu tidak harus mengambil semuanya."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Berarti aku harus memilih yang sesuai dengan kebutuhan belanja?"
+      }
+    ],
+    "mission": [
+      {
+        "speaker": "Pedagang",
+        "text": "Pilih satu pangan dari setiap kelompok. Kamu punya 15 Koin Pangan, jadi pilihlah dengan cermat."
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Nilai Koin Pangan hanya berlaku di dalam permainan dan bukan harga pasar sebenarnya."
+      }
+    ],
+    "closing": [
+      {
+        "speaker": "Pedagang",
+        "text": "Belanjamu sudah lengkap. Kamu berhasil memilih pangan dari setiap kelompok dengan Koin Pangan yang tersedia."
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Bagus. Saat memilih, kamu tidak hanya melihat satu hal, tetapi juga mempertimbangkan kebutuhan yang harus dipenuhi."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Aku jadi tahu bahwa pilihan bisa diatur kembali jika rencana pertamaku belum sesuai."
+      }
+    ]
+  },
+  "information": {
+    "food_rice": "Pilihan pangan pokok dan umbi dalam misi belanja. Nilai 6 adalah Koin Pangan simulasi.",
+    "food_cassava": "Pilihan dari kelompok yang sama dengan kebutuhan Koin lebih rendah dalam simulasi.",
+    "food_water_spinach": "Salah satu pilihan sayuran yang dapat digunakan untuk melengkapi keranjang.",
+    "food_eggplant": "Alternatif sayuran dengan nilai Koin berbeda sehingga pemain perlu mempertimbangkan modal.",
+    "food_banana": "Pilihan buah yang dapat membantu melengkapi kelompok dengan kebutuhan Koin rendah.",
+    "food_papaya": "Alternatif buah yang dapat dipilih selama total Koin masih mencukupi.",
+    "food_tilapia": "Pangan baru dari kelompok Hasil Perikanan yang diperkenalkan pada Level 3.",
+    "food_catfish": "Alternatif pangan perikanan dalam dataset pengembangan dan masih menunggu validasi konten final."
+  },
+  "literacy_rounds": [
+    {
+      "round_id": "l3_r1",
+      "kind": "select",
+      "scenario": "Keranjang ini belum memiliki buah. Koin Pangan yang tersedia adalah 3. Pilih pangan yang dapat melengkapinya.",
+      "required_group_id": "group_fruit",
+      "coin_available": 3,
+      "choice_ids": [
+        "food_banana",
+        "food_eggplant",
+        "food_rice"
+      ],
+      "correct_food_id": "food_banana"
+    },
+    {
+      "round_id": "l3_r2",
+      "kind": "select",
+      "scenario": "Keranjang ini belum memiliki sayuran. Koin Pangan yang tersisa hanya 2. Pilih pangan yang tepat.",
+      "required_group_id": "group_vegetable",
+      "coin_available": 2,
+      "choice_ids": [
+        "food_water_spinach",
+        "food_eggplant",
+        "food_banana"
+      ],
+      "correct_food_id": "food_water_spinach"
+    },
+    {
+      "round_id": "l3_r3",
+      "kind": "rearrange",
+      "scenario": "Koin Pangan sudah habis, tetapi keranjang belum memiliki buah. Atur ulang belanjamu agar semua kelompok terpenuhi.",
+      "initial_ids": [
+        "food_rice",
+        "food_eggplant",
+        "food_tilapia"
+      ],
+      "replacement_choices": [
+        "food_cassava",
+        "food_catfish",
+        "food_water_spinach"
+      ],
+      "correct_replacement_id": "food_cassava",
+      "fruit_choices": [
+        "food_banana",
+        "food_papaya"
+      ],
+      "correct_fruit_id": "food_banana"
+    }
+  ],
+  "badge": {
+    "badge_id": "badge_level_03",
+    "display_name": "Perencana Belanja Pangan",
+    "description": "Berhasil memilih pangan dari empat kelompok dengan menggunakan Koin Pangan secara cermat."
+  },
+  "scoring": {
+    "main_game_success": 60,
+    "literacy_first_attempt": 10,
+    "literacy_after_retry": 5,
+    "completion": 10
+  }
+}

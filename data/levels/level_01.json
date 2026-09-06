@@ -1,0 +1,84 @@
+{
+  "level_id": "level_01",
+  "title": "Kenali Pangan Lokal",
+  "location": "Rumah",
+  "max_score": 100,
+  "tutorial_flag_key": "tutorial_level_01_seen",
+  "next_level_id": "level_02",
+  "food_ids": [
+	"food_rice",
+	"food_cassava",
+	"food_water_spinach",
+	"food_spinach",
+	"food_banana",
+    "food_papaya"
+  ],
+  "food_details": {
+	"food_rice": {
+	  "simple_type": "Pangan pokok",
+	  "short_info": "Beras merupakan hasil pengolahan gabah dari tanaman padi. Setelah dimasak, beras menjadi nasi yang banyak dikonsumsi sebagai pangan pokok dan sumber energi sehari-hari."
+	},
+	"food_cassava": {
+	  "simple_type": "Umbi",
+	  "short_info": "Singkong merupakan tanaman pangan yang bagian umbinya dapat dimanfaatkan sebagai sumber karbohidrat. Singkong dapat dikonsumsi dengan cara direbus, dikukus, digoreng, atau diolah menjadi berbagai makanan tradisional."
+	},
+	"food_water_spinach": {
+	  "simple_type": "Sayuran",
+	  "short_info": "Kangkung merupakan sayuran yang tumbuh dengan baik di daerah tropis dan mudah ditemukan di berbagai wilayah Indonesia. Daun dan batang mudanya dapat dimasak, misalnya menjadi tumisan atau sayur."
+	},
+	"food_spinach": {
+	  "simple_type": "Sayuran",
+	  "short_info": "Bayam merupakan sayuran yang mudah dibudidayakan dan banyak dimanfaatkan sebagai bahan pangan. Daun dan batang mudanya dapat dimasak menjadi berbagai hidangan, seperti sayur bening dan tumisan."
+	},
+	"food_banana": {
+	  "simple_type": "Buah",
+	  "short_info": "Pisang merupakan buah yang banyak tumbuh di berbagai daerah Indonesia dan dapat dikonsumsi setelah matang. Selain dimakan langsung, pisang juga dapat diolah menjadi berbagai makanan, seperti pisang goreng, kolak, dan keripik."
+	},
+	"food_papaya": {
+	  "simple_type": "Buah",
+	  "short_info": "Pepaya merupakan buah yang banyak tumbuh di daerah tropis, termasuk Indonesia. Buah yang matang dapat dimakan langsung, sedangkan pepaya muda juga dapat dimanfaatkan sebagai bahan berbagai masakan."
+	}
+  },
+  "dialogue": {
+	"opening_speaker": "Ibu",
+	"opening_text": "Pagi! Sebelum berangkat ke sekolah, bantu Ibu mengenali beberapa pangan yang sudah disiapkan, ya.",
+	"mission_player": "Baik, Bu. Apa yang harus aku lakukan?",
+	"mission_speaker": "Ibu",
+	"mission_text": "Pangan lokal adalah pangan yang dikenal dan dimanfaatkan masyarakat sesuai potensi daerah setempat. Sekarang cocokkan gambar pangan dengan namanya dan kenali satu per satu dengan teliti.",
+	"closing_speaker": "Ibu",
+	"closing_text": "Sekarang kamu sudah mengenal beberapa pangan lokal. Bawa pengetahuan itu untuk menyelesaikan misi berikutnya."
+  },
+  "literacy": {
+	"question_id": "l1_q01",
+	"question_text": "Mengapa pangan yang kamu pelajari pada level ini disebut pangan lokal?",
+	"answers": [
+	  {
+		"answer_id": "l1_a_correct",
+		"text": "Karena pangan tersebut dikenal dan dimanfaatkan masyarakat sesuai potensi daerah setempat."
+	  },
+	  {
+		"answer_id": "l1_a_color",
+		"text": "Karena semua pangan lokal memiliki warna yang sama."
+	  },
+	  {
+		"answer_id": "l1_a_package",
+		"text": "Karena pangan lokal harus selalu dijual tanpa kemasan."
+	  }
+	],
+	"correct_answer_id": "l1_a_correct",
+	"feedback_correct": "Tepat! Pangan lokal berkaitan dengan pangan yang dikenal dan dimanfaatkan masyarakat sesuai potensi daerah setempat.",
+	"feedback_retry": "Belum tepat. Pangan lokal tidak ditentukan oleh warna atau kemasannya. Coba perhatikan hubungan pangan dengan potensi dan kehidupan masyarakat."
+  },
+  "badge": {
+	"badge_id": "badge_level_01",
+	"display_name": "Penjelajah Pangan Lokal",
+	"description": "Berhasil mengenali pangan lokal pada misi pertama."
+  },
+  "scoring": {
+	"food_first_attempt": 10,
+	"food_after_retry": 5,
+	"literacy_first_attempt": 30,
+	"literacy_after_retry": 20,
+	"completion": 10
+  }
+}

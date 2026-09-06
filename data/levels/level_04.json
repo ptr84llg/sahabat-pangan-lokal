@@ -1,0 +1,240 @@
+{
+  "level_id": "level_04",
+  "level_no": 4,
+  "theme": "Olah Pangan Lokal",
+  "location": "Dapur",
+  "next_level_id": "level_05",
+  "countdown_seconds": 120,
+  "countdown_status": "PLAYTEST_BASELINE",
+  "tutorial_flag_key": "level_04_tutorial_seen",
+  "dialogue": {
+    "opening": [
+      {
+        "speaker": "Nenek",
+        "text": "Kamu sudah mengenali, mengelompokkan, dan memilih berbagai pangan. Sekarang kita akan melihat bagaimana beberapa pangan dapat dipadukan menjadi olahan."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Berarti satu olahan bisa menggunakan lebih dari satu pangan?"
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Benar. Di dapur ini kamu akan mencoba memadukan dua pangan utama."
+      }
+    ],
+    "mission": [
+      {
+        "speaker": "Nenek",
+        "text": "Ada empat pesanan yang harus diselesaikan."
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Setiap pesanan membutuhkan dua bahan pangan utama. Setelah bahannya cocok, pilih proses pengolahan yang sesuai."
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Saat permainan dimulai, kamu memiliki waktu 2 menit untuk menyelesaikan semuanya."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Baik. Aku harus memilih bahan dengan tepat dan tidak membuang waktu."
+      }
+    ],
+    "closing": [
+      {
+        "speaker": "Nenek",
+        "text": "Sekarang kamu sudah melihat bahwa pangan dapat dipadukan dan diolah menjadi berbagai bentuk."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Aku jadi lebih memahami hubungan bahan dengan hasil olahannya."
+      }
+    ]
+  },
+  "tutorial": {
+    "title": "DUA BAHAN + PROSES + TIMER",
+    "text": "Setiap pesanan menampilkan target hasil olahan. Seret dua bahan pangan utama ke Slot Bahan 1 dan Bahan 2. Setelah pasangan benar, pilih proses yang sesuai. Countdown 02:00 baru berjalan setelah MULAI MENGOLAH ditekan.",
+    "timer_runs": false,
+    "analytics_main_game": false
+  },
+  "processes": [
+    {
+      "process_id": "process_boiled",
+      "display_name": "Direbus",
+      "validation_status": "LOCKED"
+    },
+    {
+      "process_id": "process_stir_fried",
+      "display_name": "Ditumis",
+      "validation_status": "LOCKED"
+    },
+    {
+      "process_id": "process_mixed",
+      "display_name": "Dicampur",
+      "validation_status": "LOCKED"
+    },
+    {
+      "process_id": "process_steamed",
+      "display_name": "Dikukus",
+      "validation_status": "DISTRACTOR_DRAFT"
+    }
+  ],
+  "orders": [
+    {
+      "order_id": "order_04_01",
+      "result_id": "processed_banana_cassava_compote",
+      "ingredient_1_id": "food_banana",
+      "ingredient_2_id": "food_cassava",
+      "process_id": "process_boiled",
+      "candidate_food_ids": [
+        "food_banana",
+        "food_cassava",
+        "food_spinach",
+        "food_corn",
+        "food_eggplant",
+        "food_tilapia"
+      ],
+      "candidate_process_ids": [
+        "process_boiled",
+        "process_stir_fried",
+        "process_steamed"
+      ],
+      "validation_status": "PROVISIONAL"
+    },
+    {
+      "order_id": "order_04_02",
+      "result_id": "processed_spinach_corn_clear_soup",
+      "ingredient_1_id": "food_spinach",
+      "ingredient_2_id": "food_corn",
+      "process_id": "process_boiled",
+      "candidate_food_ids": [
+        "food_spinach",
+        "food_corn",
+        "food_banana",
+        "food_papaya",
+        "food_eggplant",
+        "food_tilapia"
+      ],
+      "candidate_process_ids": [
+        "process_boiled",
+        "process_mixed",
+        "process_steamed"
+      ],
+      "validation_status": "PROVISIONAL"
+    },
+    {
+      "order_id": "order_04_03",
+      "result_id": "processed_water_spinach_eggplant_stirfry",
+      "ingredient_1_id": "food_water_spinach",
+      "ingredient_2_id": "food_eggplant",
+      "process_id": "process_stir_fried",
+      "candidate_food_ids": [
+        "food_water_spinach",
+        "food_eggplant",
+        "food_spinach",
+        "food_corn",
+        "food_banana",
+        "food_tilapia"
+      ],
+      "candidate_process_ids": [
+        "process_stir_fried",
+        "process_boiled",
+        "process_steamed"
+      ],
+      "validation_status": "PROVISIONAL"
+    },
+    {
+      "order_id": "order_04_04",
+      "result_id": "processed_papaya_mango_rujak",
+      "ingredient_1_id": "food_papaya",
+      "ingredient_2_id": "food_mango",
+      "process_id": "process_mixed",
+      "candidate_food_ids": [
+        "food_papaya",
+        "food_mango",
+        "food_banana",
+        "food_cucumber",
+        "food_guava",
+        "food_tilapia"
+      ],
+      "candidate_process_ids": [
+        "process_mixed",
+        "process_boiled",
+        "process_steamed"
+      ],
+      "validation_status": "PROVISIONAL"
+    }
+  ],
+  "distractor_note": "Candidate pools merupakan pilihan implementasi prototipe dari pangan yang sudah diperkenalkan pada Level 1-3. Tidak ada pangan baru Level 4. Dikukus hanya distractor pengembangan dan tidak dianggap materi yang telah diajarkan.",
+  "literacy_intro": "Kamu sudah menyelesaikan pesanan. Sekarang coba lengkapi bagian yang hilang dari rantai olahan.",
+  "literacy_rounds": [
+    {
+      "round_id": "l4_r1",
+      "kind": "processed_result",
+      "prompt": "Pisang + Singkong → Direbus → ?",
+      "given_ingredient_ids": [
+        "food_banana",
+        "food_cassava"
+      ],
+      "given_process_id": "process_boiled",
+      "correct_id": "processed_banana_cassava_compote",
+      "choice_ids": [
+        "processed_banana_cassava_compote",
+        "processed_spinach_corn_clear_soup",
+        "processed_water_spinach_eggplant_stirfry"
+      ],
+      "choice_status": "PROTOTYPE_DISTRACTOR_FROM_EXISTING_L4_RESULTS"
+    },
+    {
+      "round_id": "l4_r2",
+      "kind": "food",
+      "prompt": "Bayam + ? → Direbus → Sayur Bening Bayam-Jagung",
+      "correct_id": "food_corn",
+      "choice_ids": [
+        "food_corn",
+        "food_papaya",
+        "food_eggplant"
+      ]
+    },
+    {
+      "round_id": "l4_r3",
+      "kind": "process",
+      "prompt": "Pepaya + Mangga → ? → Rujak Buah Pepaya-Mangga",
+      "correct_id": "process_mixed",
+      "choice_ids": [
+        "process_steamed",
+        "process_mixed",
+        "process_boiled"
+      ]
+    }
+  ],
+  "scoring": {
+    "ingredient_first_attempt": 10,
+    "ingredient_after_retry": 5,
+    "process_first_attempt": 5,
+    "process_after_retry": 3,
+    "literacy_first_attempt": 10,
+    "literacy_after_retry": 5,
+    "completion": 10,
+    "maximum": 100,
+    "timeout_resets_main_attempt_score": true
+  },
+  "information": {
+    "processed_banana_cassava_compote": "Kolak pisang dan singkong merupakan olahan pangan yang memadukan pisang dan singkong. Kedua bahan direbus hingga matang dan biasanya disajikan dengan kuah santan serta gula.",
+    "processed_spinach_corn_clear_soup": "Sayur bening bayam dan jagung merupakan olahan sayuran yang memadukan bayam dan jagung. Kedua bahan direbus bersama bumbu sederhana hingga matang dan menghasilkan kuah yang ringan.",
+    "processed_water_spinach_eggplant_stirfry": "Tumis kangkung dan terung merupakan olahan sayuran yang memadukan kangkung dan terung. Kedua bahan dimasak dengan cara ditumis bersama bumbu hingga matang dan siap disajikan.",
+    "processed_papaya_mango_rujak": "Rujak buah pepaya dan mangga merupakan olahan buah yang memadukan pepaya dan mangga. Kedua buah dipotong dan dicampur dengan bumbu rujak sehingga menghasilkan sajian dengan rasa manis, asam, dan pedas."
+  },
+  "information_disclaimer": "Dalam permainan ini, dua bahan pangan utama ditampilkan untuk tujuan belajar. Hasil olahan sebenarnya dapat menggunakan bahan tambahan lain. Informasi ini bukan resep memasak lengkap.",
+  "badge": {
+    "badge_id": "badge_level_04",
+    "display_name": "Peracik Pangan Lokal",
+    "description": "Berhasil memadukan pangan lokal dan mengenali hubungan bahan, proses, serta hasil olahan."
+  },
+  "processed_food_ids": [
+    "processed_banana_cassava_compote",
+    "processed_spinach_corn_clear_soup",
+    "processed_water_spinach_eggplant_stirfry",
+    "processed_papaya_mango_rujak"
+  ]
+}

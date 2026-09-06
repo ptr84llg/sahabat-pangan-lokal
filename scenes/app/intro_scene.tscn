@@ -1,0 +1,255 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/app/intro.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/visual/backgrounds/bg_character_select.jpg" id="2"]
+
+[sub_resource type="StyleBoxFlat" id="AvatarPanelStyle"]
+bg_color = Color(0.99, 0.99, 0.98, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.46, 0.33, 0.18, 0.42)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="StoryPanelStyle"]
+bg_color = Color(0.99, 0.98, 0.93, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.31, 0.16, 0.52)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+shadow_color = Color(0.03, 0.06, 0.02, 0.20)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="PrimaryButton"]
+bg_color = Color(0.94, 0.68, 0.12, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="SecondaryButton"]
+bg_color = Color(0.99, 0.98, 0.93, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.43, 0.31, 0.18, 0.42)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="NameChip"]
+bg_color = Color(0.94, 0.68, 0.12, 0.97)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="IntroScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SoftOverlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.07, 0.03, 0.08)
+mouse_filter = 2
+
+[node name="Safe" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 26.0
+offset_right = -30.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBox" type="HBoxContainer" parent="Safe"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="AvatarPanel" type="PanelContainer" parent="Safe/HBox"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("AvatarPanelStyle")
+
+[node name="AvatarMargin" type="MarginContainer" parent="Safe/HBox/AvatarPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 18
+
+[node name="AvatarVBox" type="VBoxContainer" parent="Safe/HBox/AvatarPanel/AvatarMargin"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 10
+
+[node name="PlayerAvatar" type="TextureRect" parent="Safe/HBox/AvatarPanel/AvatarMargin/AvatarVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 360)
+layout_mode = 2
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameChip" type="PanelContainer" parent="Safe/HBox/AvatarPanel/AvatarMargin/AvatarVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("NameChip")
+
+[node name="PlayerName" type="Label" parent="Safe/HBox/AvatarPanel/AvatarMargin/AvatarVBox/NameChip"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.14, 0.04, 1)
+theme_override_font_sizes/font_size = 20
+text = "Pemain"
+horizontal_alignment = 1
+
+[node name="ChangeCharacterButton" type="Button" parent="Safe/HBox/AvatarPanel/AvatarMargin/AvatarVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_styles/normal = SubResource("SecondaryButton")
+theme_override_styles/hover = SubResource("PrimaryButton")
+text = "PILIH KARAKTER ULANG"
+
+[node name="StoryPanel" type="PanelContainer" parent="Safe/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StoryPanelStyle")
+
+[node name="StoryMargin" type="MarginContainer" parent="Safe/HBox/StoryPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="Safe/HBox/StoryPanel/StoryMargin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="HeaderRow" type="HBoxContainer" parent="Safe/HBox/StoryPanel/StoryMargin/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Safe/HBox/StoryPanel/StoryMargin/VBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 26
+text = "PERJALANAN PANGAN LOKAL"
+
+[node name="IntroCounter" type="Label" parent="Safe/HBox/StoryPanel/StoryMargin/VBox/HeaderRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.28, 0.13, 1)
+theme_override_font_sizes/font_size = 20
+text = "1 / 3"
+
+[node name="Divider" type="HSeparator" parent="Safe/HBox/StoryPanel/StoryMargin/VBox"]
+layout_mode = 2
+
+[node name="IntroText" type="Label" parent="Safe/HBox/StoryPanel/StoryMargin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+vertical_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_font_sizes/font_size = 32
+text = "Narasi"
+
+[node name="Places" type="Label" parent="Safe/HBox/StoryPanel/StoryMargin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.31, 0.49, 0.18, 1)
+theme_override_font_sizes/font_size = 20
+text = "Rumah • Sekolah • Pasar • Dapur • Festival"
+horizontal_alignment = 1
+
+[node name="Dots" type="HBoxContainer" parent="Safe/HBox/StoryPanel/StoryMargin/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="Dot1" type="Label" parent="Safe/HBox/StoryPanel/StoryMargin/VBox/Dots"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.67, 0.18, 1)
+theme_override_font_sizes/font_size = 24
+text = "●"
+
+[node name="Dot2" type="Label" parent="Safe/HBox/StoryPanel/StoryMargin/VBox/Dots"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.67, 0.18, 1)
+theme_override_font_sizes/font_size = 24
+text = "○"
+
+[node name="Dot3" type="Label" parent="Safe/HBox/StoryPanel/StoryMargin/VBox/Dots"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.67, 0.18, 1)
+theme_override_font_sizes/font_size = 24
+text = "○"
+
+[node name="Buttons" type="HBoxContainer" parent="Safe/HBox/StoryPanel/StoryMargin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="BackButton" type="Button" parent="Safe/HBox/StoryPanel/StoryMargin/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.24, 0.12, 1)
+theme_override_styles/normal = SubResource("SecondaryButton")
+theme_override_styles/hover = SubResource("PrimaryButton")
+text = "KEMBALI"
+
+[node name="Spacer" type="Control" parent="Safe/HBox/StoryPanel/StoryMargin/VBox/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="IntroNext" type="Button" parent="Safe/HBox/StoryPanel/StoryMargin/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.15, 0.04, 1)
+theme_override_styles/normal = SubResource("PrimaryButton")
+theme_override_styles/hover = SubResource("PrimaryButton")
+text = "LANJUT"

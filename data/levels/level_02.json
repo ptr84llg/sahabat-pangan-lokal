@@ -1,0 +1,166 @@
+{
+  "level_id": "level_02",
+  "title": "Kelompokkan Pangan Lokal",
+  "location": "Sekolah",
+  "max_score": 100,
+  "tutorial_flag_key": "tutorial_level_02_seen",
+  "preview_flag_key": "preview_food_seen_level_02",
+  "next_level_id": "level_03",
+  "food_ids": [
+    "food_rice",
+    "food_cassava",
+    "food_corn",
+    "food_sweet_potato",
+    "food_water_spinach",
+    "food_spinach",
+    "food_eggplant",
+    "food_cucumber",
+    "food_banana",
+    "food_papaya",
+    "food_mango",
+    "food_guava"
+  ],
+  "preview_food_ids": [
+    "food_corn",
+    "food_sweet_potato",
+    "food_eggplant",
+    "food_cucumber",
+    "food_mango",
+    "food_guava"
+  ],
+  "group_ids": [
+    "group_staple_root",
+    "group_vegetable",
+    "group_fruit"
+  ],
+  "target_per_group": 4,
+  "batch_size": 6,
+  "dialogue": {
+    "opening": [
+      {
+        "speaker": "Ibu Guru",
+        "text": "Kamu sudah mengenali beberapa pangan pada misi sebelumnya. Ternyata pangan yang kita temui memiliki jenis yang berbeda-beda."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Berarti pangan yang sudah aku kenal bisa dikelompokkan, Bu?"
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Benar. Sekarang kita akan mencoba mengelompokkannya."
+      }
+    ],
+    "mission": [
+      {
+        "speaker": "Ibu Guru",
+        "text": "Ada dua belas pangan di meja. Masukkan setiap pangan ke kelompok yang sesuai."
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Kelompoknya adalah Pangan Pokok dan Umbi, Sayuran, serta Buah. Setiap kelompok harus berisi empat pangan."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Baik, Bu. Aku akan mengelompokkannya satu per satu."
+      }
+    ],
+    "closing": "Sekarang kamu sudah tahu bahwa pangan yang kita kenal dapat dikelompokkan berdasarkan jenisnya. Pengetahuan itu akan kamu gunakan pada misi berikutnya."
+  },
+  "food_details": {
+    "food_rice": {
+      "info_level_02": "Beras merupakan hasil pengolahan gabah dari tanaman padi. Setelah dimasak, beras menjadi nasi yang banyak dikonsumsi sebagai pangan pokok dan sumber energi sehari-hari."
+    },
+    "food_cassava": {
+      "info_level_02": "Singkong merupakan tanaman pangan yang bagian umbinya dapat dimanfaatkan sebagai sumber karbohidrat. Singkong dapat dikonsumsi dengan cara direbus, dikukus, digoreng, atau diolah menjadi berbagai makanan tradisional."
+    },
+    "food_corn": {
+      "info_level_02": "Jagung merupakan tanaman pangan yang bijinya dapat dimanfaatkan sebagai bahan pangan. Jagung dapat dikonsumsi langsung atau diolah menjadi berbagai makanan dan bahan pangan lainnya."
+    },
+    "food_sweet_potato": {
+      "info_level_02": "Ubi jalar merupakan tanaman pangan yang bagian umbinya dapat dimanfaatkan sebagai sumber karbohidrat. Ubi jalar dapat dikonsumsi dengan cara direbus, dikukus, digoreng, atau diolah menjadi berbagai makanan."
+    },
+    "food_water_spinach": {
+      "info_level_02": "Kangkung merupakan sayuran yang tumbuh dengan baik di daerah tropis dan mudah ditemukan di berbagai wilayah Indonesia. Daun dan batang mudanya dapat dimasak, misalnya menjadi tumisan atau sayur."
+    },
+    "food_spinach": {
+      "info_level_02": "Bayam merupakan sayuran yang mudah dibudidayakan dan banyak dimanfaatkan sebagai bahan pangan. Daun dan batang mudanya dapat dimasak menjadi berbagai hidangan, seperti sayur bening dan tumisan."
+    },
+    "food_eggplant": {
+      "info_level_02": "Terung merupakan sayuran yang buahnya dapat dimanfaatkan sebagai bahan pangan. Terung dapat diolah menjadi berbagai masakan, seperti tumisan, sayur, atau sambal."
+    },
+    "food_cucumber": {
+      "info_level_02": "Ketimun merupakan sayuran yang banyak dimanfaatkan sebagai bahan pangan. Buahnya dapat dikonsumsi secara langsung atau digunakan sebagai bahan berbagai sajian."
+    },
+    "food_banana": {
+      "info_level_02": "Pisang merupakan buah yang banyak tumbuh di berbagai daerah Indonesia dan dapat dikonsumsi setelah matang. Selain dimakan langsung, pisang juga dapat diolah menjadi berbagai makanan, seperti pisang goreng, kolak, dan keripik."
+    },
+    "food_papaya": {
+      "info_level_02": "Pepaya merupakan buah yang banyak tumbuh di daerah tropis, termasuk Indonesia. Buah yang matang dapat dimakan langsung, sedangkan pepaya muda juga dapat dimanfaatkan sebagai bahan berbagai masakan."
+    },
+    "food_mango": {
+      "info_level_02": "Mangga merupakan buah yang banyak tumbuh di daerah tropis dan dapat dikonsumsi setelah matang. Buah mangga dapat dimakan langsung atau diolah menjadi berbagai makanan dan minuman."
+    },
+    "food_guava": {
+      "info_level_02": "Jambu biji merupakan buah yang banyak ditemukan di daerah tropis dan dapat dikonsumsi setelah matang. Buahnya dapat dimakan langsung atau diolah menjadi berbagai makanan dan minuman."
+    }
+  },
+  "literacy_rounds": [
+    {
+      "round_id": "l2_r1",
+      "group_id": "group_staple_root",
+      "given_ids": [
+        "food_rice",
+        "food_cassava",
+        "food_corn"
+      ],
+      "choice_ids": [
+        "food_sweet_potato",
+        "food_mango",
+        "food_water_spinach"
+      ],
+      "correct_food_id": "food_sweet_potato"
+    },
+    {
+      "round_id": "l2_r2",
+      "group_id": "group_vegetable",
+      "given_ids": [
+        "food_water_spinach",
+        "food_spinach",
+        "food_eggplant"
+      ],
+      "choice_ids": [
+        "food_cucumber",
+        "food_papaya",
+        "food_corn"
+      ],
+      "correct_food_id": "food_cucumber"
+    },
+    {
+      "round_id": "l2_r3",
+      "group_id": "group_fruit",
+      "given_ids": [
+        "food_banana",
+        "food_papaya",
+        "food_mango"
+      ],
+      "choice_ids": [
+        "food_guava",
+        "food_cassava",
+        "food_spinach"
+      ],
+      "correct_food_id": "food_guava"
+    }
+  ],
+  "badge": {
+    "badge_id": "badge_level_02",
+    "display_name": "Penyusun Kelompok Pangan Lokal",
+    "description": "Berhasil mengelompokkan pangan lokal pada misi kedua."
+  },
+  "scoring": {
+    "food_first_attempt": 5,
+    "food_after_retry": 3,
+    "literacy_first_attempt": 10,
+    "literacy_after_retry": 7,
+    "completion": 10
+  }
+}

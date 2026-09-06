@@ -1,0 +1,354 @@
+{
+  "level_id": "level_05",
+  "level_no": 5,
+  "theme": "Festival Pangan Lokal",
+  "location": "Festival",
+  "main_timer_seconds": 240,
+  "main_timer_status": "PLAYTEST_BASELINE",
+  "tutorial_flag_key": "level_05_tutorial_seen",
+  "dialogue": {
+    "opening": [
+      {
+        "speaker": "Lurah",
+        "text": "Kamu sudah mengenali berbagai pangan, memahami kelompoknya, memilihnya saat berbelanja, dan melihat beberapa hasil olahannya."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Sekarang aku harus menggunakan semuanya di festival ini?"
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Benar. Misi terakhir akan berubah beberapa kali, tetapi pangan yang kamu pelajari tetap menjadi bekalmu."
+      }
+    ],
+    "mission": [
+      {
+        "speaker": "Lurah",
+        "text": "Pangan akan bergerak pada dua jalur. Perhatikan misi di tengah layar dan ambil pangan yang sesuai."
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Misinya akan berubah: mengenali pangan, memenuhi kelompok, berbelanja dengan Koin Pangan, lalu merakit hasil olahan."
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Waktu terus berjalan sampai skema terakhir. Jika waktunya habis, permainan tetap lanjut, tetapi nilai waktumu akan berkurang."
+      }
+    ],
+    "closing": [
+      {
+        "speaker": "Lurah",
+        "text": "Kamu sudah menyelesaikan seluruh misi festival dan menggunakan kembali pengetahuan dari perjalanan sebelumnya."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Aku bisa mengenali, mengelompokkan, memilih, dan memahami hubungan pangan dengan hasil olahannya."
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Bagus. Perjalanan Sahabat Pangan Lokal selesai, tetapi semua level tetap dapat dimainkan ulang."
+      }
+    ]
+  },
+  "tutorial": {
+    "title": "MOVING LANES + 4 SKEMA + TIMER",
+    "text": "Pangan bergerak pada dua jalur dengan arah berlawanan. Seret pangan ke area misi yang aktif. Skema berubah dari Kenali, Kelompokkan, Belanja, sampai Olah. Satu Main Timer berjalan terus dari Skema 1 sampai Skema 4. Jika mencapai 00:00, permainan tetap dilanjutkan dan bonus waktu menjadi 0.",
+    "timer_runs": false,
+    "analytics_main_game": false
+  },
+  "bank_food_ids": [
+    "food_rice",
+    "food_cassava",
+    "food_water_spinach",
+    "food_spinach",
+    "food_banana",
+    "food_papaya",
+    "food_corn",
+    "food_sweet_potato",
+    "food_eggplant",
+    "food_cucumber",
+    "food_mango",
+    "food_guava",
+    "food_tilapia",
+    "food_catfish"
+  ],
+  "lane": {
+    "distribution": [
+      7,
+      7
+    ],
+    "top_direction": "left",
+    "bottom_direction": "right",
+    "speed_logical_px_per_second": 72,
+    "speed_status": "PLAYTEST_BASELINE",
+    "reshuffle_on_entry": true,
+    "reshuffle_between_schemas": false
+  },
+  "schemas": [
+    {
+      "schema_id": "schema_1",
+      "name": "TEMUKAN PANGAN",
+      "max_score": 10,
+      "floor_score": 5,
+      "invalid_penalty": 1,
+      "target_count": 3,
+      "target_pool_ids": [
+        "food_rice",
+        "food_cassava",
+        "food_water_spinach",
+        "food_spinach",
+        "food_banana",
+        "food_papaya",
+        "food_corn",
+        "food_sweet_potato",
+        "food_eggplant",
+        "food_cucumber",
+        "food_mango",
+        "food_guava",
+        "food_tilapia",
+        "food_catfish"
+      ],
+      "selection_status": "PROTOTYPE_RANDOM_FROM_BANK"
+    },
+    {
+      "schema_id": "schema_2",
+      "name": "PENUHI KELOMPOK",
+      "max_score": 12,
+      "floor_score": 6,
+      "invalid_penalty": 1,
+      "group_ids": [
+        "group_staple_root",
+        "group_vegetable",
+        "group_fruit",
+        "group_fishery"
+      ]
+    },
+    {
+      "schema_id": "schema_3",
+      "name": "BELANJA FESTIVAL",
+      "max_score": 13,
+      "floor_score": 7,
+      "invalid_penalty": 1,
+      "coin_budget": 15,
+      "required_group_ids": [
+        "group_staple_root",
+        "group_vegetable",
+        "group_fruit",
+        "group_fishery"
+      ],
+      "coin_source": "FoodData.coin_value"
+    },
+    {
+      "schema_id": "schema_4",
+      "name": "RAKIT OLAHAN",
+      "max_score": 15,
+      "floor_score": 8,
+      "invalid_penalty": 1,
+      "processed_target_count": 2,
+      "processed_pool_ids": [
+        "processed_banana_cassava_compote",
+        "processed_spinach_corn_clear_soup",
+        "processed_water_spinach_eggplant_stirfry",
+        "processed_papaya_mango_rujak"
+      ],
+      "process_choice_ids": [
+        "process_boiled",
+        "process_stir_fried",
+        "process_mixed"
+      ],
+      "selection_status": "PROTOTYPE_RANDOM_FROM_VALIDATED_BANK_WHEN_FINAL"
+    }
+  ],
+  "time_bonus_bands": [
+    {
+      "min_remaining_ratio": 0.5,
+      "bonus": 10
+    },
+    {
+      "min_remaining_ratio": 0.25,
+      "bonus": 7
+    },
+    {
+      "min_remaining_ratio": 1e-06,
+      "bonus": 4
+    },
+    {
+      "min_remaining_ratio": 0.0,
+      "bonus": 0
+    }
+  ],
+  "quiz_intro": "Uji Literasi Pangan terdiri dari 5 pertanyaan. Setiap pertanyaan memiliki waktu 30 detik dan hanya satu kesempatan menjawab. Urutan soal dan posisi pilihan jawaban diacak.",
+  "quiz": {
+    "question_count": 5,
+    "seconds_per_question": 30,
+    "score_correct": 8,
+    "score_wrong": 0,
+    "score_timeout": 0,
+    "retry": false,
+    "shuffle_questions": true,
+    "shuffle_answers": true,
+    "content_status": "CONTENT_DRAFT_REQUIRES_EXPERT_VALIDATION",
+    "questions": [
+      {
+        "question_id": "Q01",
+        "focus_tag": "kelompok_pangan",
+        "difficulty": "MENENGAH",
+        "question_text": "Pasangan pangan manakah yang berada dalam kelompok yang sama?",
+        "answers": [
+          {
+            "answer_id": "q01_a",
+            "text": "Beras dan Singkong"
+          },
+          {
+            "answer_id": "q01_b",
+            "text": "Bayam dan Pepaya"
+          },
+          {
+            "answer_id": "q01_c",
+            "text": "Pisang dan Ikan Nila"
+          },
+          {
+            "answer_id": "q01_d",
+            "text": "Jagung dan Mangga"
+          }
+        ],
+        "correct_answer_id": "q01_a",
+        "feedback_correct": "Beras dan Singkong berada pada kelompok Pangan Pokok dan Umbi.",
+        "feedback_wrong": "Perhatikan kembali kelompok setiap pangan. Beras dan Singkong berada pada kelompok Pangan Pokok dan Umbi.",
+        "validation_status": "CONTENT_DRAFT"
+      },
+      {
+        "question_id": "Q02",
+        "focus_tag": "pemilihan_pangan",
+        "difficulty": "MENENGAH",
+        "question_text": "Keranjang belum memiliki sayuran dan hanya tersedia 2 Koin Pangan. Pilihan manakah yang memenuhi kedua syarat tersebut?",
+        "answers": [
+          {
+            "answer_id": "q02_a",
+            "text": "Kangkung - 2 Koin"
+          },
+          {
+            "answer_id": "q02_b",
+            "text": "Terung - 3 Koin"
+          },
+          {
+            "answer_id": "q02_c",
+            "text": "Pisang - 2 Koin"
+          },
+          {
+            "answer_id": "q02_d",
+            "text": "Singkong - 4 Koin"
+          }
+        ],
+        "correct_answer_id": "q02_a",
+        "feedback_correct": "Kangkung termasuk Sayuran dan membutuhkan 2 Koin Pangan dalam simulasi game.",
+        "feedback_wrong": "Jawaban harus memenuhi kelompok Sayuran dan batas 2 Koin Pangan. Kangkung memenuhi kedua syarat tersebut.",
+        "validation_status": "CONTENT_DRAFT"
+      },
+      {
+        "question_id": "Q03",
+        "focus_tag": "pangan_hasil_olahan",
+        "difficulty": "MENENGAH_SULIT",
+        "question_text": "Dua bahan pangan utama yang digunakan pada Kolak Pisang-Singkong dalam permainan adalah ...",
+        "answers": [
+          {
+            "answer_id": "q03_a",
+            "text": "Pisang dan Singkong"
+          },
+          {
+            "answer_id": "q03_b",
+            "text": "Bayam dan Jagung"
+          },
+          {
+            "answer_id": "q03_c",
+            "text": "Pepaya dan Mangga"
+          },
+          {
+            "answer_id": "q03_d",
+            "text": "Kangkung dan Terung"
+          }
+        ],
+        "correct_answer_id": "q03_a",
+        "feedback_correct": "Kolak Pisang-Singkong menggunakan Pisang dan Singkong sebagai dua bahan pangan utama dalam penyederhanaan game.",
+        "feedback_wrong": "Perhatikan nama hasil olahannya. Dua bahan utama yang dipakai dalam game adalah Pisang dan Singkong.",
+        "validation_status": "CONTENT_DRAFT"
+      },
+      {
+        "question_id": "Q04",
+        "focus_tag": "bahan_proses_hasil",
+        "difficulty": "SULIT",
+        "question_text": "Dalam permainan, proses sederhana yang menghubungkan Pepaya dan Mangga dengan Rujak Buah Pepaya-Mangga adalah ...",
+        "answers": [
+          {
+            "answer_id": "q04_a",
+            "text": "Dicampur"
+          },
+          {
+            "answer_id": "q04_b",
+            "text": "Direbus"
+          },
+          {
+            "answer_id": "q04_c",
+            "text": "Ditumis"
+          },
+          {
+            "answer_id": "q04_d",
+            "text": "Dikukus"
+          }
+        ],
+        "correct_answer_id": "q04_a",
+        "feedback_correct": "Pepaya dan Mangga dihubungkan dengan proses sederhana Dicampur pada Rujak Buah Pepaya-Mangga.",
+        "feedback_wrong": "Dalam dataset Level 4, Pepaya dan Mangga menggunakan proses sederhana Dicampur.",
+        "validation_status": "CONTENT_DRAFT"
+      },
+      {
+        "question_id": "Q05",
+        "focus_tag": "integrasi_pengetahuan",
+        "difficulty": "SULIT",
+        "question_text": "Pernyataan manakah yang sesuai dengan informasi yang digunakan sepanjang permainan?",
+        "answers": [
+          {
+            "answer_id": "q05_a",
+            "text": "Singkong termasuk Pangan Pokok dan Umbi, Pepaya termasuk Buah, dan Pepaya-Mangga digunakan pada Rujak Buah."
+          },
+          {
+            "answer_id": "q05_b",
+            "text": "Singkong termasuk Sayuran, Pepaya termasuk Hasil Perikanan, dan Pepaya-Mangga ditumis."
+          },
+          {
+            "answer_id": "q05_c",
+            "text": "Ikan Nila termasuk Buah, Bayam termasuk Pangan Pokok dan Umbi, dan Kolak dibuat dari Bayam-Jagung."
+          },
+          {
+            "answer_id": "q05_d",
+            "text": "Kangkung termasuk Buah, Beras termasuk Sayuran, dan Rujak Buah direbus."
+          }
+        ],
+        "correct_answer_id": "q05_a",
+        "feedback_correct": "Pernyataan tersebut sesuai dengan kelompok pangan dan hubungan bahan-hasil olahan yang digunakan dalam game.",
+        "feedback_wrong": "Cocokkan kembali kelompok pangan serta hubungan bahan dan hasil olahan dari level sebelumnya.",
+        "validation_status": "CONTENT_DRAFT"
+      }
+    ]
+  },
+  "information_disclaimer": "Galeri Level 5 mengonsolidasikan pangan dan hasil olahan yang sudah diperkenalkan. Informasi hasil olahan menampilkan dua bahan utama dan satu proses sederhana untuk tujuan belajar, bukan resep lengkap.",
+  "badge": {
+    "badge_id": "badge_level_05",
+    "display_name": "Duta Pangan Lokal",
+    "description": "Berhasil menyelesaikan seluruh perjalanan Sahabat Pangan Lokal dan menerapkan pengetahuan pangan pada Festival Pangan Lokal."
+  },
+  "scoring": {
+    "schema_max_total": 50,
+    "time_bonus_max": 10,
+    "main_game_max": 60,
+    "quiz_max": 40,
+    "level_max": 100,
+    "invalid_penalty_per_event": 1,
+    "no_negative_quiz_penalty": true
+  },
+  "implementation_notes": [
+    "Skema 1 memilih 3 target dari bank 14 pangan pada setiap entry sebagai pilihan prototype karena storyboard mengunci jumlah target tetapi tidak mengunci tiga nama final.",
+    "Skema 4 memilih 2 dari 4 hasil olahan pada setiap entry. Seluruh hasil olahan tetap mengikuti validation_status pada master content.",
+    "Lima teks soal merupakan development content sesuai pola Q01-Q05 storyboard dan tetap wajib divalidasi ahli materi sebelum aset/konten final."
+  ]
+}

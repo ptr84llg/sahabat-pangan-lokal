@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://nniqefh8tcwl"]
+
+[ext_resource type="Script" uid="uid://c3c81rlqsp2o2" path="res://scripts/shared/named_drop_slot.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="SlotStyle"]
+bg_color = Color(0.91, 0.94, 0.9, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.32, 0.48, 0.38, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="NamedDropSlot" type="PanelContainer" unique_id=1614925347]
+custom_minimum_size = Vector2(180, 112)
+theme_override_styles/panel = SubResource("SlotStyle")
+script = ExtResource("1")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=1675714146]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="VBox" unique_id=311448089]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "DROP"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="VBox" unique_id=1003696466]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="VBox/Holder" unique_id=478788536]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "?"

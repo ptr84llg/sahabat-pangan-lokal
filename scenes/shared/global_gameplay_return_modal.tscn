@@ -1,0 +1,169 @@
+[gd_scene format=3 uid="uid://h34mim23abyc"]
+
+[sub_resource type="StyleBoxFlat" id="DialogStyle"]
+bg_color = Color(0.985, 0.985, 0.955, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.12, 0.43, 0.29, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="CancelStyle"]
+bg_color = Color(0.88, 0.94, 0.8, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.02, 0.38, 0.24, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="CancelHoverStyle"]
+bg_color = Color(0.82, 0.91, 0.72, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.02, 0.38, 0.24, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="ConfirmStyle"]
+bg_color = Color(0.02, 0.38, 0.24, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.02, 0.32, 0.2, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="ConfirmHoverStyle"]
+bg_color = Color(0.03, 0.46, 0.29, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.02, 0.32, 0.2, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[node name="GlobalGameplayReturnLayer" type="CanvasLayer" unique_id=2075899122]
+layer = 200
+
+[node name="GlobalGameplayReturnMask" type="ColorRect" parent="." unique_id=879325102]
+process_mode = 3
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.58)
+
+[node name="Center" type="CenterContainer" parent="GlobalGameplayReturnMask" unique_id=1920103515]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dialog" type="PanelContainer" parent="GlobalGameplayReturnMask/Center" unique_id=539842456]
+custom_minimum_size = Vector2(588, 284)
+layout_mode = 2
+theme_override_styles/panel = SubResource("DialogStyle")
+
+[node name="Margin" type="MarginContainer" parent="GlobalGameplayReturnMask/Center/Dialog" unique_id=1177176669]
+layout_mode = 2
+theme_override_constants/margin_left = 34
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 34
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="GlobalGameplayReturnMask/Center/Dialog/Margin" unique_id=1462166603]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="GlobalGameplayReturnMask/Center/Dialog/Margin/VBox" unique_id=384985666]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.38, 0.24, 1)
+theme_override_font_sizes/font_size = 30
+text = "KEMBALI KE PETA?"
+horizontal_alignment = 1
+
+[node name="HeaderSeparator" type="HSeparator" parent="GlobalGameplayReturnMask/Center/Dialog/Margin/VBox" unique_id=1149815069]
+layout_mode = 2
+
+[node name="ModalBodyScroll" type="ScrollContainer" parent="GlobalGameplayReturnMask/Center/Dialog/Margin/VBox" unique_id=1733147485]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="ModalBody" type="VBoxContainer" parent="GlobalGameplayReturnMask/Center/Dialog/Margin/VBox/ModalBodyScroll" unique_id=1100286354]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Message" type="Label" parent="GlobalGameplayReturnMask/Center/Dialog/Margin/VBox/ModalBodyScroll/ModalBody" unique_id=78802334]
+custom_minimum_size = Vector2(0, 94)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.34, 0.24, 1)
+theme_override_font_sizes/font_size = 20
+text = "Yakin ingin kembali ke peta utama?
+Skor pada percobaan ini tidak dihitung.
+Durasi permainan tetap dicatat."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="FooterSeparator" type="HSeparator" parent="GlobalGameplayReturnMask/Center/Dialog/Margin/VBox" unique_id=740410832]
+layout_mode = 2
+
+[node name="ModalFooter" type="HBoxContainer" parent="GlobalGameplayReturnMask/Center/Dialog/Margin/VBox" unique_id=242992726]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="CancelButton" type="Button" parent="GlobalGameplayReturnMask/Center/Dialog/Margin/VBox/ModalFooter" unique_id=2097812218]
+custom_minimum_size = Vector2(210, 54)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.38, 0.24, 1)
+theme_override_colors/font_focus_color = Color(0.02, 0.38, 0.24, 1)
+theme_override_colors/font_pressed_color = Color(0.02, 0.38, 0.24, 1)
+theme_override_colors/font_hover_color = Color(0.02, 0.38, 0.24, 1)
+theme_override_colors/font_disabled_color = Color(0.28, 0.45, 0.35, 1)
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("CancelStyle")
+theme_override_styles/pressed = SubResource("CancelHoverStyle")
+theme_override_styles/hover = SubResource("CancelHoverStyle")
+theme_override_styles/focus = SubResource("CancelStyle")
+text = "BATAL"
+
+[node name="ConfirmButton" type="Button" parent="GlobalGameplayReturnMask/Center/Dialog/Margin/VBox/ModalFooter" unique_id=304028591]
+custom_minimum_size = Vector2(246, 54)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.72, 0.82, 0.76, 1)
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("ConfirmStyle")
+theme_override_styles/pressed = SubResource("ConfirmHoverStyle")
+theme_override_styles/hover = SubResource("ConfirmHoverStyle")
+theme_override_styles/focus = SubResource("ConfirmStyle")
+text = "KEMBALI KE PETA"
