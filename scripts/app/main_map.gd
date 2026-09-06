@@ -10,6 +10,12 @@ const HAPPY_CHARACTER_TEXTURES := {
 	"riski": "res://assets/visual/character_select/character_04_male_happy.png"
 }
 
+const STAR_TEXTURE_PATHS: Dictionary = {
+	"full": "res://assets/ui/stars/star_full.png",
+	"half": "res://assets/ui/stars/star_half.png",
+	"empty": "res://assets/ui/stars/star_empty.png"
+}
+
 const LOCATION_DATA := [
 	{
 		"level_no": 1,
@@ -60,6 +66,10 @@ const LOCATION_DATA := [
 
 var location_buttons: Dictionary = {}
 var selected_level_no: int = 1
+var _confirmation_mode: String = "exit"
+var _pending_replay_scene_key: String = ""
+var _level_result_star_row: HBoxContainer
+var _level_result_stars: Array[TextureRect] = []
 
 
 func _ready() -> void:
@@ -73,6 +83,7 @@ func _ready() -> void:
 		return
 
 	_bind_scene_authored_ui()
+	_ensure_level_result_star_row()
 	resized.connect(_layout_canvas)
 	_refresh_map()
 	_layout_canvas()
@@ -178,9 +189,37 @@ func _refresh_selection() -> void:
 		210.0
 	)
 	info_description.text = str(location["description"])
-	info_status.text = _status_label(status)
-	info_status.add_theme_color_override("font_color", _status_color(status))
 	start_button.disabled = status == "LOCKED"
+
+	if status == "COMPLETED":
+		var latest_result: Dictionary = _resolve_latest_level_result(
+			selected_level_no
+		)
+
+		if latest_result.is_empty():
+			info_status.text = "SELESAI"
+			_hide_level_result_stars()
+		else:
+			info_status.text = "%d / 100" % int(
+				latest_result.get("score", 0)
+			)
+			_set_level_result_stars(
+				float(latest_result.get("stars", 0.0))
+			)
+
+		info_status.add_theme_color_override(
+			"font_color",
+			_status_color(status)
+		)
+		start_button.text = "MAIN LAGI"
+	else:
+		info_status.text = _status_label(status)
+		info_status.add_theme_color_override(
+			"font_color",
+			_status_color(status)
+		)
+		start_button.text = "MULAI"
+		_hide_level_result_stars()
 
 	for key_value in location_buttons.keys():
 		var level_no: int = int(key_value)
@@ -205,21 +244,166 @@ func _on_start_pressed() -> void:
 		return
 
 	_play_click()
-	SceneRouter.goto(str(location["scene_key"]))
+
+	if status == "COMPLETED":
+		_show_replay_confirmation(location)
+		return
+
+	_start_selected_level(location)
 
 func _show_exit_confirmation() -> void:
 	_play_click()
-	exit_mask.visible = true
-	exit_modal.visible = true
-	UIMotion.play_pop(exit_modal, 1.02)
+	_confirmation_mode = "exit"
+	_pending_replay_scene_key = ""
+	_configure_confirmation_modal(
+		"KELUAR PERMAINAN",
+		"Yakin menutup permainan?",
+		"KELUAR"
+	)
+
 
 func _close_exit_confirmation() -> void:
 	exit_modal.visible = false
 	exit_mask.visible = false
 
+
 func _confirm_exit() -> void:
+	if _confirmation_mode == "replay":
+		var scene_key: String = _pending_replay_scene_key
+		_pending_replay_scene_key = ""
+		_confirmation_mode = "exit"
+		_close_exit_confirmation()
+
+		if not scene_key.is_empty():
+			SceneRouter.goto(scene_key)
+
+		return
+
 	get_tree().quit()
 
+
+func _start_selected_level(location: Dictionary) -> void:
+	SceneRouter.goto(str(location["scene_key"]))
+
+
+func _show_replay_confirmation(location: Dictionary) -> void:
+	_pending_replay_scene_key = str(location.get("scene_key", ""))
+	_confirmation_mode = "replay"
+	_configure_confirmation_modal(
+		"MAIN LAGI",
+		"Mainkan kembali Level %d?\nHasil sebelumnya tetap tersimpan sebagai riwayat.\nHasil terbaru akan digunakan sebagai status level di Peta Perjalanan."
+		% selected_level_no,
+		"MAIN LAGI"
+	)
+
+
+func _configure_confirmation_modal(
+	header_text: String,
+	question_text: String,
+	confirm_text: String
+) -> void:
+	var header: Label = exit_modal.get_node(
+		"OuterMargin/ModalVBox/Header"
+	) as Label
+	var question: Label = exit_modal.get_node(
+		"OuterMargin/ModalVBox/ExitBodyScroll/ExitBody/Question"
+	) as Label
+
+	if header != null:
+		header.text = header_text
+
+	if question != null:
+		question.text = question_text
+		question.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
+	exit_confirm_button.text = confirm_text
+	exit_mask.visible = true
+	exit_modal.visible = true
+	UIMotion.play_pop(exit_modal, 1.02)
+
+
+func _ensure_level_result_star_row() -> void:
+	if is_instance_valid(_level_result_star_row):
+		return
+
+	_level_result_star_row = HBoxContainer.new()
+	_level_result_star_row.name = "LevelResultStarRow"
+	_level_result_star_row.position = Vector2(990.0, 166.0)
+	_level_result_star_row.size = Vector2(170.0, 50.0)
+	_level_result_star_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_level_result_star_row.add_theme_constant_override("separation", 4)
+	canvas.add_child(_level_result_star_row)
+
+	for _index in range(3):
+		var star := TextureRect.new()
+		star.custom_minimum_size = Vector2(48.0, 48.0)
+		star.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		star.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		star.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_level_result_star_row.add_child(star)
+		_level_result_stars.append(star)
+
+	_level_result_star_row.visible = false
+
+
+func _set_level_result_stars(star_value: float) -> void:
+	_ensure_level_result_star_row()
+	var slots: Array[String] = _star_slots_from_value(star_value)
+
+	for index in range(_level_result_stars.size()):
+		var star: TextureRect = _level_result_stars[index]
+		var slot: String = str(slots[index])
+		var texture_path: String = str(
+			STAR_TEXTURE_PATHS.get(slot, "")
+		)
+		star.texture = load(texture_path) as Texture2D
+
+	_level_result_star_row.visible = true
+
+
+func _hide_level_result_stars() -> void:
+	if is_instance_valid(_level_result_star_row):
+		_level_result_star_row.visible = false
+
+
+func _resolve_latest_level_result(
+	level_no: int
+) -> Dictionary:
+	var current: Dictionary = SaveManager.load_v3_active_current()
+
+	if current.is_empty():
+		return {}
+
+	var levels: Dictionary = current.get("levels", {})
+	var level_value: Variant = levels.get(str(level_no), {})
+
+	if not level_value is Dictionary:
+		return {}
+
+	var level: Dictionary = level_value
+	var latest_value: Variant = level.get("latest_result", {})
+
+	if latest_value is Dictionary:
+		return latest_value
+
+	return {}
+
+
+func _star_slots_from_value(star_value: float) -> Array[String]:
+	var slots: Array[String] = []
+	var remainder: float = clampf(star_value, 0.0, 3.0)
+
+	for _index in range(3):
+		if remainder >= 1.0:
+			slots.append("full")
+			remainder -= 1.0
+		elif remainder >= 0.5:
+			slots.append("half")
+			remainder -= 0.5
+		else:
+			slots.append("empty")
+
+	return slots
 func _on_back_pressed() -> void:
 	_play_click()
 	SceneRouter.goto("main_menu")

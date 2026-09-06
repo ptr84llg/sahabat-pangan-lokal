@@ -200,16 +200,38 @@ func _merge_level_games(
 ) -> void:
 	var destination_levels: Dictionary = destination_payload.get("levels", {})
 	var source_levels: Dictionary = source_payload.get("levels", {})
+
 	for level_no in range(1, 6):
 		var key: String = str(level_no)
 		var destination_level: Dictionary = destination_levels.get(key, {})
 		var source_level: Dictionary = source_levels.get(key, {})
+
 		if destination_level.is_empty() or source_level.is_empty():
 			continue
+
 		var source_games: Dictionary = source_level.get("games", {})
+
 		if not source_games.is_empty():
 			destination_level["games"] = source_games.duplicate(true)
+
+		for native_key in [
+			"level_attempts",
+			"active_level_attempt_id",
+			"latest_result",
+			"lifetime_summary"
+		]:
+			if source_level.has(native_key):
+				var native_value: Variant = source_level[native_key]
+
+				if native_value is Dictionary:
+					destination_level[native_key] = native_value.duplicate(true)
+				elif native_value is Array:
+					destination_level[native_key] = native_value.duplicate(true)
+				else:
+					destination_level[native_key] = native_value
+
 		destination_levels[key] = destination_level
+
 	destination_payload["levels"] = destination_levels
 
 func _build_levels(run: Dictionary) -> Dictionary:
@@ -218,6 +240,7 @@ func _build_levels(run: Dictionary) -> Dictionary:
 	var scores: Dictionary = run.get("level_scores", {})
 	var stars: Dictionary = run.get("stars_by_level", {})
 	var durations: Dictionary = run.get("level_durations_ms", {})
+
 	for level_no in range(1, 6):
 		var key: String = str(level_no)
 		var status: String = _normalize_level_status(
@@ -231,6 +254,10 @@ func _build_levels(run: Dictionary) -> Dictionary:
 			"level_no": level_no,
 			"status": status,
 			"games": {},
+			"level_attempts": [],
+			"active_level_attempt_id": "",
+			"latest_result": {},
+			"lifetime_summary": {},
 			"level_summary": {
 				"status": status,
 				"score": score,
@@ -238,6 +265,7 @@ func _build_levels(run: Dictionary) -> Dictionary:
 				"total_duration_ms": duration_ms
 			}
 		}
+
 	return levels
 
 func _normalize_level_status(value: String) -> String:

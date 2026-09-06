@@ -76,9 +76,14 @@ var _level_question_game_presenter: Control
 var _level_complete_presenter: Control
 var _level_food_information_presenter: Control
 var _level_badge_reward_presenter: Control
+var _level_attempt_started: bool = false
+var _level_attempt_id: String = ""
+var _level_attempt_no: int = 0
+var _last_finalized_level_attempt_id: String = ""
 
 
 func _prepare_level_presentation() -> void:
+	_ensure_level_attempt_started()
 	_apply_level_background()
 	_ensure_level_intro_presenter()
 	_ensure_level_dialogue_presenter()
@@ -99,6 +104,30 @@ func _prepare_level_presentation() -> void:
 	call_deferred("_refresh_level_food_information_presenter")
 	call_deferred("_refresh_level_badge_reward_presenter")
 
+
+func _ensure_level_attempt_started() -> void:
+	if _level_attempt_started:
+		return
+
+	_level_attempt_started = true
+	var level_no: int = int(get_meta("level_no", 0))
+
+	if level_no <= 0:
+		return
+
+	var attempt: Dictionary = TelemetryManager.begin_level_attempt(
+		level_no
+	)
+
+	if attempt.is_empty():
+		return
+
+	_level_attempt_id = str(
+		attempt.get("level_attempt_id", "")
+	)
+	_level_attempt_no = int(
+		attempt.get("attempt_no", 0)
+	)
 
 func set_state(new_state: String) -> void:
 	current_state = new_state
@@ -1189,6 +1218,9 @@ func _refresh_level_complete_presenter() -> void:
 		_active_window,
 		native_button
 	)
+	_finalize_level_attempt_from_completion(
+		completion_data
+	)
 
 	_level_complete_presenter.call(
 		"show_completion",
@@ -1197,6 +1229,31 @@ func _refresh_level_complete_presenter() -> void:
 		native_button
 	)
 
+
+func _finalize_level_attempt_from_completion(
+	completion_data: Dictionary
+) -> void:
+	var level_attempt_id: String = str(
+		completion_data.get("level_attempt_id", "")
+	).strip_edges()
+
+	if level_attempt_id.is_empty():
+		return
+
+	if _last_finalized_level_attempt_id == level_attempt_id:
+		return
+
+	var level_no: int = int(get_meta("level_no", 0))
+	var success: bool = TelemetryManager.complete_level_attempt(
+		level_no,
+		level_attempt_id,
+		int(completion_data.get("score_value", 0)),
+		int(completion_data.get("duration_ms", 0)),
+		float(completion_data.get("star_value", 0.0))
+	)
+
+	if success:
+		_last_finalized_level_attempt_id = level_attempt_id
 
 func _has_level_complete_signature() -> bool:
 	if not is_instance_valid(_active_window):
@@ -1259,10 +1316,55 @@ func _build_level_complete_data(
 	if not level_name.is_empty():
 		var readable_name: String = level_name.to_lower().capitalize()
 		message_text = (
-			"Kamu berhasil menyelesaikan seluruh kegiatan di " +
-			readable_name +
-			"."
+			"Kamu berhasil menyelesaikan seluruh kegiatan di "
+			+ readable_name
+			+ "."
 		)
+
+	var badge_name: String = _resolve_level_complete_badge_name(
+		level_no
+	)
+	var button_text: String = native_button.text.strip_edges()
+
+	if button_text.is_empty():
+		button_text = "LANJUT"
+
+	var v3_metrics: Dictionary = _resolve_v3_level_complete_metrics(
+		level_no
+	)
+
+	if not v3_metrics.is_empty():
+		return {
+			"level": level_no,
+			"message": _merge_level_complete_message(
+				message_text,
+				str(v3_metrics.get("attempt_caption", ""))
+			),
+			"duration_text": str(
+				v3_metrics.get("duration_text", "")
+			),
+			"score_text": str(
+				v3_metrics.get("score_text", "")
+			),
+			"result_text": str(
+				v3_metrics.get("result_text", "")
+			),
+			"detail_data": v3_metrics.get("detail_data", {}),
+			"level_attempt_id": str(
+				v3_metrics.get("level_attempt_id", "")
+			),
+			"score_value": int(
+				v3_metrics.get("score_value", 0)
+			),
+			"duration_ms": int(
+				v3_metrics.get("duration_ms", 0)
+			),
+			"star_value": float(
+				v3_metrics.get("star_value", 0.0)
+			),
+			"badge_name": badge_name,
+			"button_text": button_text
+		}
 
 	var summary_text: String = _resolve_level_complete_summary_from_window(
 		root_node
@@ -1282,13 +1384,6 @@ func _build_level_complete_data(
 	var score_text: String = _resolve_level_complete_score_from_window(
 		root_node
 	)
-	var badge_name: String = _resolve_level_complete_badge_name(
-		level_no
-	)
-	var button_text: String = native_button.text.strip_edges()
-
-	if button_text.is_empty():
-		button_text = "LANJUT"
 
 	return {
 		"level": level_no,
@@ -1299,6 +1394,686 @@ func _build_level_complete_data(
 		"badge_name": badge_name,
 		"button_text": button_text
 	}
+
+func _merge_level_complete_message(
+	base_message: String,
+	attempt_caption: String
+) -> String:
+	if attempt_caption.is_empty():
+		return base_message
+
+	return base_message + "\n" + attempt_caption
+
+
+func _resolve_v3_level_complete_metrics(
+	level_no: int
+) -> Dictionary:
+	if level_no <= 0:
+		return {}
+
+	var current: Dictionary = SaveManager.load_v3_active_current()
+
+	if current.is_empty():
+		return {}
+
+	if int(current.get("schema_version", 0)) != 3:
+		return {}
+
+	if str(current.get("storage_mode", "")) != "native":
+		return {}
+
+	var levels: Dictionary = current.get("levels", {})
+	var level: Dictionary = levels.get(str(level_no), {})
+	var games: Dictionary = level.get("games", {})
+
+	if games.is_empty():
+		return {}
+
+	var level_attempt: Dictionary = _resolve_active_level_attempt(
+		level
+	)
+	var level_attempt_id: String = str(
+		level_attempt.get("level_attempt_id", "")
+	).strip_edges()
+	var level_attempt_no: int = int(
+		level_attempt.get("attempt_no", 0)
+	)
+	var game_ids: Array = games.keys()
+	game_ids.sort()
+
+	var completed_game_count: int = 0
+	var game_score_total: int = 0
+	var duration_total_ms: int = 0
+	var game_details: Array[Dictionary] = []
+	var result_lines: Array[String] = []
+
+	for game_index in range(game_ids.size()):
+		var game_id: String = str(game_ids[game_index])
+		var game_value: Variant = games.get(game_id, {})
+
+		if not game_value is Dictionary:
+			continue
+
+		var game: Dictionary = game_value
+
+		if str(game.get("status", "")) != "completed":
+			continue
+
+		var attempt: Dictionary = _resolve_latest_completed_attempt(
+			game,
+			level_attempt_id
+		)
+
+		if attempt.is_empty():
+			continue
+
+		var summary: Dictionary = attempt.get(
+			"game_summary",
+			{}
+		)
+
+		if summary.is_empty():
+			continue
+
+		completed_game_count += 1
+		game_score_total += int(
+			summary.get("final_score", 0)
+		)
+		duration_total_ms += int(
+			summary.get("total_duration_ms", 0)
+		)
+
+		var game_detail: Dictionary = _build_v3_game_detail(
+			game_id,
+			game_index + 1,
+			game,
+			attempt,
+			summary
+		)
+		game_details.append(game_detail)
+		result_lines.append(
+			_format_v3_game_result_line(game_detail)
+		)
+
+	if completed_game_count <= 0:
+		return {}
+
+	var completion_bonus: int = _resolve_level_completion_bonus()
+	var final_score: int = clampi(
+		game_score_total + completion_bonus,
+		0,
+		100
+	)
+	var star_value: float = _resolve_level_star_value(
+		final_score
+	)
+	var attempt_caption: String = ""
+
+	if level_attempt_no > 1:
+		attempt_caption = "(Percobaan ke-%d)" % level_attempt_no
+
+	var star_slots: Array[String] = _build_star_slots(
+		star_value
+	)
+	var duration_text: String = _format_level_complete_duration_ms(
+		duration_total_ms
+	)
+	var score_text: String = "%d / 100" % final_score
+	var detail_data: Dictionary = {
+		"level_attempt_id": level_attempt_id,
+		"attempt_no": level_attempt_no,
+		"score_value": final_score,
+		"score_text": score_text,
+		"star_value": star_value,
+		"star_slots": star_slots,
+		"duration_ms": duration_total_ms,
+		"duration_text": duration_text,
+		"games": game_details
+	}
+
+	return {
+		"level_attempt_id": level_attempt_id,
+		"attempt_no": level_attempt_no,
+		"attempt_caption": attempt_caption,
+		"score_value": final_score,
+		"score_text": score_text,
+		"star_value": star_value,
+		"star_slots": star_slots,
+		"duration_ms": duration_total_ms,
+		"duration_text": duration_text,
+		"result_text": "\n\n".join(result_lines),
+		"detail_data": detail_data
+	}
+
+
+func _resolve_active_level_attempt(
+	level: Dictionary
+) -> Dictionary:
+	var attempts: Array = level.get("level_attempts", [])
+	var active_id: String = str(
+		level.get("active_level_attempt_id", "")
+	).strip_edges()
+
+	if not active_id.is_empty():
+		for value in attempts:
+			if not value is Dictionary:
+				continue
+
+			var attempt: Dictionary = value
+
+			if str(attempt.get("level_attempt_id", "")) == active_id:
+				return attempt
+
+	for index in range(attempts.size() - 1, -1, -1):
+		var value: Variant = attempts[index]
+
+		if not value is Dictionary:
+			continue
+
+		var attempt: Dictionary = value
+
+		if str(attempt.get("status", "")) == "in_progress":
+			return attempt
+
+	return {}
+
+
+func _resolve_latest_completed_attempt(
+	game: Dictionary,
+	level_attempt_id: String = ""
+) -> Dictionary:
+	var attempts: Array = game.get("attempts", [])
+
+	for index in range(attempts.size() - 1, -1, -1):
+		var attempt_value: Variant = attempts[index]
+
+		if not attempt_value is Dictionary:
+			continue
+
+		var attempt: Dictionary = attempt_value
+
+		if str(attempt.get("status", "")) != "completed":
+			continue
+
+		if not level_attempt_id.is_empty():
+			if str(attempt.get("level_attempt_id", "")) != level_attempt_id:
+				continue
+
+		var summary_value: Variant = attempt.get(
+			"game_summary",
+			{}
+		)
+
+		if summary_value is Dictionary:
+			var summary: Dictionary = summary_value
+
+			if not summary.is_empty():
+				return attempt
+
+	return {}
+
+
+func _build_v3_game_detail(
+	game_id: String,
+	game_no: int,
+	game: Dictionary,
+	attempt: Dictionary,
+	summary: Dictionary
+) -> Dictionary:
+	var title: String = _resolve_v3_game_title(
+		game_id,
+		game_no,
+		game
+	)
+	var duration_ms: int = int(
+		summary.get("total_duration_ms", 0)
+	)
+	var events: Array = game.get("interaction_events", [])
+	var attempt_id: String = str(
+		attempt.get("attempt_id", "")
+	)
+
+	return {
+		"game_no": game_no,
+		"game_id": game_id,
+		"title": title,
+		"score_value": int(summary.get("final_score", 0)),
+		"score_text": str(int(summary.get("final_score", 0))),
+		"duration_ms": duration_ms,
+		"duration_text": _format_level_complete_duration_ms(duration_ms),
+		"total_correct": int(summary.get("total_correct", 0)),
+		"total_wrong": int(summary.get("total_wrong", 0)),
+		"total_invalid": int(summary.get("total_invalid", 0)),
+		"total_hint": int(summary.get("total_hint", 0)),
+		"total_reset": int(summary.get("total_reset", 0)),
+		"total_back_to_map": int(summary.get("total_back_to_map", 0)),
+		"missions": _build_v3_mission_details(
+			events,
+			attempt_id
+		)
+	}
+
+
+func _build_v3_mission_details(
+	events: Array,
+	attempt_id: String
+) -> Array[Dictionary]:
+	var missions: Array[Dictionary] = []
+	var mission_events: Array[Dictionary] = []
+
+	for value in events:
+		if not value is Dictionary:
+			continue
+
+		var event: Dictionary = value
+
+		if str(event.get("attempt_id", "")) != attempt_id:
+			continue
+
+		if not _is_v3_mission_result_event(event):
+			continue
+
+		mission_events.append(event)
+
+	var previous_score_after: int = 0
+
+	for event_index in range(mission_events.size()):
+		var event: Dictionary = mission_events[event_index]
+		var score_delta_value: Variant = event.get(
+			"score_delta",
+			null
+		)
+		var score_after_value: Variant = event.get(
+			"score_after_event",
+			null
+		)
+		var point_text: String = "-"
+
+		if score_delta_value != null:
+			point_text = str(int(score_delta_value))
+		elif score_after_value != null:
+			var score_after: int = int(score_after_value)
+			point_text = str(score_after - previous_score_after)
+			previous_score_after = score_after
+
+		var control_counts: Dictionary = _linked_control_counts(
+			events,
+			attempt_id,
+			event
+		)
+		var duration_ms: int = _resolve_v3_event_duration_ms(
+			event
+		)
+		var duration_text: String = "-"
+
+		if duration_ms > 0:
+			duration_text = _format_level_complete_duration_ms(
+				duration_ms
+			)
+
+		missions.append({
+			"mission_no": event_index + 1,
+			"title": _resolve_v3_mission_title(event),
+			"duration_ms": duration_ms,
+			"duration_text": duration_text,
+			"status_text": _resolve_v3_result_label(
+				str(event.get("result", ""))
+			),
+			"point_text": point_text,
+			"hint_click_count": int(control_counts.get("hint", 0)),
+			"reset_click_count": int(control_counts.get("reset", 0)),
+			"back_to_map_click_count": int(control_counts.get("back_to_map", 0))
+		})
+
+	return missions
+
+
+func _is_v3_mission_result_event(
+	event: Dictionary
+) -> bool:
+	var event_type: String = str(
+		event.get("event_type", "")
+	)
+
+	return event_type in [
+		"drop",
+		"question_answer",
+		"mission_result",
+		"round_result",
+		"section_result"
+	]
+
+
+func _resolve_v3_game_title(
+	game_id: String,
+	game_no: int,
+	game: Dictionary
+) -> String:
+	var explicit_title: String = str(
+		game.get("title", game.get("name", ""))
+	).strip_edges()
+
+	if not explicit_title.is_empty():
+		return explicit_title
+
+	var game_type: String = str(
+		game.get("game_type", "")
+	)
+
+	if game_type == "matching_drag_drop":
+		return "Cocokkan Pangan"
+
+	if game_type == "literacy_question":
+		return "Tantangan Literasi"
+
+	if not game_type.is_empty():
+		return game_type.replace("_", " ").capitalize()
+
+	return "Permainan %d - %s" % [game_no, game_id]
+
+
+func _resolve_v3_mission_title(
+	event: Dictionary
+) -> String:
+	var event_type: String = str(
+		event.get("event_type", "")
+	)
+
+	if event_type == "question_answer":
+		var question_order: int = int(
+			event.get("question_order", 0)
+		)
+
+		if question_order > 0:
+			return "Pertanyaan %d" % question_order
+
+		return "Pertanyaan"
+
+	if event_type == "drop":
+		var dragged_item: Dictionary = event.get(
+			"dragged_item",
+			{}
+		)
+		var food_name: String = str(
+			dragged_item.get(
+				"display_name",
+				dragged_item.get(
+					"name",
+					dragged_item.get("food_id", "")
+				)
+			)
+		).strip_edges()
+
+		if not food_name.is_empty():
+			return food_name
+
+		return "Pencocokan Pangan"
+
+	var section_id: String = str(
+		event.get("section_id", "")
+	).strip_edges()
+
+	if not section_id.is_empty():
+		return section_id
+
+	var round_id: String = str(
+		event.get("round_id", "")
+	).strip_edges()
+
+	if not round_id.is_empty():
+		return round_id
+
+	return event_type.replace("_", " ").capitalize()
+
+
+func _resolve_v3_result_label(result: String) -> String:
+	match result:
+		"correct", "correct_drop":
+			return "Benar"
+		"wrong", "wrong_target_drop":
+			return "Salah"
+		"invalid_drop":
+			return "Tidak Valid"
+		"timeout":
+			return "Waktu Habis"
+		"completed":
+			return "Selesai"
+		_:
+			if result.is_empty():
+				return "-"
+			return result.replace("_", " ").capitalize()
+
+
+func _resolve_v3_event_duration_ms(
+	event: Dictionary
+) -> int:
+	for key in [
+		"duration_ms",
+		"response_time_ms",
+		"active_duration_ms"
+	]:
+		var value: Variant = event.get(key, null)
+
+		if value != null:
+			var duration_ms: int = maxi(0, int(value))
+
+			if duration_ms > 0:
+				return duration_ms
+
+	var timing_value: Variant = event.get("timing", {})
+
+	if timing_value is Dictionary:
+		var timing: Dictionary = timing_value
+
+		for key in [
+			"duration_ms",
+			"drag_duration_ms",
+			"active_duration_ms",
+			"elapsed_ms",
+			"response_time_ms"
+		]:
+			var value: Variant = timing.get(key, null)
+
+			if value != null:
+				var duration_ms: int = maxi(0, int(value))
+
+				if duration_ms > 0:
+					return duration_ms
+
+	return 0
+
+
+func _linked_control_counts(
+	events: Array,
+	attempt_id: String,
+	mission_event: Dictionary
+) -> Dictionary:
+	var output: Dictionary = {
+		"hint": 0,
+		"reset": 0,
+		"back_to_map": 0
+	}
+	var context_tokens: Array[String] = _mission_context_tokens(
+		mission_event
+	)
+
+	if context_tokens.is_empty():
+		return output
+
+	for value in events:
+		if not value is Dictionary:
+			continue
+
+		var event: Dictionary = value
+
+		if str(event.get("attempt_id", "")) != attempt_id:
+			continue
+
+		var event_type: String = str(
+			event.get("event_type", "")
+		)
+
+		if event_type not in [
+			"hint",
+			"reset",
+			"in_game_reset",
+			"back_to_map"
+		]:
+			continue
+
+		if not _control_event_matches_context(
+			event,
+			context_tokens
+		):
+			continue
+
+		if event_type == "hint":
+			output["hint"] = int(output.get("hint", 0)) + 1
+		elif event_type == "back_to_map":
+			output["back_to_map"] = int(output.get("back_to_map", 0)) + 1
+		else:
+			output["reset"] = int(output.get("reset", 0)) + 1
+
+	return output
+
+
+func _mission_context_tokens(
+	event: Dictionary
+) -> Array[String]:
+	var output: Array[String] = []
+
+	for key in [
+		"question_occurrence_id",
+		"question_id",
+		"drop_event_id",
+		"round_id",
+		"section_id"
+	]:
+		var token: String = str(event.get(key, "")).strip_edges()
+
+		if not token.is_empty() and not output.has(token):
+			output.append(token)
+
+	var dragged_item: Dictionary = event.get("dragged_item", {})
+	var food_id: String = str(
+		dragged_item.get("food_id", "")
+	).strip_edges()
+
+	if not food_id.is_empty() and not output.has(food_id):
+		output.append(food_id)
+
+	return output
+
+
+func _control_event_matches_context(
+	event: Dictionary,
+	context_tokens: Array[String]
+) -> bool:
+	for key in [
+		"context_id",
+		"question_occurrence_id",
+		"question_id",
+		"round_id",
+		"section_id"
+	]:
+		var token: String = str(event.get(key, "")).strip_edges()
+
+		if not token.is_empty() and context_tokens.has(token):
+			return true
+
+	return false
+
+
+func _format_v3_game_result_line(
+	game_detail: Dictionary
+) -> String:
+	return (
+		"Permainan ke-%d - %s\n"
+		% [
+			int(game_detail.get("game_no", 0)),
+			str(game_detail.get("title", ""))
+		]
+		+ "Skor: %s\n"
+		% str(game_detail.get("score_text", ""))
+		+ "Benar: %d | Salah: %d"
+		% [
+			int(game_detail.get("total_correct", 0)),
+			int(game_detail.get("total_wrong", 0))
+		]
+	)
+
+
+func _resolve_level_star_value(
+	score: int
+) -> float:
+	if score >= 100:
+		return 3.0
+	if score >= 90:
+		return 2.5
+	if score >= 75:
+		return 2.0
+	if score >= 50:
+		return 1.5
+	if score >= 35:
+		return 1.0
+	if score >= 5:
+		return 0.5
+	return 0.0
+
+
+func _build_star_slots(
+	star_value: float
+) -> Array[String]:
+	var slots: Array[String] = []
+	var remainder: float = star_value
+
+	for _index in range(3):
+		if remainder >= 1.0:
+			slots.append("full")
+			remainder -= 1.0
+		elif remainder >= 0.5:
+			slots.append("half")
+			remainder -= 0.5
+		else:
+			slots.append("empty")
+
+	return slots
+
+func _resolve_level_completion_bonus() -> int:
+	for property_value in get_property_list():
+		if not property_value is Dictionary:
+			continue
+
+		var property_data: Dictionary = property_value
+
+		if str(property_data.get("name", "")) != "level_config":
+			continue
+
+		var config_value: Variant = get("level_config")
+
+		if not config_value is Dictionary:
+			return 0
+
+		var config: Dictionary = config_value
+		var scoring_value: Variant = config.get("scoring", {})
+
+		if not scoring_value is Dictionary:
+			return 0
+
+		var scoring: Dictionary = scoring_value
+		return int(scoring.get("completion", 0))
+
+	return 0
+
+
+func _format_level_complete_duration_ms(
+	duration_ms: int
+) -> String:
+	var safe_ms: int = maxi(0, duration_ms)
+	var total_seconds: int = int(safe_ms / 1000.0)
+	var minutes: int = int(float(total_seconds) / 60.0)
+	var seconds: int = total_seconds % 60
+	return "%02d:%02d" % [minutes, seconds]
 
 
 func _resolve_level_complete_score_from_window(
