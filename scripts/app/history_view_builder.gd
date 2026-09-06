@@ -970,7 +970,9 @@ func _character_name(value: Variant) -> Variant:
 		"riski":
 			return "Riski"
 		_:
-			return key if not key.is_empty() else null
+			if not key.is_empty():
+				return key
+			return null
 
 
 func _display(value: Variant) -> String:
@@ -1058,7 +1060,9 @@ func _sum_dictionary(source_value: Variant) -> Variant:
 			total += int(value)
 			found = true
 
-	return total if found else null
+	if found:
+		return total
+	return null
 
 
 func _as_dictionary(value: Variant) -> Dictionary:

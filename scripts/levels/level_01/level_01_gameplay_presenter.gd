@@ -368,9 +368,6 @@ func _find_descendant_by_name(
 
 
 func _apply_responsive_geometry() -> void:
-	var viewport_width: float = size.x
-#	var compact: bool = viewport_width < 1060.0
-
 	if _adopted:
 		_apply_interaction_layout()
 
