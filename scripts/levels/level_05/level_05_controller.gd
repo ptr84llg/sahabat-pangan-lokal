@@ -3,6 +3,15 @@ extends LevelFlowController
 const FOOD_SLOT_SCENE := preload("res://scenes/shared/festival_food_slot.tscn")
 const BASKET_SLOT_SCENE := preload("res://scenes/shared/festival_basket_slot.tscn")
 
+const V3_MAIN_GAME_ID: String = "L5-G01"
+const V3_MAIN_GAME_TYPE: String = "festival_pangan_lokal"
+const V3_MAIN_INSTRUCTION_ID: String = "INST-L5-G01-FESTIVAL"
+const V3_MAIN_INSTRUCTION_TEXT: String = "Selesaikan empat skema Festival Pangan Lokal dengan satu Main Timer."
+
+const V3_QUIZ_GAME_ID: String = "L5-G02"
+const V3_QUIZ_GAME_TYPE: String = "literacy_question"
+const V3_QUIZ_INSTRUCTION_ID: String = "INST-L5-G02-QUIZ"
+const V3_QUIZ_INSTRUCTION_TEXT: String = "Jawab lima pertanyaan Uji Literasi Pangan dengan waktu 30 detik per pertanyaan."
 @onready var theme_panel: Control = %ThemePanel
 @onready var dialogue_panel: Control = %DialoguePanel
 @onready var tutorial_panel: Control = %TutorialPanel
@@ -44,6 +53,8 @@ var final_score := 0
 var active_duration_ms := 0
 var final_saved := false
 var closing_index := 0
+var main_game_start_active_ms: int = -1
+var quiz_game_start_active_ms: int = -1
 
 func _ready() -> void:
     if not _ensure_level_runtime_ready():
@@ -136,8 +147,33 @@ func _start_main_game() -> void:
     level_session = GameState.begin_level_session(5)
     attempt_id = IdUtil.uuid_v4()
     level_session["attempts"] = []
-    DurationTracker.begin_level_session(str(level_session.get("level_session_id", "")), 5)
+    DurationTracker.begin_level_session(
+        str(
+            level_session.get(
+                "level_session_id",
+                ""
+            )
+        ),
+        5
+    )
     DurationTracker.resume_active_play()
+    main_game_start_active_ms = DurationTracker.current_active_ms()
+
+    if not TelemetryManager.begin_game(
+        5,
+        V3_MAIN_GAME_ID,
+        V3_MAIN_GAME_TYPE,
+        {
+            "instruction_id": V3_MAIN_INSTRUCTION_ID,
+            "instruction_version": 1,
+            "instruction_text": V3_MAIN_INSTRUCTION_TEXT,
+            "content_version": ContentDatabase.content_version
+        }
+    ):
+        push_warning(
+            "Telemetry v3 Level 5 Game 1 belum dapat memulai game."
+        )
+
     schema_controller.reset()
     schema_index = 0
     main_game_score = 0
@@ -153,27 +189,68 @@ func _start_main_game() -> void:
     moving_lane.start()
     main_timer.start()
     show_only(screens, main_game_hud)
-    AnalyticsLogger.log_event("level_main_started", {"level_session_id":str(level_session.get("level_session_id", "")),"attempt_id":attempt_id,"level_no":5,"main_timer_initial":int(config.get("main_timer_seconds",240)),"lane_assignment":moving_lane.assignment_snapshot(),"content_version":ContentDatabase.content_version})
+
+    AnalyticsLogger.log_event(
+        "level_main_started",
+        {
+            "level_session_id": str(
+                level_session.get(
+                    "level_session_id",
+                    ""
+                )
+            ),
+            "attempt_id": attempt_id,
+            "level_no": 5,
+            "main_timer_initial": int(
+                config.get(
+                    "main_timer_seconds",
+                    240
+                )
+            ),
+            "lane_assignment": moving_lane.assignment_snapshot(),
+            "content_version": ContentDatabase.content_version
+        }
+    )
+
     _load_schema(0)
 
 func _load_schema(index: int) -> void:
     schema_index = index
     var schemas: Array = config.get("schemas", [])
+
     if index < 0 or index >= schemas.size():
         return
+
     _clear_container(%SchemaMissionContent)
     %ProcessChoiceRow.visible = false
     %SchemaFeedback.text = ""
+
     var data: Dictionary = schemas[index]
-    %SchemaLabel.text = "SKEMA %d/4 • %s" % [index + 1, str(data.get("name", ""))]
+    var schema_id: String = str(
+        data.get(
+            "schema_id",
+            ""
+        )
+    )
+    %SchemaLabel.text = "SKEMA %d/4 • %s" % [
+        index + 1,
+        str(data.get("name", ""))
+    ]
     %SchemaProgress.text = ""
     set_state("SCHEMA_%d" % [index + 1])
     moving_lane.set_coin_visible(index == 2)
+
     match index:
-        0: _setup_schema1(data)
-        1: _setup_schema2(data)
-        2: _setup_schema3(data)
-        3: _setup_schema4(data)
+        0:
+            _setup_schema1(data)
+        1:
+            _setup_schema2(data)
+        2:
+            _setup_schema3(data)
+        3:
+            _setup_schema4(data)
+
+    _begin_l5_schema_occurrence(schema_id)
 
 func _setup_schema1(data: Dictionary) -> void:
     if schema1_targets.is_empty():
@@ -405,17 +482,119 @@ func _on_schema4_process(process_id: String, correct_id: String) -> void:
         _feedback("Olahan pertama selesai. Lanjut ke olahan berikutnya.", true)
         _render_schema4_target()
 
-func _register_invalid(schema_id: String, event_type: String, item_id: String) -> void:
+func _register_invalid(
+    schema_id: String,
+    event_type: String,
+    item_id: String
+) -> void:
     AudioManager.play_sfx("wrong")
-    var score_now := schema_controller.register_invalid(schema_id, event_type, {"item_id":item_id,"timer_remaining":main_timer.seconds_left()})
-    AnalyticsLogger.log_event("l5_invalid_event", {"level_session_id":str(level_session.get("level_session_id", "")),"attempt_id":attempt_id,"schema_id":schema_id,"event_type":event_type,"item_id":item_id,"timer_remaining":main_timer.seconds_left(),"schema_score_now":score_now})
+
+    var score_now := schema_controller.register_invalid(
+        schema_id,
+        event_type,
+        {
+            "item_id": item_id,
+            "timer_remaining": main_timer.seconds_left()
+        }
+    )
+    var selected_answer_id: String = (
+        event_type
+        + ":"
+        + item_id
+    )
+    var correct_answer_id: String = (
+        schema_id
+        + ":complete"
+    )
+    var completed_score_before: int = (
+        _l5_completed_schema_score_before(
+            schema_id
+        )
+    )
+
+    if not TelemetryManager.record_question_answer(
+        5,
+        V3_MAIN_GAME_ID,
+        V3_MAIN_GAME_TYPE,
+        selected_answer_id,
+        correct_answer_id,
+        completed_score_before,
+        false
+    ):
+        push_warning(
+            "Telemetry v3 Level 5 Game 1 belum dapat merekam invalid attempt."
+        )
+
+    _begin_l5_schema_occurrence(schema_id)
+
+    AnalyticsLogger.log_event(
+        "l5_invalid_event",
+        {
+            "level_session_id": str(
+                level_session.get(
+                    "level_session_id",
+                    ""
+                )
+            ),
+            "attempt_id": attempt_id,
+            "schema_id": schema_id,
+            "event_type": event_type,
+            "item_id": item_id,
+            "timer_remaining": main_timer.seconds_left(),
+            "schema_score_now": score_now
+        }
+    )
 
 func _complete_schema(schema_id: String) -> void:
-    var score_now := schema_controller.complete_schema(schema_id)
-    AnalyticsLogger.log_event("l5_schema_complete", {"level_session_id":str(level_session.get("level_session_id", "")),"schema_id":schema_id,"schema_score":score_now,"timer_remaining":main_timer.seconds_left()})
+    var score_now := schema_controller.complete_schema(
+        schema_id
+    )
+    var completed_score_before: int = (
+        _l5_completed_schema_score_before(
+            schema_id
+        )
+    )
+    var current_score: int = (
+        completed_score_before
+        + score_now
+    )
+    var completion_answer_id: String = (
+        schema_id
+        + ":complete"
+    )
+
+    if not TelemetryManager.record_question_answer(
+        5,
+        V3_MAIN_GAME_ID,
+        V3_MAIN_GAME_TYPE,
+        completion_answer_id,
+        completion_answer_id,
+        current_score,
+        false
+    ):
+        push_warning(
+            "Telemetry v3 Level 5 Game 1 belum dapat merekam penyelesaian skema."
+        )
+
+    AnalyticsLogger.log_event(
+        "l5_schema_complete",
+        {
+            "level_session_id": str(
+                level_session.get(
+                    "level_session_id",
+                    ""
+                )
+            ),
+            "schema_id": schema_id,
+            "schema_score": score_now,
+            "timer_remaining": main_timer.seconds_left()
+        }
+    )
+
     moving_lane.return_all_held()
     UIMotion.play_reward(%MissionArea)
     await get_tree().create_timer(0.35).timeout
+
     if schema_index < 3:
         _load_schema(schema_index + 1)
     else:
@@ -429,15 +608,71 @@ func _complete_main_game() -> void:
     main_game_score = schema_controller.total_accuracy_score()
     time_bonus = _calculate_time_bonus()
     main_game_score += time_bonus
-    var attempt_snapshot := {"attempt_id":attempt_id,"attempt_index":1,"status":"MAIN_GAME_SUCCESS","schema":schema_controller.snapshot(),"main_timer_initial":int(config.get("main_timer_seconds",240)),"main_timer_remaining":main_timer.seconds_left(),"main_timer_expired":main_timer.is_expired,"time_bonus":time_bonus,"main_game_score":main_game_score,"lane_assignment":moving_lane.assignment_snapshot(),"completed_at":Time.get_unix_time_from_system()}
+
+    var main_game_duration_ms: int = 0
+
+    if main_game_start_active_ms >= 0:
+        main_game_duration_ms = maxi(
+            0,
+            DurationTracker.current_active_ms()
+            - main_game_start_active_ms
+        )
+
+    if not TelemetryManager.complete_game(
+        5,
+        V3_MAIN_GAME_ID,
+        V3_MAIN_GAME_TYPE,
+        main_game_score,
+        main_game_duration_ms
+    ):
+        push_warning(
+            "Telemetry v3 Level 5 Game 1 belum dapat menyelesaikan game."
+        )
+
+    var attempt_snapshot := {
+        "attempt_id": attempt_id,
+        "attempt_index": 1,
+        "status": "MAIN_GAME_SUCCESS",
+        "schema": schema_controller.snapshot(),
+        "main_timer_initial": int(
+            config.get(
+                "main_timer_seconds",
+                240
+            )
+        ),
+        "main_timer_remaining": main_timer.seconds_left(),
+        "main_timer_expired": main_timer.is_expired,
+        "time_bonus": time_bonus,
+        "main_game_score": main_game_score,
+        "lane_assignment": moving_lane.assignment_snapshot(),
+        "completed_at": Time.get_unix_time_from_system()
+    }
     level_session["attempts"].append(attempt_snapshot)
     level_session["successful_attempt_id"] = attempt_id
     GameState.update_level_session(level_session)
     set_state("MAIN_GAME_COMPLETE")
     show_only(screens, main_result_panel)
+
     var snap: Dictionary = schema_controller.snapshot()
     var scores: Dictionary = snap.get("scores", {})
-    %MainResultText.text = "MAIN GAME SELESAI\nSkema 1: %d/10\nSkema 2: %d/12\nSkema 3: %d/13\nSkema 4: %d/15\nBonus waktu: %d/10\nMain Game: %d/60\nSisa waktu: %s%s" % [int(scores.get("schema_1",0)),int(scores.get("schema_2",0)),int(scores.get("schema_3",0)),int(scores.get("schema_4",0)),time_bonus,main_game_score,_format_seconds(main_timer.seconds_left())," - Bonus waktu habis" if main_timer.is_expired else ""]
+
+    %MainResultText.text = (
+        "MAIN GAME SELESAI\n"
+        + "Skema 1: %d/10\n" % int(scores.get("schema_1", 0))
+        + "Skema 2: %d/12\n" % int(scores.get("schema_2", 0))
+        + "Skema 3: %d/13\n" % int(scores.get("schema_3", 0))
+        + "Skema 4: %d/15\n" % int(scores.get("schema_4", 0))
+        + "Bonus waktu: %d/10\n" % time_bonus
+        + "Main Game: %d/60\n" % main_game_score
+        + "Sisa waktu: %s%s" % [
+            _format_seconds(main_timer.seconds_left()),
+            (
+                " - Bonus waktu habis"
+                if main_timer.is_expired
+                else ""
+            )
+        ]
+    )
 
 func _calculate_time_bonus() -> int:
     var ratio := main_timer.remaining_ratio()
@@ -458,6 +693,466 @@ func _on_main_timer_expired() -> void:
     _feedback("Bonus waktu habis. Permainan tetap lanjut sampai Skema 4 selesai.", false)
     AnalyticsLogger.log_event("l5_main_timer_expired", {"level_session_id":str(level_session.get("level_session_id", "")),"schema_id":"schema_%d" % [schema_index+1]})
 
+func _l5_schema_data(schema_id: String) -> Dictionary:
+    for schema_value in config.get("schemas", []):
+        if not schema_value is Dictionary:
+            continue
+
+        var schema_data: Dictionary = schema_value
+
+        if str(
+            schema_data.get(
+                "schema_id",
+                ""
+            )
+        ) == schema_id:
+            return schema_data
+
+    return {}
+
+
+func _l5_completed_schema_score_before(
+    schema_id: String
+) -> int:
+    var total: int = 0
+
+    for schema_value in config.get("schemas", []):
+        if not schema_value is Dictionary:
+            continue
+
+        var schema_data: Dictionary = schema_value
+        var current_schema_id: String = str(
+            schema_data.get(
+                "schema_id",
+                ""
+            )
+        )
+
+        if current_schema_id == schema_id:
+            break
+
+        total += schema_controller.schema_score(
+            current_schema_id
+        )
+
+    return total
+
+
+func _build_l5_schema_options(
+    schema_id: String
+) -> Array:
+    var output: Array = []
+    var display_order: int = 0
+
+    for food_value in config.get(
+        "bank_food_ids",
+        []
+    ):
+        var food_id: String = str(food_value)
+        var food: Dictionary = ContentDatabase.get_food(
+            food_id
+        )
+        display_order += 1
+        output.append(
+            {
+                "answer_id": food_id,
+                "text_snapshot": str(
+                    food.get(
+                        "display_name",
+                        food_id
+                    )
+                ),
+                "display_order": display_order
+            }
+        )
+
+    if schema_id == "schema_4":
+        var schema_data: Dictionary = _l5_schema_data(
+            schema_id
+        )
+
+        for process_value in schema_data.get(
+            "process_choice_ids",
+            []
+        ):
+            var process_id: String = str(
+                process_value
+            )
+            display_order += 1
+            output.append(
+                {
+                    "answer_id": process_id,
+                    "text_snapshot": ContentDatabase.get_process_name(
+                        process_id
+                    ),
+                    "display_order": display_order
+                }
+            )
+
+    display_order += 1
+    output.append(
+        {
+            "answer_id": schema_id + ":complete",
+            "text_snapshot": "Skema selesai",
+            "display_order": display_order
+        }
+    )
+
+    return output
+
+
+func _begin_l5_schema_occurrence(
+    schema_id: String
+) -> void:
+    if schema_id.strip_edges().is_empty():
+        push_warning(
+            "Telemetry v3 Level 5 Game 1 tidak memiliki schema_id."
+        )
+        return
+
+    var occurrence_id: String = (
+        TelemetryManager.begin_question_occurrence(
+            5,
+            V3_MAIN_GAME_ID,
+            V3_MAIN_GAME_TYPE,
+            schema_id,
+            schema_index + 1,
+            1,
+            _build_l5_schema_options(
+                schema_id
+            )
+        )
+    )
+
+    if occurrence_id.is_empty():
+        push_warning(
+            "Telemetry v3 Level 5 Game 1 belum dapat membuka occurrence skema."
+        )
+
+
+func _build_l5_quiz_options(
+    answers: Array
+) -> Array:
+    var output: Array = []
+    var display_order: int = 0
+
+    for answer_value in answers:
+        if not answer_value is Dictionary:
+            continue
+
+        var answer_data: Dictionary = answer_value
+        display_order += 1
+        output.append(
+            {
+                "answer_id": str(
+                    answer_data.get(
+                        "answer_id",
+                        ""
+                    )
+                ),
+                "text_snapshot": str(
+                    answer_data.get(
+                        "text",
+                        ""
+                    )
+                ),
+                "display_order": display_order
+            }
+        )
+
+    return output
+
+
+func _begin_l5_quiz_occurrence(
+    question: Dictionary,
+    answers: Array,
+    question_order: int
+) -> void:
+    var question_id: String = str(
+        question.get(
+            "question_id",
+            ""
+        )
+    ).strip_edges()
+
+    if question_id.is_empty():
+        push_warning(
+            "Telemetry v3 Level 5 Game 2 tidak memiliki question_id."
+        )
+        return
+
+    var occurrence_id: String = (
+        TelemetryManager.begin_question_occurrence(
+            5,
+            V3_QUIZ_GAME_ID,
+            V3_QUIZ_GAME_TYPE,
+            question_id,
+            question_order,
+            1,
+            _build_l5_quiz_options(
+                answers
+            )
+        )
+    )
+
+    if occurrence_id.is_empty():
+        push_warning(
+            "Telemetry v3 Level 5 Game 2 belum dapat membuka occurrence pertanyaan."
+        )
+
+
+func _resolve_v3_game_title(
+    game_id: String,
+    game_no: int,
+    game: Dictionary
+) -> String:
+    if game_id == V3_MAIN_GAME_ID:
+        return "Festival Pangan Lokal"
+
+    if game_id == V3_QUIZ_GAME_ID:
+        return "Uji Literasi Pangan"
+
+    return super._resolve_v3_game_title(
+        game_id,
+        game_no,
+        game
+    )
+
+
+func _resolve_v3_mission_title(
+    event: Dictionary
+) -> String:
+    var game_id: String = str(
+        event.get(
+            "game_id",
+            ""
+        )
+    )
+    var question_id: String = str(
+        event.get(
+            "question_id",
+            ""
+        )
+    )
+    var question_order: int = int(
+        event.get(
+            "question_order",
+            0
+        )
+    )
+
+    if game_id == V3_MAIN_GAME_ID:
+        var schema_data: Dictionary = _l5_schema_data(
+            question_id
+        )
+
+        if not schema_data.is_empty():
+            return (
+                "Skema %d - %s"
+                % [
+                    question_order,
+                    str(
+                        schema_data.get(
+                            "name",
+                            question_id
+                        )
+                    ).to_lower().capitalize()
+                ]
+            )
+
+    if game_id == V3_QUIZ_GAME_ID:
+        if question_order > 0:
+            return "Pertanyaan %d" % question_order
+
+        return "Pertanyaan"
+
+    return super._resolve_v3_mission_title(event)
+
+
+func _resolve_v3_mission_scoring(
+    game_id: String,
+    final_event: Dictionary,
+    awarded_points: int
+) -> Dictionary:
+    var base_points: int = awarded_points
+    var retry_points: int = awarded_points
+
+    if game_id == V3_MAIN_GAME_ID:
+        var schema_id: String = str(
+            final_event.get(
+                "question_id",
+                ""
+            )
+        )
+        var schema_data: Dictionary = _l5_schema_data(
+            schema_id
+        )
+
+        if not schema_data.is_empty():
+            base_points = int(
+                schema_data.get(
+                    "max_score",
+                    awarded_points
+                )
+            )
+            retry_points = base_points
+
+    elif game_id == V3_QUIZ_GAME_ID:
+        var quiz_scoring: Dictionary = config.get(
+            "quiz",
+            {}
+        )
+        base_points = int(
+            quiz_scoring.get(
+                "score_correct",
+                8
+            )
+        )
+        retry_points = 0
+
+    else:
+        return super._resolve_v3_mission_scoring(
+            game_id,
+            final_event,
+            awarded_points
+        )
+
+    var final_result: String = str(
+        final_event.get(
+            "result",
+            ""
+        )
+    )
+    var penalty_points: int = 0
+
+    if (
+        game_id == V3_MAIN_GAME_ID
+        and final_result == "correct"
+    ):
+        penalty_points = maxi(
+            0,
+            base_points - awarded_points
+        )
+
+    return {
+        "base_points": base_points,
+        "retry_points": retry_points,
+        "awarded_points": awarded_points,
+        "penalty_points": penalty_points
+    }
+
+func _has_level_complete_signature() -> bool:
+    if current_state != "FINAL_RESULT":
+        return false
+
+    if not is_instance_valid(_active_window):
+        return false
+
+    if _active_window != final_result_panel:
+        return false
+
+    return super._has_level_complete_signature()
+
+
+func _resolve_v3_answer_text(
+    event: Dictionary,
+    answer_id: String
+) -> String:
+    if str(event.get("game_id", "")) != V3_MAIN_GAME_ID:
+        return super._resolve_v3_answer_text(
+            event,
+            answer_id
+        )
+
+    var normalized: String = answer_id.strip_edges()
+
+    if normalized.is_empty():
+        return "-"
+
+    if normalized.ends_with(":complete"):
+        return "Skema selesai"
+
+    var payload: String = normalized
+    var separator_index: int = normalized.find(":")
+
+    if (
+        separator_index >= 0
+        and separator_index + 1 < normalized.length()
+    ):
+        payload = normalized.substr(
+            separator_index + 1
+        )
+
+    return _resolve_l5_readable_item_name(payload)
+
+
+func _resolve_l5_readable_item_name(
+    item_id: String
+) -> String:
+    var normalized: String = item_id.strip_edges()
+
+    if normalized.is_empty():
+        return "-"
+
+    if (
+        normalized.begins_with("[")
+        and normalized.ends_with("]")
+    ):
+        var pair_text: String = normalized.trim_prefix(
+            "["
+        ).trim_suffix(
+            "]"
+        ).replace(
+            "\"",
+            ""
+        )
+        var pair_parts: PackedStringArray = pair_text.split(
+            ",",
+            false
+        )
+        var pair_names: Array[String] = []
+
+        for pair_value in pair_parts:
+            var pair_id: String = str(
+                pair_value
+            ).strip_edges()
+
+            if not pair_id.is_empty():
+                pair_names.append(
+                    _resolve_l5_readable_item_name(
+                        pair_id
+                    )
+                )
+
+        if not pair_names.is_empty():
+            return " + ".join(pair_names)
+
+    var food: Dictionary = ContentDatabase.get_food(
+        normalized
+    )
+
+    if not food.is_empty():
+        return str(
+            food.get(
+                "display_name",
+                normalized
+            )
+        )
+
+    var process: Dictionary = ContentDatabase.get_process(
+        normalized
+    )
+
+    if not process.is_empty():
+        return str(
+            process.get(
+                "display_name",
+                normalized
+            )
+        )
+
+    return _humanize_v3_identifier(normalized)
+
 func _show_literacy_intro() -> void:
     set_state("LITERACY_INTRO")
     show_only(screens, literacy_intro_panel)
@@ -466,59 +1161,239 @@ func _show_literacy_intro() -> void:
 func _start_quiz() -> void:
     quiz_controller.begin()
     quiz_score = 0
+    quiz_game_start_active_ms = DurationTracker.current_active_ms()
+
+    if not TelemetryManager.begin_game(
+        5,
+        V3_QUIZ_GAME_ID,
+        V3_QUIZ_GAME_TYPE,
+        {
+            "instruction_id": V3_QUIZ_INSTRUCTION_ID,
+            "instruction_version": 1,
+            "instruction_text": V3_QUIZ_INSTRUCTION_TEXT,
+            "content_version": ContentDatabase.content_version
+        }
+    ):
+        push_warning(
+            "Telemetry v3 Level 5 Game 2 belum dapat memulai game."
+        )
+
     show_only(screens, quiz_hud)
     _advance_quiz()
 
 func _advance_quiz() -> void:
     var next := quiz_controller.advance_question()
+
     if next.is_empty():
         _complete_quiz()
         return
-    set_state("QUESTION_%d" % [int(next.get("index",0))+1])
+
+    var question_order: int = int(
+        next.get(
+            "index",
+            0
+        )
+    ) + 1
+    set_state(
+        "QUESTION_%d"
+        % question_order
+    )
     %QuizNextButton.visible = false
     %QuizFeedback.text = ""
-    var q: Dictionary = next.get("question", {})
-    %QuestionProgress.text = "SOAL %d / %d" % [int(next.get("index",0))+1, quiz_controller.question_count()]
-    %QuestionText.text = str(q.get("question_text", ""))
-    var buttons := [%AnswerA,%AnswerB,%AnswerC,%AnswerD]
-    var answers: Array = next.get("answers", [])
+
+    var q: Dictionary = next.get(
+        "question",
+        {}
+    )
+    %QuestionProgress.text = "SOAL %d / %d" % [
+        question_order,
+        quiz_controller.question_count()
+    ]
+    %QuestionText.text = str(
+        q.get(
+            "question_text",
+            ""
+        )
+    )
+
+    var buttons := [
+        %AnswerA,
+        %AnswerB,
+        %AnswerC,
+        %AnswerD
+    ]
+    var answers: Array = next.get(
+        "answers",
+        []
+    )
+
     for i in range(buttons.size()):
         var b: Button = buttons[i]
         b.disabled = false
         b.visible = i < answers.size()
+
         if i < answers.size():
-            b.set_meta("answer_id", str(answers[i].get("answer_id", "")))
-            b.text = "%s. %s" % [["A","B","C","D"][i], str(answers[i].get("text", ""))]
+            b.set_meta(
+                "answer_id",
+                str(
+                    answers[i].get(
+                        "answer_id",
+                        ""
+                    )
+                )
+            )
+            b.text = "%s. %s" % [
+                ["A", "B", "C", "D"][i],
+                str(
+                    answers[i].get(
+                        "text",
+                        ""
+                    )
+                )
+            ]
+
     DurationTracker.resume_active_play()
     question_timer.start_question()
+    _begin_l5_quiz_occurrence(
+        q,
+        answers,
+        question_order
+    )
 
 func _on_answer_pressed(button_index: int) -> void:
     if not question_timer.running:
         return
+
     question_timer.stop()
     DurationTracker.pause_active_play()
-    var buttons := [%AnswerA,%AnswerB,%AnswerC,%AnswerD]
+
+    var buttons := [
+        %AnswerA,
+        %AnswerB,
+        %AnswerC,
+        %AnswerD
+    ]
     var button: Button = buttons[button_index]
-    var answer_id := str(button.get_meta("answer_id", ""))
-    var result := quiz_controller.submit(answer_id, question_timer.elapsed_ms())
+    var answer_id := str(
+        button.get_meta(
+            "answer_id",
+            ""
+        )
+    )
+    var result := quiz_controller.submit(
+        answer_id,
+        question_timer.elapsed_ms()
+    )
+    var correct_answer_id: String = str(
+        result.get(
+            "correct_answer_id",
+            ""
+        )
+    )
+
+    if not TelemetryManager.record_question_answer(
+        5,
+        V3_QUIZ_GAME_ID,
+        V3_QUIZ_GAME_TYPE,
+        answer_id,
+        correct_answer_id,
+        quiz_controller.score,
+        false
+    ):
+        push_warning(
+            "Telemetry v3 Level 5 Game 2 belum dapat merekam jawaban."
+        )
+
     _lock_answer_buttons()
     var q := quiz_controller.current_question
+
     if bool(result.get("correct", false)):
-        %QuizFeedback.text = "BENAR +8\n" + str(q.get("feedback_correct", ""))
+        %QuizFeedback.text = (
+            "BENAR +8\n"
+            + str(
+                q.get(
+                    "feedback_correct",
+                    ""
+                )
+            )
+        )
     else:
-        %QuizFeedback.text = "BELUM TEPAT +0\nJawaban benar: %s\n%s" % [quiz_controller.current_correct_text(), str(q.get("feedback_wrong", ""))]
+        %QuizFeedback.text = (
+            "BELUM TEPAT +0\n"
+            + "Jawaban benar: %s\n%s"
+            % [
+                quiz_controller.current_correct_text(),
+                str(
+                    q.get(
+                        "feedback_wrong",
+                        ""
+                    )
+                )
+            ]
+        )
+
     _log_quiz_response(result)
-    %QuizNextButton.text = "LIHAT HASIL" if not quiz_controller.has_more() else "SOAL BERIKUTNYA"
+    %QuizNextButton.text = (
+        "LIHAT HASIL"
+        if not quiz_controller.has_more()
+        else "SOAL BERIKUTNYA"
+    )
     %QuizNextButton.visible = true
 
 func _on_question_timeout() -> void:
     DurationTracker.pause_active_play()
-    var result := quiz_controller.submit_timeout(int(config.get("quiz", {}).get("seconds_per_question",30))*1000)
+
+    var result := quiz_controller.submit_timeout(
+        int(
+            config.get(
+                "quiz",
+                {}
+            ).get(
+                "seconds_per_question",
+                30
+            )
+        )
+        * 1000
+    )
+    var correct_answer_id: String = str(
+        result.get(
+            "correct_answer_id",
+            ""
+        )
+    )
+
+    if not TelemetryManager.record_question_timeout(
+        5,
+        V3_QUIZ_GAME_ID,
+        V3_QUIZ_GAME_TYPE,
+        correct_answer_id,
+        quiz_controller.score
+    ):
+        push_warning(
+            "Telemetry v3 Level 5 Game 2 belum dapat merekam timeout."
+        )
+
     _lock_answer_buttons()
     var q := quiz_controller.current_question
-    %QuizFeedback.text = "WAKTU MENJAWAB HABIS +0\nJawaban benar: %s\n%s" % [quiz_controller.current_correct_text(), str(q.get("feedback_wrong", ""))]
+    %QuizFeedback.text = (
+        "WAKTU MENJAWAB HABIS +0\n"
+        + "Jawaban benar: %s\n%s"
+        % [
+            quiz_controller.current_correct_text(),
+            str(
+                q.get(
+                    "feedback_wrong",
+                    ""
+                )
+            )
+        ]
+    )
     _log_quiz_response(result)
-    %QuizNextButton.text = "LIHAT HASIL" if not quiz_controller.has_more() else "SOAL BERIKUTNYA"
+    %QuizNextButton.text = (
+        "LIHAT HASIL"
+        if not quiz_controller.has_more()
+        else "SOAL BERIKUTNYA"
+    )
     %QuizNextButton.visible = true
 
 func _log_quiz_response(result: Dictionary) -> void:
@@ -535,6 +1410,27 @@ func _complete_quiz() -> void:
     question_timer.stop()
     DurationTracker.pause_active_play()
     quiz_score = quiz_controller.score
+
+    var quiz_game_duration_ms: int = 0
+
+    if quiz_game_start_active_ms >= 0:
+        quiz_game_duration_ms = maxi(
+            0,
+            DurationTracker.current_active_ms()
+            - quiz_game_start_active_ms
+        )
+
+    if not TelemetryManager.complete_game(
+        5,
+        V3_QUIZ_GAME_ID,
+        V3_QUIZ_GAME_TYPE,
+        quiz_score,
+        quiz_game_duration_ms
+    ):
+        push_warning(
+            "Telemetry v3 Level 5 Game 2 belum dapat menyelesaikan game."
+        )
+
     final_score = main_game_score + quiz_score
     active_duration_ms = DurationTracker.finish_level_session()
     level_session["active_duration_ms"] = active_duration_ms
@@ -543,11 +1439,25 @@ func _complete_quiz() -> void:
     GameState.update_level_session(level_session)
     set_state("FINAL_RESULT")
     show_only(screens, final_result_panel)
+
     var correct_count := 0
+
     for response in quiz_controller.responses:
-        if str(response.get("question_status", "")) == "CORRECT":
+        if str(
+            response.get(
+                "question_status",
+                ""
+            )
+        ) == "CORRECT":
             correct_count += 1
-    %FinalResultText.text = "LEVEL 5 SELESAI\nPerforma Festival: %d/60\nUji Literasi: %d/40\nTOTAL: %d/100\nJawaban benar: %d/5" % [main_game_score, quiz_score, final_score, correct_count]
+
+    %FinalResultText.text = (
+        "LEVEL 5 SELESAI\n"
+        + "Performa Festival: %d/60\n" % main_game_score
+        + "Uji Literasi: %d/40\n" % quiz_score
+        + "TOTAL: %d/100\n" % final_score
+        + "Jawaban benar: %d/5" % correct_count
+    )
 
 func _show_gallery() -> void:
     set_state("KNOWLEDGE_GALLERY")
@@ -651,8 +1561,25 @@ func _format_seconds(seconds: int) -> String:
     return "%02d:%02d" % [int(seconds / 60.0), seconds % 60]
 
 func _format_ms(ms: int) -> String:
-    var seconds := int(round(ms / 1000.0))
-    return "%02d:%02d" % [int(seconds / 60.0), seconds % 60]
+    var safe_ms: int = maxi(0, ms)
+    var total_centiseconds: int = int(
+        round(float(safe_ms) / 10.0)
+    )
+    var centiseconds: int = total_centiseconds % 100
+    var total_seconds: int = int(
+        float(total_centiseconds) / 100.0
+    )
+    var seconds: int = total_seconds % 60
+    var minutes: int = int(
+        float(total_seconds) / 60.0
+    )
+
+    return "%02d:%02d.%02d" % [
+        minutes,
+        seconds,
+        centiseconds
+    ]
+
 
 func _ensure_level_runtime_ready() -> bool:
     if not ContentDatabase.initialize():

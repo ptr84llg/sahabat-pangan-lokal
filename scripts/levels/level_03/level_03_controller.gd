@@ -4,6 +4,15 @@ const FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
 const BASKET_SLOT_SCENE := preload("res://scenes/shared/basket_slot.tscn")
 const DROP_SLOT_SCENE := preload("res://scenes/shared/drop_slot.tscn")
 
+const V3_MAIN_GAME_ID: String = "L3-G01"
+const V3_MAIN_GAME_TYPE: String = "belanja_pangan"
+const V3_MAIN_INSTRUCTION_ID: String = "INST-L3-G01-SHOPPING"
+const V3_MAIN_INSTRUCTION_TEXT: String = "Pilih satu pangan dari setiap kelompok dengan maksimal 15 Koin Pangan."
+
+const V3_LITERACY_GAME_ID: String = "L3-G02"
+const V3_LITERACY_GAME_TYPE: String = "literacy_question"
+const V3_LITERACY_INSTRUCTION_ID: String = "INST-L3-G02-LITERACY"
+const V3_LITERACY_INSTRUCTION_TEXT: String = "Selesaikan tiga ronde perencanaan belanja dan pengelolaan Koin Pangan."
 @onready var theme_panel: Control = %ThemePanel
 @onready var dialogue_panel: Control = %DialoguePanel
 @onready var tutorial_panel: Control = %TutorialPanel
@@ -36,6 +45,8 @@ var closing_index := 0
 var main_game_penalty_total := 0
 var dead_end_state_active := false
 var back_to_map_count := 0
+var main_game_start_active_ms: int = -1
+var literacy_game_start_active_ms: int = -1
 func _ready() -> void:
     if not _ensure_level_runtime_ready():
         return
@@ -171,10 +182,23 @@ func _show_tutorial() -> void:
     %TutorialSkipButton.visible = bool(SettingsManager.get_flag(str(level_config.get("tutorial_flag_key", "shopping_tutorial_seen")), false))
 
 func _start_gameplay() -> void:
-    SettingsManager.set_flag(str(level_config.get("tutorial_flag_key", "shopping_tutorial_seen")), true)
+    SettingsManager.set_flag(
+        str(
+            level_config.get(
+                "tutorial_flag_key",
+                "shopping_tutorial_seen"
+            )
+        ),
+        true
+    )
+
     if level_session.is_empty():
         level_session = GameState.begin_level_session(3)
-        DurationTracker.begin_level_session(str(level_session.get("level_session_id", "")), 3)
+        DurationTracker.begin_level_session(
+            str(level_session.get("level_session_id", "")),
+            3
+        )
+
     set_state("MAIN_GAME")
     show_only(screens, main_game_hud)
     main_game_penalty_total = 0
@@ -182,8 +206,40 @@ func _start_gameplay() -> void:
     %DeadEndMask.visible = false
     _set_market_blocked(false, "")
     DurationTracker.resume_active_play()
-    _on_basket_changed([], int(level_config.get("coin_budget", 15)), {})
-    AnalyticsLogger.log_event("level_main_started", {"level_session_id":level_session.get("level_session_id", ""),"level_no":3,"content_version":ContentDatabase.content_version})
+    main_game_start_active_ms = DurationTracker.current_active_ms()
+
+    if not TelemetryManager.begin_game(
+        3,
+        V3_MAIN_GAME_ID,
+        V3_MAIN_GAME_TYPE,
+        {
+            "instruction_id": V3_MAIN_INSTRUCTION_ID,
+            "instruction_version": 1,
+            "instruction_text": V3_MAIN_INSTRUCTION_TEXT,
+            "content_version": ContentDatabase.content_version
+        }
+    ):
+        push_warning(
+            "Telemetry v3 Level 3 Game 1 belum dapat memulai game."
+        )
+
+    _on_basket_changed(
+        [],
+        int(level_config.get("coin_budget", 15)),
+        {}
+    )
+
+    AnalyticsLogger.log_event(
+        "level_main_started",
+        {
+            "level_session_id": level_session.get(
+                "level_session_id",
+                ""
+            ),
+            "level_no": 3,
+            "content_version": ContentDatabase.content_version
+        }
+    )
 
 func _on_basket_changed(selected_ids: Array, coin_remaining: int, selected_groups: Dictionary) -> void:
     %CoinLabel.text = str(coin_remaining)
@@ -202,19 +258,75 @@ func _on_basket_changed(selected_ids: Array, coin_remaining: int, selected_group
     _refresh_main_gameplay_state(selected_ids, coin_remaining, selected_groups)
 
 func _on_shopping_success(final_ids: Array) -> void:
-    var base_main_score := int(level_config.get("scoring", {}).get("main_game_success", 60))
-    main_score = max(0, base_main_score - main_game_penalty_total)
+    var base_main_score: int = int(
+        level_config.get(
+            "scoring",
+            {}
+        ).get(
+            "main_game_success",
+            60
+        )
+    )
+    main_score = max(
+        0,
+        base_main_score - main_game_penalty_total
+    )
     DurationTracker.pause_active_play()
+
+    var main_game_duration_ms: int = 0
+
+    if main_game_start_active_ms >= 0:
+        main_game_duration_ms = maxi(
+            0,
+            DurationTracker.current_active_ms()
+            - main_game_start_active_ms
+        )
+
+    if not TelemetryManager.complete_game(
+        3,
+        V3_MAIN_GAME_ID,
+        V3_MAIN_GAME_TYPE,
+        main_score,
+        main_game_duration_ms
+    ):
+        push_warning(
+            "Telemetry v3 Level 3 Game 1 belum dapat menyelesaikan game."
+        )
+
     %DeadEndMask.visible = false
     _set_market_blocked(false, "")
     set_state("MAIN_GAME_SUCCESS")
     show_only(screens, main_success_panel)
     UIMotion.play_reward(main_success_panel)
-    var penalty_text := "" if main_game_penalty_total <= 0 else "
-Pengurangan skor: -%d" % main_game_penalty_total
-    %MainSuccessText.text = "Belanjamu lengkap dan Koin Panganmu cukup!
-4/4 kelompok • Main Game %d/%d%s" % [main_score, base_main_score, penalty_text]
-    AnalyticsLogger.log_event("shopping_success", {"level_no":3,"level_session_id":DurationTracker.session_id,"final_basket":final_ids,"coin_used_final":shopping_controller.coin_used(),"coin_remaining_final":shopping_controller.coin_remaining(),"main_game_penalty_total":main_game_penalty_total})
+
+    var penalty_text: String = (
+        ""
+        if main_game_penalty_total <= 0
+        else "\nPengurangan skor: -%d" % main_game_penalty_total
+    )
+    %MainSuccessText.text = (
+        "Belanjamu lengkap dan Koin Panganmu cukup!\n"
+        + "4/4 kelompok • Main Game %d/%d%s"
+        % [
+            main_score,
+            base_main_score,
+            penalty_text
+        ]
+    )
+
+    AnalyticsLogger.log_event(
+        "shopping_success",
+        {
+            "level_no": 3,
+            "level_session_id": DurationTracker.session_id,
+            "final_basket": final_ids,
+            "coin_used_final": shopping_controller.coin_used(),
+            "coin_remaining_final": (
+                shopping_controller.coin_remaining()
+            ),
+            "main_game_penalty_total": main_game_penalty_total
+        }
+    )
 
 func _refresh_main_gameplay_state(selected_ids: Array, coin_remaining: int, selected_groups: Dictionary) -> void:
     if selected_ids.size() >= 4:
@@ -296,10 +408,26 @@ func _start_literacy() -> void:
     literacy_attempts.clear()
     literacy_score = 0
     literacy_transition_pending = false
+    literacy_game_start_active_ms = DurationTracker.current_active_ms()
+
+    if not TelemetryManager.begin_game(
+        3,
+        V3_LITERACY_GAME_ID,
+        V3_LITERACY_GAME_TYPE,
+        {
+            "instruction_id": V3_LITERACY_INSTRUCTION_ID,
+            "instruction_version": 1,
+            "instruction_text": V3_LITERACY_INSTRUCTION_TEXT,
+            "content_version": ContentDatabase.content_version
+        }
+    ):
+        push_warning(
+            "Telemetry v3 Level 3 Game 2 belum dapat memulai game."
+        )
+
     set_state("LITERACY_ROUND_1")
     show_only(screens, literacy_hud)
     _render_literacy_round()
-
 
 func _render_literacy_round() -> void:
     literacy_transition_pending = false
@@ -311,14 +439,25 @@ func _render_literacy_round() -> void:
     %RearrangeSummaryArea.visible = false
     %ChallengeFeedback.text = ""
 
-    var rounds: Array = level_config.get("literacy_rounds", [])
+    var rounds: Array = level_config.get(
+        "literacy_rounds",
+        []
+    )
     var round_data: Dictionary = rounds[literacy_round_index]
-    var round_id := str(round_data.get("round_id", ""))
+    var round_id: String = str(
+        round_data.get(
+            "round_id",
+            ""
+        )
+    )
 
     if not literacy_attempts.has(round_id):
         literacy_attempts[round_id] = 0
 
-    set_state("LITERACY_ROUND_%d" % [literacy_round_index + 1])
+    set_state(
+        "LITERACY_ROUND_%d"
+        % [literacy_round_index + 1]
+    )
     _refresh_literacy_sidebar()
 
     if str(round_data.get("kind", "select")) == "select":
@@ -327,7 +466,7 @@ func _render_literacy_round() -> void:
         _render_rearrange_round(round_data)
 
     DurationTracker.resume_active_play()
-
+    _begin_l3_literacy_occurrence(round_data)
 
 func _render_select_round(round_data: Dictionary) -> void:
     var coin_available := int(round_data.get("coin_available", 0))
@@ -390,10 +529,28 @@ func _on_select_round_drop(
 
     DurationTracker.pause_active_play()
 
-    var round_id := str(round_data.get("round_id", ""))
-    literacy_attempts[round_id] = int(literacy_attempts.get(round_id, 0)) + 1
-    var attempt_no := int(literacy_attempts[round_id])
-    var correct := food_id == str(round_data.get("correct_food_id", ""))
+    var round_id: String = str(
+        round_data.get(
+            "round_id",
+            ""
+        )
+    )
+    literacy_attempts[round_id] = int(
+        literacy_attempts.get(
+            round_id,
+            0
+        )
+    ) + 1
+    var attempt_no: int = int(
+        literacy_attempts[round_id]
+    )
+    var correct_food_id: String = str(
+        round_data.get(
+            "correct_food_id",
+            ""
+        )
+    )
+    var correct: bool = food_id == correct_food_id
 
     AnalyticsLogger.log_event(
         "literacy_answer",
@@ -415,6 +572,11 @@ func _on_select_round_drop(
         UIMotion.play_reward(slot)
         _award_literacy_round(attempt_no)
 
+        _record_l3_literacy_answer(
+            food_id,
+            correct_food_id
+        )
+
         %LiteracyStatusLabel.text = "BERHASIL"
         %ChallengeFeedback.text = (
             "HEBAT! Kelompok dan jumlah Koin pilihanmu sudah tepat."
@@ -423,9 +585,19 @@ func _on_select_round_drop(
         _schedule_literacy_auto_advance()
         return
 
-    var food := ContentDatabase.get_food(food_id)
+    _record_l3_literacy_answer(
+        food_id,
+        correct_food_id
+    )
 
-    if str(food.get("group_id", "")) == str(round_data.get("required_group_id", "")):
+    var food: Dictionary = ContentDatabase.get_food(food_id)
+
+    if str(food.get("group_id", "")) == str(
+        round_data.get(
+            "required_group_id",
+            ""
+        )
+    ):
         %ChallengeFeedback.text = (
             "Kelompoknya sudah benar, tetapi Koin pilihan ini belum sesuai."
         )
@@ -439,7 +611,7 @@ func _on_select_round_drop(
     UIMotion.play_shake(%ReferenceTargetValue, 5.0)
     AudioManager.play_sfx("wrong")
     DurationTracker.resume_active_play()
-
+    _begin_l3_literacy_occurrence(round_data)
 
 func _render_rearrange_round(round_data: Dictionary) -> void:
     r3_freed_coin = 0
@@ -566,24 +738,65 @@ func _on_rearrange_fruit_selected(
 
     DurationTracker.pause_active_play()
 
-    var fruit := ContentDatabase.get_food(food_id)
-    var cost := int(fruit.get("coin_value", 0))
-    var correct := (
-        food_id == str(round_data.get("correct_fruit_id", ""))
+    var fruit: Dictionary = ContentDatabase.get_food(food_id)
+    var cost: int = int(
+        fruit.get(
+            "coin_value",
+            0
+        )
+    )
+    var correct_replacement_id: String = str(
+        round_data.get(
+            "correct_replacement_id",
+            ""
+        )
+    )
+    var correct_fruit_id: String = str(
+        round_data.get(
+            "correct_fruit_id",
+            ""
+        )
+    )
+    var selected_answer_id: String = (
+        _l3_rearrange_answer_id(
+            r3_replacement_id,
+            food_id
+        )
+    )
+    var correct_answer_id: String = (
+        _l3_rearrange_answer_id(
+            correct_replacement_id,
+            correct_fruit_id
+        )
+    )
+    var correct: bool = (
+        food_id == correct_fruit_id
         and cost <= r3_freed_coin
-        and r3_replacement_id == str(round_data.get("correct_replacement_id", ""))
+        and r3_replacement_id == correct_replacement_id
     )
 
-    var round_id := str(round_data.get("round_id", ""))
-    literacy_attempts[round_id] = int(literacy_attempts.get(round_id, 0)) + 1
-    var attempt_no := int(literacy_attempts[round_id])
+    var round_id: String = str(
+        round_data.get(
+            "round_id",
+            ""
+        )
+    )
+    literacy_attempts[round_id] = int(
+        literacy_attempts.get(
+            round_id,
+            0
+        )
+    ) + 1
+    var attempt_no: int = int(
+        literacy_attempts[round_id]
+    )
 
     AnalyticsLogger.log_event(
         "literacy_answer",
         {
             "level_no": 3,
             "literacy_round": 3,
-            "selected_answer": "%s+%s" % [r3_replacement_id, food_id],
+            "selected_answer": selected_answer_id,
             "correct": correct,
             "attempt_no": attempt_no
         }
@@ -592,6 +805,10 @@ func _on_rearrange_fruit_selected(
     if correct:
         AudioManager.play_sfx("drop_correct")
         _award_literacy_round(attempt_no)
+        _record_l3_literacy_answer(
+            selected_answer_id,
+            correct_answer_id
+        )
         %LiteracyStatusLabel.text = "BERHASIL"
         %ChallengeFeedback.text = (
             "HEBAT! Kamu berhasil menghemat Koin dan melengkapi kelompok Buah."
@@ -601,9 +818,13 @@ func _on_rearrange_fruit_selected(
         _schedule_literacy_auto_advance()
         return
 
+    _record_l3_literacy_answer(
+        selected_answer_id,
+        correct_answer_id
+    )
     AudioManager.play_sfx("wrong")
 
-    if r3_replacement_id != str(round_data.get("correct_replacement_id", "")):
+    if r3_replacement_id != correct_replacement_id:
         %ChallengeFeedback.text = (
             "Penggantian sebelumnya belum tepat. Coba kembali dari Langkah 1."
         )
@@ -617,7 +838,7 @@ func _on_rearrange_fruit_selected(
     r3_replacement_id = ""
     _render_rearrange_step_one(round_data)
     DurationTracker.resume_active_play()
-
+    _begin_l3_literacy_occurrence(round_data)
 
 func _register_rearrange_invalid(
     selected_id: String,
@@ -627,10 +848,23 @@ func _register_rearrange_invalid(
     DurationTracker.pause_active_play()
 
     var round_data: Dictionary = (
-        level_config.get("literacy_rounds", [])[literacy_round_index]
+        level_config.get(
+            "literacy_rounds",
+            []
+        )[literacy_round_index]
     )
-    var round_id := str(round_data.get("round_id", ""))
-    literacy_attempts[round_id] = int(literacy_attempts.get(round_id, 0)) + 1
+    var round_id: String = str(
+        round_data.get(
+            "round_id",
+            ""
+        )
+    )
+    literacy_attempts[round_id] = int(
+        literacy_attempts.get(
+            round_id,
+            0
+        )
+    ) + 1
 
     %ChallengeFeedback.text = message
     UIMotion.play_shake(%ChallengeFeedback, 5.0)
@@ -646,11 +880,321 @@ func _register_rearrange_invalid(
         }
     )
 
+    _record_l3_literacy_answer(
+        selected_id,
+        _l3_rearrange_answer_id(
+            str(
+                round_data.get(
+                    "correct_replacement_id",
+                    ""
+                )
+            ),
+            str(
+                round_data.get(
+                    "correct_fruit_id",
+                    ""
+                )
+            )
+        )
+    )
+
     r3_freed_coin = 0
     r3_replacement_id = ""
     _render_rearrange_step_one(round_data)
     DurationTracker.resume_active_play()
+    _begin_l3_literacy_occurrence(round_data)
 
+func _build_l3_literacy_options(
+    round_data: Dictionary
+) -> Array:
+    var output: Array = []
+    var order: int = 0
+    var kind: String = str(
+        round_data.get(
+            "kind",
+            "select"
+        )
+    )
+
+    if kind == "select":
+        for food_id_value in round_data.get(
+            "choice_ids",
+            []
+        ):
+            var food_id: String = str(food_id_value)
+            var food: Dictionary = ContentDatabase.get_food(
+                food_id
+            )
+            order += 1
+            output.append(
+                {
+                    "answer_id": food_id,
+                    "text_snapshot": str(
+                        food.get(
+                            "display_name",
+                            food_id
+                        )
+                    ),
+                    "display_order": order
+                }
+            )
+        return output
+
+    var replacement_ids: Array = round_data.get(
+        "replacement_choices",
+        []
+    )
+    var fruit_ids: Array = round_data.get(
+        "fruit_choices",
+        []
+    )
+
+    for replacement_value in replacement_ids:
+        var replacement_id: String = str(
+            replacement_value
+        )
+        var replacement_food: Dictionary = (
+            ContentDatabase.get_food(
+                replacement_id
+            )
+        )
+        order += 1
+        output.append(
+            {
+                "answer_id": replacement_id,
+                "text_snapshot": str(
+                    replacement_food.get(
+                        "display_name",
+                        replacement_id
+                    )
+                ),
+                "display_order": order
+            }
+        )
+
+    for replacement_value in replacement_ids:
+        var replacement_id: String = str(
+            replacement_value
+        )
+        var replacement_food: Dictionary = (
+            ContentDatabase.get_food(
+                replacement_id
+            )
+        )
+        var replacement_name: String = str(
+            replacement_food.get(
+                "display_name",
+                replacement_id
+            )
+        )
+
+        for fruit_value in fruit_ids:
+            var fruit_id: String = str(
+                fruit_value
+            )
+            var fruit_food: Dictionary = ContentDatabase.get_food(
+                fruit_id
+            )
+            var fruit_name: String = str(
+                fruit_food.get(
+                    "display_name",
+                    fruit_id
+                )
+            )
+            order += 1
+            output.append(
+                {
+                    "answer_id": _l3_rearrange_answer_id(
+                        replacement_id,
+                        fruit_id
+                    ),
+                    "text_snapshot": (
+                        replacement_name
+                        + " + "
+                        + fruit_name
+                    ),
+                    "display_order": order
+                }
+            )
+
+    return output
+
+
+func _begin_l3_literacy_occurrence(
+    round_data: Dictionary
+) -> void:
+    var round_id: String = str(
+        round_data.get(
+            "round_id",
+            ""
+        )
+    ).strip_edges()
+
+    if round_id.is_empty():
+        push_warning(
+            "Telemetry v3 Level 3 Game 2 tidak memiliki round_id."
+        )
+        return
+
+    var occurrence_id: String = (
+        TelemetryManager.begin_question_occurrence(
+            3,
+            V3_LITERACY_GAME_ID,
+            V3_LITERACY_GAME_TYPE,
+            round_id,
+            literacy_round_index + 1,
+            1,
+            _build_l3_literacy_options(
+                round_data
+            )
+        )
+    )
+
+    if occurrence_id.is_empty():
+        push_warning(
+            "Telemetry v3 Level 3 Game 2 belum dapat membuka occurrence ronde."
+        )
+
+
+func _record_l3_literacy_answer(
+    selected_answer_id: String,
+    correct_answer_id: String
+) -> void:
+    if not TelemetryManager.record_question_answer(
+        3,
+        V3_LITERACY_GAME_ID,
+        V3_LITERACY_GAME_TYPE,
+        selected_answer_id,
+        correct_answer_id,
+        literacy_score,
+        false
+    ):
+        push_warning(
+            "Telemetry v3 Level 3 Game 2 belum dapat merekam jawaban."
+        )
+
+
+func _l3_rearrange_answer_id(
+    replacement_id: String,
+    fruit_id: String
+) -> String:
+    return (
+        replacement_id.strip_edges()
+        + "+"
+        + fruit_id.strip_edges()
+    )
+
+
+func _resolve_v3_mission_group_key(
+    event: Dictionary
+) -> String:
+    if str(event.get("game_id", "")) == V3_MAIN_GAME_ID:
+        var section_id: String = str(
+            event.get(
+                "section_id",
+                ""
+            )
+        ).strip_edges()
+
+        if not section_id.is_empty():
+            return "section:" + section_id
+
+    return super._resolve_v3_mission_group_key(event)
+
+
+func _resolve_v3_mission_title(
+    event: Dictionary
+) -> String:
+    var game_id: String = str(
+        event.get(
+            "game_id",
+            ""
+        )
+    )
+
+    if game_id == V3_MAIN_GAME_ID:
+        var section_id: String = str(
+            event.get(
+                "section_id",
+                ""
+            )
+        ).strip_edges()
+
+        if not section_id.is_empty():
+            return (
+                "Kelompok "
+                + ContentDatabase.get_group_name(
+                    section_id
+                )
+            )
+
+    if (
+        game_id == V3_LITERACY_GAME_ID
+        and str(event.get("event_type", "")) == "question_answer"
+    ):
+        var order: int = int(
+            event.get(
+                "question_order",
+                0
+            )
+        )
+
+        if order > 0:
+            return "Ronde Literasi %d" % order
+
+        return "Ronde Literasi"
+
+    return super._resolve_v3_mission_title(event)
+
+
+func _resolve_v3_mission_scoring(
+    game_id: String,
+    final_event: Dictionary,
+    awarded_points: int
+) -> Dictionary:
+    if game_id != V3_LITERACY_GAME_ID:
+        return super._resolve_v3_mission_scoring(
+            game_id,
+            final_event,
+            awarded_points
+        )
+
+    var scoring: Dictionary = level_config.get(
+        "scoring",
+        {}
+    )
+    var base_points: int = int(
+        scoring.get(
+            "literacy_first_attempt",
+            10
+        )
+    )
+    var retry_points: int = int(
+        scoring.get(
+            "literacy_after_retry",
+            5
+        )
+    )
+    var final_result: String = str(
+        final_event.get(
+            "result",
+            ""
+        )
+    )
+    var penalty_points: int = 0
+
+    if final_result == "correct":
+        penalty_points = maxi(
+            0,
+            base_points - awarded_points
+        )
+
+    return {
+        "base_points": base_points,
+        "retry_points": retry_points,
+        "awarded_points": awarded_points,
+        "penalty_points": penalty_points
+    }
 
 func _add_visual_food_option(
     food_id: String,
@@ -867,15 +1411,53 @@ func _advance_literacy() -> void:
 
 func _show_result() -> void:
     set_state("RESULT")
-    var duration_ms := DurationTracker.finish_level_session()
-    final_score = main_score + literacy_score + int(level_config.get("scoring", {}).get("completion", 10))
+
+    var literacy_game_duration_ms: int = 0
+
+    if literacy_game_start_active_ms >= 0:
+        literacy_game_duration_ms = maxi(
+            0,
+            DurationTracker.current_active_ms()
+            - literacy_game_start_active_ms
+        )
+
+    if not TelemetryManager.complete_game(
+        3,
+        V3_LITERACY_GAME_ID,
+        V3_LITERACY_GAME_TYPE,
+        literacy_score,
+        literacy_game_duration_ms
+    ):
+        push_warning(
+            "Telemetry v3 Level 3 Game 2 belum dapat menyelesaikan game."
+        )
+
+    var duration_ms: int = DurationTracker.finish_level_session()
+    final_score = (
+        main_score
+        + literacy_score
+        + int(
+            level_config.get(
+                "scoring",
+                {}
+            ).get(
+                "completion",
+                10
+            )
+        )
+    )
     level_session["active_duration_ms"] = duration_ms
     level_session["completed_at"] = Time.get_unix_time_from_system()
     GameState.update_level_session(level_session)
     show_only(screens, result_panel)
     UIMotion.play_pop(result_panel, 1.03)
     %ResultScore.text = "%d / 100" % final_score
-    %ResultSummary.text = "Belanja: 4/4 kelompok\nLiteracy Challenge: 3/3 ronde\nDurasi aktif: %s" % _format_ms(duration_ms)
+    %ResultSummary.text = (
+        "Belanja: 4/4 kelompok\n"
+        + "Literacy Challenge: 3/3 ronde\n"
+        + "Durasi aktif: %s"
+        % _format_ms(duration_ms)
+    )
 
 func _show_info() -> void:
     set_state("FOOD_INFORMATION")
@@ -986,8 +1568,25 @@ func _clear_container(container: Node) -> void:
         child.queue_free()
 
 func _format_ms(ms: int) -> String:
-    var total_seconds := int(round(ms / 1000.0))
-    return "%02d:%02d" % [int(total_seconds / 60.0), total_seconds % 60]
+    var safe_ms: int = maxi(0, ms)
+    var total_centiseconds: int = int(
+        round(float(safe_ms) / 10.0)
+    )
+    var centiseconds: int = total_centiseconds % 100
+    var total_seconds: int = int(
+        float(total_centiseconds) / 100.0
+    )
+    var seconds: int = total_seconds % 60
+    var minutes: int = int(
+        float(total_seconds) / 60.0
+    )
+
+    return "%02d:%02d.%02d" % [
+        minutes,
+        seconds,
+        centiseconds
+    ]
+
 
 func _ensure_level_runtime_ready() -> bool:
     if not ContentDatabase.initialize():

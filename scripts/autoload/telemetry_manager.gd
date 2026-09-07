@@ -445,6 +445,204 @@ func record_question_answer(
         )
 
     return true
+func record_question_timeout(
+    level_no: int,
+    game_id: String,
+    game_type: String,
+    correct_answer_id: String,
+    current_score: int
+) -> bool:
+    if level_no <= 0:
+        return false
+
+    if (
+        game_id.strip_edges().is_empty()
+        or game_type.strip_edges().is_empty()
+        or correct_answer_id.strip_edges().is_empty()
+    ):
+        return false
+
+    var current: Dictionary = SaveManager.load_v3_active_current()
+
+    if current.is_empty():
+        return false
+
+    var game: Dictionary = _ensure_game(
+        current,
+        level_no,
+        game_id,
+        game_type
+    )
+
+    if game.is_empty():
+        return false
+
+    var attempt_id: String = _ensure_active_attempt(game)
+
+    if attempt_id.is_empty():
+        return false
+
+    var mechanic_data: Dictionary = game.get(
+        "mechanic_data",
+        {}
+    )
+    var occurrence_id: String = str(
+        mechanic_data.get(
+            "active_question_occurrence_id",
+            ""
+        )
+    ).strip_edges()
+
+    if occurrence_id.is_empty():
+        return false
+
+    var questions: Array = game.get("questions", [])
+    var question_index: int = _find_question_occurrence_index(
+        questions,
+        occurrence_id
+    )
+
+    if question_index < 0:
+        return false
+
+    var question_value: Variant = questions[question_index]
+
+    if not question_value is Dictionary:
+        return false
+
+    var question: Dictionary = question_value
+    var now_unix: float = Time.get_unix_time_from_system()
+    var now_ticks_ms: int = Time.get_ticks_msec()
+    var response_time_ms: int = 0
+    var started_ticks_value: Variant = mechanic_data.get(
+        "active_question_started_ticks_ms",
+        null
+    )
+    var use_unix_fallback: bool = true
+
+    if started_ticks_value != null:
+        var started_ticks_ms: int = int(
+            started_ticks_value
+        )
+
+        if now_ticks_ms >= started_ticks_ms:
+            response_time_ms = (
+                now_ticks_ms - started_ticks_ms
+            )
+            use_unix_fallback = false
+
+    if use_unix_fallback:
+        var started_at_unix: float = float(
+            mechanic_data.get(
+                "active_question_started_at_unix",
+                now_unix
+            )
+        )
+        response_time_ms = maxi(
+            0,
+            int(
+                (now_unix - started_at_unix)
+                * 1000.0
+            )
+        )
+
+    question["selected_answer_id"] = null
+    question["correct_answer_id"] = correct_answer_id
+    question["result"] = "timeout"
+    question["response_time_ms"] = response_time_ms
+    question["hint_used"] = false
+    question["timeout"] = true
+    question["answered_at"] = now_unix
+    questions[question_index] = question
+    game["questions"] = questions
+
+    var score_block: Dictionary = game.get(
+        "score",
+        {}
+    )
+    var score_before_event: int = int(
+        score_block.get(
+            "current_score",
+            0
+        )
+    )
+    score_block["current_score"] = current_score
+    game["score"] = score_block
+
+    mechanic_data["last_question_occurrence_id"] = occurrence_id
+    mechanic_data["last_question_result"] = "timeout"
+    mechanic_data["current_score"] = current_score
+    mechanic_data.erase("active_question_id")
+    mechanic_data.erase("active_question_occurrence_id")
+    mechanic_data.erase("active_question_started_ticks_ms")
+    mechanic_data.erase("active_question_started_at_unix")
+    game["mechanic_data"] = mechanic_data
+
+    var event: Dictionary = {
+        "event_id": IdUtil.uuid_v4(),
+        "schema_version": SCHEMA_VERSION,
+        "event_type": "question_answer",
+        "result": "timeout",
+        "timestamp_unix": now_unix,
+        "content_version": ContentDatabase.content_version,
+        "level_id": "L" + str(level_no),
+        "game_id": game_id,
+        "attempt_id": attempt_id,
+        "question_id": str(
+            question.get(
+                "question_id",
+                ""
+            )
+        ),
+        "question_occurrence_id": occurrence_id,
+        "question_order": question.get(
+            "question_order",
+            null
+        ),
+        "question_version": question.get(
+            "question_version",
+            null
+        ),
+        "displayed_options": question.get(
+            "displayed_options",
+            []
+        ).duplicate(true),
+        "selected_answer_id": "",
+        "correct_answer_id": correct_answer_id,
+        "response_time_ms": response_time_ms,
+        "hint_used": false,
+        "timeout": true,
+        "score_before_event": score_before_event,
+        "score_after_event": current_score,
+        "score_delta": current_score - score_before_event
+    }
+
+    var events: Array = game.get(
+        "interaction_events",
+        []
+    )
+    events.append(event.duplicate(true))
+    game["interaction_events"] = events
+
+    if not SaveManager.commit_v3_native_current(current):
+        return false
+
+    var queue_ok: bool = SaveManager.append_v3_pending_event(
+        event
+    )
+
+    if not queue_ok:
+        push_warning(
+            "Question timeout v3 tersimpan pada current, tetapi pending queue gagal diperbarui."
+        )
+
+    if not SaveManager.refresh_v3_sync_metadata():
+        push_warning(
+            "Metadata sync v3 gagal diperbarui setelah question timeout."
+        )
+
+    return true
+
 func complete_game(
     level_no: int,
     game_id: String,

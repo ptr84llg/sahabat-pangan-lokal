@@ -2163,14 +2163,26 @@ func _resolve_v3_mission_scoring(
 
 	if game_id in [
 		"L1-G01",
-		"L1-G02"
+		"L1-G02",
+		"L2-G01",
+		"L2-G02"
 	]:
-		var level_config: Dictionary = (
-			ContentDatabase.get_level_01_config()
-		)
-		var scoring_value: Variant = level_config.get(
-			"scoring",
-			{}
+		var level_config: Dictionary = {}
+
+		if game_id.begins_with("L1-"):
+			level_config = (
+				ContentDatabase.get_level_01_config()
+			)
+		elif game_id.begins_with("L2-"):
+			level_config = (
+				ContentDatabase.get_level_02_config()
+			)
+
+		var scoring_value: Variant = (
+			level_config.get(
+				"scoring",
+				{}
+			)
 		)
 
 		if scoring_value is Dictionary:
@@ -2202,9 +2214,38 @@ func _resolve_v3_mission_scoring(
 						20
 					)
 				)
+			elif game_id == "L2-G01":
+				base_points = int(
+					scoring.get(
+						"food_first_attempt",
+						5
+					)
+				)
+				retry_points = int(
+					scoring.get(
+						"food_after_retry",
+						3
+					)
+				)
+			elif game_id == "L2-G02":
+				base_points = int(
+					scoring.get(
+						"literacy_first_attempt",
+						10
+					)
+				)
+				retry_points = int(
+					scoring.get(
+						"literacy_after_retry",
+						7
+					)
+				)
 
 	var final_result: String = str(
-		final_event.get("result", "")
+		final_event.get(
+			"result",
+			""
+		)
 	)
 	var final_correct: bool = final_result in [
 		"correct",
@@ -2260,6 +2301,9 @@ func _resolve_v3_game_title(
 	if game_type == "matching_drag_drop":
 		return "Cocokkan Pangan"
 
+	if game_type == "classification_drag_drop":
+		return "Klasifikasi Pangan"
+
 	if game_type == "literacy_question":
 		return "Tantangan Literasi"
 
@@ -2272,8 +2316,25 @@ func _resolve_v3_game_title(
 func _resolve_v3_mission_title(event: Dictionary) -> String:
 	var event_type: String = str(event.get("event_type", ""))
 	if event_type == "question_answer":
-		var order: int = int(event.get("question_order", 0))
-		return "Pertanyaan %d" % order if order > 0 else "Pertanyaan"
+		var order: int = int(
+			event.get(
+				"question_order",
+				0
+			)
+		)
+
+		if str(event.get("game_id", "")) == "L2-G02":
+			return (
+				"Ronde Literasi %d" % order
+				if order > 0
+				else "Ronde Literasi"
+			)
+
+		return (
+			"Pertanyaan %d" % order
+			if order > 0
+			else "Pertanyaan"
+		)
 	if event_type == "drop":
 		var item: Dictionary = event.get("dragged_item", {})
 		var snapshot: String = str(item.get("food_name_snapshot", "")).strip_edges()
@@ -2327,11 +2388,8 @@ func _format_level_complete_drag_mission_duration_ms(
 	duration_ms: int
 ) -> String:
 	var safe_ms: int = maxi(0, duration_ms)
-	if safe_ms <= 0:
-		return "00:00.00"
-
 	var total_centiseconds: int = int(
-		(float(safe_ms) + 9.0) / 10.0
+		round(float(safe_ms) / 10.0)
 	)
 	var centiseconds: int = total_centiseconds % 100
 	var total_seconds: int = int(
@@ -2347,7 +2405,6 @@ func _format_level_complete_drag_mission_duration_ms(
 		seconds,
 		centiseconds
 	]
-
 
 func _resolve_v3_event_duration_ms(event: Dictionary) -> int:
 	for key in [
@@ -2566,11 +2623,23 @@ func _format_level_complete_duration_ms(
 	duration_ms: int
 ) -> String:
 	var safe_ms: int = maxi(0, duration_ms)
-	var total_seconds: int = int(safe_ms / 1000.0)
-	var minutes: int = int(float(total_seconds) / 60.0)
+	var total_centiseconds: int = int(
+		round(float(safe_ms) / 10.0)
+	)
+	var centiseconds: int = total_centiseconds % 100
+	var total_seconds: int = int(
+		float(total_centiseconds) / 100.0
+	)
 	var seconds: int = total_seconds % 60
-	return "%02d:%02d" % [minutes, seconds]
+	var minutes: int = int(
+		float(total_seconds) / 60.0
+	)
 
+	return "%02d:%02d.%02d" % [
+		minutes,
+		seconds,
+		centiseconds
+	]
 
 func _resolve_level_complete_score_from_window(
 	root_node: Node

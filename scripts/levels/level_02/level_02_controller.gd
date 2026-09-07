@@ -4,6 +4,15 @@ const FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
 const GROUP_ZONE_SCENE := preload("res://scenes/levels/level_02/level_02_group_drop_zone.tscn")
 const DROP_SLOT_SCENE := preload("res://scenes/shared/drop_slot.tscn")
 
+const V3_MAIN_GAME_ID: String = "L2-G01"
+const V3_MAIN_GAME_TYPE: String = "classification_drag_drop"
+const V3_MAIN_INSTRUCTION_ID: String = "INST-L2-G01-CLASSIFY"
+const V3_MAIN_INSTRUCTION_TEXT: String = "Kelompokkan setiap pangan ke jenis yang sesuai."
+
+const V3_LITERACY_GAME_ID: String = "L2-G02"
+const V3_LITERACY_GAME_TYPE: String = "literacy_question"
+const V3_LITERACY_INSTRUCTION_ID: String = "INST-L2-G02-LITERACY"
+const V3_LITERACY_INSTRUCTION_TEXT: String = "Lengkapi kelompok pangan dengan satu pilihan yang tepat."
 const LEVEL2_FOOD_TEXTURES := {
 	"food_rice": "res://assets/visual/foods/food_rice.png",
 	"food_cassava": "res://assets/visual/foods/food_cassava.png",
@@ -55,6 +64,8 @@ var back_to_map_count: int = 0
 var game2_target_normal_style: StyleBoxFlat
 var game2_target_hover_style: StyleBoxFlat
 var game2_target_hover_active: bool = false
+var main_game_start_active_ms: int = -1
+var literacy_game_start_active_ms: int = -1
 
 func _ready() -> void:
 	if not _ensure_level_runtime_ready():
@@ -410,6 +421,28 @@ func _start_gameplay() -> void:
 		2
 	)
 	DurationTracker.resume_active_play()
+	main_game_start_active_ms = (
+		DurationTracker.current_active_ms()
+	)
+
+	if not TelemetryManager.begin_game(
+		2,
+		V3_MAIN_GAME_ID,
+		V3_MAIN_GAME_TYPE,
+		{
+			"instruction_id": V3_MAIN_INSTRUCTION_ID,
+			"instruction_version": 1,
+			"instruction_text": V3_MAIN_INSTRUCTION_TEXT,
+			"content_version": (
+				ContentDatabase.content_version
+			)
+		}
+	):
+		push_warning(
+			"Telemetry v3 Level 2 Game 1 belum dapat memulai game."
+		)
+
+	grouping_controller.begin_mission_timing()
 
 	set_state("GAMEPLAY_BATCH_1")
 	show_only(screens, gameplay_layer)
@@ -553,6 +586,7 @@ func _on_reset_pressed() -> void:
 		0,
 		{}
 	)
+	grouping_controller.begin_mission_timing()
 
 	set_state("GAMEPLAY_BATCH_1")
 	show_only(screens, gameplay_layer)
@@ -599,19 +633,65 @@ func _start_batch_2() -> void:
 	grouping_controller.activate_batch(1)
 	_load_batch_cards(1)
 	DurationTracker.resume_active_play()
+	grouping_controller.begin_mission_timing()
 
 func _on_all_grouped(score: int) -> void:
 	main_score = score
+	var main_game_duration_ms: int = 0
+
+	if main_game_start_active_ms >= 0:
+		main_game_duration_ms = maxi(
+			0,
+			DurationTracker.current_active_ms()
+			- main_game_start_active_ms
+		)
+
 	DurationTracker.pause_active_play()
+
+	if not TelemetryManager.complete_game(
+		2,
+		V3_MAIN_GAME_ID,
+		V3_MAIN_GAME_TYPE,
+		main_score,
+		main_game_duration_ms
+	):
+		push_warning(
+			"Telemetry v3 Level 2 Game 1 belum dapat menyelesaikan game."
+		)
+
 	set_state("GAMEPLAY_SUCCESS")
 	show_only(screens, gameplay_success_panel)
-	%SuccessText.text = "Hebat! Semua pangan sudah berada pada kelompok yang tepat.\nMain Game: %d/60" % main_score
+	%SuccessText.text = (
+		"Hebat! Semua pangan sudah berada pada kelompok yang tepat.\n"
+		+ "Main Game: %d/60" % main_score
+	)
 	UIMotion.play_reward(gameplay_success_panel)
 
 func _start_literacy() -> void:
 	literacy_round_index = 0
 	literacy_attempts.clear()
 	literacy_score = 0
+	literacy_game_start_active_ms = (
+		DurationTracker.current_active_ms()
+	)
+
+	if not TelemetryManager.begin_game(
+		2,
+		V3_LITERACY_GAME_ID,
+		V3_LITERACY_GAME_TYPE,
+		{
+			"instruction_id": V3_LITERACY_INSTRUCTION_ID,
+			"instruction_version": 1,
+			"instruction_text": V3_LITERACY_INSTRUCTION_TEXT,
+			"content_version": (
+				ContentDatabase.content_version
+			)
+		}
+	):
+		push_warning(
+			"Telemetry v3 Level 2 Game 2 belum dapat memulai game."
+		)
+
 	set_state("LITERACY_ROUND_1")
 	show_only(screens, literacy_panel)
 	_render_literacy_round()
@@ -695,6 +775,101 @@ func _render_literacy_round() -> void:
 		)
 
 	DurationTracker.resume_active_play()
+	_begin_literacy_v3_occurrence(
+		round_data
+	)
+
+
+func _build_literacy_v3_options(
+	round_data: Dictionary
+) -> Array:
+	var displayed_options: Array = []
+	var order: int = 0
+
+	for choice_id_value in round_data.get(
+		"choice_ids",
+		[]
+	):
+		var food_id: String = str(
+			choice_id_value
+		)
+		var food: Dictionary = foods_by_id.get(
+			food_id,
+			ContentDatabase.get_food(food_id)
+		)
+		order += 1
+		displayed_options.append(
+			{
+				"answer_id": food_id,
+				"text_snapshot": str(
+					food.get(
+						"display_name",
+						food_id
+					)
+				),
+				"display_order": order
+			}
+		)
+
+	return displayed_options
+
+
+func _begin_literacy_v3_occurrence(
+	round_data: Dictionary
+) -> void:
+	var round_id: String = str(
+		round_data.get(
+			"round_id",
+			""
+		)
+	).strip_edges()
+
+	if round_id.is_empty():
+		push_warning(
+			"Telemetry v3 Level 2 Game 2 tidak memiliki round_id."
+		)
+		return
+
+	var occurrence_id: String = (
+		TelemetryManager.begin_question_occurrence(
+			2,
+			V3_LITERACY_GAME_ID,
+			V3_LITERACY_GAME_TYPE,
+			round_id,
+			literacy_round_index + 1,
+			1,
+			_build_literacy_v3_options(
+				round_data
+			)
+		)
+	)
+
+	if occurrence_id.is_empty():
+		push_warning(
+			"Telemetry v3 Level 2 Game 2 belum dapat membuka occurrence ronde."
+		)
+
+
+func _record_literacy_v3_answer(
+	food_id: String,
+	round_data: Dictionary
+) -> bool:
+	var correct_food_id: String = str(
+		round_data.get(
+			"correct_food_id",
+			""
+		)
+	)
+
+	return TelemetryManager.record_question_answer(
+		2,
+		V3_LITERACY_GAME_ID,
+		V3_LITERACY_GAME_TYPE,
+		food_id,
+		correct_food_id,
+		literacy_score,
+		false
+	)
 
 
 func _update_literacy_game2_hud(
@@ -714,13 +889,52 @@ func _update_literacy_game2_hud(
 	%LiteracyMatchLabel.text = "%d / 3" % completed_matches
 	%LiteracyRoundLabel.text = "%d / 3" % displayed_round
 
-func _on_challenge_drop(food_id: String, card: FoodCard, slot: FoodDropSlot, round_data: Dictionary) -> void:
+func _on_challenge_drop(
+	food_id: String,
+	card: FoodCard,
+	slot: FoodDropSlot,
+	round_data: Dictionary
+) -> void:
 	DurationTracker.pause_active_play()
-	var round_id := str(round_data.get("round_id", ""))
-	literacy_attempts[round_id] = int(literacy_attempts.get(round_id, 0)) + 1
-	var attempt_no := int(literacy_attempts[round_id])
-	var correct := food_id == str(round_data.get("correct_food_id", ""))
-	AnalyticsLogger.log_event("literacy_answer", {"level_no":2,"literacy_round":literacy_round_index+1,"selected_answer":food_id,"correct":correct,"attempt_no":attempt_no})
+
+	var round_id: String = str(
+		round_data.get(
+			"round_id",
+			""
+		)
+	)
+	literacy_attempts[round_id] = int(
+		literacy_attempts.get(
+			round_id,
+			0
+		)
+	) + 1
+	var attempt_no: int = int(
+		literacy_attempts[round_id]
+	)
+	var correct_food_id: String = str(
+		round_data.get(
+			"correct_food_id",
+			""
+		)
+	)
+	var correct: bool = (
+		food_id == correct_food_id
+	)
+
+	AnalyticsLogger.log_event(
+		"literacy_answer",
+		{
+			"level_no": 2,
+			"literacy_round": (
+				literacy_round_index + 1
+			),
+			"selected_answer": food_id,
+			"correct": correct,
+			"attempt_no": attempt_no
+		}
+	)
+
 	if correct:
 		AudioManager.play_sfx(
 			"character_select"
@@ -729,29 +943,76 @@ func _on_challenge_drop(food_id: String, card: FoodCard, slot: FoodDropSlot, rou
 		_style_literacy_target_card(card)
 		_style_literacy_target_slot(slot)
 		UIMotion.play_pop(card, 1.06)
-		UIMotion.play_pop(%TargetPanel, 1.03)
-		var scoring: Dictionary = level_config.get("scoring", {})
-		literacy_score += (
-			int(scoring.get("literacy_first_attempt", 10))
-			if attempt_no == 1
-			else int(scoring.get("literacy_after_retry", 7))
+		UIMotion.play_pop(
+			%TargetPanel,
+			1.03
 		)
+
+		var scoring: Dictionary = (
+			level_config.get(
+				"scoring",
+				{}
+			)
+		)
+		literacy_score += (
+			int(
+				scoring.get(
+					"literacy_first_attempt",
+					10
+				)
+			)
+			if attempt_no == 1
+			else int(
+				scoring.get(
+					"literacy_after_retry",
+					7
+				)
+			)
+		)
+
+		if not _record_literacy_v3_answer(
+			food_id,
+			round_data
+		):
+			push_warning(
+				"Telemetry v3 Level 2 Game 2 belum dapat merekam jawaban benar."
+			)
+
 		_update_literacy_game2_hud(
 			literacy_round_index + 1
 		)
 		%ChallengeFeedback.text = (
-            "Tepat! Kelompok ini sudah lengkap."
+			"Tepat! Kelompok ini sudah lengkap."
 		)
 		%ChallengeNextButton.visible = false
-		_show_round_complete_modal(round_data)
+		_show_round_complete_modal(
+			round_data
+		)
 	else:
+		if not _record_literacy_v3_answer(
+			food_id,
+			round_data
+		):
+			push_warning(
+				"Telemetry v3 Level 2 Game 2 belum dapat merekam jawaban salah."
+			)
+
 		AudioManager.play_sfx(
 			"click"
 		)
 		card.show_wrong_feedback()
-		UIMotion.play_shake(card, 6.0)
-		%ChallengeFeedback.text = "Belum melengkapi kelompok ini. Coba lihat kembali pangan yang sudah tersusun."
+		UIMotion.play_shake(
+			card,
+			6.0
+		)
+		%ChallengeFeedback.text = (
+			"Belum melengkapi kelompok ini. "
+			+ "Coba lihat kembali pangan yang sudah tersusun."
+		)
 		DurationTracker.resume_active_play()
+		_begin_literacy_v3_occurrence(
+			round_data
+		)
 
 func _advance_literacy() -> void:
 	_hide_round_complete_modal()
@@ -925,6 +1186,26 @@ func _show_result() -> void:
 	_hide_round_complete_modal()
 	set_state("RESULT")
 
+	var literacy_game_duration_ms: int = 0
+
+	if literacy_game_start_active_ms >= 0:
+		literacy_game_duration_ms = maxi(
+			0,
+			DurationTracker.current_active_ms()
+			- literacy_game_start_active_ms
+		)
+
+	if not TelemetryManager.complete_game(
+		2,
+		V3_LITERACY_GAME_ID,
+		V3_LITERACY_GAME_TYPE,
+		literacy_score,
+		literacy_game_duration_ms
+	):
+		push_warning(
+			"Telemetry v3 Level 2 Game 2 belum dapat menyelesaikan game."
+		)
+
 	var attempt_duration_ms: int = (
 		DurationTracker.finish_level_session()
 	)
@@ -954,18 +1235,30 @@ func _show_result() -> void:
 	level_session["completed_at"] = (
 		Time.get_unix_time_from_system()
 	)
-	GameState.update_level_session(level_session)
+	GameState.update_level_session(
+		level_session
+	)
 	SaveManager.request_save()
 
-	show_only(screens, result_panel)
-	UIMotion.play_pop(result_panel, 1.03)
-	%ResultScore.text = "%d / 100" % final_score
+	show_only(
+		screens,
+		result_panel
+	)
+	UIMotion.play_pop(
+		result_panel,
+		1.03
+	)
+	%ResultScore.text = (
+		"%d / 100" % final_score
+	)
 	%ResultSummary.text = (
-        "Pangan dikelompokkan: 12/12\n"
+		"Pangan dikelompokkan: 12/12\n"
 		+ "Tantangan literasi: 3/3\n"
 		+ "Reset: %d kali\n" % reset_count
-		+ "Kembali ke Peta: %d kali\n" % back_to_map_count
-		+ "Durasi aktif: %s" % _format_ms(duration_ms)
+		+ "Kembali ke Peta: %d kali\n"
+		% back_to_map_count
+		+ "Durasi aktif: %s"
+		% _format_ms(duration_ms)
 	)
 
 func _show_info() -> void:
@@ -1125,8 +1418,25 @@ func _show_feedback(
 	)
 
 func _format_ms(ms: int) -> String:
-	var total_seconds := int(round(ms / 1000.0))
-	return "%02d:%02d" % [int(total_seconds / 60.0), total_seconds % 60]
+	var safe_ms: int = maxi(0, ms)
+	var total_centiseconds: int = int(
+		round(float(safe_ms) / 10.0)
+	)
+	var centiseconds: int = total_centiseconds % 100
+	var total_seconds: int = int(
+		float(total_centiseconds) / 100.0
+	)
+	var seconds: int = total_seconds % 60
+	var minutes: int = int(
+		float(total_seconds) / 60.0
+	)
+
+	return "%02d:%02d.%02d" % [
+		minutes,
+		seconds,
+		centiseconds
+	]
+
 
 func _ensure_level_runtime_ready() -> bool:
 	if not ContentDatabase.initialize():

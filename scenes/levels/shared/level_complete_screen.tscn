@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://8vleikumt0fk" path="res://assets/visual/ui/icons/good.svg" id="3_complete_icon"]
 
 [sub_resource type="StyleBoxFlat" id="MainPanelStyle"]
+content_margin_bottom = 20.0
 bg_color = Color(0.92947316, 0.9255881, 0.87455684, 0.8)
 border_width_left = 5
 border_width_top = 5
@@ -161,6 +162,7 @@ theme_override_constants/margin_bottom = 38
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
+alignment = 1
 
 [node name="PanelBody" type="PanelContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox" unique_id=380364559]
 layout_mode = 2
@@ -226,100 +228,71 @@ scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MetricsVBox" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox" unique_id=1309200484]
+[node name="StructuredResultBody" type="HBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox" unique_id=1295523353]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="ResultDetailScroll" type="ScrollContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody" unique_id=278816658]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(700, 300)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ResultDetailVBox" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody/ResultDetailScroll" unique_id=1335554955]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(660, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="LevelSummaryVBox" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody/ResultDetailScroll/ResultDetailVBox" unique_id=1717716364]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="TopSummarySeparator" type="HSeparator" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody/ResultDetailScroll/ResultDetailVBox" unique_id=912821598]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="GameSections" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody/ResultDetailScroll/ResultDetailVBox" unique_id=510410485]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="FallbackText" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody/ResultDetailScroll/ResultDetailVBox" unique_id=100059705]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/font_size = 19
+text = "Hasil"
+autowrap_mode = 3
+
+[node name="FixedLogoCenter" type="CenterContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody" unique_id=129966195]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 6
 
-[node name="DurationRow" type="HBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox" unique_id=1356066599]
+[node name="GameLogo" type="TextureRect" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody/FixedLogoCenter" unique_id=404502681]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 28)
+custom_minimum_size = Vector2(265, 265)
 layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="DurationTitle" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/DurationRow" unique_id=1396423521]
-custom_minimum_size = Vector2(170, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.4078, 0.2431, 1)
-theme_override_font_sizes/font_size = 22
-text = "Durasi"
-vertical_alignment = 1
-
-[node name="DurationValue" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/DurationRow" unique_id=1401423991]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0, 0.4078, 0.2431, 1)
-theme_override_font_sizes/font_size = 22
-text = "02:18"
-vertical_alignment = 1
-
-[node name="ScoreRow" type="HBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox" unique_id=46382557]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 28)
-layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="ScoreTitle" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/ScoreRow" unique_id=213038917]
-custom_minimum_size = Vector2(170, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.4078, 0.2431, 1)
-theme_override_font_sizes/font_size = 22
-text = "Poin"
-vertical_alignment = 1
-
-[node name="ScoreValue" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/ScoreRow" unique_id=1400699669]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0, 0.4078, 0.2431, 1)
-theme_override_font_sizes/font_size = 22
-text = "60"
-vertical_alignment = 1
-
-[node name="ResultRow" type="HBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox" unique_id=763734739]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 44)
-layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="ResultTitle" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/ResultRow" unique_id=391920963]
-custom_minimum_size = Vector2(170, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.4078, 0.2431, 1)
-theme_override_font_sizes/font_size = 22
-text = "Hasil"
-
-[node name="ResultValue" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/ResultRow" unique_id=885977095]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0, 0.4078, 0.2431, 1)
-theme_override_font_sizes/font_size = 22
-text = "6/6"
-autowrap_mode = 3
-
-[node name="BadgeRow" type="HBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox" unique_id=1327140459]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 34)
-layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="BadgeTitle" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/BadgeRow" unique_id=513409435]
-custom_minimum_size = Vector2(170, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.4078, 0.2431, 1)
-theme_override_font_sizes/font_size = 22
-text = "Badge"
-
-[node name="BadgeValue" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/MetricsVBox/BadgeRow" unique_id=1555206756]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0, 0.4078, 0.2431, 1)
-theme_override_font_sizes/font_size = 22
-text = "Penjelajah Pangan Lokal"
-autowrap_mode = 3
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("2_logo")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="PanelContainer" type="PanelContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox" unique_id=1740156749]
 custom_minimum_size = Vector2(0, 8)
@@ -345,24 +318,3 @@ theme_override_styles/hover = SubResource("ButtonHoverStyle")
 theme_override_styles/disabled = SubResource("ButtonDisabledStyle")
 theme_override_styles/focus = SubResource("ButtonNormalStyle")
 text = "LANJUT"
-
-[node name="GameLogo" type="TextureRect" parent="OverlayRoot" unique_id=762209502]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(148, 148)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -380.0
-offset_top = -134.00002
-offset_right = -232.0
-offset_bottom = 14.0
-grow_horizontal = 0
-grow_vertical = 2
-scale = Vector2(2.2, 2.2)
-mouse_filter = 2
-texture = ExtResource("2_logo")
-expand_mode = 1
-stretch_mode = 5

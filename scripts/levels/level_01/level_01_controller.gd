@@ -787,7 +787,21 @@ func _player_speaker_name() -> String:
 	return "Pemain"
 
 func _format_ms(value_ms: int) -> String:
-	var total_seconds: int = maxi(0, int(value_ms / 1000.0))
-	var minutes: int = int(total_seconds / 60.0)
+	var safe_ms: int = maxi(0, value_ms)
+	var total_centiseconds: int = int(
+		round(float(safe_ms) / 10.0)
+	)
+	var centiseconds: int = total_centiseconds % 100
+	var total_seconds: int = int(
+		float(total_centiseconds) / 100.0
+	)
 	var seconds: int = total_seconds % 60
-	return "%02d:%02d" % [minutes, seconds]
+	var minutes: int = int(
+		float(total_seconds) / 60.0
+	)
+
+	return "%02d:%02d.%02d" % [
+		minutes,
+		seconds,
+		centiseconds
+	]

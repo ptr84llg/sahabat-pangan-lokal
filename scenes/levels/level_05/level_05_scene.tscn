@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/level_05/level_05_controller.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/levels/level_05/moving_lane_controller.gd" id="2"]
@@ -8,6 +8,14 @@
 [ext_resource type="Script" path="res://scripts/levels/level_05/question_timer_controller.gd" id="6"]
 [ext_resource type="Texture2D" path="res://assets/visual/ui/logo_game.png" id="7"]
 
+[sub_resource type="Theme" id="Level5ReadabilityTheme"]
+Label/colors/font_color = Color(0.055, 0.3, 0.19, 1)
+RichTextLabel/colors/default_color = Color(0.055, 0.3, 0.19, 1)
+Button/colors/font_color = Color(0.055, 0.3, 0.19, 1)
+Button/colors/font_hover_color = Color(0.035, 0.28, 0.16, 1)
+Button/colors/font_pressed_color = Color(0.035, 0.28, 0.16, 1)
+Button/colors/font_focus_color = Color(0.055, 0.3, 0.19, 1)
+Button/colors/font_disabled_color = Color(0.3, 0.42, 0.34, 0.8)
 [sub_resource type="StyleBoxFlat" id="PanelStyle"]
 bg_color = Color(0.965, 0.975, 0.945, 0.97)
 border_width_left = 2
@@ -133,6 +141,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
+theme = SubResource("Level5ReadabilityTheme")
 
 [node name="MovingLaneController" type="Node" parent="."]
 unique_name_in_owner = true

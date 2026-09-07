@@ -8,6 +8,15 @@ const NAMED_CARD_SCENE := preload("res://scenes/shared/named_drag_card.tscn")
 const NAMED_SLOT_SCENE := preload("res://scenes/shared/named_drop_slot.tscn")
 const FOOD_DROP_SLOT_SCENE := preload("res://scenes/shared/drop_slot.tscn")
 
+const V3_MAIN_GAME_ID: String = "L4-G01"
+const V3_MAIN_GAME_TYPE: String = "olah_pangan"
+const V3_MAIN_INSTRUCTION_ID: String = "INST-L4-G01-OLAH"
+const V3_MAIN_INSTRUCTION_TEXT: String = "Selesaikan empat pesanan dengan dua bahan yang tepat dan proses pengolahan yang sesuai."
+
+const V3_LITERACY_GAME_ID: String = "L4-G02"
+const V3_LITERACY_GAME_TYPE: String = "literacy_question"
+const V3_LITERACY_INSTRUCTION_ID: String = "INST-L4-G02-LITERACY"
+const V3_LITERACY_INSTRUCTION_TEXT: String = "Lengkapi bagian yang hilang pada rantai bahan, proses, dan hasil olahan."
 const PROCESSED_TEXTURE_PATHS := {
 	"processed_banana_cassava_compote": "res://assets/visual/processed_foods/processed_banana_cassava_compote.png",
 	"processed_spinach_corn_clear_soup": "res://assets/visual/processed_foods/processed_spinach_corn_clear_soup.png",
@@ -54,6 +63,8 @@ var closing_index := 0
 var timeout_count := 0
 var main_attempt_saved := false
 var literacy_transition_pending := false
+var main_game_start_active_ms: int = -1
+var literacy_game_start_active_ms: int = -1
 
 func _ready() -> void:
 	if not _ensure_level_runtime_ready():
@@ -140,26 +151,64 @@ func _start_main_attempt() -> void:
 	if level_session.is_empty():
 		level_session = GameState.begin_level_session(4)
 		level_session["timeout_count"] = 0
-		DurationTracker.begin_level_session(str(level_session.get("level_session_id", "")), 4)
+		DurationTracker.begin_level_session(
+			str(level_session.get("level_session_id", "")),
+			4
+		)
+
 	main_attempt_index += 1
 	var attempt_id := IdUtil.uuid_v4()
 	main_attempt_saved = false
 	order_index = 0
 	main_score = 0
-	order_controller.begin_main_attempt(attempt_id, main_attempt_index)
+	order_controller.begin_main_attempt(
+		attempt_id,
+		main_attempt_index
+	)
 	countdown_controller.start()
 	DurationTracker.resume_active_play()
+	main_game_start_active_ms = DurationTracker.current_active_ms()
+
+	if not TelemetryManager.begin_game(
+		4,
+		V3_MAIN_GAME_ID,
+		V3_MAIN_GAME_TYPE,
+		{
+			"instruction_id": V3_MAIN_INSTRUCTION_ID,
+			"instruction_version": 1,
+			"instruction_text": V3_MAIN_INSTRUCTION_TEXT,
+			"content_version": ContentDatabase.content_version
+		}
+	):
+		push_warning(
+			"Telemetry v3 Level 4 Game 1 belum dapat memulai game."
+		)
+
 	set_state("MAIN_GAME_PLAYER_CONTROL")
 	show_only(screens, main_game_hud)
 	_load_order(order_index)
-	AnalyticsLogger.log_event("level_main_started", {
-		"level_session_id":str(level_session.get("level_session_id", "")),
-		"attempt_id":attempt_id,
-		"attempt_index":main_attempt_index,
-		"level_no":4,
-		"countdown_initial":int(level_config.get("countdown_seconds", 120)),
-		"content_version":ContentDatabase.content_version
-	})
+
+	AnalyticsLogger.log_event(
+		"level_main_started",
+		{
+			"level_session_id": str(
+				level_session.get(
+					"level_session_id",
+					""
+				)
+			),
+			"attempt_id": attempt_id,
+			"attempt_index": main_attempt_index,
+			"level_no": 4,
+			"countdown_initial": int(
+				level_config.get(
+					"countdown_seconds",
+					120
+				)
+			),
+			"content_version": ContentDatabase.content_version
+		}
+	)
 
 func _retry_main_game() -> void:
 	level_session["retry_count"] = int(level_session.get("retry_count", 0)) + 1
@@ -250,6 +299,7 @@ func _load_order(index: int) -> void:
 		UIMotion.play_pop(card, 1.02)
 
 	UIMotion.play_pop(%TargetResultPanel, 1.025)
+	_begin_l4_main_occurrence("ingredient")
 
 func _on_ingredient_drop(_food_id: String, card: FoodCard, slot: IngredientSlot) -> void:
 	if current_state != "MAIN_GAME_PLAYER_CONTROL" or order_controller.current_pair_correct:
@@ -283,22 +333,61 @@ func _validate_ingredient_pair() -> void:
 		card_b.food_id
 	)
 	var correct := bool(result.get("correct", false))
+	var selected_pair_id: String = _l4_pair_answer_id(
+		card_a.food_id,
+		card_b.food_id
+	)
+	var correct_pair_id: String = _l4_pair_answer_id(
+		str(
+			order_controller.current_order.get(
+				"ingredient_1_id",
+				""
+			)
+		),
+		str(
+			order_controller.current_order.get(
+				"ingredient_2_id",
+				""
+			)
+		)
+	)
+	var telemetry_score: int = (
+		order_controller.main_score
+		+ order_controller.current_order_score
+	)
+
+	_record_l4_main_answer(
+		selected_pair_id,
+		correct_pair_id,
+		telemetry_score
+	)
 
 	AnalyticsLogger.log_event(
 		"l4_ingredient_pair",
 		{
 			"level_session_id": str(
-				level_session.get("level_session_id", "")
+				level_session.get(
+					"level_session_id",
+					""
+				)
 			),
 			"attempt_id": order_controller.attempt_id,
 			"order_id": str(
-				order_controller.current_order.get("order_id", "")
+				order_controller.current_order.get(
+					"order_id",
+					""
+				)
 			),
 			"selected_food_ids": [
 				card_a.food_id,
 				card_b.food_id
 			],
-			"attempt_no": int(result.get("attempt_no", 0)),
+			"attempt_no": int(
+				result.get(
+					"attempt_no",
+					0
+				)
+			),
 			"correct": correct,
 			"timer_remaining": countdown_controller.seconds_left()
 		}
@@ -313,7 +402,7 @@ func _validate_ingredient_pair() -> void:
 		%ProcessTray.visible = true
 		%MainStatusLabel.text = "PILIH PROSES"
 		%MainInstructionLabel.text = (
-            "LANGKAH 2 - SERET PROSES MEMASAK YANG TEPAT KE KOTAK PROSES"
+			"LANGKAH 2 - SERET PROSES MEMASAK YANG TEPAT KE KOTAK PROSES"
 		)
 
 		_populate_process_choices()
@@ -324,11 +413,12 @@ func _validate_ingredient_pair() -> void:
 			true
 		)
 		_set_level4_helper_message(
-            "LANGKAH 2 - Bahan sudah tepat. Pilih proses yang sesuai."
+			"LANGKAH 2 - Bahan sudah tepat. Pilih proses yang sesuai."
 		)
 		UIMotion.play_reward(ingredient_slot_a)
 		UIMotion.play_reward(ingredient_slot_b)
 		UIMotion.play_pop(%ProcessPanel, 1.03)
+		_begin_l4_main_occurrence("process")
 		return
 
 	card_a.show_wrong_feedback()
@@ -341,10 +431,11 @@ func _validate_ingredient_pair() -> void:
 		false
 	)
 	_set_level4_helper_message(
-        "BELUM TEPAT - Cocokkan dua bahan dengan target hasil olahan."
+		"BELUM TEPAT - Cocokkan dua bahan dengan target hasil olahan."
 	)
 	ingredient_slot_a.release_current_to(%CandidateFoodGrid)
 	ingredient_slot_b.release_current_to(%CandidateFoodGrid)
+	_begin_l4_main_occurrence("ingredient")
 
 func _populate_process_choices() -> void:
 	_clear_container(%ProcessTray)
@@ -380,19 +471,46 @@ func _on_process_drop(
 
 	var result := order_controller.validate_process(process_id)
 	var correct := bool(result.get("correct", false))
+	var correct_process_id: String = str(
+		order_controller.current_order.get(
+			"process_id",
+			""
+		)
+	)
+	var telemetry_score: int = (
+		order_controller.main_score
+		+ order_controller.current_order_score
+	)
+
+	_record_l4_main_answer(
+		process_id,
+		correct_process_id,
+		telemetry_score
+	)
 
 	AnalyticsLogger.log_event(
 		"l4_process_attempt",
 		{
 			"level_session_id": str(
-				level_session.get("level_session_id", "")
+				level_session.get(
+					"level_session_id",
+					""
+				)
 			),
 			"attempt_id": order_controller.attempt_id,
 			"order_id": str(
-				order_controller.current_order.get("order_id", "")
+				order_controller.current_order.get(
+					"order_id",
+					""
+				)
 			),
 			"process_id": process_id,
-			"attempt_no": int(result.get("attempt_no", 0)),
+			"attempt_no": int(
+				result.get(
+					"attempt_no",
+					0
+				)
+			),
 			"correct": correct,
 			"timer_remaining": countdown_controller.seconds_left()
 		}
@@ -407,20 +525,21 @@ func _on_process_drop(
 			false
 		)
 		_set_level4_helper_message(
-            "PROSES BELUM TEPAT - Coba proses lain."
+			"PROSES BELUM TEPAT - Coba proses lain."
 		)
+		_begin_l4_main_occurrence("process")
 		return
 
 	AudioManager.play_sfx("drop_correct")
 	slot.accept_card(card)
 	%MainStatusLabel.text = "PESANAN SELESAI"
 	%MainInstructionLabel.text = (
-        "BENAR - RANTAI BAHAN, PROSES, DAN HASIL SUDAH LENGKAP"
+		"BENAR - RANTAI BAHAN, PROSES, DAN HASIL SUDAH LENGKAP"
 	)
 	UIMotion.play_reward(slot)
 	UIMotion.play_reward(%TargetResultPanel)
 	_set_level4_helper_message(
-        "BENAR - Pesanan selesai. Menyiapkan pesanan berikutnya."
+		"BENAR - Pesanan selesai. Menyiapkan pesanan berikutnya."
 	)
 	await _complete_current_order()
 
@@ -466,12 +585,39 @@ func _complete_current_order() -> void:
 func _save_main_attempt_success() -> void:
 	if main_attempt_saved:
 		return
+
 	main_attempt_saved = true
 	main_score = order_controller.main_score
-	var snapshot := order_controller.attempt_snapshot("MAIN_GAME_SUCCESS", countdown_controller.seconds_left())
+
+	var main_game_duration_ms: int = 0
+
+	if main_game_start_active_ms >= 0:
+		main_game_duration_ms = maxi(
+			0,
+			DurationTracker.current_active_ms()
+			- main_game_start_active_ms
+		)
+
+	if not TelemetryManager.complete_game(
+		4,
+		V3_MAIN_GAME_ID,
+		V3_MAIN_GAME_TYPE,
+		main_score,
+		main_game_duration_ms
+	):
+		push_warning(
+			"Telemetry v3 Level 4 Game 1 belum dapat menyelesaikan game."
+		)
+
+	var snapshot := order_controller.attempt_snapshot(
+		"MAIN_GAME_SUCCESS",
+		countdown_controller.seconds_left()
+	)
 	snapshot["completed_at"] = Time.get_unix_time_from_system()
 	level_session["attempts"].append(snapshot)
-	level_session["successful_attempt_id"] = order_controller.attempt_id
+	level_session["successful_attempt_id"] = (
+		order_controller.attempt_id
+	)
 	GameState.update_level_session(level_session)
 
 func _show_main_success() -> void:
@@ -500,6 +646,25 @@ func _on_timeout() -> void:
 		return
 	DurationTracker.pause_active_play()
 	countdown_controller.stop()
+	var failed_game_duration_ms: int = 0
+
+	if main_game_start_active_ms >= 0:
+		failed_game_duration_ms = maxi(
+			0,
+			DurationTracker.current_active_ms()
+			- main_game_start_active_ms
+		)
+
+	if not TelemetryManager.complete_game(
+		4,
+		V3_MAIN_GAME_ID,
+		V3_MAIN_GAME_TYPE,
+		0,
+		failed_game_duration_ms
+	):
+		push_warning(
+			"Telemetry v3 Level 4 Game 1 timeout belum dapat ditutup."
+		)
 	timeout_count += 1
 	level_session["timeout_count"] = timeout_count
 	var snapshot := order_controller.attempt_snapshot("TIMEOUT", 0)
@@ -526,6 +691,16 @@ func _request_hint() -> void:
 		"attempt_id":order_controller.attempt_id,
 		"order_id":str(order_controller.current_order.get("order_id", ""))
 	})
+	var hint_context_id: String = _current_l4_main_question_id()
+	if not TelemetryManager.record_hint_event(
+		4,
+		V3_MAIN_GAME_ID,
+		V3_MAIN_GAME_TYPE,
+		hint_context_id
+	):
+		push_warning(
+			"Telemetry v3 Level 4 Game 1 belum dapat merekam hint."
+		)
 	if not order_controller.current_pair_correct:
 		var required := [str(order_controller.current_order.get("ingredient_1_id", "")), str(order_controller.current_order.get("ingredient_2_id", ""))]
 		var selected: Array[String] = []
@@ -542,6 +717,428 @@ func _request_hint() -> void:
 	else:
 		_show_feedback("Petunjuk: perhatikan kembali proses yang menghubungkan bahan dengan hasil olahan.", true)
 
+func _current_l4_main_question_id() -> String:
+	var stage: String = (
+		"process"
+		if order_controller.current_pair_correct
+		else "ingredient"
+	)
+
+	return _l4_main_question_id(stage)
+
+
+func _l4_main_question_id(stage: String) -> String:
+	var order_id: String = str(
+		order_controller.current_order.get(
+			"order_id",
+			""
+		)
+	).strip_edges()
+
+	return (
+		order_id
+		+ ":"
+		+ stage.strip_edges()
+	)
+
+
+func _l4_pair_answer_id(
+	food_a_id: String,
+	food_b_id: String
+) -> String:
+	var ids: Array[String] = [
+		food_a_id,
+		food_b_id
+	]
+	ids.sort()
+	return ids[0] + "+" + ids[1]
+
+
+func _l4_food_name(food_id: String) -> String:
+	var food: Dictionary = ContentDatabase.get_food(food_id)
+	return str(
+		food.get(
+			"display_name",
+			food_id
+		)
+	)
+
+
+func _l4_process_name(process_id: String) -> String:
+	var process: Dictionary = ContentDatabase.get_process(
+		process_id
+	)
+	return str(
+		process.get(
+			"display_name",
+			process_id
+		)
+	)
+
+
+func _l4_processed_name(processed_id: String) -> String:
+	var processed: Dictionary = ContentDatabase.get_processed_food(
+		processed_id
+	)
+	return str(
+		processed.get(
+			"display_name",
+			processed_id
+		)
+	)
+
+
+func _build_l4_pair_options() -> Array:
+	var output: Array = []
+	var candidate_ids: Array = order_controller.current_order.get(
+		"candidate_food_ids",
+		[]
+	)
+	var display_order: int = 0
+
+	for first_index in range(candidate_ids.size()):
+		for second_index in range(
+			first_index + 1,
+			candidate_ids.size()
+		):
+			var food_a_id: String = str(
+				candidate_ids[first_index]
+			)
+			var food_b_id: String = str(
+				candidate_ids[second_index]
+			)
+			display_order += 1
+			output.append(
+				{
+					"answer_id": _l4_pair_answer_id(
+						food_a_id,
+						food_b_id
+					),
+					"text_snapshot": (
+						_l4_food_name(food_a_id)
+						+ " + "
+						+ _l4_food_name(food_b_id)
+					),
+					"display_order": display_order
+				}
+			)
+
+	return output
+
+
+func _build_l4_process_options() -> Array:
+	var output: Array = []
+	var ids: Array = order_controller.current_order.get(
+		"candidate_process_ids",
+		[]
+	)
+	var display_order: int = 0
+
+	for process_value in ids:
+		var process_id: String = str(process_value)
+		display_order += 1
+		output.append(
+			{
+				"answer_id": process_id,
+				"text_snapshot": _l4_process_name(
+					process_id
+				),
+				"display_order": display_order
+			}
+		)
+
+	return output
+
+
+func _begin_l4_main_occurrence(stage: String) -> void:
+	var question_id: String = _l4_main_question_id(
+		stage
+	)
+
+	if question_id.begins_with(":"):
+		push_warning(
+			"Telemetry v3 Level 4 Game 1 tidak memiliki order_id."
+		)
+		return
+
+	var options: Array = (
+		_build_l4_pair_options()
+		if stage == "ingredient"
+		else _build_l4_process_options()
+	)
+	var occurrence_id: String = (
+		TelemetryManager.begin_question_occurrence(
+			4,
+			V3_MAIN_GAME_ID,
+			V3_MAIN_GAME_TYPE,
+			question_id,
+			order_index + 1,
+			1,
+			options
+		)
+	)
+
+	if occurrence_id.is_empty():
+		push_warning(
+			"Telemetry v3 Level 4 Game 1 belum dapat membuka occurrence."
+		)
+
+
+func _record_l4_main_answer(
+	selected_answer_id: String,
+	correct_answer_id: String,
+	current_score: int
+) -> void:
+	if not TelemetryManager.record_question_answer(
+		4,
+		V3_MAIN_GAME_ID,
+		V3_MAIN_GAME_TYPE,
+		selected_answer_id,
+		correct_answer_id,
+		current_score,
+		false
+	):
+		push_warning(
+			"Telemetry v3 Level 4 Game 1 belum dapat merekam jawaban."
+		)
+
+
+func _build_l4_literacy_options(
+	round_data: Dictionary
+) -> Array:
+	var output: Array = []
+	var kind: String = str(
+		round_data.get(
+			"kind",
+			""
+		)
+	)
+	var display_order: int = 0
+
+	for item_value in round_data.get(
+		"choice_ids",
+		[]
+	):
+		var item_id: String = str(item_value)
+		var display_name: String = item_id
+
+		if kind == "food":
+			display_name = _l4_food_name(item_id)
+		elif kind == "process":
+			display_name = _l4_process_name(item_id)
+		elif kind == "processed_result":
+			display_name = _l4_processed_name(item_id)
+
+		display_order += 1
+		output.append(
+			{
+				"answer_id": item_id,
+				"text_snapshot": display_name,
+				"display_order": display_order
+			}
+		)
+
+	return output
+
+
+func _begin_l4_literacy_occurrence(
+	round_data: Dictionary
+) -> void:
+	var round_id: String = str(
+		round_data.get(
+			"round_id",
+			""
+		)
+	).strip_edges()
+
+	if round_id.is_empty():
+		push_warning(
+			"Telemetry v3 Level 4 Game 2 tidak memiliki round_id."
+		)
+		return
+
+	var occurrence_id: String = (
+		TelemetryManager.begin_question_occurrence(
+			4,
+			V3_LITERACY_GAME_ID,
+			V3_LITERACY_GAME_TYPE,
+			round_id,
+			literacy_round_index + 1,
+			1,
+			_build_l4_literacy_options(
+				round_data
+			)
+		)
+	)
+
+	if occurrence_id.is_empty():
+		push_warning(
+			"Telemetry v3 Level 4 Game 2 belum dapat membuka occurrence."
+		)
+
+
+func _record_l4_literacy_answer(
+	selected_answer_id: String,
+	correct_answer_id: String
+) -> void:
+	if not TelemetryManager.record_question_answer(
+		4,
+		V3_LITERACY_GAME_ID,
+		V3_LITERACY_GAME_TYPE,
+		selected_answer_id,
+		correct_answer_id,
+		literacy_score,
+		false
+	):
+		push_warning(
+			"Telemetry v3 Level 4 Game 2 belum dapat merekam jawaban."
+		)
+
+
+func _resolve_v3_game_title(
+	game_id: String,
+	game_no: int,
+	game: Dictionary
+) -> String:
+	if game_id == V3_MAIN_GAME_ID:
+		return "Olah Pangan Lokal"
+
+	if game_id == V3_LITERACY_GAME_ID:
+		return "Tantangan Literasi"
+
+	return super._resolve_v3_game_title(
+		game_id,
+		game_no,
+		game
+	)
+
+
+func _resolve_v3_mission_title(
+	event: Dictionary
+) -> String:
+	var game_id: String = str(
+		event.get(
+			"game_id",
+			""
+		)
+	)
+	var question_id: String = str(
+		event.get(
+			"question_id",
+			""
+		)
+	)
+	var order_no: int = int(
+		event.get(
+			"question_order",
+			0
+		)
+	)
+
+	if game_id == V3_MAIN_GAME_ID:
+		if question_id.ends_with(":ingredient"):
+			return "Pesanan %d - Bahan" % order_no
+
+		if question_id.ends_with(":process"):
+			return "Pesanan %d - Proses" % order_no
+
+	if game_id == V3_LITERACY_GAME_ID:
+		if order_no > 0:
+			return "Ronde Literasi %d" % order_no
+
+		return "Ronde Literasi"
+
+	return super._resolve_v3_mission_title(event)
+
+
+func _resolve_v3_mission_scoring(
+	game_id: String,
+	final_event: Dictionary,
+	awarded_points: int
+) -> Dictionary:
+	var scoring: Dictionary = level_config.get(
+		"scoring",
+		{}
+	)
+	var base_points: int = awarded_points
+	var retry_points: int = awarded_points
+
+	if game_id == V3_MAIN_GAME_ID:
+		var question_id: String = str(
+			final_event.get(
+				"question_id",
+				""
+			)
+		)
+
+		if question_id.ends_with(":ingredient"):
+			base_points = int(
+				scoring.get(
+					"ingredient_first_attempt",
+					10
+				)
+			)
+			retry_points = int(
+				scoring.get(
+					"ingredient_after_retry",
+					5
+				)
+			)
+		elif question_id.ends_with(":process"):
+			base_points = int(
+				scoring.get(
+					"process_first_attempt",
+					5
+				)
+			)
+			retry_points = int(
+				scoring.get(
+					"process_after_retry",
+					3
+				)
+			)
+
+	elif game_id == V3_LITERACY_GAME_ID:
+		base_points = int(
+			scoring.get(
+				"literacy_first_attempt",
+				10
+			)
+		)
+		retry_points = int(
+			scoring.get(
+				"literacy_after_retry",
+				5
+			)
+		)
+	else:
+		return super._resolve_v3_mission_scoring(
+			game_id,
+			final_event,
+			awarded_points
+		)
+
+	var final_result: String = str(
+		final_event.get(
+			"result",
+			""
+		)
+	)
+	var penalty_points: int = 0
+
+	if final_result == "correct":
+		penalty_points = maxi(
+			0,
+			base_points - awarded_points
+		)
+
+	return {
+		"base_points": base_points,
+		"retry_points": retry_points,
+		"awarded_points": awarded_points,
+		"penalty_points": penalty_points
+	}
+
 func _show_literacy_intro() -> void:
 	set_state("LITERACY_INTRO")
 	show_only(screens, literacy_intro_panel)
@@ -552,9 +1149,27 @@ func _start_literacy() -> void:
 	literacy_attempts.clear()
 	literacy_score = 0
 	literacy_transition_pending = false
+	literacy_game_start_active_ms = (
+		DurationTracker.current_active_ms()
+	)
+
+	if not TelemetryManager.begin_game(
+		4,
+		V3_LITERACY_GAME_ID,
+		V3_LITERACY_GAME_TYPE,
+		{
+			"instruction_id": V3_LITERACY_INSTRUCTION_ID,
+			"instruction_version": 1,
+			"instruction_text": V3_LITERACY_INSTRUCTION_TEXT,
+			"content_version": ContentDatabase.content_version
+		}
+	):
+		push_warning(
+			"Telemetry v3 Level 4 Game 2 belum dapat memulai game."
+		)
+
 	show_only(screens, literacy_hud)
 	_render_literacy_round()
-
 
 func _render_literacy_round() -> void:
 	literacy_transition_pending = false
@@ -615,6 +1230,7 @@ func _render_literacy_round() -> void:
 	_build_literacy_chain(round_data, reference_order)
 	_populate_literacy_choices(round_data)
 	DurationTracker.resume_active_play()
+	_begin_l4_literacy_occurrence(round_data)
 
 
 func _resolve_literacy_reference_order(
@@ -910,6 +1526,10 @@ func _on_named_literacy_drop(
 		AudioManager.play_sfx("drop_correct")
 		slot.accept_card(card)
 		_award_literacy_round(attempt_no)
+		_record_l4_literacy_answer(
+			item_id,
+			str(round_data.get("correct_id", ""))
+		)
 		%LiteracyStatusLabel.text = "BERHASIL"
 		%ChallengeFeedback.text = (
             "TEPAT! Rantai bahan, proses, dan hasil sudah lengkap."
@@ -919,6 +1539,10 @@ func _on_named_literacy_drop(
 		_schedule_literacy_auto_advance()
 		return
 
+	_record_l4_literacy_answer(
+		item_id,
+		str(round_data.get("correct_id", ""))
+	)
 	card.show_wrong_feedback()
 	UIMotion.play_shake(card, 6.0)
 	AudioManager.play_sfx("wrong")
@@ -926,6 +1550,7 @@ func _on_named_literacy_drop(
         "Belum tepat. Perhatikan kembali bagian lain pada rantai."
 	)
 	DurationTracker.resume_active_play()
+	_begin_l4_literacy_occurrence(round_data)
 
 
 func _on_food_literacy_drop(
@@ -950,6 +1575,10 @@ func _on_food_literacy_drop(
 		AudioManager.play_sfx("drop_correct")
 		slot.accept_card(card)
 		_award_literacy_round(attempt_no)
+		_record_l4_literacy_answer(
+			food_id,
+			str(round_data.get("correct_id", ""))
+		)
 		%LiteracyStatusLabel.text = "BERHASIL"
 		%ChallengeFeedback.text = (
             "TEPAT! Bahan yang hilang sudah melengkapi rantai olahan."
@@ -959,6 +1588,10 @@ func _on_food_literacy_drop(
 		_schedule_literacy_auto_advance()
 		return
 
+	_record_l4_literacy_answer(
+		food_id,
+		str(round_data.get("correct_id", ""))
+	)
 	card.show_wrong_feedback()
 	UIMotion.play_shake(card, 6.0)
 	AudioManager.play_sfx("wrong")
@@ -966,6 +1599,7 @@ func _on_food_literacy_drop(
         "Belum tepat. Cocokkan bahan dengan proses dan hasil olahan."
 	)
 	DurationTracker.resume_active_play()
+	_begin_l4_literacy_occurrence(round_data)
 
 func _register_literacy_attempt(round_data: Dictionary, selected_id: String, correct: bool) -> int:
 	var round_id := str(round_data.get("round_id", ""))
@@ -1035,14 +1669,52 @@ func _advance_literacy() -> void:
 
 func _show_result() -> void:
 	set_state("RESULT")
+
+	var literacy_game_duration_ms: int = 0
+
+	if literacy_game_start_active_ms >= 0:
+		literacy_game_duration_ms = maxi(
+			0,
+			DurationTracker.current_active_ms()
+			- literacy_game_start_active_ms
+		)
+
+	if not TelemetryManager.complete_game(
+		4,
+		V3_LITERACY_GAME_ID,
+		V3_LITERACY_GAME_TYPE,
+		literacy_score,
+		literacy_game_duration_ms
+	):
+		push_warning(
+			"Telemetry v3 Level 4 Game 2 belum dapat menyelesaikan game."
+		)
+
 	var duration_ms := DurationTracker.finish_level_session()
-	final_score = main_score + literacy_score + int(level_config.get("scoring", {}).get("completion", 10))
+	final_score = (
+		main_score
+		+ literacy_score
+		+ int(
+			level_config.get(
+				"scoring",
+				{}
+			).get(
+				"completion",
+				10
+			)
+		)
+	)
 	level_session["active_duration_ms"] = duration_ms
 	level_session["completed_at"] = Time.get_unix_time_from_system()
 	GameState.update_level_session(level_session)
 	show_only(screens, result_panel)
 	%ResultScore.text = "%d / 100" % final_score
-	%ResultSummary.text = "Pesanan selesai: 4/4\nTantangan Literasi: 3/3 ronde\nTimeout: %d\nDurasi aktif: %s" % [timeout_count, _format_ms(duration_ms)]
+	%ResultSummary.text = (
+		"Pesanan selesai: 4/4\n"
+		+ "Tantangan Literasi: 3/3 ronde\n"
+		+ "Timeout: %d\n" % timeout_count
+		+ "Durasi aktif: %s" % _format_ms(duration_ms)
+	)
 
 func _show_info() -> void:
 	set_state("PROCESS_INFO")
@@ -1150,8 +1822,25 @@ func _format_seconds(seconds: int) -> String:
 	return "%02d:%02d" % [int(seconds / 60.0), seconds % 60]
 
 func _format_ms(ms: int) -> String:
-	var total_seconds := int(round(ms / 1000.0))
-	return "%02d:%02d" % [int(total_seconds / 60.0), total_seconds % 60]
+	var safe_ms: int = maxi(0, ms)
+	var total_centiseconds: int = int(
+		round(float(safe_ms) / 10.0)
+	)
+	var centiseconds: int = total_centiseconds % 100
+	var total_seconds: int = int(
+		float(total_centiseconds) / 100.0
+	)
+	var seconds: int = total_seconds % 60
+	var minutes: int = int(
+		float(total_seconds) / 60.0
+	)
+
+	return "%02d:%02d.%02d" % [
+		minutes,
+		seconds,
+		centiseconds
+	]
+
 
 func _ensure_level_runtime_ready() -> bool:
 	if not ContentDatabase.initialize():

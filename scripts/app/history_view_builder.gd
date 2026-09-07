@@ -77,7 +77,7 @@ func populate(host: VBoxContainer) -> void:
 func _build_items(
 	save_manager: Node,
 	game_state: Node,
-	progress_manager: Node
+	_progress_manager: Node
 ) -> Array:
 	var items: Array = []
 	var v3_by_source: Dictionary = {}
@@ -123,11 +123,10 @@ func _build_items(
 			var run_id: String = str(
 				record.get("run_id", "")
 			).strip_edges()
-			var legacy_source_id: String = str(
-				progress_manager.call(
-					"progress_id_from_legacy_run_id",
-					run_id
-				)
+			var legacy_source_id: String = (
+				""
+				if run_id.is_empty()
+				else "PRG-" + run_id
 			)
 
 			if (
@@ -171,8 +170,8 @@ func _sort_descending(
 	a: Dictionary,
 	b: Dictionary
 ) -> bool:
-	var left: float = float(a.get("completed_at", 0.0))
-	var right: float = float(b.get("completed_at", 0.0))
+	var left: float = _history_completed_at_value(a)
+	var right: float = _history_completed_at_value(b)
 
 	if is_equal_approx(left, right):
 		return str(a.get("display_id", "")) > str(
@@ -181,6 +180,31 @@ func _sort_descending(
 
 	return left > right
 
+
+func _history_completed_at_value(
+	item: Dictionary
+) -> float:
+	var value: Variant = item.get(
+		"completed_at",
+		null
+	)
+
+	if value == null:
+		return 0.0
+
+	if value is float:
+		return value
+
+	if value is int:
+		return value * 1.0
+
+	if value is String:
+		var text_value: String = str(value).strip_edges()
+
+		if text_value.is_valid_float():
+			return text_value.to_float()
+
+	return 0.0
 
 func _v3_item(payload: Dictionary) -> Dictionary:
 	var history: Dictionary = _as_dictionary(
