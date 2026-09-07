@@ -347,6 +347,7 @@ func _start_gameplay() -> void:
 		)
 
 	DurationTracker.resume_active_play()
+	matching_controller.begin_mission_timing()
 	TelemetryManager.begin_game(
 		1,
 		V3_MAIN_GAME_ID,

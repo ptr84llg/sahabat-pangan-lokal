@@ -155,7 +155,7 @@ grow_vertical = 2
 theme_override_constants/margin_left = 46
 theme_override_constants/margin_top = 82
 theme_override_constants/margin_right = 46
-theme_override_constants/margin_bottom = 24
+theme_override_constants/margin_bottom = 38
 
 [node name="MainVBox" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin" unique_id=843683339]
 layout_mode = 2
@@ -322,17 +322,17 @@ text = "Penjelajah Pangan Lokal"
 autowrap_mode = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox" unique_id=1740156749]
-custom_minimum_size = Vector2(0, 15)
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5rmbn")
 
 [node name="ButtonCenter" type="CenterContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox" unique_id=278592372]
-custom_minimum_size = Vector2(0, 76)
+custom_minimum_size = Vector2(0, 66)
 layout_mode = 2
 
 [node name="PrimaryButton" type="Button" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/ButtonCenter" unique_id=910015298]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(470, 72)
+custom_minimum_size = Vector2(450, 60)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)

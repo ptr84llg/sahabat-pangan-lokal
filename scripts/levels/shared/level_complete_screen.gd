@@ -134,7 +134,7 @@ func _ensure_structured_layout() -> void:
 	_result_scroll.custom_minimum_size = Vector2(700.0, 300.0)
 	_result_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_result_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_result_scroll.horizontal_scroll_mode = 0
+	_result_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_structured_body.add_child(_result_scroll)
 
 	_detail_vbox = VBoxContainer.new()
@@ -206,19 +206,14 @@ func _render_completion_detail(data: Dictionary) -> void:
 
 
 func _render_fallback_detail(data: Dictionary) -> void:
-	_add_metric_row(
-		"Total Poin",
-		str(data.get("score_text", ""))
-	)
-	_add_metric_row(
-		"Durasi Level",
-		str(data.get("duration_text", ""))
-	)
-
-	var result_text: String = str(
-		data.get("result_text", "")
-	).strip_edges()
-
+	_add_metric_row("Total Poin", str(data.get("score_text", "")))
+	var fallback_star_slots: Variant = data.get("star_slots", [])
+	if fallback_star_slots is Array:
+		var star_slots: Array = fallback_star_slots
+		if not star_slots.is_empty():
+			_add_star_metric_row("Jumlah Bintang", star_slots)
+	_add_metric_row("Durasi Level", str(data.get("duration_text", "")))
+	var result_text: String = str(data.get("result_text", "")).strip_edges()
 	if not result_text.is_empty():
 		_add_separator()
 		_add_body_label(result_text, 19, TEXT_COLOR)
@@ -226,37 +221,88 @@ func _render_fallback_detail(data: Dictionary) -> void:
 
 func _render_game_detail(game: Dictionary) -> void:
 	var game_no: int = int(game.get("game_no", 0))
-	var game_title: String = str(game.get("title", "")).strip_edges()
+	var game_title: String = str(
+		game.get("title", "")
+	).strip_edges()
 	var heading: String = "Permainan ke-%d" % game_no
 
 	if not game_title.is_empty():
 		heading += " - " + game_title
 
 	_add_section_heading(heading, 22)
-	_add_metric_row("Total Poin", str(game.get("score_text", "")))
-	_add_metric_row("Durasi Permainan", str(game.get("duration_text", "")))
-	_add_metric_row("Jumlah Benar", str(game.get("total_correct", 0)))
-	_add_metric_row("Jumlah Salah", str(game.get("total_wrong", 0)))
+	_add_metric_row(
+		"Total Poin",
+		str(game.get("score_text", ""))
+	)
+	_add_metric_row(
+		"Durasi Permainan",
+		str(game.get("duration_text", ""))
+	)
+	_add_metric_row(
+		"Jumlah Benar",
+		str(game.get("total_correct", 0))
+	)
+	_add_metric_row(
+		"Jumlah Salah",
+		str(game.get("total_wrong", 0))
+	)
 
-	var missions_value: Variant = game.get("missions", [])
+	var total_invalid: int = int(
+		game.get("total_invalid", 0)
+	)
+
+	if total_invalid > 0:
+		_add_metric_row(
+			"Jumlah Tidak Valid",
+			str(total_invalid)
+		)
+
+	var penalty_count: int = int(
+		game.get("penalty_count", 0)
+	)
+	var penalty_points_total: int = int(
+		game.get("penalty_points_total", 0)
+	)
+
+	if penalty_count > 0:
+		_add_metric_row(
+			"Jumlah Penalti",
+			str(penalty_count)
+		)
+		_add_metric_row(
+			"Total Pengurangan Poin",
+			"-%d" % penalty_points_total
+		)
+
+	var missions_value: Variant = game.get(
+		"missions",
+		[]
+	)
 
 	if missions_value is Array:
 		var missions: Array = missions_value
 
 		if not missions.is_empty():
-			_add_result_heading("Hasil Permainan ke-%d" % game_no)
+			_add_result_heading(
+				"Hasil Permainan ke-%d" % game_no
+			)
 
 			for mission_value in missions:
 				if not mission_value is Dictionary:
 					continue
 
-				_render_mission_detail(mission_value)
+				_render_mission_detail(
+					mission_value
+				)
 
 	_add_separator()
 
-
-func _render_mission_detail(mission: Dictionary) -> void:
-	var mission_no: int = int(mission.get("mission_no", 0))
+func _render_mission_detail(
+	mission: Dictionary
+) -> void:
+	var mission_no: int = int(
+		mission.get("mission_no", 0)
+	)
 	var mission_title: String = str(
 		mission.get("title", "")
 	).strip_edges()
@@ -266,55 +312,306 @@ func _render_mission_detail(mission: Dictionary) -> void:
 		heading += " - " + mission_title
 
 	var mission_margin := MarginContainer.new()
-	mission_margin.add_theme_constant_override("margin_left", 28)
-	mission_margin.add_theme_constant_override("margin_right", 8)
+	mission_margin.add_theme_constant_override(
+		"margin_left",
+		28
+	)
+	mission_margin.add_theme_constant_override(
+		"margin_right",
+		8
+	)
 	_detail_vbox.add_child(mission_margin)
 
 	var mission_box := VBoxContainer.new()
-	mission_box.add_theme_constant_override("separation", 3)
+	mission_box.add_theme_constant_override(
+		"separation",
+		3
+	)
 	mission_margin.add_child(mission_box)
 
 	mission_box.add_child(
-		_create_body_label(heading, 20, TEXT_COLOR)
+		_create_body_label(
+			heading,
+			20,
+			TEXT_COLOR
+		)
 	)
 	mission_box.add_child(
 		_create_metric_row_node(
 			"Durasi",
-			str(mission.get("duration_text", "-")),
+			str(
+				mission.get(
+					"duration_text",
+					"-"
+				)
+			),
 			165.0
 		)
 	)
+	mission_box.add_child(
+		_create_metric_row_node(
+			"Percobaan",
+			str(
+				mission.get(
+					"attempt_count",
+					1
+				)
+			),
+			165.0
+		)
+	)
+	mission_box.add_child(
+		_create_metric_row_node(
+			"Jumlah Salah",
+			str(
+				mission.get(
+					"wrong_count",
+					0
+				)
+			),
+			165.0
+		)
+	)
+
+	var invalid_count: int = int(
+		mission.get("invalid_count", 0)
+	)
+
+	if invalid_count > 0:
+		mission_box.add_child(
+			_create_metric_row_node(
+				"Jumlah Tidak Valid",
+				str(invalid_count),
+				165.0
+			)
+		)
+
 	mission_box.add_child(
 		_create_metric_row_node(
 			"Status Hasil",
-			str(mission.get("status_text", "-")),
+			str(
+				mission.get(
+					"status_text",
+					"-"
+				)
+			),
 			165.0
 		)
 	)
+
+	var base_point_text: String = str(
+		mission.get(
+			"base_point_text",
+			"-"
+		)
+	)
+
+	if (
+		not base_point_text.is_empty()
+		and base_point_text != "-"
+	):
+		mission_box.add_child(
+			_create_metric_row_node(
+				"Poin Dasar",
+				base_point_text,
+				165.0
+			)
+		)
+
+	var penalty_points: int = int(
+		mission.get(
+			"penalty_points",
+			0
+		)
+	)
+
+	if penalty_points > 0:
+		mission_box.add_child(
+			_create_metric_row_node(
+				"Penalti",
+				"-%d" % penalty_points,
+				165.0
+			)
+		)
+
 	mission_box.add_child(
 		_create_metric_row_node(
-			"Poin",
-			str(mission.get("point_text", "-")),
+			"Poin Akhir",
+			str(
+				mission.get(
+					"point_text",
+					"-"
+				)
+			),
 			165.0
+		)
+	)
+
+	_render_attempt_history(
+		mission_box,
+		mission.get(
+			"attempt_details",
+			[]
 		)
 	)
 
 	_add_optional_click_row(
 		mission_box,
 		"Klik Petunjuk",
-		int(mission.get("hint_click_count", 0))
+		int(
+			mission.get(
+				"hint_click_count",
+				0
+			)
+		)
 	)
 	_add_optional_click_row(
 		mission_box,
 		"Klik Reset",
-		int(mission.get("reset_click_count", 0))
+		int(
+			mission.get(
+				"reset_click_count",
+				0
+			)
+		)
 	)
 	_add_optional_click_row(
 		mission_box,
 		"Klik ke-Peta",
-		int(mission.get("back_to_map_click_count", 0))
+		int(
+			mission.get(
+				"back_to_map_click_count",
+				0
+			)
+		)
 	)
 
+
+func _render_attempt_history(
+	container: VBoxContainer,
+	attempts_value: Variant
+) -> void:
+	if not attempts_value is Array:
+		return
+
+	var attempts: Array = attempts_value
+
+	if attempts.is_empty():
+		return
+
+	var history_label := _create_body_label(
+		"Riwayat Percobaan",
+		18,
+		MUTED_COLOR
+	)
+	history_label.custom_minimum_size = Vector2(
+		0.0,
+		28.0
+	)
+	container.add_child(history_label)
+
+	for attempt_value in attempts:
+		if not attempt_value is Dictionary:
+			continue
+
+		var attempt: Dictionary = attempt_value
+		var attempt_margin := MarginContainer.new()
+		attempt_margin.add_theme_constant_override(
+			"margin_left",
+			20
+		)
+		attempt_margin.add_theme_constant_override(
+			"margin_right",
+			4
+		)
+		container.add_child(attempt_margin)
+
+		var attempt_box := VBoxContainer.new()
+		attempt_box.add_theme_constant_override(
+			"separation",
+			2
+		)
+		attempt_margin.add_child(attempt_box)
+
+		attempt_box.add_child(
+			_create_body_label(
+				"Percobaan %d" % int(
+					attempt.get(
+						"attempt_no",
+						0
+					)
+				),
+				18,
+				TEXT_COLOR
+			)
+		)
+		attempt_box.add_child(
+			_create_metric_row_node(
+				"Hasil",
+				str(
+					attempt.get(
+						"result_text",
+						"-"
+					)
+				),
+				150.0
+			)
+		)
+
+		var selected_label: String = str(
+			attempt.get(
+				"selected_label",
+				""
+			)
+		).strip_edges()
+
+		if not selected_label.is_empty():
+			attempt_box.add_child(
+				_create_metric_row_node(
+					selected_label,
+					str(
+						attempt.get(
+							"selected_value",
+							"-"
+						)
+					),
+					150.0
+				)
+			)
+
+		var correct_label: String = str(
+			attempt.get(
+				"correct_label",
+				""
+			)
+		).strip_edges()
+
+		if not correct_label.is_empty():
+			attempt_box.add_child(
+				_create_metric_row_node(
+					correct_label,
+					str(
+						attempt.get(
+							"correct_value",
+							"-"
+						)
+					),
+					150.0
+				)
+			)
+
+		attempt_box.add_child(
+			_create_metric_row_node(
+				"Durasi",
+				str(
+					attempt.get(
+						"duration_text",
+						"-"
+					)
+				),
+				150.0
+			)
+		)
 
 func _add_optional_click_row(
 	container: VBoxContainer,

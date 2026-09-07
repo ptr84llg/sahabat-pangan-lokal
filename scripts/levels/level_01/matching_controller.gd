@@ -17,6 +17,7 @@ var slots_by_id: Dictionary = {}
 var attempts_by_food: Dictionary = {}
 var matched_ids: Array[String] = []
 var score := 0
+var mission_segment_started_active_ms: int = -1
 
 func configure(level_config: Dictionary, food_data: Array[Dictionary]) -> void:
     config = level_config
@@ -24,6 +25,7 @@ func configure(level_config: Dictionary, food_data: Array[Dictionary]) -> void:
     attempts_by_food.clear()
     matched_ids.clear()
     score = 0
+    mission_segment_started_active_ms = -1
     for food in foods:
         attempts_by_food[str(food.get("food_id", ""))] = 0
 
@@ -33,6 +35,9 @@ func register_card(food_id: String, card: FoodCard) -> void:
 func register_slot(food_id: String, slot: FoodDropSlot) -> void:
     slots_by_id[food_id] = slot
     slot.drop_received.connect(_on_drop_received)
+
+func begin_mission_timing() -> void:
+    mission_segment_started_active_ms = DurationTracker.current_active_ms()
 
 func _on_drop_received(food_id: String, card: FoodCard, slot: FoodDropSlot) -> void:
     if food_id in matched_ids:
@@ -102,6 +107,18 @@ func _record_v3_drop(
         var started_ticks_ms: int = int(drag_started_ticks_ms)
         if dropped_ticks_ms >= started_ticks_ms:
             decision_duration_ms = dropped_ticks_ms - started_ticks_ms
+    var mission_duration_ms: Variant = null
+
+    if result == "correct_drop" and mission_segment_started_active_ms >= 0:
+        var mission_completed_active_ms: int = DurationTracker.current_active_ms()
+
+        if mission_completed_active_ms >= mission_segment_started_active_ms:
+            mission_duration_ms = (
+                mission_completed_active_ms
+                - mission_segment_started_active_ms
+            )
+            mission_segment_started_active_ms = mission_completed_active_ms
+
     var expected_food_id: String = food_id
     var dropped_food_id: String = slot.accepted_food_id
     var context: Dictionary = {
@@ -130,7 +147,8 @@ func _record_v3_drop(
             "drag_started_at_unix": drag_started_at_unix,
             "drag_started_ticks_ms": drag_started_ticks_ms,
             "dropped_at_ticks_ms": dropped_ticks_ms,
-            "decision_duration_ms": decision_duration_ms
+            "decision_duration_ms": decision_duration_ms,
+            "mission_duration_ms": mission_duration_ms
         },
         "input_method": "unknown"
     }

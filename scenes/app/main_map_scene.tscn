@@ -559,23 +559,22 @@ text = "KELUAR PERMAINAN"
 [node name="HeaderSeparator" type="HSeparator" parent="ExitConfirmationModal/OuterMargin/ModalVBox" unique_id=820069689]
 layout_mode = 2
 
-[node name="ExitBodyScroll" type="ScrollContainer" parent="ExitConfirmationModal/OuterMargin/ModalVBox" unique_id=610906910]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="ExitBody" type="CenterContainer" parent="ExitConfirmationModal/OuterMargin/ModalVBox/ExitBodyScroll" unique_id=424746835]
+[node name="ExitBody" type="CenterContainer" parent="ExitConfirmationModal/OuterMargin/ModalVBox" unique_id=424746835]
+custom_minimum_size = Vector2(0, 78)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Question" type="Label" parent="ExitConfirmationModal/OuterMargin/ModalVBox/ExitBodyScroll/ExitBody" unique_id=643225186]
+[node name="Question" type="Label" parent="ExitConfirmationModal/OuterMargin/ModalVBox/ExitBody" unique_id=643225186]
+custom_minimum_size = Vector2(520, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
 theme_override_font_sizes/font_size = 22
 text = "Yakin menutup permainan?"
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="FooterSeparator" type="HSeparator" parent="ExitConfirmationModal/OuterMargin/ModalVBox" unique_id=1864009492]
 layout_mode = 2

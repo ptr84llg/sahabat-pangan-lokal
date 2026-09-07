@@ -1277,6 +1277,21 @@ func _start_new_attempt(game: Dictionary) -> String:
         "question_occurrence_ids": [],
         "game_summary": {}
     }
+    var score_value: Variant = game.get("score", {})
+    var score: Dictionary = {}
+    if score_value is Dictionary:
+        score = score_value
+    score["current_score"] = 0
+    score["final_score"] = 0
+    game["score"] = score
+    game["total_duration_ms"] = 0
+    game["completed_at_unix"] = 0.0
+    var mechanic_value: Variant = game.get("mechanic_data", {})
+    var mechanic_data: Dictionary = {}
+    if mechanic_value is Dictionary:
+        mechanic_data = mechanic_value
+    mechanic_data["current_score"] = 0
+    game["mechanic_data"] = mechanic_data
     attempts.append(attempt)
     game["attempts"] = attempts
     game["attempt_count"] = attempts.size()

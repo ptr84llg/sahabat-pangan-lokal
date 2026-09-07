@@ -306,7 +306,7 @@ func _configure_confirmation_modal(
 		"OuterMargin/ModalVBox/Header"
 	) as Label
 	var question: Label = exit_modal.get_node(
-		"OuterMargin/ModalVBox/ExitBodyScroll/ExitBody/Question"
+		"OuterMargin/ModalVBox/ExitBody/Question"
 	) as Label
 
 	if header != null:
@@ -315,6 +315,9 @@ func _configure_confirmation_modal(
 	if question != null:
 		question.text = question_text
 		question.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		question.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		question.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		question.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 
 	exit_confirm_button.text = confirm_text
 	exit_mask.visible = true
