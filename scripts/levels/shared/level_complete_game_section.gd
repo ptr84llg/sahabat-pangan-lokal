@@ -7,9 +7,14 @@ const METRIC_ROW_SCENE: PackedScene = preload(
 const MISSION_SECTION_SCENE: PackedScene = preload(
 	"res://scenes/levels/shared/level_complete_mission_section.tscn"
 )
+const ATTEMPT_SECTION_SCENE: PackedScene = preload(
+	"res://scenes/levels/shared/level_complete_attempt_section.tscn"
+)
 
 @onready var game_heading: Label = %GameHeading
 @onready var summary_rows: VBoxContainer = %SummaryRows
+@onready var game_attempt_history_heading: Label = %GameAttemptHistoryHeading
+@onready var game_attempt_history_vbox: VBoxContainer = %GameAttemptHistoryVBox
 @onready var result_heading: Label = %ResultHeading
 @onready var missions_vbox: VBoxContainer = %MissionsVBox
 
@@ -18,6 +23,7 @@ func bind_game(
 	data: Dictionary
 ) -> void:
 	_clear_container(summary_rows)
+	_clear_container(game_attempt_history_vbox)
 	_clear_container(missions_vbox)
 
 	var game_no: int = int(
@@ -76,6 +82,60 @@ func bind_game(
 			"Total Pengurangan Poin",
 			"-%d" % penalty_points_total
 		)
+
+	var attempt_history_value: Variant = data.get(
+		"attempt_history",
+		[]
+	)
+	var attempt_history: Array = []
+
+	if attempt_history_value is Array:
+		attempt_history = attempt_history_value
+
+	var game_attempt_count: int = int(
+		data.get(
+			"game_attempt_count",
+			attempt_history.size()
+		)
+	)
+	var timeout_count: int = int(
+		data.get("timeout_count", 0)
+	)
+
+	if game_attempt_count > 1:
+		_add_metric(
+			"Percobaan Permainan",
+			str(game_attempt_count)
+		)
+
+	if timeout_count > 0:
+		_add_metric(
+			"Jumlah Timeout",
+			str(timeout_count)
+		)
+
+	var show_game_attempt_history: bool = (
+		game_attempt_count > 1
+		or timeout_count > 0
+	)
+	game_attempt_history_heading.visible = show_game_attempt_history
+	game_attempt_history_vbox.visible = show_game_attempt_history
+
+	if show_game_attempt_history:
+		for attempt_value in attempt_history:
+			if not attempt_value is Dictionary:
+				continue
+
+			var attempt_section: Node = (
+				ATTEMPT_SECTION_SCENE.instantiate()
+			)
+			game_attempt_history_vbox.add_child(
+				attempt_section
+			)
+			attempt_section.call(
+				"bind_attempt",
+				attempt_value
+			)
 
 	var missions_value: Variant = data.get(
 		"missions",

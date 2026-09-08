@@ -650,6 +650,51 @@ func complete_game(
     final_score: int,
     total_duration_ms: int
 ) -> bool:
+    return _end_game_with_outcome(
+        level_no,
+        game_id,
+        game_type,
+        final_score,
+        total_duration_ms,
+        "completed"
+    )
+
+
+func timeout_game(
+    level_no: int,
+    game_id: String,
+    game_type: String,
+    final_score: int,
+    total_duration_ms: int
+) -> bool:
+    return _end_game_with_outcome(
+        level_no,
+        game_id,
+        game_type,
+        final_score,
+        total_duration_ms,
+        "timeout"
+    )
+
+
+func _end_game_with_outcome(
+    level_no: int,
+    game_id: String,
+    game_type: String,
+    final_score: int,
+    total_duration_ms: int,
+    outcome: String
+) -> bool:
+    var normalized_outcome: String = outcome.strip_edges().to_lower()
+
+    if normalized_outcome not in [
+        "completed",
+        "timeout",
+        "interrupted",
+        "abandoned"
+    ]:
+        return false
+
     var current: Dictionary = SaveManager.load_v3_active_current()
 
     if current.is_empty():
@@ -667,7 +712,7 @@ func complete_game(
 
     var attempt_id: String = _ensure_active_attempt(game)
     var now_unix: float = Time.get_unix_time_from_system()
-    game["status"] = "completed"
+    game["status"] = normalized_outcome
     game["completed_at_unix"] = now_unix
     game["total_duration_ms"] = maxi(0, total_duration_ms)
 
@@ -676,7 +721,7 @@ func complete_game(
     score_block["final_score"] = final_score
     game["score"] = score_block
 
-    var completed_attempt: Dictionary = {}
+    var ended_attempt: Dictionary = {}
     var attempts: Array = game.get("attempts", [])
 
     for index in range(attempts.size()):
@@ -690,7 +735,7 @@ func complete_game(
         if str(attempt.get("attempt_id", "")) != attempt_id:
             continue
 
-        attempt["status"] = "completed"
+        attempt["status"] = normalized_outcome
         attempt["completed_at_unix"] = now_unix
         attempt["final_score"] = final_score
         attempt["duration_ms"] = maxi(0, total_duration_ms)
@@ -715,7 +760,7 @@ func complete_game(
             final_score,
             total_duration_ms
         )
-        completed_attempt = attempt.duplicate(true)
+        ended_attempt = attempt.duplicate(true)
         attempts[index] = attempt
         break
 
@@ -723,22 +768,27 @@ func complete_game(
     game["active_attempt_id"] = ""
     game["game_summary"] = _build_game_summary(game)
 
-    if not completed_attempt.is_empty():
+    if not ended_attempt.is_empty():
         _register_game_attempt_in_level_attempt(
             current,
             level_no,
             game_id,
-            completed_attempt
+            ended_attempt
         )
 
     var level_attempt_id: String = str(
-        completed_attempt.get("level_attempt_id", "")
+        ended_attempt.get("level_attempt_id", "")
     ).strip_edges()
+    var event_type: String = (
+        "game_completed"
+        if normalized_outcome == "completed"
+        else "game_ended"
+    )
     var event: Dictionary = {
         "event_id": IdUtil.uuid_v4(),
         "schema_version": SCHEMA_VERSION,
-        "event_type": "game_completed",
-        "result": "completed",
+        "event_type": event_type,
+        "result": normalized_outcome,
         "timestamp_unix": now_unix,
         "content_version": ContentDatabase.content_version,
         "level_id": "L" + str(level_no),
@@ -760,12 +810,11 @@ func complete_game(
 
     if not queue_ok:
         push_warning(
-            "Game completion v3 tersimpan pada current, tetapi pending queue gagal diperbarui."
+            "Game terminal event v3 tersimpan pada current, tetapi pending queue gagal diperbarui."
         )
 
     SaveManager.refresh_v3_sync_metadata()
     return true
-
 
 func complete_level_attempt(
     level_no: int,
@@ -1144,10 +1193,18 @@ func _register_game_attempt_in_level_attempt(
         "game_summary",
         {}
     )
+    var game_attempt_id: String = str(
+        game_attempt.get("attempt_id", "")
+    ).strip_edges()
+
+    if game_attempt_id.is_empty():
+        return
+
     var reference: Dictionary = {
         "game_id": game_id,
-        "attempt_id": str(game_attempt.get("attempt_id", "")),
+        "attempt_id": game_attempt_id,
         "attempt_no": int(game_attempt.get("attempt_no", 0)),
+        "status": str(game_attempt.get("status", "")),
         "final_score": int(game_attempt.get("final_score", 0)),
         "duration_ms": int(game_attempt.get("duration_ms", 0)),
         "game_summary": summary.duplicate(true)
@@ -1162,7 +1219,10 @@ func _register_game_attempt_in_level_attempt(
 
         var ref: Dictionary = ref_value
 
-        if str(ref.get("game_id", "")) == game_id:
+        if (
+            str(ref.get("game_id", "")) == game_id
+            and str(ref.get("attempt_id", "")) == game_attempt_id
+        ):
             refs[ref_index] = reference
             replaced = true
             break
@@ -1174,7 +1234,6 @@ func _register_game_attempt_in_level_attempt(
     attempts[level_index] = level_attempt
     level["level_attempts"] = attempts
     _store_level_container(current, level_no, level)
-
 
 func _build_level_attempt_summary(
     refs: Array,

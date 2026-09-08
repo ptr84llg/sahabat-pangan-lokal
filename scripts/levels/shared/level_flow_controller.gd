@@ -1625,11 +1625,27 @@ func _build_v3_game_detail(
 	var attempt_id: String = str(
 		attempt.get("attempt_id", "")
 	)
+	var level_attempt_id: String = str(
+		attempt.get("level_attempt_id", "")
+	).strip_edges()
 	var missions: Array[Dictionary] = _build_v3_mission_details(
 		events,
 		attempt_id,
 		game_id
 	)
+	var attempt_history: Array[Dictionary] = (
+		_build_v3_game_attempt_history(
+			game,
+			level_attempt_id
+		)
+	)
+	var timeout_count: int = 0
+
+	for history_value in attempt_history:
+		var history: Dictionary = history_value
+		if str(history.get("status", "")) == "timeout":
+			timeout_count += 1
+
 	var penalty_count: int = 0
 	var penalty_points_total: int = 0
 
@@ -1661,9 +1677,87 @@ func _build_v3_game_detail(
 		"total_back_to_map": int(summary.get("total_back_to_map", 0)),
 		"penalty_count": penalty_count,
 		"penalty_points_total": penalty_points_total,
+		"game_attempt_count": attempt_history.size(),
+		"timeout_count": timeout_count,
+		"attempt_history": attempt_history,
 		"missions": missions
 	}
 
+
+func _build_v3_game_attempt_history(
+	game: Dictionary,
+	level_attempt_id: String
+) -> Array[Dictionary]:
+	var output: Array[Dictionary] = []
+	var attempts: Array = game.get("attempts", [])
+
+	for value in attempts:
+		if not value is Dictionary:
+			continue
+
+		var attempt: Dictionary = value
+
+		if not level_attempt_id.is_empty():
+			if str(attempt.get("level_attempt_id", "")) != level_attempt_id:
+				continue
+
+		var status: String = str(
+			attempt.get("status", "")
+		).strip_edges().to_lower()
+
+		if status not in [
+			"completed",
+			"timeout",
+			"interrupted",
+			"abandoned"
+		]:
+			continue
+
+		var score_value: int = int(
+			attempt.get("final_score", 0)
+		)
+		var selected_label: String = ""
+		var selected_value: String = ""
+
+		if status == "completed":
+			selected_label = "Poin"
+			selected_value = str(score_value)
+
+		var duration_ms: int = maxi(
+			0,
+			int(attempt.get("duration_ms", 0))
+		)
+
+		output.append({
+			"attempt_no": int(attempt.get("attempt_no", 0)),
+			"attempt_id": str(attempt.get("attempt_id", "")),
+			"status": status,
+			"result_text": _v3_game_attempt_status_text(status),
+			"selected_label": selected_label,
+			"selected_value": selected_value,
+			"correct_label": "",
+			"correct_value": "",
+			"duration_ms": duration_ms,
+			"duration_text": _format_level_complete_duration_ms(
+				duration_ms
+			)
+		})
+
+	return output
+
+
+func _v3_game_attempt_status_text(status: String) -> String:
+	match status:
+		"completed":
+			return "Selesai"
+		"timeout":
+			return "Waktu Habis"
+		"interrupted":
+			return "Terhenti"
+		"abandoned":
+			return "Ditinggalkan"
+
+	return status.capitalize()
 
 func _build_v3_mission_details(
 	events: Array,

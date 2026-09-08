@@ -655,7 +655,7 @@ func _on_timeout() -> void:
 			- main_game_start_active_ms
 		)
 
-	if not TelemetryManager.complete_game(
+	if not TelemetryManager.timeout_game(
 		4,
 		V3_MAIN_GAME_ID,
 		V3_MAIN_GAME_TYPE,
