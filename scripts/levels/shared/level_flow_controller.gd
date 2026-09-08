@@ -1640,11 +1640,18 @@ func _build_v3_game_detail(
 		)
 	)
 	var timeout_count: int = 0
+	var reset_count: int = 0
 
 	for history_value in attempt_history:
 		var history: Dictionary = history_value
-		if str(history.get("status", "")) == "timeout":
+		var history_status: String = str(
+			history.get("status", "")
+		)
+
+		if history_status == "timeout":
 			timeout_count += 1
+		elif history_status == "reset":
+			reset_count += 1
 
 	var penalty_count: int = 0
 	var penalty_points_total: int = 0
@@ -1679,10 +1686,10 @@ func _build_v3_game_detail(
 		"penalty_points_total": penalty_points_total,
 		"game_attempt_count": attempt_history.size(),
 		"timeout_count": timeout_count,
+		"reset_count": reset_count,
 		"attempt_history": attempt_history,
 		"missions": missions
 	}
-
 
 func _build_v3_game_attempt_history(
 	game: Dictionary,
@@ -1708,6 +1715,7 @@ func _build_v3_game_attempt_history(
 		if status not in [
 			"completed",
 			"timeout",
+			"reset",
 			"interrupted",
 			"abandoned"
 		]:
@@ -1722,6 +1730,16 @@ func _build_v3_game_attempt_history(
 		if status == "completed":
 			selected_label = "Poin"
 			selected_value = str(score_value)
+		elif status == "reset":
+			selected_label = "Poin sebelum reset"
+			selected_value = str(
+				int(
+					attempt.get(
+						"score_before_reset",
+						score_value
+					)
+				)
+			)
 
 		var duration_ms: int = maxi(
 			0,
@@ -1745,13 +1763,14 @@ func _build_v3_game_attempt_history(
 
 	return output
 
-
 func _v3_game_attempt_status_text(status: String) -> String:
 	match status:
 		"completed":
 			return "Selesai"
 		"timeout":
 			return "Waktu Habis"
+		"reset":
+			return "Direset"
 		"interrupted":
 			return "Terhenti"
 		"abandoned":

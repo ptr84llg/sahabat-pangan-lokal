@@ -101,6 +101,9 @@ func bind_game(
 	var timeout_count: int = int(
 		data.get("timeout_count", 0)
 	)
+	var reset_count: int = int(
+		data.get("reset_count", 0)
+	)
 
 	if game_attempt_count > 1:
 		_add_metric(
@@ -114,9 +117,16 @@ func bind_game(
 			str(timeout_count)
 		)
 
+	if reset_count > 0:
+		_add_metric(
+			"Jumlah Reset",
+			str(reset_count)
+		)
+
 	var show_game_attempt_history: bool = (
 		game_attempt_count > 1
 		or timeout_count > 0
+		or reset_count > 0
 	)
 	game_attempt_history_heading.visible = show_game_attempt_history
 	game_attempt_history_vbox.visible = show_game_attempt_history
@@ -164,7 +174,6 @@ func bind_game(
 			"bind_mission",
 			mission_value
 		)
-
 
 func _add_metric(
 	label_text: String,

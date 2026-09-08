@@ -115,18 +115,45 @@ func _on_confirm_pressed() -> void:
 
 func _persist_back_to_map(scene: Node) -> void:
     var level_no := int(scene.get_meta("level_no", 0))
+    var active_duration_ms: int = (
+        DurationTracker.current_active_ms()
+        if DurationTracker != null
+        else 0
+    )
+
+    if TelemetryManager != null and level_no > 0:
+        if not TelemetryManager.record_back_to_map(
+            level_no,
+            active_duration_ms
+        ):
+            push_warning(
+                "Telemetry v3 back-to-map belum dapat ditutup secara canonical."
+            )
+
     if _has_property(scene, "back_to_map_count"):
-        scene.set("back_to_map_count", int(scene.get("back_to_map_count")) + 1)
+        scene.set(
+            "back_to_map_count",
+            int(scene.get("back_to_map_count")) + 1
+        )
+
     if scene.has_method("_persist_level_interaction_snapshot"):
-        scene.call("_persist_level_interaction_snapshot", "back_to_map")
+        scene.call(
+            "_persist_level_interaction_snapshot",
+            "back_to_map"
+        )
     else:
         _persist_generic_level_session(scene)
+
     if AnalyticsLogger != null:
-        AnalyticsLogger.log_event("level_exit_to_map", {
-            "level_no": level_no,
-            "source": "global_gameplay_return_modal",
-            "active_duration_ms": DurationTracker.current_active_ms() if DurationTracker != null else 0
-        })
+        AnalyticsLogger.log_event(
+            "level_exit_to_map",
+            {
+                "level_no": level_no,
+                "source": "global_gameplay_return_modal",
+                "active_duration_ms": active_duration_ms
+            }
+        )
+
     if SaveManager != null:
         if SaveManager.has_method("save_now"):
             SaveManager.save_now()

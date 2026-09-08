@@ -677,28 +677,394 @@ func timeout_game(
     )
 
 
-func _end_game_with_outcome(
+func reset_game(
     level_no: int,
     game_id: String,
     game_type: String,
-    final_score: int,
-    total_duration_ms: int,
-    outcome: String
+    score_before_reset: int,
+    total_duration_ms: int
 ) -> bool:
-    var normalized_outcome: String = outcome.strip_edges().to_lower()
+    return _end_game_with_outcome(
+        level_no,
+        game_id,
+        game_type,
+        score_before_reset,
+        total_duration_ms,
+        "reset",
+        "in_game_reset",
+        "reset"
+    )
 
-    if normalized_outcome not in [
-        "completed",
-        "timeout",
-        "interrupted",
-        "abandoned"
-    ]:
+
+func record_back_to_map(
+    level_no: int,
+    active_duration_ms: int
+) -> bool:
+    if level_no <= 0:
         return false
 
     var current: Dictionary = SaveManager.load_v3_active_current()
 
     if current.is_empty():
         return false
+
+    var level: Dictionary = _ensure_level_container(
+        current,
+        level_no
+    )
+
+    if level.is_empty():
+        return false
+
+    var level_attempt_id: String = str(
+        level.get("active_level_attempt_id", "")
+    ).strip_edges()
+
+    if level_attempt_id.is_empty():
+        return false
+
+    var attempts: Array = level.get("level_attempts", [])
+    var level_attempt_index: int = _find_level_attempt_index(
+        attempts,
+        level_attempt_id
+    )
+
+    if level_attempt_index < 0:
+        return false
+
+    var level_attempt_value: Variant = attempts[
+        level_attempt_index
+    ]
+
+    if not level_attempt_value is Dictionary:
+        return false
+
+    var level_attempt: Dictionary = level_attempt_value
+
+    if str(level_attempt.get("status", "")) != "in_progress":
+        return false
+
+    var games_value: Variant = level.get("games", {})
+    var games: Dictionary = {}
+
+    if games_value is Dictionary:
+        games = games_value
+
+    var active_game_id: String = ""
+    var active_game_type: String = ""
+    var active_score: int = 0
+
+    for game_id_value in games.keys():
+        var game_value: Variant = games.get(
+            game_id_value,
+            {}
+        )
+
+        if not game_value is Dictionary:
+            continue
+
+        var game: Dictionary = game_value
+        _hydrate_game(game)
+
+        var active_attempt_id: String = str(
+            game.get("active_attempt_id", "")
+        ).strip_edges()
+
+        if active_attempt_id.is_empty():
+            continue
+
+        if (
+            _resolve_active_game_attempt_level_id(game)
+            != level_attempt_id
+        ):
+            continue
+
+        active_game_id = str(game_id_value)
+        active_game_type = str(
+            game.get("game_type", "")
+        )
+        var score_value: Variant = game.get(
+            "score",
+            {}
+        )
+
+        if score_value is Dictionary:
+            var score_block: Dictionary = score_value
+            active_score = int(
+                score_block.get(
+                    "current_score",
+                    0
+                )
+            )
+
+        break
+
+    var game_terminal_result: Dictionary = {}
+    var back_to_map_event: Dictionary = {}
+
+    if not active_game_id.is_empty():
+        game_terminal_result = _apply_game_terminal_outcome(
+            current,
+            level_no,
+            active_game_id,
+            active_game_type,
+            active_score,
+            0,
+            "interrupted",
+            "back_to_map",
+            "interrupted",
+            active_duration_ms
+        )
+
+        if not bool(
+            game_terminal_result.get(
+                "ok",
+                false
+            )
+        ):
+            return false
+
+        var lifecycle_value: Variant = (
+            game_terminal_result.get(
+                "lifecycle_event",
+                {}
+            )
+        )
+
+        if lifecycle_value is Dictionary:
+            var lifecycle_dictionary: Dictionary = lifecycle_value
+            back_to_map_event = lifecycle_dictionary.duplicate(true)
+    else:
+        back_to_map_event = {
+            "event_id": IdUtil.uuid_v4(),
+            "schema_version": SCHEMA_VERSION,
+            "event_type": "back_to_map",
+            "result": "interrupted",
+            "timestamp_unix": Time.get_unix_time_from_system(),
+            "content_version": ContentDatabase.content_version,
+            "level_id": "L" + str(level_no),
+            "game_id": "",
+            "attempt_id": "",
+            "level_attempt_id": level_attempt_id
+        }
+
+    level = _ensure_level_container(
+        current,
+        level_no
+    )
+    attempts = level.get(
+        "level_attempts",
+        []
+    )
+    level_attempt_index = _find_level_attempt_index(
+        attempts,
+        level_attempt_id
+    )
+
+    if level_attempt_index < 0:
+        return false
+
+    level_attempt_value = attempts[
+        level_attempt_index
+    ]
+
+    if not level_attempt_value is Dictionary:
+        return false
+
+    level_attempt = level_attempt_value
+
+    var now_unix: float = Time.get_unix_time_from_system()
+    level_attempt["status"] = "interrupted"
+    level_attempt["completed_at_unix"] = now_unix
+    level_attempt["duration_ms"] = maxi(
+        0,
+        active_duration_ms
+    )
+    level_attempt["summary"] = _build_level_attempt_summary(
+        level_attempt.get(
+            "game_attempt_refs",
+            []
+        ),
+        level_attempt
+    )
+    attempts[level_attempt_index] = level_attempt
+    level["level_attempts"] = attempts
+
+    if (
+        str(
+            level.get(
+                "active_level_attempt_id",
+                ""
+            )
+        ) == level_attempt_id
+    ):
+        level["active_level_attempt_id"] = ""
+
+    level["lifetime_summary"] = _build_level_lifetime_summary(
+        attempts
+    )
+    _store_level_container(
+        current,
+        level_no,
+        level
+    )
+
+    var level_event: Dictionary = {
+        "event_id": IdUtil.uuid_v4(),
+        "schema_version": SCHEMA_VERSION,
+        "event_type": "level_attempt_ended",
+        "result": "interrupted",
+        "reason": "back_to_map",
+        "timestamp_unix": now_unix,
+        "content_version": ContentDatabase.content_version,
+        "level_id": "L" + str(level_no),
+        "level_attempt_id": level_attempt_id,
+        "duration_ms": maxi(
+            0,
+            active_duration_ms
+        )
+    }
+
+    if not SaveManager.commit_v3_native_current(current):
+        return false
+
+    if not back_to_map_event.is_empty():
+        if not SaveManager.append_v3_pending_event(
+            back_to_map_event
+        ):
+            push_warning(
+                "Back-to-map v3 tersimpan pada current, tetapi pending queue gagal diperbarui."
+            )
+
+    if not game_terminal_result.is_empty():
+        var terminal_value: Variant = (
+            game_terminal_result.get(
+                "terminal_event",
+                {}
+            )
+        )
+
+        if terminal_value is Dictionary:
+            var terminal_event: Dictionary = terminal_value
+
+            if not terminal_event.is_empty():
+                if not SaveManager.append_v3_pending_event(
+                    terminal_event
+                ):
+                    push_warning(
+                        "Game interruption v3 tersimpan pada current, tetapi pending queue gagal diperbarui."
+                    )
+
+    if not SaveManager.append_v3_pending_event(
+        level_event
+    ):
+        push_warning(
+            "Level interruption v3 tersimpan pada current, tetapi pending queue gagal diperbarui."
+        )
+
+    SaveManager.refresh_v3_sync_metadata()
+    return true
+
+func _end_game_with_outcome(
+    level_no: int,
+    game_id: String,
+    game_type: String,
+    final_score: int,
+    total_duration_ms: int,
+    outcome: String,
+    lifecycle_event_type: String = "",
+    lifecycle_result: String = "",
+    lifecycle_active_duration_ms: int = -1
+) -> bool:
+    var current: Dictionary = SaveManager.load_v3_active_current()
+
+    if current.is_empty():
+        return false
+
+    var terminal_result: Dictionary = _apply_game_terminal_outcome(
+        current,
+        level_no,
+        game_id,
+        game_type,
+        final_score,
+        total_duration_ms,
+        outcome,
+        lifecycle_event_type,
+        lifecycle_result,
+        lifecycle_active_duration_ms
+    )
+
+    if not bool(
+        terminal_result.get(
+            "ok",
+            false
+        )
+    ):
+        return false
+
+    if not SaveManager.commit_v3_native_current(current):
+        return false
+
+    var lifecycle_value: Variant = terminal_result.get(
+        "lifecycle_event",
+        {}
+    )
+
+    if lifecycle_value is Dictionary:
+        var lifecycle_event: Dictionary = lifecycle_value
+
+        if not lifecycle_event.is_empty():
+            if not SaveManager.append_v3_pending_event(
+                lifecycle_event
+            ):
+                push_warning(
+                    "Game lifecycle event v3 tersimpan pada current, tetapi pending queue gagal diperbarui."
+                )
+
+    var terminal_value: Variant = terminal_result.get(
+        "terminal_event",
+        {}
+    )
+
+    if terminal_value is Dictionary:
+        var terminal_event: Dictionary = terminal_value
+
+        if not terminal_event.is_empty():
+            if not SaveManager.append_v3_pending_event(
+                terminal_event
+            ):
+                push_warning(
+                    "Game terminal event v3 tersimpan pada current, tetapi pending queue gagal diperbarui."
+                )
+
+    SaveManager.refresh_v3_sync_metadata()
+    return true
+
+
+func _apply_game_terminal_outcome(
+    current: Dictionary,
+    level_no: int,
+    game_id: String,
+    game_type: String,
+    final_score: int,
+    total_duration_ms: int,
+    outcome: String,
+    lifecycle_event_type: String = "",
+    lifecycle_result: String = "",
+    lifecycle_active_duration_ms: int = -1
+) -> Dictionary:
+    var normalized_outcome: String = outcome.strip_edges().to_lower()
+
+    if normalized_outcome not in [
+        "completed",
+        "timeout",
+        "reset",
+        "interrupted",
+        "abandoned"
+    ]:
+        return {
+            "ok": false
+        }
 
     var game: Dictionary = _ensure_game(
         current,
@@ -708,21 +1074,106 @@ func _end_game_with_outcome(
     )
 
     if game.is_empty():
-        return false
+        return {
+            "ok": false
+        }
 
     var attempt_id: String = _ensure_active_attempt(game)
+    var level_attempt_id: String = (
+        _resolve_active_game_attempt_level_id(
+            game
+        )
+    )
     var now_unix: float = Time.get_unix_time_from_system()
+    var lifecycle_event: Dictionary = {}
+
+    if not lifecycle_event_type.strip_edges().is_empty():
+        var normalized_lifecycle_result: String = (
+            lifecycle_result.strip_edges()
+        )
+
+        if normalized_lifecycle_result.is_empty():
+            normalized_lifecycle_result = normalized_outcome
+
+        var event_active_duration_ms: int = (
+            maxi(0, total_duration_ms)
+            if lifecycle_active_duration_ms < 0
+            else maxi(0, lifecycle_active_duration_ms)
+        )
+
+        lifecycle_event = {
+            "event_id": IdUtil.uuid_v4(),
+            "schema_version": SCHEMA_VERSION,
+            "event_type": lifecycle_event_type,
+            "result": normalized_lifecycle_result,
+            "timestamp_unix": now_unix,
+            "content_version": ContentDatabase.content_version,
+            "level_id": "L" + str(level_no),
+            "game_id": game_id,
+            "attempt_id": attempt_id,
+            "level_attempt_id": level_attempt_id,
+            "score_before_event": final_score,
+            "active_duration_ms": event_active_duration_ms
+        }
+
+        var lifecycle_events: Array = game.get(
+            "interaction_events",
+            []
+        )
+        lifecycle_events.append(
+            lifecycle_event.duplicate(true)
+        )
+        game["interaction_events"] = lifecycle_events
+
+        var global_metrics: Dictionary = game.get(
+            "interaction_metrics",
+            {}
+        )
+
+        if lifecycle_event_type in [
+            "in_game_reset",
+            "reset"
+        ]:
+            global_metrics[
+                "in_game_reset_click_count"
+            ] = int(
+                global_metrics.get(
+                    "in_game_reset_click_count",
+                    0
+                )
+            ) + 1
+        elif lifecycle_event_type == "back_to_map":
+            global_metrics[
+                "back_to_map_click_count"
+            ] = int(
+                global_metrics.get(
+                    "back_to_map_click_count",
+                    0
+                )
+            ) + 1
+
+        game["interaction_metrics"] = global_metrics
+
     game["status"] = normalized_outcome
     game["completed_at_unix"] = now_unix
-    game["total_duration_ms"] = maxi(0, total_duration_ms)
+    game["total_duration_ms"] = maxi(
+        0,
+        total_duration_ms
+    )
 
-    var score_block: Dictionary = game.get("score", {})
+    var score_block: Dictionary = game.get(
+        "score",
+        {}
+    )
     score_block["current_score"] = final_score
     score_block["final_score"] = final_score
     game["score"] = score_block
 
     var ended_attempt: Dictionary = {}
-    var attempts: Array = game.get("attempts", [])
+    var attempts: Array = game.get(
+        "attempts",
+        []
+    )
 
     for index in range(attempts.size()):
         var attempt_value: Variant = attempts[index]
@@ -732,13 +1183,26 @@ func _end_game_with_outcome(
 
         var attempt: Dictionary = attempt_value
 
-        if str(attempt.get("attempt_id", "")) != attempt_id:
+        if (
+            str(
+                attempt.get(
+                    "attempt_id",
+                    ""
+                )
+            ) != attempt_id
+        ):
             continue
 
         attempt["status"] = normalized_outcome
         attempt["completed_at_unix"] = now_unix
         attempt["final_score"] = final_score
-        attempt["duration_ms"] = maxi(0, total_duration_ms)
+        attempt["duration_ms"] = maxi(
+            0,
+            total_duration_ms
+        )
+
+        if normalized_outcome == "reset":
+            attempt["score_before_reset"] = final_score
 
         var attempt_metrics: Dictionary = _build_attempt_metrics(
             game,
@@ -764,27 +1228,37 @@ func _end_game_with_outcome(
         attempts[index] = attempt
         break
 
+    if ended_attempt.is_empty():
+        return {
+            "ok": false
+        }
+
     game["attempts"] = attempts
     game["active_attempt_id"] = ""
-    game["game_summary"] = _build_game_summary(game)
+    game["game_summary"] = _build_game_summary(
+        game
+    )
 
-    if not ended_attempt.is_empty():
-        _register_game_attempt_in_level_attempt(
-            current,
-            level_no,
-            game_id,
-            ended_attempt
+    _register_game_attempt_in_level_attempt(
+        current,
+        level_no,
+        game_id,
+        ended_attempt
+    )
+
+    level_attempt_id = str(
+        ended_attempt.get(
+            "level_attempt_id",
+            ""
         )
-
-    var level_attempt_id: String = str(
-        ended_attempt.get("level_attempt_id", "")
     ).strip_edges()
+
     var event_type: String = (
         "game_completed"
         if normalized_outcome == "completed"
         else "game_ended"
     )
-    var event: Dictionary = {
+    var terminal_event: Dictionary = {
         "event_id": IdUtil.uuid_v4(),
         "schema_version": SCHEMA_VERSION,
         "event_type": event_type,
@@ -796,25 +1270,26 @@ func _end_game_with_outcome(
         "attempt_id": attempt_id,
         "level_attempt_id": level_attempt_id,
         "final_score": final_score,
-        "total_duration_ms": maxi(0, total_duration_ms)
+        "total_duration_ms": maxi(
+            0,
+            total_duration_ms
+        )
     }
 
-    var events: Array = game.get("interaction_events", [])
-    events.append(event.duplicate(true))
+    var events: Array = game.get(
+        "interaction_events",
+        []
+    )
+    events.append(
+        terminal_event.duplicate(true)
+    )
     game["interaction_events"] = events
 
-    if not SaveManager.commit_v3_native_current(current):
-        return false
-
-    var queue_ok: bool = SaveManager.append_v3_pending_event(event)
-
-    if not queue_ok:
-        push_warning(
-            "Game terminal event v3 tersimpan pada current, tetapi pending queue gagal diperbarui."
-        )
-
-    SaveManager.refresh_v3_sync_metadata()
-    return true
+    return {
+        "ok": true,
+        "lifecycle_event": lifecycle_event,
+        "terminal_event": terminal_event
+    }
 
 func complete_level_attempt(
     level_no: int,

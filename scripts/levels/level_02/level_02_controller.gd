@@ -551,7 +551,28 @@ func _on_reset_pressed() -> void:
 	if not gameplay_layer.visible:
 		return
 
+	var reset_game_duration_ms: int = 0
+
+	if main_game_start_active_ms >= 0:
+		reset_game_duration_ms = maxi(
+			0,
+			DurationTracker.current_active_ms()
+			- main_game_start_active_ms
+		)
+
 	reset_count += 1
+
+	if not TelemetryManager.reset_game(
+		2,
+		V3_MAIN_GAME_ID,
+		V3_MAIN_GAME_TYPE,
+		main_score,
+		reset_game_duration_ms
+	):
+		push_warning(
+			"Telemetry v3 Level 2 Game 1 belum dapat mencatat reset secara canonical."
+		)
+
 	_persist_level_interaction_snapshot("reset")
 
 	AnalyticsLogger.log_event(
@@ -559,7 +580,7 @@ func _on_reset_pressed() -> void:
 		{
 			"level_session_id": level_session.get(
 				"level_session_id",
-                ""
+				""
 			),
 			"level_no": 2,
 			"reset_count": reset_count,
@@ -586,11 +607,32 @@ func _on_reset_pressed() -> void:
 		0,
 		{}
 	)
+
+	main_game_start_active_ms = (
+		DurationTracker.current_active_ms()
+	)
+
+	if not TelemetryManager.begin_game(
+		2,
+		V3_MAIN_GAME_ID,
+		V3_MAIN_GAME_TYPE,
+		{
+			"instruction_id": V3_MAIN_INSTRUCTION_ID,
+			"instruction_version": 1,
+			"instruction_text": V3_MAIN_INSTRUCTION_TEXT,
+			"content_version": (
+				ContentDatabase.content_version
+			)
+		}
+	):
+		push_warning(
+			"Telemetry v3 Level 2 Game 1 belum dapat memulai attempt baru setelah reset."
+		)
+
 	grouping_controller.begin_mission_timing()
 
 	set_state("GAMEPLAY_BATCH_1")
 	show_only(screens, gameplay_layer)
-
 
 func _load_batch_cards(batch_index: int) -> void:
 	for child in %FoodTray.get_children():
