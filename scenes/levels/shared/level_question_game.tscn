@@ -107,7 +107,7 @@ unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.025
-anchor_top = 0.095
+anchor_top = 0.075
 anchor_right = 0.975
 anchor_bottom = 0.985
 grow_horizontal = 2
@@ -119,14 +119,14 @@ layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 78
 theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 14
+theme_override_constants/margin_bottom = 10
 
 [node name="MainVBox" type="VBoxContainer" parent="QuestionUI/MainPanel/ContentMargin" unique_id=2009770359]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 7
 
 [node name="QuestionBlock" type="Control" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=1856175816]
-custom_minimum_size = Vector2(0, 138)
+custom_minimum_size = Vector2(0, 118)
 layout_mode = 2
 
 [node name="QuestionPanel" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock" unique_id=567470902]
@@ -222,11 +222,11 @@ alignment = 0
 [node name="AnswerList" type="VBoxContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=11621314]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="ExplanationPanel" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=587071961]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 106)
+custom_minimum_size = Vector2(0, 140)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("ExplanationPanelStyle")
@@ -236,21 +236,22 @@ layout_mode = 2
 theme_override_constants/margin_left = 18
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 18
-theme_override_constants/margin_bottom = 12
+theme_override_constants/margin_bottom = 8
 
 [node name="ExplanationVBox" type="VBoxContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/ExplanationPanel/ExplanationMargin" unique_id=1172381802]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 6
 
 [node name="ExplanationText" type="RichTextLabel" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/ExplanationPanel/ExplanationMargin/ExplanationVBox" unique_id=1284036274]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 42)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 theme_override_colors/default_color = Color(0.012, 0.35, 0.23, 1)
-theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/normal_font_size = 22
 text = "Pilih jawaban untuk melihat penjelasan."
+fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1

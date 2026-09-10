@@ -75,7 +75,7 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="QuestionAnswerOption" type="Button" unique_id=98938694]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 46)
 theme_override_styles/normal = SubResource("NeutralNormalStyle")
 theme_override_styles/pressed = SubResource("NeutralPressedStyle")
 theme_override_styles/hover = SubResource("NeutralHoverStyle")
@@ -102,9 +102,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 8
+theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_bottom = 6
 
 [node name="AnswerText" type="RichTextLabel" parent="TextMargin" unique_id=1860977507]
 unique_name_in_owner = true

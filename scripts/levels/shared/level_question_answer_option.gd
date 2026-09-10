@@ -35,10 +35,19 @@ func set_option_text(value: String) -> void:
 	answer_text.add_text(cleaned)
 	answer_text.pop()
 
-	var estimated_lines: int = maxi(1, int(ceil(float(cleaned.length()) / 64.0)))
+	var estimated_lines: int = maxi(
+		1,
+		int(
+			ceil(
+				float(cleaned.length()) / 84.0
+			)
+		)
+	)
 	estimated_lines = mini(estimated_lines, 4)
-	custom_minimum_size.y = 50.0 + float(estimated_lines - 1) * 22.0
-
+	custom_minimum_size.y = (
+		46.0
+		+ float(estimated_lines - 1) * 18.0
+	)
 
 func set_visual_state(state_name: String, interactive: bool) -> void:
 	_visual_state = state_name
