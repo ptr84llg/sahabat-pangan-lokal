@@ -2,6 +2,13 @@ extends LevelFlowController
 
 const FOOD_SLOT_SCENE := preload("res://scenes/shared/festival_food_slot.tscn")
 const BASKET_SLOT_SCENE := preload("res://scenes/shared/festival_basket_slot.tscn")
+const GALLERY_FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
+const GALLERY_PROCESSED_TEXTURE_PATHS := {
+    "processed_banana_cassava_compote": "res://assets/visual/processed_foods/processed_banana_cassava_compote.png",
+    "processed_spinach_corn_clear_soup": "res://assets/visual/processed_foods/processed_spinach_corn_clear_soup.png",
+    "processed_water_spinach_eggplant_stirfry": "res://assets/visual/processed_foods/processed_water_spinach_eggplant_stirfry.png",
+    "processed_papaya_mango_rujak": "res://assets/visual/processed_foods/processed_papaya_mango_rujak.png"
+}
 
 const V3_MAIN_GAME_ID: String = "L5-G01"
 const V3_MAIN_GAME_TYPE: String = "festival_pangan_lokal"
@@ -1479,18 +1486,133 @@ func _complete_quiz() -> void:
 func _show_gallery() -> void:
     set_state("KNOWLEDGE_GALLERY")
     show_only(screens, gallery_panel)
-    var lines: Array[String] = []
-    lines.append("[b]SELURUH PANGAN[/b]")
-    for fid_value in config.get("bank_food_ids", []):
-        var f := ContentDatabase.get_food(str(fid_value))
-        lines.append("• %s — %s" % [str(f.get("display_name", "")), ContentDatabase.get_group_name(str(f.get("group_id", "")))])
-    lines.append("")
-    lines.append("[b]HASIL OLAHAN LEVEL 4[/b]")
-    for p in ContentDatabase.get_level_04_processed_foods():
-        lines.append("• %s — %s + %s → %s" % [str(p.get("display_name", "")), str(p.get("ingredient_a_name", "")), str(p.get("ingredient_b_name", "")), str(p.get("process_name", ""))])
-    lines.append("")
-    lines.append(str(config.get("information_disclaimer", "")))
-    %GalleryText.text = "\n".join(lines)
+    _render_gallery_food_cards()
+    _render_gallery_processed_cards()
+    %GalleryDisclaimer.text = str(
+        config.get(
+            "information_disclaimer",
+            ""
+        )
+    )
+
+
+func _render_gallery_food_cards() -> void:
+    _clear_container(%GalleryFoodGrid)
+
+    for food_id_value in config.get("bank_food_ids", []):
+        var food_id := str(food_id_value)
+        var food := ContentDatabase.get_food(food_id)
+
+        if food.is_empty():
+            continue
+
+        var wrapper := VBoxContainer.new()
+        wrapper.custom_minimum_size = Vector2(190, 154)
+        wrapper.alignment = BoxContainer.ALIGNMENT_CENTER
+        wrapper.add_theme_constant_override("separation", 3)
+        %GalleryFoodGrid.add_child(wrapper)
+
+        var holder := CenterContainer.new()
+        holder.custom_minimum_size = Vector2(0, 112)
+        wrapper.add_child(holder)
+
+        var card: FoodCard = GALLERY_FOOD_CARD_SCENE.instantiate()
+        holder.add_child(card)
+        card.setup(
+            food_id,
+            str(food.get("display_name", food_id)),
+            str(food.get("group_id", "")),
+            -1,
+            true,
+            false,
+            "gallery_food_card"
+        )
+        card.set_static_preview()
+
+        var group_label := Label.new()
+        group_label.text = ContentDatabase.get_group_name(
+            str(food.get("group_id", ""))
+        ).to_upper()
+        group_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+        group_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+        group_label.add_theme_font_size_override("font_size", 13)
+        wrapper.add_child(group_label)
+
+
+func _render_gallery_processed_cards() -> void:
+    var processed_items := ContentDatabase.get_level_04_processed_foods()
+    var cards := [
+        %GalleryProcessedCard1,
+        %GalleryProcessedCard2,
+        %GalleryProcessedCard3,
+        %GalleryProcessedCard4
+    ]
+    var images := [
+        %GalleryProcessedImage1,
+        %GalleryProcessedImage2,
+        %GalleryProcessedImage3,
+        %GalleryProcessedImage4
+    ]
+    var names := [
+        %GalleryProcessedName1,
+        %GalleryProcessedName2,
+        %GalleryProcessedName3,
+        %GalleryProcessedName4
+    ]
+    var summaries := [
+        %GalleryProcessedSummary1,
+        %GalleryProcessedSummary2,
+        %GalleryProcessedSummary3,
+        %GalleryProcessedSummary4
+    ]
+
+    for index in range(cards.size()):
+        var panel: Control = cards[index]
+
+        if index >= processed_items.size():
+            panel.visible = false
+            continue
+
+        panel.visible = true
+        var item: Dictionary = processed_items[index]
+        var processed_id := str(
+            item.get(
+                "processed_food_id",
+                ""
+            )
+        )
+        var image: TextureRect = images[index]
+        var name_label: Label = names[index]
+        var summary_label: Label = summaries[index]
+        image.texture = _gallery_processed_texture(processed_id)
+        name_label.text = str(
+            item.get(
+                "display_name",
+                processed_id
+            )
+        ).to_upper()
+        summary_label.text = "%s + %s → %s" % [
+            str(item.get("ingredient_a_name", "")).to_upper(),
+            str(item.get("ingredient_b_name", "")).to_upper(),
+            str(item.get("process_name", "")).to_upper()
+        ]
+
+
+func _gallery_processed_texture(processed_id: String) -> Texture2D:
+    var texture_path := str(
+        GALLERY_PROCESSED_TEXTURE_PATHS.get(
+            processed_id,
+            ""
+        )
+    )
+
+    if texture_path.is_empty():
+        return null
+
+    if not ResourceLoader.exists(texture_path):
+        return null
+
+    return load(texture_path) as Texture2D
 
 func _show_badge() -> void:
     set_state("FINAL_BADGE")

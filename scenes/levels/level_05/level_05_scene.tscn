@@ -797,26 +797,213 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("PanelStyle")
+
 [node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 10
+
 [node name="Title" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox"]
 layout_mode = 2
 text = "GALERI PENGETAHUAN PANGAN"
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
-[node name="GalleryText" type="RichTextLabel" parent="SafeArea/Screens/GalleryPanel/VBox"]
-unique_name_in_owner = true
+
+[node name="GalleryScroll" type="ScrollContainer" parent="SafeArea/Screens/GalleryPanel/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
-bbcode_enabled = true
-scroll_active = true
-fit_content = false
+
+[node name="ContentMargin" type="MarginContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ContentVBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="FoodSectionTitle" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox"]
+layout_mode = 2
+text = "PANGAN LOKAL"
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="GalleryFoodGrid" type="GridContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 4
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 10
+
+[node name="ProcessedSectionTitle" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox"]
+layout_mode = 2
+text = "HASIL OLAHAN"
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="GalleryProcessedGrid" type="GridContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 4
+theme_override_constants/h_separation = 10
+
+[node name="GalleryProcessedCard1" type="PanelContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 196)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TopLaneStyle")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard1"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="GalleryProcessedImage1" type="TextureRect" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard1/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 122)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="GalleryProcessedName1" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard1/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "OLAHAN 1"
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 16
+
+[node name="GalleryProcessedSummary1" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard1/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BAHAN + BAHAN → PROSES"
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 13
+
+[node name="GalleryProcessedCard2" type="PanelContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 196)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TopLaneStyle")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard2"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="GalleryProcessedImage2" type="TextureRect" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard2/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 122)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="GalleryProcessedName2" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard2/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "OLAHAN 2"
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 16
+
+[node name="GalleryProcessedSummary2" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard2/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BAHAN + BAHAN → PROSES"
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 13
+
+[node name="GalleryProcessedCard3" type="PanelContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 196)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TopLaneStyle")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard3"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="GalleryProcessedImage3" type="TextureRect" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard3/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 122)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="GalleryProcessedName3" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard3/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "OLAHAN 3"
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 16
+
+[node name="GalleryProcessedSummary3" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard3/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BAHAN + BAHAN → PROSES"
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 13
+
+[node name="GalleryProcessedCard4" type="PanelContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 196)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TopLaneStyle")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard4"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="GalleryProcessedImage4" type="TextureRect" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard4/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 122)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="GalleryProcessedName4" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard4/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "OLAHAN 4"
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 16
+
+[node name="GalleryProcessedSummary4" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard4/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BAHAN + BAHAN → PROSES"
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 13
+
+[node name="GalleryDisclaimer" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = ""
+autowrap_mode = 3
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.22, 0.35, 0.26, 0.9)
+theme_override_font_sizes/font_size = 13
+
 [node name="GalleryNextButton" type="Button" parent="SafeArea/Screens/GalleryPanel/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,48)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "LANJUT"
+theme_override_font_sizes/font_size = 20
+text = "LANJUT KE BADGE"
 
 [node name="BadgePanel" type="PanelContainer" parent="SafeArea/Screens"]
 unique_name_in_owner = true
