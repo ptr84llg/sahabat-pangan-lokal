@@ -3156,6 +3156,7 @@ func _resolve_food_information_texture(
 	root_node: Node
 ) -> Texture2D:
 	for target_name in [
+		"InfoProcessedImage",
 		"InfoImage",
 		"FoodImage",
 		"PreviewImage",
