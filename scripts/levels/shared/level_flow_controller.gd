@@ -470,7 +470,13 @@ func _has_success_signature() -> bool:
 	if window_name.contains("success"):
 		return true
 
-	if not current_state.contains("SUCCESS"):
+	var state_upper: String = current_state.to_upper()
+	var success_state: bool = state_upper.contains("SUCCESS")
+
+	if state_upper == "MAIN_GAME_COMPLETE":
+		success_state = true
+
+	if not success_state:
 		return false
 
 	var success_text: String = _resolve_success_text(
@@ -485,13 +491,13 @@ func _has_success_signature() -> bool:
 		and success_button != null
 	)
 
-
 func _resolve_success_text(
 	root_node: Node
 ) -> String:
 	for target_name in [
 		"GameplaySuccessText",
 		"MainSuccessText",
+		"MainResultText",
 		"LiteracySuccessText",
 		"QuizSuccessText",
 		"ChallengeSuccessText",
@@ -513,7 +519,6 @@ func _resolve_success_text(
 	return _find_success_text_descendant(
 		root_node
 	)
-
 
 func _find_success_text_descendant(
 	root_node: Node
@@ -576,6 +581,7 @@ func _resolve_success_button(
 		[
 			"GameplaySuccessNextButton",
 			"MainSuccessNextButton",
+			"MainResultNextButton",
 			"LiteracySuccessNextButton",
 			"QuizSuccessNextButton",
 			"ChallengeSuccessNextButton",
@@ -590,7 +596,6 @@ func _resolve_success_button(
 	return _find_success_button_descendant(
 		root_node
 	)
-
 
 func _find_success_button_descendant(
 	root_node: Node
@@ -2042,6 +2047,32 @@ func _build_v3_attempt_details(
 				correct_id
 			)
 
+		elif event_type == "mechanic_interaction":
+			selected_label = "Pilihan"
+			correct_label = "Target Benar"
+
+			var selected_item_id: String = str(
+				event.get(
+					"selected_item_id",
+					""
+				)
+			).strip_edges()
+			var expected_item_id: String = str(
+				event.get(
+					"expected_item_id",
+					""
+				)
+			).strip_edges()
+
+			selected_value = _resolve_v3_answer_text(
+				event,
+				selected_item_id
+			)
+			correct_value = _resolve_v3_answer_text(
+				event,
+				expected_item_id
+			)
+
 		var duration_text: String = "-"
 
 		if duration_ms > 0:
@@ -2065,7 +2096,6 @@ func _build_v3_attempt_details(
 
 	return details
 
-
 func _resolve_v3_attempt_duration_ms(
 	event: Dictionary
 ) -> int:
@@ -2073,7 +2103,10 @@ func _resolve_v3_attempt_duration_ms(
 		event.get("event_type", "")
 	)
 
-	if event_type == "question_answer":
+	if event_type in [
+		"question_answer",
+		"mechanic_interaction"
+	]:
 		return maxi(
 			0,
 			int(event.get("response_time_ms", 0))
@@ -2103,7 +2136,6 @@ func _resolve_v3_attempt_duration_ms(
 		)
 
 	return 0
-
 
 func _format_level_complete_attempt_duration_ms(
 	duration_ms: int
@@ -2195,6 +2227,14 @@ func _resolve_v3_mission_group_key(
 		if not question_id.is_empty():
 			return "question:" + question_id
 
+	if event_type == "mechanic_interaction":
+		var mechanic_id: String = str(
+			event.get("mechanic_id", "")
+		).strip_edges()
+
+		if not mechanic_id.is_empty():
+			return "mechanic:" + mechanic_id
+
 	var section_id: String = str(
 		event.get("section_id", "")
 	).strip_edges()
@@ -2214,7 +2254,6 @@ func _resolve_v3_mission_group_key(
 		+ ":"
 		+ str(event.get("event_id", ""))
 	)
-
 
 func _resolve_v3_grouped_mission_duration_ms(
 	group_events: Array,
@@ -2389,11 +2428,11 @@ func _is_v3_mission_result_event(
 	return event_type in [
 		"drop",
 		"question_answer",
+		"mechanic_interaction",
 		"mission_result",
 		"round_result",
 		"section_result"
 	]
-
 
 func _resolve_v3_game_title(
 	game_id: String,

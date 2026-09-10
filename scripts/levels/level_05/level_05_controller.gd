@@ -512,17 +512,16 @@ func _register_invalid(
         )
     )
 
-    if not TelemetryManager.record_question_answer(
+    if not TelemetryManager.record_mechanic_interaction(
         5,
         V3_MAIN_GAME_ID,
         V3_MAIN_GAME_TYPE,
         selected_answer_id,
         correct_answer_id,
-        completed_score_before,
-        false
+        completed_score_before
     ):
         push_warning(
-            "Telemetry v3 Level 5 Game 1 belum dapat merekam invalid attempt."
+            "Telemetry v3 Level 5 Game 1 belum dapat merekam invalid mechanic interaction."
         )
 
     _begin_l5_schema_occurrence(schema_id)
@@ -563,17 +562,16 @@ func _complete_schema(schema_id: String) -> void:
         + ":complete"
     )
 
-    if not TelemetryManager.record_question_answer(
+    if not TelemetryManager.record_mechanic_interaction(
         5,
         V3_MAIN_GAME_ID,
         V3_MAIN_GAME_TYPE,
         completion_answer_id,
         completion_answer_id,
-        current_score,
-        false
+        current_score
     ):
         push_warning(
-            "Telemetry v3 Level 5 Game 1 belum dapat merekam penyelesaian skema."
+            "Telemetry v3 Level 5 Game 1 belum dapat merekam penyelesaian mechanic skema."
         )
 
     AnalyticsLogger.log_event(
@@ -811,13 +809,13 @@ func _begin_l5_schema_occurrence(
         return
 
     var occurrence_id: String = (
-        TelemetryManager.begin_question_occurrence(
+        TelemetryManager.begin_mechanic_occurrence(
             5,
             V3_MAIN_GAME_ID,
             V3_MAIN_GAME_TYPE,
             schema_id,
             schema_index + 1,
-            1,
+            "festival_schema",
             _build_l5_schema_options(
                 schema_id
             )
@@ -826,9 +824,8 @@ func _begin_l5_schema_occurrence(
 
     if occurrence_id.is_empty():
         push_warning(
-            "Telemetry v3 Level 5 Game 1 belum dapat membuka occurrence skema."
+            "Telemetry v3 Level 5 Game 1 belum dapat membuka mechanic occurrence skema."
         )
-
 
 func _build_l5_quiz_options(
     answers: Array
@@ -928,46 +925,51 @@ func _resolve_v3_mission_title(
             ""
         )
     )
-    var question_id: String = str(
+    var mission_id: String = str(
         event.get(
-            "question_id",
-            ""
+            "mechanic_id",
+            event.get(
+                "question_id",
+                ""
+            )
         )
     )
-    var question_order: int = int(
+    var mission_order: int = int(
         event.get(
-            "question_order",
-            0
+            "mechanic_order",
+            event.get(
+                "question_order",
+                0
+            )
         )
     )
 
     if game_id == V3_MAIN_GAME_ID:
         var schema_data: Dictionary = _l5_schema_data(
-            question_id
+            mission_id
         )
 
         if not schema_data.is_empty():
             return (
                 "Skema %d - %s"
                 % [
-                    question_order,
+                    mission_order,
                     str(
                         schema_data.get(
                             "name",
-                            question_id
+                            mission_id
                         )
                     ).to_lower().capitalize()
                 ]
             )
 
     if game_id == V3_QUIZ_GAME_ID:
-        if question_order > 0:
-            return "Pertanyaan %d" % question_order
+        if mission_order > 0:
+            return "Pertanyaan %d" % mission_order
 
         return "Pertanyaan"
 
     return super._resolve_v3_mission_title(event)
-
 
 func _resolve_v3_mission_scoring(
     game_id: String,
@@ -980,8 +982,11 @@ func _resolve_v3_mission_scoring(
     if game_id == V3_MAIN_GAME_ID:
         var schema_id: String = str(
             final_event.get(
-                "question_id",
-                ""
+                "mechanic_id",
+                final_event.get(
+                    "question_id",
+                    ""
+                )
             )
         )
         var schema_data: Dictionary = _l5_schema_data(

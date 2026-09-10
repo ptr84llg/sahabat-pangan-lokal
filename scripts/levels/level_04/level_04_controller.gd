@@ -851,11 +851,11 @@ func _build_l4_process_options() -> Array:
 
 
 func _begin_l4_main_occurrence(stage: String) -> void:
-	var question_id: String = _l4_main_question_id(
+	var mechanic_id: String = _l4_main_question_id(
 		stage
 	)
 
-	if question_id.begins_with(":"):
+	if mechanic_id.begins_with(":"):
 		push_warning(
 			"Telemetry v3 Level 4 Game 1 tidak memiliki order_id."
 		)
@@ -867,41 +867,38 @@ func _begin_l4_main_occurrence(stage: String) -> void:
 		else _build_l4_process_options()
 	)
 	var occurrence_id: String = (
-		TelemetryManager.begin_question_occurrence(
+		TelemetryManager.begin_mechanic_occurrence(
 			4,
 			V3_MAIN_GAME_ID,
 			V3_MAIN_GAME_TYPE,
-			question_id,
+			mechanic_id,
 			order_index + 1,
-			1,
+			stage,
 			options
 		)
 	)
 
 	if occurrence_id.is_empty():
 		push_warning(
-			"Telemetry v3 Level 4 Game 1 belum dapat membuka occurrence."
+			"Telemetry v3 Level 4 Game 1 belum dapat membuka mechanic occurrence."
 		)
-
 
 func _record_l4_main_answer(
 	selected_answer_id: String,
 	correct_answer_id: String,
 	current_score: int
 ) -> void:
-	if not TelemetryManager.record_question_answer(
+	if not TelemetryManager.record_mechanic_interaction(
 		4,
 		V3_MAIN_GAME_ID,
 		V3_MAIN_GAME_TYPE,
 		selected_answer_id,
 		correct_answer_id,
-		current_score,
-		false
+		current_score
 	):
 		push_warning(
-			"Telemetry v3 Level 4 Game 1 belum dapat merekam jawaban."
+			"Telemetry v3 Level 4 Game 1 belum dapat merekam mechanic interaction."
 		)
-
 
 func _build_l4_literacy_options(
 	round_data: Dictionary
@@ -1022,24 +1019,30 @@ func _resolve_v3_mission_title(
 			""
 		)
 	)
-	var question_id: String = str(
+	var mission_id: String = str(
 		event.get(
-			"question_id",
-			""
+			"mechanic_id",
+			event.get(
+				"question_id",
+				""
+			)
 		)
 	)
 	var order_no: int = int(
 		event.get(
-			"question_order",
-			0
+			"mechanic_order",
+			event.get(
+				"question_order",
+				0
+			)
 		)
 	)
 
 	if game_id == V3_MAIN_GAME_ID:
-		if question_id.ends_with(":ingredient"):
+		if mission_id.ends_with(":ingredient"):
 			return "Pesanan %d - Bahan" % order_no
 
-		if question_id.ends_with(":process"):
+		if mission_id.ends_with(":process"):
 			return "Pesanan %d - Proses" % order_no
 
 	if game_id == V3_LITERACY_GAME_ID:
@@ -1049,7 +1052,6 @@ func _resolve_v3_mission_title(
 		return "Ronde Literasi"
 
 	return super._resolve_v3_mission_title(event)
-
 
 func _resolve_v3_mission_scoring(
 	game_id: String,
@@ -1064,14 +1066,17 @@ func _resolve_v3_mission_scoring(
 	var retry_points: int = awarded_points
 
 	if game_id == V3_MAIN_GAME_ID:
-		var question_id: String = str(
+		var mission_id: String = str(
 			final_event.get(
-				"question_id",
-				""
+				"mechanic_id",
+				final_event.get(
+					"question_id",
+					""
+				)
 			)
 		)
 
-		if question_id.ends_with(":ingredient"):
+		if mission_id.ends_with(":ingredient"):
 			base_points = int(
 				scoring.get(
 					"ingredient_first_attempt",
@@ -1084,7 +1089,7 @@ func _resolve_v3_mission_scoring(
 					5
 				)
 			)
-		elif question_id.ends_with(":process"):
+		elif mission_id.ends_with(":process"):
 			base_points = int(
 				scoring.get(
 					"process_first_attempt",

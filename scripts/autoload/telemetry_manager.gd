@@ -288,6 +288,296 @@ func begin_question_occurrence(
 
     return occurrence_id
 
+func begin_mechanic_occurrence(
+    level_no: int,
+    game_id: String,
+    game_type: String,
+    mechanic_id: String,
+    mechanic_order: int,
+    mechanic_kind: String,
+    displayed_options: Array
+) -> String:
+    if level_no <= 0:
+        return ""
+
+    if (
+        game_id.strip_edges().is_empty()
+        or game_type.strip_edges().is_empty()
+        or mechanic_id.strip_edges().is_empty()
+    ):
+        return ""
+
+    var current: Dictionary = SaveManager.load_v3_active_current()
+
+    if current.is_empty():
+        return ""
+
+    var game: Dictionary = _ensure_game(
+        current,
+        level_no,
+        game_id,
+        game_type
+    )
+
+    if game.is_empty():
+        return ""
+
+    var attempt_id: String = _ensure_active_attempt(game)
+
+    if attempt_id.is_empty():
+        return ""
+
+    var occurrence_id: String = (
+        "MO-" + IdUtil.uuid_v4()
+    )
+    var mechanic_data: Dictionary = game.get(
+        "mechanic_data",
+        {}
+    )
+
+    mechanic_data["active_mechanic_id"] = mechanic_id
+    mechanic_data["active_mechanic_occurrence_id"] = occurrence_id
+    mechanic_data["active_mechanic_order"] = mechanic_order
+    mechanic_data["active_mechanic_kind"] = mechanic_kind
+    mechanic_data["active_mechanic_options"] = (
+        displayed_options.duplicate(true)
+    )
+    mechanic_data["active_mechanic_started_ticks_ms"] = (
+        Time.get_ticks_msec()
+    )
+    mechanic_data["active_mechanic_started_at_unix"] = (
+        Time.get_unix_time_from_system()
+    )
+    game["mechanic_data"] = mechanic_data
+
+    if not SaveManager.commit_v3_native_current(current):
+        return ""
+
+    return occurrence_id
+
+
+func record_mechanic_interaction(
+    level_no: int,
+    game_id: String,
+    game_type: String,
+    selected_item_id: String,
+    expected_item_id: String,
+    current_score: int
+) -> bool:
+    if level_no <= 0:
+        return false
+
+    if (
+        game_id.strip_edges().is_empty()
+        or game_type.strip_edges().is_empty()
+        or selected_item_id.strip_edges().is_empty()
+        or expected_item_id.strip_edges().is_empty()
+    ):
+        return false
+
+    var current: Dictionary = SaveManager.load_v3_active_current()
+
+    if current.is_empty():
+        return false
+
+    var game: Dictionary = _ensure_game(
+        current,
+        level_no,
+        game_id,
+        game_type
+    )
+
+    if game.is_empty():
+        return false
+
+    var attempt_id: String = _ensure_active_attempt(game)
+
+    if attempt_id.is_empty():
+        return false
+
+    var mechanic_data: Dictionary = game.get(
+        "mechanic_data",
+        {}
+    )
+    var mechanic_id: String = str(
+        mechanic_data.get(
+            "active_mechanic_id",
+            ""
+        )
+    ).strip_edges()
+    var occurrence_id: String = str(
+        mechanic_data.get(
+            "active_mechanic_occurrence_id",
+            ""
+        )
+    ).strip_edges()
+
+    if mechanic_id.is_empty() or occurrence_id.is_empty():
+        return false
+
+    var now_unix: float = Time.get_unix_time_from_system()
+    var now_ticks_ms: int = Time.get_ticks_msec()
+    var response_time_ms: int = 0
+    var started_ticks_value: Variant = mechanic_data.get(
+        "active_mechanic_started_ticks_ms",
+        null
+    )
+    var use_unix_fallback: bool = true
+
+    if started_ticks_value != null:
+        var started_ticks_ms: int = int(
+            started_ticks_value
+        )
+
+        if now_ticks_ms >= started_ticks_ms:
+            response_time_ms = (
+                now_ticks_ms - started_ticks_ms
+            )
+            use_unix_fallback = false
+
+    if use_unix_fallback:
+        var started_at_unix: float = float(
+            mechanic_data.get(
+                "active_mechanic_started_at_unix",
+                now_unix
+            )
+        )
+        response_time_ms = maxi(
+            0,
+            int(
+                (now_unix - started_at_unix)
+                * 1000.0
+            )
+        )
+
+    var correct: bool = (
+        selected_item_id == expected_item_id
+    )
+    var result: String = (
+        "correct"
+        if correct
+        else "wrong"
+    )
+
+    var score_block: Dictionary = game.get(
+        "score",
+        {}
+    )
+    var score_before_event: int = int(
+        score_block.get(
+            "current_score",
+            0
+        )
+    )
+    score_block["current_score"] = current_score
+    game["score"] = score_block
+
+    var options_value: Variant = mechanic_data.get(
+        "active_mechanic_options",
+        []
+    )
+    var displayed_options: Array = []
+
+    if options_value is Array:
+        var options: Array = options_value
+        displayed_options = options.duplicate(true)
+
+    var event: Dictionary = {
+        "event_id": IdUtil.uuid_v4(),
+        "schema_version": SCHEMA_VERSION,
+        "event_type": "mechanic_interaction",
+        "result": result,
+        "timestamp_unix": now_unix,
+        "content_version": ContentDatabase.content_version,
+        "level_id": "L" + str(level_no),
+        "game_id": game_id,
+        "attempt_id": attempt_id,
+        "mechanic_id": mechanic_id,
+        "mechanic_occurrence_id": occurrence_id,
+        "mechanic_order": int(
+            mechanic_data.get(
+                "active_mechanic_order",
+                0
+            )
+        ),
+        "mechanic_kind": str(
+            mechanic_data.get(
+                "active_mechanic_kind",
+                ""
+            )
+        ),
+        "displayed_options": displayed_options,
+        "selected_item_id": selected_item_id,
+        "expected_item_id": expected_item_id,
+        "response_time_ms": response_time_ms,
+        "score_before_event": score_before_event,
+        "score_after_event": current_score,
+        "score_delta": (
+            current_score - score_before_event
+        )
+    }
+
+    var events: Array = game.get(
+        "interaction_events",
+        []
+    )
+    events.append(event.duplicate(true))
+    game["interaction_events"] = events
+
+    var metrics: Dictionary = game.get(
+        "interaction_metrics",
+        {}
+    )
+
+    if correct:
+        metrics["correct_mechanic_interaction_count"] = int(
+            metrics.get(
+                "correct_mechanic_interaction_count",
+                0
+            )
+        ) + 1
+    else:
+        metrics["wrong_mechanic_interaction_count"] = int(
+            metrics.get(
+                "wrong_mechanic_interaction_count",
+                0
+            )
+        ) + 1
+
+    game["interaction_metrics"] = metrics
+
+    mechanic_data["last_mechanic_id"] = mechanic_id
+    mechanic_data["last_mechanic_occurrence_id"] = occurrence_id
+    mechanic_data["last_mechanic_result"] = result
+    mechanic_data["current_score"] = current_score
+    mechanic_data.erase("active_mechanic_id")
+    mechanic_data.erase("active_mechanic_occurrence_id")
+    mechanic_data.erase("active_mechanic_order")
+    mechanic_data.erase("active_mechanic_kind")
+    mechanic_data.erase("active_mechanic_options")
+    mechanic_data.erase("active_mechanic_started_ticks_ms")
+    mechanic_data.erase("active_mechanic_started_at_unix")
+    game["mechanic_data"] = mechanic_data
+
+    if not SaveManager.commit_v3_native_current(current):
+        return false
+
+    var queue_ok: bool = SaveManager.append_v3_pending_event(
+        event
+    )
+
+    if not queue_ok:
+        push_warning(
+            "Mechanic interaction v3 tersimpan pada current, tetapi pending queue gagal diperbarui."
+        )
+
+    if not SaveManager.refresh_v3_sync_metadata():
+        push_warning(
+            "Metadata sync v3 gagal diperbarui setelah mechanic interaction."
+        )
+
+    return true
+
 func record_question_answer(
     level_no: int,
     game_id: String,
@@ -2090,6 +2380,21 @@ func _build_attempt_metrics(
                 metrics["wrong_answer_count"] = int(
                     metrics.get("wrong_answer_count", 0)
                 ) + 1
+        elif event_type == "mechanic_interaction":
+            if result == "correct":
+                metrics["correct_mechanic_interaction_count"] = int(
+                    metrics.get(
+                        "correct_mechanic_interaction_count",
+                        0
+                    )
+                ) + 1
+            elif result == "wrong":
+                metrics["wrong_mechanic_interaction_count"] = int(
+                    metrics.get(
+                        "wrong_mechanic_interaction_count",
+                        0
+                    )
+                ) + 1
         elif event_type == "hint":
             metrics["hint_click_count"] = int(
                 metrics.get("hint_click_count", 0)
@@ -2169,10 +2474,22 @@ func _build_attempt_summary(
         "total_correct": (
             int(metrics.get("correct_drop_count", 0))
             + int(metrics.get("correct_answer_count", 0))
+            + int(
+                metrics.get(
+                    "correct_mechanic_interaction_count",
+                    0
+                )
+            )
         ),
         "total_wrong": (
             int(metrics.get("wrong_target_drop_count", 0))
             + int(metrics.get("wrong_answer_count", 0))
+            + int(
+                metrics.get(
+                    "wrong_mechanic_interaction_count",
+                    0
+                )
+            )
         ),
         "total_invalid": int(
             metrics.get("invalid_drop_count", 0)
@@ -2222,10 +2539,22 @@ func _build_game_summary(game: Dictionary) -> Dictionary:
         "total_correct": (
             int(metrics.get("correct_drop_count", 0))
             + question_correct_count
+            + int(
+                metrics.get(
+                    "correct_mechanic_interaction_count",
+                    0
+                )
+            )
         ),
         "total_wrong": (
             int(metrics.get("wrong_target_drop_count", 0))
             + int(metrics.get("wrong_answer_count", 0))
+            + int(
+                metrics.get(
+                    "wrong_mechanic_interaction_count",
+                    0
+                )
+            )
         ),
         "total_invalid": int(metrics.get("invalid_drop_count", 0)),
         "total_hint": int(metrics.get("hint_click_count", 0)),
