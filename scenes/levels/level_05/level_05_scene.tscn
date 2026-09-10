@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene load_steps=23 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/level_05/level_05_controller.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/levels/level_05/moving_lane_controller.gd" id="2"]
@@ -7,6 +7,12 @@
 [ext_resource type="Script" path="res://scripts/levels/level_05/quiz_controller.gd" id="5"]
 [ext_resource type="Script" path="res://scripts/levels/level_05/question_timer_controller.gd" id="6"]
 [ext_resource type="Texture2D" path="res://assets/visual/ui/logo_game.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/visual/main_map/bg_main_map.png" id="8"]
+[ext_resource type="Texture2D" path="res://assets/visual/npc/ibu/standing.png" id="9"]
+[ext_resource type="Texture2D" path="res://assets/visual/npc/ibu_guru/standing.png" id="10"]
+[ext_resource type="Texture2D" path="res://assets/visual/npc/lurah/standing.png" id="11"]
+[ext_resource type="Texture2D" path="res://assets/visual/npc/nenek/standing.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/visual/npc/pedagang/standing.png" id="13"]
 
 [sub_resource type="Theme" id="Level5ReadabilityTheme"]
 Label/colors/font_color = Color(0.055, 0.3, 0.19, 1)
@@ -1082,41 +1088,372 @@ text = "LANJUT"
 [node name="FinalMapPanel" type="PanelContainer" parent="SafeArea/Screens"]
 unique_name_in_owner = true
 visible = false
+clip_contents = true
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -450.0
-offset_top = -295.0
-offset_right = 450.0
-offset_bottom = 295.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("PanelStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel"]
+
+[node name="MapBackground" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel"]
+layout_mode = 2
+texture = ExtResource("8")
+expand_mode = 1
+stretch_mode = 6
+mouse_filter = 2
+
+[node name="MapShade" type="ColorRect" parent="SafeArea/Screens/FinalMapPanel"]
+layout_mode = 2
+color = Color(0.965, 0.975, 0.945, 0.72)
+mouse_filter = 2
+
+[node name="ContentMargin" type="MarginContainer" parent="SafeArea/Screens/FinalMapPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="ContentVBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 6
+
+[node name="Headline" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
+layout_mode = 2
+text = "PERJALANAN SELESAI!"
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
+layout_mode = 2
+text = "KAMU MENJADI DUTA PANGAN LOKAL"
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CelebrationStage" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
+custom_minimum_size = Vector2(0, 222)
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="IbuBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+alignment = 2
+[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/IbuBox"]
+custom_minimum_size = Vector2(120, 172)
+layout_mode = 2
+texture = ExtResource("9")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/IbuBox"]
+layout_mode = 2
+text = "IBU"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="IbuGuruBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+alignment = 2
+[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/IbuGuruBox"]
+custom_minimum_size = Vector2(120, 172)
+layout_mode = 2
+texture = ExtResource("10")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/IbuGuruBox"]
+layout_mode = 2
+text = "IBU GURU"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="PlayerBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage"]
+custom_minimum_size = Vector2(205, 0)
+layout_mode = 2
+alignment = 2
+[node name="FinalPlayerTexture" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/PlayerBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(205, 198)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+[node name="FinalPlayerName" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/PlayerBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "PLAYER"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 17
+
+[node name="LurahBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+alignment = 2
+[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/LurahBox"]
+custom_minimum_size = Vector2(120, 172)
+layout_mode = 2
+texture = ExtResource("11")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/LurahBox"]
+layout_mode = 2
+text = "LURAH"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="NenekBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+alignment = 2
+[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/NenekBox"]
+custom_minimum_size = Vector2(120, 172)
+layout_mode = 2
+texture = ExtResource("12")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/NenekBox"]
+layout_mode = 2
+text = "NENEK"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="PedagangBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+alignment = 2
+[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/PedagangBox"]
+custom_minimum_size = Vector2(120, 172)
+layout_mode = 2
+texture = ExtResource("13")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/PedagangBox"]
+layout_mode = 2
+text = "PEDAGANG"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="LevelCards" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="FinalLevelCard1" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards"]
+custom_minimum_size = Vector2(170, 84)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TopLaneStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard1"]
+layout_mode = 2
+alignment = 1
+[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard1/VBox"]
+layout_mode = 2
+text = "LEVEL 1 ✓"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 15
+[node name="FinalLevelScore1" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard1/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0/100"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+[node name="FinalLevelDuration1" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard1/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "00:00"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+
+[node name="FinalLevelCard2" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards"]
+custom_minimum_size = Vector2(170, 84)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TopLaneStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard2"]
+layout_mode = 2
+alignment = 1
+[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard2/VBox"]
+layout_mode = 2
+text = "LEVEL 2 ✓"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 15
+[node name="FinalLevelScore2" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard2/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0/100"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+[node name="FinalLevelDuration2" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard2/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "00:00"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+
+[node name="FinalLevelCard3" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards"]
+custom_minimum_size = Vector2(170, 84)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TopLaneStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard3"]
+layout_mode = 2
+alignment = 1
+[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard3/VBox"]
+layout_mode = 2
+text = "LEVEL 3 ✓"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 15
+[node name="FinalLevelScore3" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard3/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0/100"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+[node name="FinalLevelDuration3" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard3/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "00:00"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+
+[node name="FinalLevelCard4" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards"]
+custom_minimum_size = Vector2(170, 84)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TopLaneStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard4"]
+layout_mode = 2
+alignment = 1
+[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard4/VBox"]
+layout_mode = 2
+text = "LEVEL 4 ✓"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 15
+[node name="FinalLevelScore4" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard4/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0/100"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+[node name="FinalLevelDuration4" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard4/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "00:00"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+
+[node name="FinalLevelCard5" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards"]
+custom_minimum_size = Vector2(170, 84)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TopLaneStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard5"]
+layout_mode = 2
+alignment = 1
+[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard5/VBox"]
+layout_mode = 2
+text = "LEVEL 5 ✓"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 15
+[node name="FinalLevelScore5" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard5/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0/100"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+[node name="FinalLevelDuration5" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard5/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "00:00"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+
+[node name="AchievementRow" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
 layout_mode = 2
 alignment = 1
 theme_override_constants/separation = 10
-[node name="JourneyText" type="Label" parent="SafeArea/Screens/FinalMapPanel/VBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0,440)
+
+[node name="FinalBadgeCard" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow"]
+custom_minimum_size = Vector2(260, 72)
 layout_mode = 2
-theme_override_font_sizes/font_size = 19
+theme_override_styles/panel = SubResource("BottomLaneStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalBadgeCard"]
+layout_mode = 2
+alignment = 1
+[node name="BadgeIcon" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalBadgeCard/VBox"]
+layout_mode = 2
+text = "★  BADGE FINAL"
 horizontal_alignment = 1
-vertical_alignment = 1
-[node name="Buttons" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/VBox"]
+theme_override_font_sizes/font_size = 14
+[node name="BadgeName" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalBadgeCard/VBox"]
+layout_mode = 2
+text = "DUTA PANGAN LOKAL"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="FinalScoreCard" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow"]
+custom_minimum_size = Vector2(220, 72)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TopLaneStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalScoreCard"]
+layout_mode = 2
+alignment = 1
+[node name="Caption" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalScoreCard/VBox"]
+layout_mode = 2
+text = "TOTAL SKOR"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+[node name="FinalTotalScore" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalScoreCard/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0/500"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 22
+
+[node name="FinalDurationCard" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow"]
+custom_minimum_size = Vector2(220, 72)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TopLaneStyle")
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalDurationCard"]
+layout_mode = 2
+alignment = 1
+[node name="Caption" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalDurationCard/VBox"]
+layout_mode = 2
+text = "DURASI AKTIF"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+[node name="FinalTotalDuration" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalDurationCard/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "00:00"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 22
+
+[node name="SavedNote" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
+layout_mode = 2
+text = "Perjalanan tersimpan di Riwayat."
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+
+[node name="Buttons" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
 layout_mode = 2
 alignment = 1
 theme_override_constants/separation = 12
-[node name="FinalReplayButton" type="Button" parent="SafeArea/Screens/FinalMapPanel/VBox/Buttons"]
+
+[node name="FinalReplayButton" type="Button" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/Buttons"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260,52)
+custom_minimum_size = Vector2(260, 52)
 layout_mode = 2
-text = "MAIN ULANG LEVEL"
-[node name="FinalMenuButton" type="Button" parent="SafeArea/Screens/FinalMapPanel/VBox/Buttons"]
+text = "PERJALANAN BARU"
+
+[node name="FinalMenuButton" type="Button" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/Buttons"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260,52)
+custom_minimum_size = Vector2(260, 52)
 layout_mode = 2
 text = "KEMBALI KE MENU"

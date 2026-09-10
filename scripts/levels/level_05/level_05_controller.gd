@@ -9,6 +9,12 @@ const GALLERY_PROCESSED_TEXTURE_PATHS := {
     "processed_water_spinach_eggplant_stirfry": "res://assets/visual/processed_foods/processed_water_spinach_eggplant_stirfry.png",
     "processed_papaya_mango_rujak": "res://assets/visual/processed_foods/processed_papaya_mango_rujak.png"
 }
+const FINAL_CHARACTER_HAPPY_TEXTURES := {
+    "rara": "res://assets/visual/character_select/character_01_female_happy.png",
+    "budi": "res://assets/visual/character_select/character_02_male_happy.png",
+    "anjani": "res://assets/visual/character_select/character_03_female_happy.png",
+    "riski": "res://assets/visual/character_select/character_04_male_happy.png"
+}
 
 const V3_MAIN_GAME_ID: String = "L5-G01"
 const V3_MAIN_GAME_TYPE: String = "festival_pangan_lokal"
@@ -1647,19 +1653,96 @@ func _show_final_map() -> void:
     set_state("FINAL_MAP")
     show_only(screens, final_map_panel)
     %FinalReplayButton.text = "PERJALANAN BARU"
+    _apply_final_player_texture()
+
+    var selected_character_id := GameState.selected_character_id()
+    var character_data: Dictionary = GameState.CHARACTER_DATA.get(
+        selected_character_id,
+        {}
+    )
+    %FinalPlayerName.text = str(
+        character_data.get(
+            "display_name",
+            GameState.player_display_name()
+        )
+    ).to_upper()
+
+    var score_labels := [
+        %FinalLevelScore1,
+        %FinalLevelScore2,
+        %FinalLevelScore3,
+        %FinalLevelScore4,
+        %FinalLevelScore5
+    ]
+    var duration_labels := [
+        %FinalLevelDuration1,
+        %FinalLevelDuration2,
+        %FinalLevelDuration3,
+        %FinalLevelDuration4,
+        %FinalLevelDuration5
+    ]
     var score_total := 0
     var duration_total := 0
-    var rows: Array[String] = []
-    for level_no in range(1,6):
+
+    for level_no in range(1, 6):
         var key := str(level_no)
-        var score := int(GameState.active_run.get("level_scores", {}).get(key, 0))
-        var duration := int(GameState.active_run.get("level_durations_ms", {}).get(key, 0))
+        var score := int(
+            GameState.active_run.get(
+                "level_scores",
+                {}
+            ).get(
+                key,
+                0
+            )
+        )
+        var duration := int(
+            GameState.active_run.get(
+                "level_durations_ms",
+                {}
+            ).get(
+                key,
+                0
+            )
+        )
         score_total += score
         duration_total += duration
-        rows.append("Level %d  ✓   %d/100   %s" % [level_no, score, _format_ms(duration)])
-    %JourneyText.text = "PERJALANAN SELESAI\nBadge Final: Duta Pangan Lokal\n\n%s\n\nTotal skor game: %d/500\nTotal durasi aktif: %s\n\nPerjalanan ini sudah tersimpan di Riwayat. Mulai perjalanan baru untuk bermain lagi." % ["\n".join(rows), score_total, _format_ms(duration_total)]
+        score_labels[level_no - 1].text = "%d/100" % score
+        duration_labels[level_no - 1].text = _format_ms(duration)
 
-# BUNDLE_53B_R2_LEVEL5_FINALIZE_BEGIN
+    %FinalTotalScore.text = "%d/500" % score_total
+    %FinalTotalDuration.text = _format_ms(duration_total)
+
+
+func _apply_final_player_texture() -> void:
+    var selected_character_id := GameState.selected_character_id()
+    var texture_path := str(
+        FINAL_CHARACTER_HAPPY_TEXTURES.get(
+            selected_character_id,
+            ""
+        )
+    )
+
+    if texture_path.is_empty():
+        texture_path = str(
+            GameState.CHARACTER_DATA.get(
+                selected_character_id,
+                {}
+            ).get(
+                "texture_path",
+                ""
+            )
+        )
+
+    if texture_path.is_empty():
+        %FinalPlayerTexture.texture = null
+        return
+
+    if not ResourceLoader.exists(texture_path):
+        %FinalPlayerTexture.texture = null
+        return
+
+    %FinalPlayerTexture.texture = load(texture_path) as Texture2D
+
 func _finish_completed_journey(target_scene: String) -> void:
     var finalized: bool = GameState.finalize_completed_run()
 
