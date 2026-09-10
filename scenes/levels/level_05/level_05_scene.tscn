@@ -311,31 +311,57 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -360.0
-offset_top = -175.0
-offset_right = 360.0
-offset_bottom = 175.0
+offset_left = -390.0
+offset_top = -220.0
+offset_right = 390.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("PanelStyle")
+
 [node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/ReadyPanel"]
 layout_mode = 2
 alignment = 1
-theme_override_constants/separation = 14
+theme_override_constants/separation = 12
+
 [node name="Title" type="Label" parent="SafeArea/Screens/ReadyPanel/VBox"]
 layout_mode = 2
-text = "SIAP MEMULAI FESTIVAL?"
-theme_override_font_sizes/font_size = 28
+text = "SIAP FESTIVAL?"
+theme_override_font_sizes/font_size = 48
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReadyTimerLabel" type="Label" parent="SafeArea/Screens/ReadyPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "04:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.80231684, 0.13420224, 0.35331166, 1)
+theme_override_font_sizes/font_size = 48
+
+[node name="ReadySummaryLabel" type="Label" parent="SafeArea/Screens/ReadyPanel/VBox"]
+layout_mode = 2
+text = "4 SKEMA • 1 TIMER UTAMA"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 22
+
 [node name="ReadyText" type="Label" parent="SafeArea/Screens/ReadyPanel/VBox"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
+text = "Timer dimulai saat tombol ditekan.\nWaktu habis tidak menghentikan permainan."
 autowrap_mode = 2
 horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 17
+
 [node name="FestivalStartButton" type="Button" parent="SafeArea/Screens/ReadyPanel/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,56)
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "MULAI FESTIVAL"
 
 [node name="MainGameHUD" type="PanelContainer" parent="SafeArea/Screens"]

@@ -141,7 +141,9 @@ func _show_ready() -> void:
     SettingsManager.set_flag(str(config.get("tutorial_flag_key", "level_05_tutorial_seen")), true)
     set_state("READY_FESTIVAL")
     show_only(screens, ready_panel)
-    %ReadyText.text = "Empat skema menggunakan satu Main Timer.\nWaktu habis tidak menghentikan permainan."
+    %ReadyTimerLabel.text = _format_seconds(
+        int(config.get("main_timer_seconds", 240))
+    )
 
 func _start_main_game() -> void:
     level_session = GameState.begin_level_session(5)
