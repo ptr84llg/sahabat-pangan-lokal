@@ -1426,7 +1426,7 @@ func _populate_literacy_choices(round_data: Dictionary) -> void:
 					str(processed.get("display_name", item_id)),
                     "processed_food_card"
 				)
-				_decorate_processed_choice_card(card, item_id)
+				_decorate_processed_choice_card(card, item_id, true)
 				UIMotion.play_pop(card, 1.025)
 
 		"food":
@@ -1466,7 +1466,8 @@ func _populate_literacy_choices(round_data: Dictionary) -> void:
 
 func _decorate_processed_choice_card(
 	card: NamedDragCard,
-	processed_id: String
+	processed_id: String,
+	image_only: bool = false
 ) -> void:
 	if card == null:
 		return
@@ -1477,9 +1478,13 @@ func _decorate_processed_choice_card(
 	var texture_path := str(
 		PROCESSED_TEXTURE_PATHS.get(processed_id, "")
 	)
-	var preview_texture := _load_processed_texture(texture_path)
+	var preview_texture: Texture2D = _load_processed_texture(texture_path)
 
-	card.custom_minimum_size = Vector2(170, 142)
+	card.custom_minimum_size = (
+		Vector2(170, 112)
+		if image_only
+		else Vector2(170, 142)
+	)
 
 	var title_node := card.get_node_or_null("TitleLabel") as Label
 
@@ -1492,12 +1497,26 @@ func _decorate_processed_choice_card(
 	card.add_child(visual)
 
 	var image := TextureRect.new()
-	image.custom_minimum_size = Vector2(154, 98)
+	image.custom_minimum_size = (
+		Vector2(154, 104)
+		if image_only
+		else Vector2(154, 98)
+	)
 	image.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	image.texture = preview_texture
 	visual.add_child(image)
+
+	if image_only:
+		if preview_texture != null:
+			card.set_image_drag_preview(
+				preview_texture,
+				Vector2(170, 112)
+			)
+		elif title_node != null:
+			title_node.visible = true
+		return
 
 	var label := Label.new()
 	label.text = str(processed.get("display_name", processed_id))
@@ -1507,7 +1526,6 @@ func _decorate_processed_choice_card(
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.add_theme_font_size_override("font_size", 14)
 	visual.add_child(label)
-
 
 func _on_named_literacy_drop(
 	item_id: String,

@@ -5,6 +5,8 @@ extends PanelContainer
 @export var drag_kind := "named_card"
 var display_name := ""
 var locked := false
+var drag_preview_texture: Texture2D = null
+var drag_preview_size := Vector2(150, 72)
 @onready var title_label: Label = %TitleLabel
 
 func setup(new_item_id: String, new_display_name: String, new_drag_kind: String) -> void:
@@ -33,21 +35,44 @@ func _set_descendant_mouse_ignore(root_node: Node) -> void:
 func _apply_visual() -> void:
 	title_label.text = display_name
 
+func set_image_drag_preview(
+	texture: Texture2D,
+	preview_size: Vector2
+) -> void:
+	drag_preview_texture = texture
+
+	if preview_size.x > 0.0 and preview_size.y > 0.0:
+		drag_preview_size = preview_size
+
+
 func _get_drag_data(_at_position: Vector2):
 	if locked or item_id.is_empty():
 		return null
 
-	var preview := PanelContainer.new()
-	preview.custom_minimum_size = Vector2(150, 72)
-	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var preview: Control
 
-	var label := Label.new()
-	label.text = display_name
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	preview.add_child(label)
+	if drag_preview_texture != null:
+		var image_preview := TextureRect.new()
+		image_preview.custom_minimum_size = drag_preview_size
+		image_preview.size = drag_preview_size
+		image_preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		image_preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		image_preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		image_preview.texture = drag_preview_texture
+		preview = image_preview
+	else:
+		var text_preview := PanelContainer.new()
+		text_preview.custom_minimum_size = Vector2(150, 72)
+		text_preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+		var label := Label.new()
+		label.text = display_name
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		text_preview.add_child(label)
+		preview = text_preview
 
 	preview.modulate.a = 0.92
 	set_drag_preview(preview)
