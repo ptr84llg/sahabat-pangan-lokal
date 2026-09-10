@@ -224,6 +224,7 @@ func _load_schema(index: int) -> void:
     _clear_container(%SchemaMissionContent)
     %ProcessChoiceRow.visible = false
     %SchemaFeedback.text = ""
+    %SchemaDetailLabel.text = ""
 
     var data: Dictionary = schemas[index]
     var schema_id: String = str(
@@ -232,9 +233,9 @@ func _load_schema(index: int) -> void:
             ""
         )
     )
-    %SchemaLabel.text = "SKEMA %d/4 • %s" % [
+    %SchemaLabel.text = "SKEMA %d/4\n%s" % [
         index + 1,
-        str(data.get("name", ""))
+        str(data.get("name", "")).to_upper()
     ]
     %SchemaProgress.text = ""
     set_state("SCHEMA_%d" % [index + 1])
@@ -242,12 +243,17 @@ func _load_schema(index: int) -> void:
 
     match index:
         0:
+            %SchemaInstructionLabel.text = "CARI PANGAN TARGET"
             _setup_schema1(data)
         1:
+            %SchemaInstructionLabel.text = "ISI 4 KELOMPOK PANGAN"
             _setup_schema2(data)
         2:
+            %SchemaInstructionLabel.text = "BELANJA 4 PANGAN"
+            %SchemaDetailLabel.text = "1 dari setiap kelompok\nMaksimal 15 Koin Pangan"
             _setup_schema3(data)
         3:
+            %SchemaInstructionLabel.text = "LENGKAPI 2 OLAHAN PANGAN"
             _setup_schema4(data)
 
     _begin_l5_schema_occurrence(schema_id)
@@ -264,19 +270,20 @@ func _render_schema1_target() -> void:
     _clear_container(%SchemaMissionContent)
     var food_id := str(schema1_targets[schema1_target_index])
     var food := ContentDatabase.get_food(food_id)
-    var title := Label.new()
-    title.text = "TEMUKAN: %s" % str(food.get("display_name", food_id)).to_upper()
-    title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-    title.add_theme_font_size_override("font_size", 24)
-    %SchemaMissionContent.add_child(title)
+    var target_name := Label.new()
+    target_name.name = "TargetNameDynamic"
+    target_name.text = str(food.get("display_name", food_id)).to_upper()
+    target_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+    target_name.add_theme_font_size_override("font_size", 24)
+    %SchemaMissionContent.add_child(target_name)
     var holder := CenterContainer.new()
-    holder.custom_minimum_size = Vector2(0, 150)
+    holder.custom_minimum_size = Vector2(0, 116)
     %SchemaMissionContent.add_child(holder)
     var slot: FestivalFoodSlot = FOOD_SLOT_SCENE.instantiate()
     holder.add_child(slot)
     slot.setup("TARGET %d/3" % [schema1_target_index + 1])
     slot.drop_received.connect(_on_schema1_drop.bind(food_id, slot))
-    %SchemaProgress.text = "Target %d/3" % [schema1_target_index + 1]
+    %SchemaProgress.text = "TARGET %d/3" % [schema1_target_index + 1]
 
 func _on_schema1_drop(food_id: String, card: FoodCard, _slot: FestivalFoodSlot, target_id: String, __slot_ref: FestivalFoodSlot) -> void:
     if food_id != target_id:
@@ -295,11 +302,8 @@ func _on_schema1_drop(food_id: String, card: FoodCard, _slot: FestivalFoodSlot, 
 
 func _setup_schema2(data: Dictionary) -> void:
     schema2_completed_groups.clear()
-    var intro := Label.new()
-    intro.text = "Isi satu pangan yang benar untuk setiap kelompok."
-    intro.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-    %SchemaMissionContent.add_child(intro)
     var row := HBoxContainer.new()
+    row.name = "GroupTargetsDynamic"
     row.alignment = BoxContainer.ALIGNMENT_CENTER
     row.add_theme_constant_override("separation", 8)
     %SchemaMissionContent.add_child(row)
@@ -310,7 +314,7 @@ func _setup_schema2(data: Dictionary) -> void:
         slot.custom_minimum_size.x = 145
         slot.setup(ContentDatabase.get_group_name(gid))
         slot.drop_received.connect(_on_schema2_drop.bind(gid, slot))
-    %SchemaProgress.text = "Kelompok 0/4"
+    %SchemaProgress.text = "KELOMPOK 0/4"
 
 func _on_schema2_drop(food_id: String, card: FoodCard, _emitter_slot: FestivalFoodSlot, group_id: String, slot: FestivalFoodSlot) -> void:
     var food := ContentDatabase.get_food(food_id)
@@ -333,15 +337,6 @@ func _on_schema2_drop(food_id: String, card: FoodCard, _emitter_slot: FestivalFo
 func _setup_schema3(_data: Dictionary) -> void:
     schema3_selected.clear()
     schema3_total_coin = 0
-    var top := Label.new()
-    top.name = "ShopInfoDynamic"
-    top.text = "Pilih tepat 4 pangan, satu dari setiap kelompok. Batas 15 Koin Pangan."
-    top.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-    %SchemaMissionContent.add_child(top)
-    var checklist := Label.new()
-    checklist.name = "ShopChecklistDynamic"
-    checklist.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-    %SchemaMissionContent.add_child(checklist)
     var basket := HBoxContainer.new()
     basket.name = "ShopBasketDynamic"
     basket.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -389,14 +384,25 @@ func _on_schema3_return(slot: FestivalBasketSlot) -> void:
     _refresh_schema3_ui()
 
 func _refresh_schema3_ui() -> void:
-    %SchemaProgress.text = "Keranjang %d/4 • %d/15 Koin" % [schema3_selected.size(), schema3_total_coin]
-    var label := %SchemaMissionContent.get_node_or_null("ShopChecklistDynamic") as Label
-    if label != null:
-        var groups := ["group_staple_root","group_vegetable","group_fruit","group_fishery"]
-        var parts: Array[String] = []
-        for gid in groups:
-            parts.append(("✓ " if schema3_selected.has(gid) else "□ ") + ContentDatabase.get_group_name(gid))
-        label.text = "   |   ".join(parts)
+    %SchemaProgress.text = "KERANJANG %d/4 • %d/15 KOIN" % [
+        schema3_selected.size(),
+        schema3_total_coin
+    ]
+    var groups := [
+        "group_staple_root",
+        "group_vegetable",
+        "group_fruit",
+        "group_fishery"
+    ]
+    var parts: Array[String] = []
+
+    for gid in groups:
+        parts.append(
+            ("✓ " if schema3_selected.has(gid) else "□ ")
+            + ContentDatabase.get_group_name(gid)
+        )
+
+    %SchemaDetailLabel.text = "\n".join(parts)
 
 func _setup_schema4(data: Dictionary) -> void:
     if schema4_targets.is_empty():
@@ -413,7 +419,11 @@ func _render_schema4_target() -> void:
     var processed_id := str(schema4_targets[schema4_target_index])
     var processed := ContentDatabase.get_processed_food(processed_id)
     var label := Label.new()
-    label.text = "TARGET OLAHAN %d/2: %s" % [schema4_target_index + 1, str(processed.get("display_name", processed_id)).to_upper()]
+    label.name = "ProcessedTargetDynamic"
+    label.text = "OLAHAN %d/2\n%s" % [
+        schema4_target_index + 1,
+        str(processed.get("display_name", processed_id)).to_upper()
+    ]
     label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     label.add_theme_font_size_override("font_size", 20)
     %SchemaMissionContent.add_child(label)
@@ -427,7 +437,7 @@ func _render_schema4_target() -> void:
         slot.setup(title)
         slot.drop_received.connect(_on_schema4_ingredient_drop.bind(slot))
         schema4_slots.append(slot)
-    %SchemaProgress.text = "Olahan %d/2" % [schema4_target_index + 1]
+    %SchemaProgress.text = "OLAHAN %d/2" % [schema4_target_index + 1]
 
 func _on_schema4_ingredient_drop(_food_id: String, card: FoodCard, _emitter: FestivalFoodSlot, slot: FestivalFoodSlot) -> void:
     slot.hold_card(card)

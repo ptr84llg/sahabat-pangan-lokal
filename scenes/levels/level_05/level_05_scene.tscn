@@ -392,20 +392,6 @@ vertical_alignment = 1
 theme_override_colors/font_color = Color(0.96, 0.96, 0.04, 1)
 theme_override_font_sizes/font_size = 25
 
-[node name="ProgressBox" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow"]
-custom_minimum_size = Vector2(180, 56)
-layout_mode = 2
-theme_override_styles/panel = SubResource("YellowStyle")
-
-[node name="SchemaProgress" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow/ProgressBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = ""
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
-theme_override_font_sizes/font_size = 17
 
 [node name="TimerBox" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow"]
 custom_minimum_size = Vector2(118, 56)
@@ -463,32 +449,94 @@ theme_override_styles/panel = SubResource("TargetCenterStyle")
 [node name="MissionVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 5
+
+[node name="MissionSplit" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="MissionInfoPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit"]
+custom_minimum_size = Vector2(310, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TopLaneStyle")
+
+[node name="InfoVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 5
+
+[node name="InfoHeader" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox"]
+layout_mode = 2
+text = "MISI AKTIF"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 15
+
+[node name="SchemaLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SKEMA 1/4"
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 20
+
+[node name="SchemaInstructionLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CARI PANGAN TARGET"
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.055, 0.30, 0.19, 1)
+theme_override_font_sizes/font_size = 21
+
+[node name="SchemaProgress" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 17
+
+[node name="SchemaDetailLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.12, 0.34, 0.23, 1)
+theme_override_font_sizes/font_size = 14
+
+[node name="MissionTargetPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("PanelStyle")
+
+[node name="TargetVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel"]
+layout_mode = 2
+size_flags_vertical = 3
 alignment = 1
 theme_override_constants/separation = 4
 
-[node name="TargetHeader" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox"]
-custom_minimum_size = Vector2(0, 40)
+[node name="TargetHeader" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
-theme_override_styles/panel = SubResource("YellowStyle")
-
-[node name="SchemaLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/TargetHeader"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "TARGET MISI"
+text = "AREA TARGET"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 3
 theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
-theme_override_font_sizes/font_size = 21
+theme_override_font_sizes/font_size = 16
 
-[node name="SchemaMissionContent" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox"]
+[node name="SchemaMissionContent" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 theme_override_constants/separation = 4
 
-[node name="ProcessChoiceRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox"]
+[node name="ProcessChoiceRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -497,14 +545,14 @@ theme_override_constants/separation = 8
 
 [node name="SchemaFeedback" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 34)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 text = ""
 autowrap_mode = 3
 horizontal_alignment = 1
 vertical_alignment = 1
 theme_override_colors/font_color = Color(0.055, 0.30, 0.19, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 
 [node name="BottomLanePanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox"]
 custom_minimum_size = Vector2(0, 142)
