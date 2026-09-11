@@ -54,10 +54,10 @@ const LEVEL_INTRO_NAMES: Dictionary = {
 
 const LEVEL_INTRO_FALLBACK: Dictionary = {
 	1: "Kenali pangan lokal di sekitar rumah dan siapkan diri untuk memulai permainan.",
-	2: "Kelompokkan pangan lokal sesuai jenis dan kategorinya melalui tantangan di sekolah.",
-	3: "Pilih pangan yang tepat saat berbelanja dan atur Koin Pangan dengan cermat.",
-	4: "Padukan dua bahan pangan lokal lalu pilih proses pengolahan yang tepat.",
-	5: "Gunakan seluruh pengetahuanmu untuk menyelesaikan tantangan Festival Pangan Lokal."
+	2: "[color=#fd6001][b]Mengelompokkan pangan lokal[/b][/color]\nKita akan mengelompokkan pangan lokal sesuai jenis dan kategorinya.",
+	3: "[color=#fd6001][b]Mari berbelanja dengan Koin.[/b][/color]\nPilih pangan yang tepat saat berbelanja dan gunakan Koin Pangan dengan cermat.",
+	4: "[color=#fd6001][b]Mari kita mengolah pangan.[/b][/color]\nPadukan dua bahan pangan lokal,\nlalu pilih proses pengolahan yang tepat untuk menjadi sebuah pangan olahan.",
+	5: "[color=#fd6001][b]Persiapkan semua pengetahuan mu.[/b][/color]\nGunakan seluruh pengetahuanmu untuk menyelesaikan tantangan Festival Pangan Lokal."
 }
 
 var current_state: String = ""

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ddj0tcnek52ur" path="res://scripts/levels/shared/level_question_game.gd" id="1_question"]
 [ext_resource type="Texture2D" uid="uid://d3n01qo5f4ffo" path="res://assets/visual/ui/logo_game.png" id="2_logo"]
-[ext_resource type="PackedScene" path="res://scenes/levels/shared/level_question_answer_option.tscn" id="3_answer_option"]
+[ext_resource type="PackedScene" uid="uid://dixcxvrl6srk3" path="res://scenes/levels/shared/level_question_answer_option.tscn" id="3_answer_option"]
 
 [sub_resource type="StyleBoxFlat" id="MainPanelStyle"]
 bg_color = Color(0.9844546, 0.97269243, 0.9138015, 0.70000005)
@@ -117,7 +117,7 @@ theme_override_styles/panel = SubResource("MainPanelStyle")
 [node name="ContentMargin" type="MarginContainer" parent="QuestionUI/MainPanel" unique_id=718916063]
 layout_mode = 2
 theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 78
+theme_override_constants/margin_top = 57
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 10
 
@@ -143,7 +143,7 @@ theme_override_styles/panel = SubResource("QuestionPanelStyle")
 [node name="QuestionMargin" type="MarginContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/QuestionPanel" unique_id=48783770]
 layout_mode = 2
 theme_override_constants/margin_left = 18
-theme_override_constants/margin_top = 24
+theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 18
 theme_override_constants/margin_bottom = 8
 
@@ -152,8 +152,8 @@ unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/default_color = Color(0.012, 0.35, 0.23, 1)
-theme_override_font_sizes/normal_font_size = 28
-theme_override_font_sizes/bold_font_size = 29
+theme_override_font_sizes/normal_font_size = 26
+theme_override_font_sizes/bold_font_size = 27
 text = "Pangan lokal manakah yang sesuai dengan petunjuk berikut?"
 scroll_active = false
 vertical_alignment = 1
@@ -210,13 +210,16 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="PreviewAnswerA" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PreviewAnswerList" unique_id=774755892 instance=ExtResource("3_answer_option")]
+layout_mode = 2
 alignment = 0
 autowrap_mode = 3
 
 [node name="PreviewAnswerB" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PreviewAnswerList" unique_id=1322333093 instance=ExtResource("3_answer_option")]
+layout_mode = 2
 alignment = 0
 
 [node name="PreviewAnswerC" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PreviewAnswerList" unique_id=1586985181 instance=ExtResource("3_answer_option")]
+layout_mode = 2
 alignment = 0
 
 [node name="AnswerList" type="VBoxContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=11621314]
@@ -285,7 +288,7 @@ offset_left = -117.0
 offset_right = 27.0
 offset_bottom = 144.0
 grow_horizontal = 2
-scale = Vector2(1.5, 1.5)
+scale = Vector2(1.2, 1.2)
 mouse_filter = 2
 texture = ExtResource("2_logo")
 expand_mode = 1

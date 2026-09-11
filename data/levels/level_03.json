@@ -26,7 +26,7 @@
     "opening": [
       {
         "speaker": "Pedagang",
-        "text": "Kamu sudah bisa mengenali dan mengelompokkan pangan. Sekarang kita akan mencoba memilih pangan saat berbelanja."
+        "text": "Selamat datang di Pasar Pangan Lokal [b]{player_name}[/b].\nKamu sudah bisa mengenali dan mengelompokkan pangan.\nSekarang kita akan mencoba berbelanja pangan dengan menggunakan Koin yang tersedia."
       },
       {
         "speaker": "Pedagang",
@@ -40,21 +40,21 @@
     "mission": [
       {
         "speaker": "Pedagang",
-        "text": "Pilih satu pangan dari setiap kelompok. Kamu punya 15 Koin Pangan, jadi pilihlah dengan cermat."
+        "text": "Pilih satu pangan dari setiap kelompok.\n[b]Kamu punya 15 Koin Pangan, jadi pilihlah dengan cermat.[/b]"
       },
       {
         "speaker": "Pedagang",
-        "text": "Nilai Koin Pangan hanya berlaku di dalam permainan dan bukan harga pasar sebenarnya."
+        "text": "Nilai Koin Pangan hanya berlaku di dalam permainan ini saja."
       }
     ],
     "closing": [
       {
         "speaker": "Pedagang",
-        "text": "Belanjamu sudah lengkap. Kamu berhasil memilih pangan dari setiap kelompok dengan Koin Pangan yang tersedia."
+        "text": "[b]Belanjamu sudah lengkap.[/b]\nKamu berhasil memilih pangan dari setiap kelompok dengan Koin Pangan yang tersedia."
       },
       {
         "speaker": "Pedagang",
-        "text": "Bagus. Saat memilih, kamu tidak hanya melihat satu hal, tetapi juga mempertimbangkan kebutuhan yang harus dipenuhi."
+        "text": "Kerja yang Bagus.\nSaat memilih, kamu tidak hanya melihat satu hal, tetapi juga mempertimbangkan kebutuhan yang harus dipenuhi."
       },
       {
         "speaker": "Pemain",

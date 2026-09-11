@@ -10,7 +10,7 @@
     "opening": [
       {
         "speaker": "Lurah",
-        "text": "Kamu sudah mengenali berbagai pangan, memahami kelompoknya, memilihnya saat berbelanja, dan melihat beberapa hasil olahannya."
+        "text": "[b]Selamat {player_name}.[/b]\nKamu sudah mengenali berbagai pangan, memahami kelompoknya, memilihnya saat berbelanja, dan melihat beberapa hasil olahannya."
       },
       {
         "speaker": "Pemain",
@@ -18,13 +18,13 @@
       },
       {
         "speaker": "Lurah",
-        "text": "Benar. Misi terakhir akan berubah beberapa kali, tetapi pangan yang kamu pelajari tetap menjadi bekalmu."
+        "text": "Benar sekali [b]{player_name}[/b].\nMisi terakhir akan berubah beberapa kali, tetapi pangan yang kamu pelajari tetap menjadi bekalmu."
       }
     ],
     "mission": [
       {
         "speaker": "Lurah",
-        "text": "Pangan akan bergerak pada dua jalur. Perhatikan misi di tengah layar dan ambil pangan yang sesuai."
+        "text": "[b]Pangan akan bergerak pada dua jalur.[/b]\nPerhatikan misi di tengah layar dan ambil pangan yang sesuai."
       },
       {
         "speaker": "Lurah",
@@ -32,7 +32,7 @@
       },
       {
         "speaker": "Lurah",
-        "text": "Waktu terus berjalan sampai skema terakhir. Jika waktunya habis, permainan tetap lanjut, tetapi nilai waktumu akan berkurang."
+        "text": "Waktu terus berjalan sampai skema terakhir.\nJika waktunya habis, permainan tetap lanjut, tetapi nilai waktumu akan berkurang."
       }
     ],
     "closing": [
@@ -52,7 +52,7 @@
   },
   "tutorial": {
     "title": "MOVING LANES + 4 SKEMA + TIMER",
-    "text": "Pangan bergerak pada dua jalur dengan arah berlawanan. Seret pangan ke area misi yang aktif. Skema berubah dari Kenali, Kelompokkan, Belanja, sampai Olah. Satu Main Timer berjalan terus dari Skema 1 sampai Skema 4. Jika mencapai 00:00, permainan tetap dilanjutkan dan bonus waktu menjadi 0.",
+    "text": "Pangan bergerak pada dua jalur dengan arah berlawanan.\nSeret pangan ke area misi yang aktif.\nSkema berubah dari Kenali, Kelompokkan, Belanja, sampai Olah.\nWaktu hitung mundur akan berjalan terus dari Skema 1 sampai Skema 4.\nJika mencapai 00:00, permainan tetap dilanjutkan dan bonus waktu menjadi 0.",
     "timer_runs": false,
     "analytics_main_game": false
   },

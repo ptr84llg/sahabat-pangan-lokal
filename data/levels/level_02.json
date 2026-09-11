@@ -39,25 +39,25 @@
     "opening": [
       {
         "speaker": "Ibu Guru",
-        "text": "Kamu sudah mengenali beberapa pangan pada misi sebelumnya. Ternyata pangan yang kita temui memiliki jenis yang berbeda-beda."
+        "text": "Selamat [b]{player_name}[/b].\nKamu sudah mengenali beberapa pangan pada misi sebelumnya.\nTernyata pangan yang kita temui memiliki jenis yang berbeda-beda."
       },
       {
         "speaker": "Pemain",
-        "text": "Berarti pangan yang sudah aku kenal bisa dikelompokkan, Bu?"
+        "text": "Berarti pangan yang sudah aku kenal bisa dikelompokkan ya, Bu Guru?"
       },
       {
         "speaker": "Ibu Guru",
-        "text": "Benar. Sekarang kita akan mencoba mengelompokkannya."
+        "text": "Benar Sekali.\nSekarang kita akan mencoba mengelompokkannya."
       }
     ],
     "mission": [
       {
         "speaker": "Ibu Guru",
-        "text": "Ada dua belas pangan di meja. Masukkan setiap pangan ke kelompok yang sesuai."
+        "text": "[b]Ada dua belas pangan di meja.[/b]\nMasukkan setiap pangan ke kelompok yang sesuai."
       },
       {
         "speaker": "Ibu Guru",
-        "text": "Kelompoknya adalah Pangan Pokok dan Umbi, Sayuran, serta Buah. Setiap kelompok harus berisi empat pangan."
+        "text": "Kelompoknya adalah [b]Pangan Pokok dan Umbi, Sayuran, serta Buah.[/b]\nSetiap kelompok harus berisi empat pangan."
       },
       {
         "speaker": "Pemain",
@@ -67,7 +67,7 @@
     "closing": [
       {
         "speaker": "Ibu Guru",
-        "text": "Sekarang kamu sudah tahu bahwa pangan yang kita kenal dapat dikelompokkan berdasarkan jenisnya. Pengetahuan itu akan kamu gunakan pada misi berikutnya."
+        "text": "Sekarang kamu sudah tahu bahwa pangan yang kita kenal dapat dikelompokkan berdasarkan jenisnya.\nPengetahuan itu akan kamu gunakan pada misi berikutnya."
       }
     ]
   },
@@ -158,7 +158,7 @@
   ],
   "badge": {
     "badge_id": "badge_level_02",
-    "display_name": "Penyusun Kelompok Pangan Lokal",
+    "display_name": "[b]Penyusun Kelompok Pangan Lokal[/b]",
     "description": "Berhasil mengelompokkan pangan lokal pada misi kedua."
   },
   "scoring": {

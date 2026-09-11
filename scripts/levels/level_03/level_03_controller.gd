@@ -475,7 +475,7 @@ func _render_select_round(round_data: Dictionary) -> void:
 
     %MissionText.text = (
         "Lengkapi keranjang dengan 1 pangan dari kelompok %s. "
-        + "Gunakan Koin yang tersedia."
+        + "\nGunakan Koin yang tersedia."
     ) % required_group_name
 
     %ReferenceCoinValue.text = "%d KOIN" % coin_available
@@ -618,7 +618,7 @@ func _render_rearrange_round(round_data: Dictionary) -> void:
     r3_replacement_id = ""
 
     %MissionText.text = (
-        "Buah belum ada dan Koin sudah habis. Ganti 1 pangan "
+        "Buah belum ada dan Koin sudah habis.\nGanti 1 pangan "
         + "agar tersisa minimal 2 Koin, lalu pilih buah."
     )
     %PuzzleArea.visible = false

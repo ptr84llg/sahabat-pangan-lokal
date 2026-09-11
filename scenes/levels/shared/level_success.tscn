@@ -21,25 +21,25 @@ color = Color(0.3294, 0.5098, 0.2078, 1)
 thickness = 2
 
 [sub_resource type="StyleBoxFlat" id="ButtonNormalStyle"]
-bg_color = Color(0.3294, 0.5098, 0.2078, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-corner_radius_bottom_right = 24
-corner_radius_bottom_left = 24
+bg_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [sub_resource type="StyleBoxFlat" id="ButtonPressedStyle"]
 bg_color = Color(0.26, 0.42, 0.16, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-corner_radius_bottom_right = 24
-corner_radius_bottom_left = 24
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [sub_resource type="StyleBoxFlat" id="ButtonHoverStyle"]
-bg_color = Color(0.39, 0.59, 0.24, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-corner_radius_bottom_right = 24
-corner_radius_bottom_left = 24
+bg_color = Color(0.3882353, 0.5882353, 0.23921569, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [sub_resource type="StyleBoxFlat" id="ButtonDisabledStyle"]
 bg_color = Color(0.46, 0.52, 0.4, 1)
@@ -83,9 +83,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
-offset_top = 85.0
+offset_top = 55.0
 offset_right = -20.0
-offset_bottom = -20.0
+offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("SuccessPanelStyle")
@@ -98,16 +98,34 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 38
-theme_override_constants/margin_top = 74
+theme_override_constants/margin_top = 38
 theme_override_constants/margin_right = 38
 theme_override_constants/margin_bottom = 18
 
 [node name="ContentVBox" type="VBoxContainer" parent="SuccessUI/SuccessPanel/ContentMargin" unique_id=125496788]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 0
 alignment = 1
 
-[node name="SuccessTitle" type="Label" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox" unique_id=1458246556]
+[node name="HBoxContainer" type="HBoxContainer" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox" unique_id=387496979]
+layout_mode = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="GameLogo" type="TextureRect" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox/HBoxContainer" unique_id=1293674587]
+z_index = 20
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_logo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox/HBoxContainer" unique_id=1906159736]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SuccessTitle" type="Label" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer" unique_id=1458246556]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
@@ -117,11 +135,11 @@ text = "HEBAT!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="IconCenter" type="CenterContainer" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox" unique_id=290192192]
+[node name="IconCenter" type="CenterContainer" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer" unique_id=290192192]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="SuccessIcon" type="TextureRect" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox/IconCenter" unique_id=640298937]
+[node name="SuccessIcon" type="TextureRect" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/IconCenter" unique_id=640298937]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
@@ -130,7 +148,7 @@ texture = ExtResource("3_success_icon")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="MessageLabel" type="RichTextLabel" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox" unique_id=1137174128]
+[node name="MessageLabel" type="RichTextLabel" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer" unique_id=1137174128]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 142)
 layout_mode = 2
@@ -142,24 +160,25 @@ bbcode_enabled = true
 text = "[center]PESAN KEBERHASILAN[/center]"
 fit_content = true
 scroll_active = false
+vertical_alignment = 1
 
-[node name="FlexibleSpacer" type="Control" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox" unique_id=1475855396]
+[node name="FlexibleSpacer" type="Control" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer" unique_id=1475855396]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Separator" type="HSeparator" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox" unique_id=1299255199]
+[node name="Separator" type="HSeparator" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer" unique_id=1299255199]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
 theme_override_styles/separator = SubResource("SeparatorStyle")
 
-[node name="ButtonCenter" type="CenterContainer" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox" unique_id=1351920498]
+[node name="ButtonCenter" type="CenterContainer" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer" unique_id=1351920498]
 custom_minimum_size = Vector2(0, 74)
 layout_mode = 2
 
-[node name="ContinueButton" type="Button" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox/ButtonCenter" unique_id=461255123]
+[node name="ContinueButton" type="Button" parent="SuccessUI/SuccessPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/ButtonCenter" unique_id=461255123]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(450, 66)
 layout_mode = 2
@@ -174,24 +193,6 @@ theme_override_styles/hover = SubResource("ButtonHoverStyle")
 theme_override_styles/disabled = SubResource("ButtonDisabledStyle")
 theme_override_styles/focus = SubResource("ButtonHoverStyle")
 text = "LANJUT"
-
-[node name="GameLogo" type="TextureRect" parent="SuccessUI" unique_id=1293674587]
-unique_name_in_owner = true
-z_index = 20
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -149.0
-offset_top = 10.0
-offset_right = 51.0
-offset_bottom = 200.0
-grow_horizontal = 2
-scale = Vector2(1.5, 1.5)
-mouse_filter = 2
-texture = ExtResource("2_logo")
-expand_mode = 1
-stretch_mode = 5
 
 [node name="PortraitBlocker" type="Control" parent="." unique_id=2132026180]
 unique_name_in_owner = true

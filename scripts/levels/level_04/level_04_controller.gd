@@ -239,7 +239,7 @@ func _load_order(index: int) -> void:
 		result_texture_path
 	)
 	%MainInstructionLabel.text = (
-        "LANGKAH 1 - SERET DUA BAHAN YANG SESUAI KE BAHAN 1 DAN BAHAN 2"
+        "LANGKAH 1 - SERET DUA PANGAN YANG SESUAI KE BAHAN 1 DAN BAHAN 2"
 	)
 
 	%FeedbackToast.text = ""
@@ -248,7 +248,7 @@ func _load_order(index: int) -> void:
 	%ProcessTray.visible = false
 
 	_set_level4_helper_message(
-        "LANGKAH 1 - Seret dua bahan yang sesuai ke BAHAN 1 dan BAHAN 2."
+        "LANGKAH 1 - Seret dua pangan yang sesuai ke BAHAN 1 dan BAHAN 2."
 	)
 
 	_clear_container(%CandidateFoodGrid)

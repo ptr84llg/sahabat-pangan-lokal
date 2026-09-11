@@ -38,7 +38,7 @@ color = Color(0.3294, 0.5098, 0.2078, 1)
 thickness = 2
 
 [sub_resource type="StyleBoxFlat" id="ButtonNormalStyle"]
-bg_color = Color(0.3294, 0.5098, 0.2078, 1)
+bg_color = Color(0.050980393, 0.36078432, 0.21960784, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12

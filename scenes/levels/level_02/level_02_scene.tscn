@@ -494,7 +494,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 180)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "Di Level 2 kamu mengenal enam pangan baru: Jagung, Ubi Jalar, Terung, Ketimun, Mangga, dan Jambu Biji.
+text = "[b]Di Level 2 kamu mengenal enam pangan baru: Jagung, Ubi Jalar, Terung, Ketimun, Mangga, dan Jambu Biji.[/b]
 
 Seret setiap pangan ke kelompok yang sesuai. Setiap kelompok harus berisi empat pangan."
 vertical_alignment = 1
@@ -515,7 +515,6 @@ text = "LEWATI"
 
 [node name="GameplayLayer" type="PanelContainer" parent="SafeArea/Screens" unique_id=1964260472]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -834,6 +833,7 @@ text = "LANJUT KE TANTANGAN LITERASI"
 
 [node name="LiteracyPanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=1769431523]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

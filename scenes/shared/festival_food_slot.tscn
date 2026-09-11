@@ -1,8 +1,12 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://b7m3iuorx24kq"]
 
-[ext_resource type="Script" path="res://scripts/shared/festival_food_slot.gd" id="1"]
+[ext_resource type="Script" uid="uid://7w20owy3nco2" path="res://scripts/shared/festival_food_slot.gd" id="1"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
 bg_color = Color(0.97, 0.98, 0.94, 1)
 border_width_left = 2
 border_width_top = 2
@@ -13,37 +17,30 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
-content_margin_left = 8.0
-content_margin_top = 6.0
-content_margin_right = 8.0
-content_margin_bottom = 6.0
 
-[node name="FestivalFoodSlot" type="PanelContainer"]
-custom_minimum_size = Vector2(156, 138)
-script = ExtResource("1")
+[node name="FestivalFoodSlot" type="PanelContainer" unique_id=353972777]
+custom_minimum_size = Vector2(206, 188)
 theme_override_styles/panel = SubResource("1")
+script = ExtResource("1")
 
-[node name="VBox" type="VBoxContainer" parent="."]
-mouse_filter = 2
+[node name="VBox" type="VBoxContainer" parent="." unique_id=1657832524]
 layout_mode = 2
+mouse_filter = 2
 alignment = 1
 
-[node name="TitleLabel" type="Label" parent="VBox"]
-mouse_filter = 2
+[node name="TitleLabel" type="Label" parent="VBox" unique_id=470199837]
 unique_name_in_owner = true
 layout_mode = 2
 text = "TARGET"
 horizontal_alignment = 1
-autowrap_mode = 2
 
-[node name="Holder" type="CenterContainer" parent="VBox"]
-mouse_filter = 2
+[node name="Holder" type="CenterContainer" parent="VBox" unique_id=1306230519]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 104)
 layout_mode = 2
-
-[node name="Placeholder" type="Label" parent="VBox/Holder"]
 mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="VBox/Holder" unique_id=461149904]
 unique_name_in_owner = true
 layout_mode = 2
 text = "LETAKKAN PANGAN"

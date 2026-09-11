@@ -248,7 +248,7 @@ func _load_schema(index: int) -> void:
             ""
         )
     )
-    %SchemaLabel.text = "SKEMA %d/4\n%s" % [
+    %SchemaLabel.text = "PERMAINAN KE %d/4\n%s" % [
         index + 1,
         str(data.get("name", "")).to_upper()
     ]
@@ -289,7 +289,7 @@ func _render_schema1_target() -> void:
     target_name.name = "TargetNameDynamic"
     target_name.text = str(food.get("display_name", food_id)).to_upper()
     target_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-    target_name.add_theme_font_size_override("font_size", 24)
+    target_name.add_theme_font_size_override("font_size", 40)
     %SchemaMissionContent.add_child(target_name)
     var holder := CenterContainer.new()
     holder.custom_minimum_size = Vector2(0, 116)
@@ -298,7 +298,7 @@ func _render_schema1_target() -> void:
     holder.add_child(slot)
     slot.setup("TARGET %d/3" % [schema1_target_index + 1])
     slot.drop_received.connect(_on_schema1_drop.bind(food_id, slot))
-    %SchemaProgress.text = "TARGET %d/3" % [schema1_target_index + 1]
+    %SchemaProgress.text = "TARGET KE %d/3" % [schema1_target_index + 1]
 
 func _on_schema1_drop(food_id: String, card: FoodCard, _slot: FestivalFoodSlot, target_id: String, __slot_ref: FestivalFoodSlot) -> void:
     if food_id != target_id:
@@ -399,7 +399,7 @@ func _on_schema3_return(slot: FestivalBasketSlot) -> void:
     _refresh_schema3_ui()
 
 func _refresh_schema3_ui() -> void:
-    %SchemaProgress.text = "KERANJANG %d/4 • %d/15 KOIN" % [
+    %SchemaProgress.text = "KERANJANG %d/4\n%d/15 KOIN" % [
         schema3_selected.size(),
         schema3_total_coin
     ]

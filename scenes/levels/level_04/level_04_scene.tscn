@@ -65,6 +65,17 @@ border_color = Color(0.035, 0.28, 0.16, 1)
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ydx1l"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+draw_center = false
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.9490196, 0, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sfrym"]
 bg_color = Color(0.8428213, 1, 0.9040323, 1)
 border_width_left = 2
@@ -148,7 +159,7 @@ corner_radius_bottom_left = 10
 draw_center = false
 
 [sub_resource type="StyleBoxFlat" id="GreenStyle"]
-bg_color = Color(0.055, 0.39, 0.24, 1)
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -288,6 +299,17 @@ border_color = Color(0.035, 0.28, 0.16, 1)
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kht2b"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+draw_center = false
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ggkn"]
 bg_color = Color(0.84313726, 1, 0.90588236, 1)
 border_width_left = 2
@@ -318,7 +340,7 @@ corner_radius_bottom_left = 10
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oscwe"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_re647"]
-bg_color = Color(0.055, 0.39, 0.24, 1)
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -565,7 +587,7 @@ horizontal_alignment = 1
 [node name="PreGameNote" type="Label" parent="SafeArea/Screens/PreGamePanel/VBox" unique_id=1778416932]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.36078432, 0.21960784, 1)
-text = "Timer akan dimulai ketika tombol di bawah ditekan."
+text = "Waktu hitung mundur akan dimulai ketika tombol di bawah ditekan."
 horizontal_alignment = 1
 
 [node name="PreGameStartButton" type="Button" parent="SafeArea/Screens/PreGamePanel/VBox" unique_id=2056704511]
@@ -579,6 +601,7 @@ text = "MULAI MENGOLAH"
 
 [node name="MainGameHUD" type="PanelContainer" parent="SafeArea/Screens" unique_id=1920003659]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -640,6 +663,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ng31c")
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_ydx1l")
 text = "PERMAINAN PERTAMA"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -827,7 +851,7 @@ theme_override_styles/panel = SubResource("GreenStyle")
 [node name="MainInstructionLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/MainMargin/MainVBox/BodyRow/MainGameColumn/MainInstructionBar" unique_id=813987204]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.96, 0.96, 0.04, 1)
+theme_override_colors/font_color = Color(0.050980393, 0.36078432, 0.21960784, 1)
 theme_override_font_sizes/font_size = 28
 text = "SERET DUA BAHAN YANG SESUAI"
 horizontal_alignment = 1
@@ -1153,7 +1177,6 @@ text = "MULAI TANTANGAN"
 
 [node name="LiteracyHUD" type="PanelContainer" parent="SafeArea/Screens" unique_id=993331564]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1214,6 +1237,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_jb10n")
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_kht2b")
 text = "PERMAINAN KEDUA"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1299,7 +1323,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_re647")
 [node name="LiteracyInstructionLabel" type="Label" parent="SafeArea/Screens/LiteracyHUD/LiteracyMargin/LiteracyVBox/BodyRow/MainGameColumn/LiteracyInstructionBar" unique_id=1806875530]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.96, 0.96, 0.04, 1)
+theme_override_colors/font_color = Color(0.050980393, 0.36078432, 0.21960784, 1)
 theme_override_font_sizes/font_size = 32
 text = "SERET PILIHAN YANG TEPAT"
 horizontal_alignment = 1

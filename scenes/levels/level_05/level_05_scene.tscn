@@ -1,28 +1,33 @@
-[gd_scene load_steps=23 format=3]
+[gd_scene format=3 uid="uid://b06kge4fwtf"]
 
-[ext_resource type="Script" path="res://scripts/levels/level_05/level_05_controller.gd" id="1"]
-[ext_resource type="Script" path="res://scripts/levels/level_05/moving_lane_controller.gd" id="2"]
-[ext_resource type="Script" path="res://scripts/levels/level_05/schema_controller.gd" id="3"]
-[ext_resource type="Script" path="res://scripts/levels/level_05/main_timer_controller.gd" id="4"]
-[ext_resource type="Script" path="res://scripts/levels/level_05/quiz_controller.gd" id="5"]
-[ext_resource type="Script" path="res://scripts/levels/level_05/question_timer_controller.gd" id="6"]
-[ext_resource type="Texture2D" path="res://assets/visual/ui/logo_game.png" id="7"]
-[ext_resource type="Texture2D" path="res://assets/visual/main_map/bg_main_map.png" id="8"]
-[ext_resource type="Texture2D" path="res://assets/visual/npc/ibu/standing.png" id="9"]
-[ext_resource type="Texture2D" path="res://assets/visual/npc/ibu_guru/standing.png" id="10"]
-[ext_resource type="Texture2D" path="res://assets/visual/npc/lurah/standing.png" id="11"]
-[ext_resource type="Texture2D" path="res://assets/visual/npc/nenek/standing.png" id="12"]
-[ext_resource type="Texture2D" path="res://assets/visual/npc/pedagang/standing.png" id="13"]
+[ext_resource type="Script" uid="uid://bd435adbamfjn" path="res://scripts/levels/level_05/level_05_controller.gd" id="1"]
+[ext_resource type="Script" uid="uid://cnqawgjwwmvbo" path="res://scripts/levels/level_05/moving_lane_controller.gd" id="2"]
+[ext_resource type="Script" uid="uid://ufxi7q2r50td" path="res://scripts/levels/level_05/schema_controller.gd" id="3"]
+[ext_resource type="Script" uid="uid://dha4xjpi5lba" path="res://scripts/levels/level_05/main_timer_controller.gd" id="4"]
+[ext_resource type="Script" uid="uid://b3lhx6gce1q4t" path="res://scripts/levels/level_05/quiz_controller.gd" id="5"]
+[ext_resource type="Script" uid="uid://cib7citjyytmx" path="res://scripts/levels/level_05/question_timer_controller.gd" id="6"]
+[ext_resource type="Texture2D" uid="uid://d3n01qo5f4ffo" path="res://assets/visual/ui/logo_game.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://ctjlpu4muiidw" path="res://assets/visual/main_map/bg_main_map.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://cvb2d853nsfxa" path="res://assets/visual/npc/ibu/standing.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://dvftv15lyjclm" path="res://assets/visual/npc/ibu_guru/standing.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://d2to6lq5kkeds" path="res://assets/visual/npc/lurah/standing.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://cop8ne7pgi82e" path="res://assets/visual/npc/nenek/standing.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://c6dux84d4mpdl" path="res://assets/visual/npc/pedagang/standing.png" id="13"]
 
 [sub_resource type="Theme" id="Level5ReadabilityTheme"]
-Label/colors/font_color = Color(0.055, 0.3, 0.19, 1)
-RichTextLabel/colors/default_color = Color(0.055, 0.3, 0.19, 1)
 Button/colors/font_color = Color(0.055, 0.3, 0.19, 1)
+Button/colors/font_disabled_color = Color(0.3, 0.42, 0.34, 0.8)
+Button/colors/font_focus_color = Color(0.055, 0.3, 0.19, 1)
 Button/colors/font_hover_color = Color(0.035, 0.28, 0.16, 1)
 Button/colors/font_pressed_color = Color(0.035, 0.28, 0.16, 1)
-Button/colors/font_focus_color = Color(0.055, 0.3, 0.19, 1)
-Button/colors/font_disabled_color = Color(0.3, 0.42, 0.34, 0.8)
+Label/colors/font_color = Color(0.055, 0.3, 0.19, 1)
+RichTextLabel/colors/default_color = Color(0.055, 0.3, 0.19, 1)
+
 [sub_resource type="StyleBoxFlat" id="PanelStyle"]
+content_margin_left = 18.0
+content_margin_top = 14.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
 bg_color = Color(0.965, 0.975, 0.945, 0.97)
 border_width_left = 2
 border_width_top = 2
@@ -33,29 +38,37 @@ corner_radius_top_left = 14
 corner_radius_top_right = 14
 corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
-content_margin_left = 18.0
-content_margin_top = 14.0
-content_margin_right = 18.0
-content_margin_bottom = 14.0
 
-[sub_resource type="StyleBoxFlat" id="LaneStyle"]
-bg_color = Color(0.90, 0.92, 0.82, 0.96)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.48, 0.53, 0.31, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mvggo"]
+bg_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qcrg0"]
+bg_color = Color(0.05827222, 0.3922541, 0.24175254, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gdg8w"]
+bg_color = Color(0.050980393, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_najnh"]
+bg_color = Color(0.05882353, 0.39215687, 0.24313726, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="GameplayFrameStyle"]
-bg_color = Color(0.965, 0.945, 0.84, 0.96)
+bg_color = Color(0.96489865, 0.9452769, 0.8389701, 0.8)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
@@ -66,18 +79,6 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id="GreenStyle"]
-bg_color = Color(0.055, 0.39, 0.24, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.035, 0.28, 0.16, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
 [sub_resource type="StyleBoxFlat" id="YellowStyle"]
 bg_color = Color(0.96, 0.96, 0.04, 1)
 border_width_left = 2
@@ -85,28 +86,53 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.055, 0.36, 0.22, 1)
+corner_radius_top_left = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t14q0"]
+bg_color = Color(0.055, 0.39, 0.24, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.035, 0.28, 0.16, 1)
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2qeg"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+draw_center = false
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.9490196, 0, 1)
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_af43a"]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="GreenStyle"]
+bg_color = Color(1, 0.7647059, 0.7254902, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.46666667, 0.043137256, 0.1882353, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="TargetCenterStyle"]
-bg_color = Color(0.99, 0.99, 0.965, 0.98)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.055, 0.39, 0.24, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-content_margin_left = 12.0
-content_margin_top = 8.0
-content_margin_right = 12.0
-content_margin_bottom = 8.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5rmbn"]
+draw_center = false
 
 [sub_resource type="StyleBoxFlat" id="TopLaneStyle"]
+content_margin_left = 6.0
+content_margin_top = 4.0
+content_margin_right = 6.0
+content_margin_bottom = 4.0
 bg_color = Color(0.91, 0.955, 0.86, 0.98)
 border_width_left = 2
 border_width_top = 2
@@ -117,12 +143,51 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="TargetCenterStyle"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.99, 0.99, 0.965, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.055, 0.39, 0.24, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ri7qh"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.9490196, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6h10y"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="BottomLaneStyle"]
 content_margin_left = 6.0
 content_margin_top = 4.0
 content_margin_right = 6.0
 content_margin_bottom = 4.0
-
-[sub_resource type="StyleBoxFlat" id="BottomLaneStyle"]
 bg_color = Color(0.985, 0.955, 0.72, 0.98)
 border_width_left = 2
 border_width_top = 2
@@ -133,43 +198,141 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-content_margin_left = 6.0
-content_margin_top = 4.0
-content_margin_right = 6.0
-content_margin_bottom = 4.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s0u7m"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
+border_width_top = 2
+border_width_bottom = 2
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
 
-[node name="Level05" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_weokc"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
+border_width_top = 2
+border_width_bottom = 2
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_438qo"]
+bg_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l7q6l"]
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_alpow"]
+content_margin_left = 18.0
+content_margin_top = 14.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.27, 0.47, 0.32, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_su1ps"]
+bg_color = Color(0.9647059, 0.94509804, 0.8392157, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d8ygg"]
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oscwe"]
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_018nh"]
+bg_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g6jrq"]
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s7va5"]
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="Level05" type="Control" unique_id=1594758865]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1")
 theme = SubResource("Level5ReadabilityTheme")
+script = ExtResource("1")
 
-[node name="MovingLaneController" type="Node" parent="."]
+[node name="MovingLaneController" type="Node" parent="." unique_id=1323856600]
 unique_name_in_owner = true
 script = ExtResource("2")
 
-[node name="SchemaController" type="Node" parent="."]
+[node name="SchemaController" type="Node" parent="." unique_id=1877574360]
 unique_name_in_owner = true
 script = ExtResource("3")
 
-[node name="MainTimerController" type="Node" parent="."]
+[node name="MainTimerController" type="Node" parent="." unique_id=1282897984]
 unique_name_in_owner = true
 script = ExtResource("4")
 
-[node name="QuizController" type="Node" parent="."]
+[node name="QuizController" type="Node" parent="." unique_id=456709360]
 unique_name_in_owner = true
 script = ExtResource("5")
 
-[node name="QuestionTimerController" type="Node" parent="."]
+[node name="QuestionTimerController" type="Node" parent="." unique_id=219489200]
 unique_name_in_owner = true
 script = ExtResource("6")
 
-[node name="SafeArea" type="MarginContainer" parent="."]
+[node name="SafeArea" type="MarginContainer" parent="." unique_id=2084606747]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -181,11 +344,12 @@ offset_bottom = -28.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Screens" type="Control" parent="SafeArea"]
+[node name="Screens" type="Control" parent="SafeArea" unique_id=1439671008]
 layout_mode = 2
 
-[node name="ThemePanel" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="ThemePanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=1566185675]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -199,63 +363,76 @@ offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("PanelStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/ThemePanel"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/ThemePanel" unique_id=1962038969]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 12
-[node name="Level" type="Label" parent="SafeArea/Screens/ThemePanel/VBox"]
+alignment = 1
+
+[node name="Level" type="Label" parent="SafeArea/Screens/ThemePanel/VBox" unique_id=1853481688]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "LEVEL 5"
 horizontal_alignment = 1
-[node name="Title" type="Label" parent="SafeArea/Screens/ThemePanel/VBox"]
+
+[node name="Title" type="Label" parent="SafeArea/Screens/ThemePanel/VBox" unique_id=64413826]
 layout_mode = 2
 theme_override_font_sizes/font_size = 38
 text = "FESTIVAL PANGAN LOKAL"
 horizontal_alignment = 1
-[node name="Mission" type="Label" parent="SafeArea/Screens/ThemePanel/VBox"]
+
+[node name="Mission" type="Label" parent="SafeArea/Screens/ThemePanel/VBox" unique_id=1931299417]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "MISI TERAKHIR"
 horizontal_alignment = 1
-[node name="ThemeStartButton" type="Button" parent="SafeArea/Screens/ThemePanel/VBox"]
+
+[node name="ThemeStartButton" type="Button" parent="SafeArea/Screens/ThemePanel/VBox" unique_id=820314383]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,54)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_mvggo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qcrg0")
 text = "MULAI"
 
-[node name="DialoguePanel" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="DialoguePanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=408717497]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -245.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("PanelStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/DialoguePanel"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/DialoguePanel" unique_id=1058656285]
 layout_mode = 2
 theme_override_constants/separation = 8
-[node name="SpeakerLabel" type="Label" parent="SafeArea/Screens/DialoguePanel/VBox"]
+
+[node name="SpeakerLabel" type="Label" parent="SafeArea/Screens/DialoguePanel/VBox" unique_id=960883458]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-[node name="DialogueText" type="Label" parent="SafeArea/Screens/DialoguePanel/VBox"]
+
+[node name="DialogueText" type="Label" parent="SafeArea/Screens/DialoguePanel/VBox" unique_id=1620339292]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,115)
+custom_minimum_size = Vector2(0, 115)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-autowrap_mode = 2
 vertical_alignment = 1
-[node name="DialogueNextButton" type="Button" parent="SafeArea/Screens/DialoguePanel/VBox"]
+autowrap_mode = 2
+
+[node name="DialogueNextButton" type="Button" parent="SafeArea/Screens/DialoguePanel/VBox" unique_id=535830034]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,48)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "LANJUT"
 
-[node name="TutorialPanel" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="TutorialPanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=1465504662]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -271,44 +448,53 @@ offset_bottom = 275.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("PanelStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/TutorialPanel"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/TutorialPanel" unique_id=22898604]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 10
-[node name="TutorialTitle" type="Label" parent="SafeArea/Screens/TutorialPanel/VBox"]
+alignment = 1
+
+[node name="TutorialTitle" type="Label" parent="SafeArea/Screens/TutorialPanel/VBox" unique_id=737557199]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 27
 horizontal_alignment = 1
-[node name="TutorialMock" type="Label" parent="SafeArea/Screens/TutorialPanel/VBox"]
+
+[node name="TutorialMock" type="Label" parent="SafeArea/Screens/TutorialPanel/VBox" unique_id=723162424]
 layout_mode = 2
-text = "←  [PANGAN] [PANGAN] [PANGAN]  ←\n          AREA MISI\n→  [PANGAN] [PANGAN] [PANGAN]  →"
-horizontal_alignment = 1
 theme_override_font_sizes/font_size = 19
-[node name="TutorialTimerLabel" type="Label" parent="SafeArea/Screens/TutorialPanel/VBox"]
+text = "←  [PANGAN] [PANGAN] [PANGAN]  ←
+          AREA MISI
+→  [PANGAN] [PANGAN] [PANGAN]  →"
+horizontal_alignment = 1
+
+[node name="TutorialTimerLabel" type="Label" parent="SafeArea/Screens/TutorialPanel/VBox" unique_id=443057773]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 horizontal_alignment = 1
-[node name="TutorialText" type="Label" parent="SafeArea/Screens/TutorialPanel/VBox"]
+
+[node name="TutorialText" type="Label" parent="SafeArea/Screens/TutorialPanel/VBox" unique_id=2122019249]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,170)
+custom_minimum_size = Vector2(0, 170)
 layout_mode = 2
-autowrap_mode = 2
 vertical_alignment = 1
-[node name="TutorialContinueButton" type="Button" parent="SafeArea/Screens/TutorialPanel/VBox"]
+autowrap_mode = 2
+
+[node name="TutorialContinueButton" type="Button" parent="SafeArea/Screens/TutorialPanel/VBox" unique_id=1602632726]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,48)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "LANJUT"
-[node name="TutorialSkipButton" type="Button" parent="SafeArea/Screens/TutorialPanel/VBox"]
+
+[node name="TutorialSkipButton" type="Button" parent="SafeArea/Screens/TutorialPanel/VBox" unique_id=1687953160]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(0,42)
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 text = "LEWATI"
 
-[node name="ReadyPanel" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="ReadyPanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=1179844337]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -325,52 +511,57 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("PanelStyle")
 
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/ReadyPanel"]
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/ReadyPanel" unique_id=1222081400]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 12
+alignment = 1
 
-[node name="Title" type="Label" parent="SafeArea/Screens/ReadyPanel/VBox"]
+[node name="Title" type="Label" parent="SafeArea/Screens/ReadyPanel/VBox" unique_id=89829463]
 layout_mode = 2
-text = "SIAP FESTIVAL?"
 theme_override_font_sizes/font_size = 48
+text = "SIAP FESTIVAL?"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ReadyTimerLabel" type="Label" parent="SafeArea/Screens/ReadyPanel/VBox"]
+[node name="ReadyTimerLabel" type="Label" parent="SafeArea/Screens/ReadyPanel/VBox" unique_id=679290660]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.80231684, 0.13420224, 0.35331166, 1)
+theme_override_font_sizes/font_size = 48
 text = "04:00"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_colors/font_color = Color(0.80231684, 0.13420224, 0.35331166, 1)
-theme_override_font_sizes/font_size = 48
 
-[node name="ReadySummaryLabel" type="Label" parent="SafeArea/Screens/ReadyPanel/VBox"]
+[node name="ReadySummaryLabel" type="Label" parent="SafeArea/Screens/ReadyPanel/VBox" unique_id=797153474]
 layout_mode = 2
-text = "4 SKEMA • 1 TIMER UTAMA"
+theme_override_font_sizes/font_size = 22
+text = "4 JENIS PERMAINAN • WAKTU TERUS HITUNG MUNDUR"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 22
 
-[node name="ReadyText" type="Label" parent="SafeArea/Screens/ReadyPanel/VBox"]
+[node name="ReadyText" type="Label" parent="SafeArea/Screens/ReadyPanel/VBox" unique_id=349174292]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
-text = "Timer dimulai saat tombol ditekan.\nWaktu habis tidak menghentikan permainan."
-autowrap_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Waktu hitung mundur dimulai saat tombol ditekan.
+Waktu habis tidak menghentikan permainan."
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 17
+autowrap_mode = 2
 
-[node name="FestivalStartButton" type="Button" parent="SafeArea/Screens/ReadyPanel/VBox"]
+[node name="FestivalStartButton" type="Button" parent="SafeArea/Screens/ReadyPanel/VBox" unique_id=1117888062]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.84313726, 1, 0.90588236, 1)
 theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_gdg8w")
+theme_override_styles/hover = SubResource("StyleBoxFlat_najnh")
 text = "MULAI FESTIVAL"
 
-[node name="MainGameHUD" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="MainGameHUD" type="PanelContainer" parent="SafeArea/Screens" unique_id=1349019804]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -381,241 +572,266 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("GameplayFrameStyle")
 
-[node name="GameMargin" type="MarginContainer" parent="SafeArea/Screens/MainGameHUD"]
+[node name="GameMargin" type="MarginContainer" parent="SafeArea/Screens/MainGameHUD" unique_id=271911036]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="GameVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin"]
+[node name="GameVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin" unique_id=1954383929]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 6
 
-[node name="HeaderRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox"]
+[node name="HeaderRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox" unique_id=284551452]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = -1
+alignment = 2
 
-[node name="LevelBox" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow"]
+[node name="LevelBox" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow" unique_id=1404674652]
 custom_minimum_size = Vector2(150, 56)
 layout_mode = 2
 theme_override_styles/panel = SubResource("YellowStyle")
 
-[node name="LevelLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow/LevelBox"]
+[node name="LevelLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow/LevelBox" unique_id=350281546]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 40
 text = "LEVEL 5"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
-theme_override_font_sizes/font_size = 27
 
-[node name="TitleBox" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow"]
+[node name="TitleBox" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow" unique_id=1739864321]
+custom_minimum_size = Vector2(450, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("GreenStyle")
+theme_override_styles/panel = SubResource("StyleBoxFlat_t14q0")
 
-[node name="TitleLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow/TitleBox"]
+[node name="TitleLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow/TitleBox" unique_id=1720817397]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.96, 0.04, 1)
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_t2qeg")
 text = "PERMAINAN PERTAMA"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_colors/font_color = Color(0.96, 0.96, 0.04, 1)
-theme_override_font_sizes/font_size = 25
 
+[node name="Paneldivider1" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow" unique_id=659074834]
+custom_maximum_size = Vector2(20, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_af43a")
 
-[node name="TimerBox" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow"]
-custom_minimum_size = Vector2(118, 56)
+[node name="TimerBox" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow" unique_id=1970274621]
+custom_minimum_size = Vector2(200, 56)
 layout_mode = 2
 theme_override_styles/panel = SubResource("GreenStyle")
 
-[node name="MainCountdownLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow/TimerBox"]
+[node name="MainCountdownLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow/TimerBox" unique_id=1792425440]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.46666667, 0.043137256, 0.1882353, 1)
+theme_override_font_sizes/font_size = 40
 text = "04:00"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 24
 
-[node name="GameLogo" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow"]
+[node name="Paneldivider2" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow" unique_id=565141335]
+custom_maximum_size = Vector2(100, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_af43a")
+
+[node name="Panel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow" unique_id=1626568054]
+z_index = 99
+layout_mode = 2
+offset_transform_enabled = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_5rmbn")
+
+[node name="GameLogo" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/HeaderRow/Panel" unique_id=1009921553]
 custom_minimum_size = Vector2(84, 56)
 layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-50, 20)
+offset_transform_scale = Vector2(2.5, 2.5)
+mouse_filter = 2
 texture = ExtResource("7")
 expand_mode = 1
 stretch_mode = 5
-mouse_filter = 2
 
-[node name="TopLanePanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox"]
+[node name="TopLanePanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox" unique_id=1208513362]
 custom_minimum_size = Vector2(0, 142)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
 
-[node name="TopLaneVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/TopLanePanel"]
+[node name="TopLaneVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/TopLanePanel" unique_id=2072943402]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="TopLaneCaption" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/TopLanePanel/TopLaneVBox"]
+[node name="TopLaneCaption" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/TopLanePanel/TopLaneVBox" unique_id=1978311646]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 15
 text = "JALUR ATAS  -  GERAK KE KIRI"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
-theme_override_font_sizes/font_size = 15
 
-[node name="MovingLaneTop" type="Control" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/TopLanePanel/TopLaneVBox"]
+[node name="MovingLaneTop" type="Control" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/TopLanePanel/TopLaneVBox" unique_id=1675351265]
 unique_name_in_owner = true
+clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
-clip_contents = true
 
-[node name="MissionArea" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox"]
+[node name="MissionArea" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox" unique_id=1715824823]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 236)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("TargetCenterStyle")
 
-[node name="MissionVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea"]
+[node name="MissionVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea" unique_id=1222292921]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 5
 
-[node name="MissionSplit" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox"]
+[node name="MissionSplit" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox" unique_id=975969731]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="MissionInfoPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit"]
+[node name="MissionInfoPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit" unique_id=1913555252]
 custom_minimum_size = Vector2(310, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
 
-[node name="InfoVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel"]
+[node name="InfoVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel" unique_id=1622312057]
 layout_mode = 2
+theme_override_constants/separation = -1
 alignment = 1
-theme_override_constants/separation = 5
 
-[node name="InfoHeader" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox"]
+[node name="InfoHeader" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox" unique_id=383554424]
+visible = false
 layout_mode = 2
-text = "MISI AKTIF"
-horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
 theme_override_font_sizes/font_size = 15
-
-[node name="SchemaLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "SKEMA 1/4"
+text = "MISI AKTIF"
 horizontal_alignment = 1
-autowrap_mode = 3
+
+[node name="SchemaLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox" unique_id=1055682184]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
 theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
 theme_override_font_sizes/font_size = 20
+text = "PERMAINAN KE 1/4"
+horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="SchemaInstructionLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox"]
+[node name="SchemaInstructionLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox" unique_id=812550560]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.3, 0.19, 1)
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("StyleBoxFlat_ri7qh")
 text = "CARI PANGAN TARGET"
 horizontal_alignment = 1
 autowrap_mode = 3
-theme_override_colors/font_color = Color(0.055, 0.30, 0.19, 1)
-theme_override_font_sizes/font_size = 21
 
-[node name="SchemaProgress" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox"]
+[node name="SchemaProgress" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox" unique_id=172882144]
 unique_name_in_owner = true
 layout_mode = 2
-text = ""
-horizontal_alignment = 1
-autowrap_mode = 3
 theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
-theme_override_font_sizes/font_size = 17
-
-[node name="SchemaDetailLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = ""
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_6h10y")
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="SchemaDetailLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionInfoPanel/InfoVBox" unique_id=2057075174]
+unique_name_in_owner = true
+layout_mode = 2
 theme_override_colors/font_color = Color(0.12, 0.34, 0.23, 1)
 theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="MissionTargetPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit"]
+[node name="MissionTargetPanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit" unique_id=186098564]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("PanelStyle")
 
-[node name="TargetVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel"]
+[node name="TargetVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel" unique_id=32764261]
 layout_mode = 2
 size_flags_vertical = 3
-alignment = 1
 theme_override_constants/separation = 4
+alignment = 1
 
-[node name="TargetHeader" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox"]
+[node name="TargetHeader" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox" unique_id=1241644259]
+visible = false
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 16
 text = "AREA TARGET"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
-theme_override_font_sizes/font_size = 16
 
-[node name="SchemaMissionContent" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox"]
+[node name="SchemaMissionContent" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox" unique_id=270986123]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-alignment = 1
 theme_override_constants/separation = 4
+alignment = 1
 
-[node name="ProcessChoiceRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox"]
+[node name="ProcessChoiceRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox" unique_id=284172521]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 8
+alignment = 1
 
-[node name="SchemaFeedback" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox"]
+[node name="SchemaFeedback" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox" unique_id=746471613]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = ""
-autowrap_mode = 3
+theme_override_colors/font_color = Color(0.055, 0.3, 0.19, 1)
+theme_override_font_sizes/font_size = 15
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_colors/font_color = Color(0.055, 0.30, 0.19, 1)
-theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
 
-[node name="BottomLanePanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox"]
+[node name="BottomLanePanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox" unique_id=136968577]
 custom_minimum_size = Vector2(0, 142)
 layout_mode = 2
 theme_override_styles/panel = SubResource("BottomLaneStyle")
 
-[node name="BottomLaneVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/BottomLanePanel"]
+[node name="BottomLaneVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/BottomLanePanel" unique_id=329594000]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="BottomLaneCaption" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/BottomLanePanel/BottomLaneVBox"]
+[node name="BottomLaneCaption" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/BottomLanePanel/BottomLaneVBox" unique_id=1600898707]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 15
 text = "JALUR BAWAH  -  GERAK KE KANAN"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
-theme_override_font_sizes/font_size = 15
 
-[node name="MovingLaneBottom" type="Control" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/BottomLanePanel/BottomLaneVBox"]
+[node name="MovingLaneBottom" type="Control" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/BottomLanePanel/BottomLaneVBox" unique_id=2085150189]
 unique_name_in_owner = true
+clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
-clip_contents = true
 
-[node name="HeldPool" type="Control" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox"]
+[node name="HeldPool" type="Control" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox" unique_id=1195365513]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="MainResultPanel" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="MainResultPanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=1256218948]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -631,29 +847,33 @@ offset_bottom = 270.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("PanelStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainResultPanel"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainResultPanel" unique_id=211192725]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 12
-[node name="Title" type="Label" parent="SafeArea/Screens/MainResultPanel/VBox"]
+alignment = 1
+
+[node name="Title" type="Label" parent="SafeArea/Screens/MainResultPanel/VBox" unique_id=1550017553]
 layout_mode = 2
-text = "MAIN GAME SELESAI"
 theme_override_font_sizes/font_size = 30
+text = "MAIN GAME SELESAI"
 horizontal_alignment = 1
-[node name="MainResultText" type="Label" parent="SafeArea/Screens/MainResultPanel/VBox"]
+
+[node name="MainResultText" type="Label" parent="SafeArea/Screens/MainResultPanel/VBox" unique_id=354390953]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,320)
+custom_minimum_size = Vector2(0, 320)
 layout_mode = 2
 theme_override_font_sizes/font_size = 19
 horizontal_alignment = 1
 vertical_alignment = 1
-[node name="MainResultNextButton" type="Button" parent="SafeArea/Screens/MainResultPanel/VBox"]
+
+[node name="MainResultNextButton" type="Button" parent="SafeArea/Screens/MainResultPanel/VBox" unique_id=1314247224]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,52)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 text = "LANJUT KE UJI LITERASI"
 
-[node name="LiteracyIntroPanel" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="LiteracyIntroPanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=1175846614]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -669,29 +889,33 @@ offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("PanelStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/LiteracyIntroPanel"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/LiteracyIntroPanel" unique_id=1856412319]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 14
-[node name="Title" type="Label" parent="SafeArea/Screens/LiteracyIntroPanel/VBox"]
+alignment = 1
+
+[node name="Title" type="Label" parent="SafeArea/Screens/LiteracyIntroPanel/VBox" unique_id=1789332320]
 layout_mode = 2
-text = "UJI LITERASI PANGAN"
 theme_override_font_sizes/font_size = 30
+text = "UJI LITERASI PANGAN"
 horizontal_alignment = 1
-[node name="LiteracyIntroText" type="Label" parent="SafeArea/Screens/LiteracyIntroPanel/VBox"]
+
+[node name="LiteracyIntroText" type="Label" parent="SafeArea/Screens/LiteracyIntroPanel/VBox" unique_id=1243972226]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,190)
+custom_minimum_size = Vector2(0, 190)
 layout_mode = 2
-autowrap_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
-[node name="QuizStartButton" type="Button" parent="SafeArea/Screens/LiteracyIntroPanel/VBox"]
+autowrap_mode = 2
+
+[node name="QuizStartButton" type="Button" parent="SafeArea/Screens/LiteracyIntroPanel/VBox" unique_id=1417926489]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,54)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 text = "MULAI QUIZ"
 
-[node name="QuizHUD" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="QuizHUD" type="PanelContainer" parent="SafeArea/Screens" unique_id=568377396]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -701,66 +925,77 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("PanelStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/QuizHUD"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/QuizHUD" unique_id=950625831]
 layout_mode = 2
 theme_override_constants/separation = 9
-[node name="Header" type="HBoxContainer" parent="SafeArea/Screens/QuizHUD/VBox"]
+
+[node name="Header" type="HBoxContainer" parent="SafeArea/Screens/QuizHUD/VBox" unique_id=719275207]
 layout_mode = 2
-[node name="QuestionProgress" type="Label" parent="SafeArea/Screens/QuizHUD/VBox/Header"]
+
+[node name="QuestionProgress" type="Label" parent="SafeArea/Screens/QuizHUD/VBox/Header" unique_id=462680256]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
-[node name="QuestionTimerLabel" type="Label" parent="SafeArea/Screens/QuizHUD/VBox/Header"]
+
+[node name="QuestionTimerLabel" type="Label" parent="SafeArea/Screens/QuizHUD/VBox/Header" unique_id=1994820898]
 unique_name_in_owner = true
 layout_mode = 2
-text = "00:30"
 theme_override_font_sizes/font_size = 24
-[node name="QuestionText" type="Label" parent="SafeArea/Screens/QuizHUD/VBox"]
+text = "00:30"
+
+[node name="QuestionText" type="Label" parent="SafeArea/Screens/QuizHUD/VBox" unique_id=1496033559]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,125)
+custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-autowrap_mode = 2
 vertical_alignment = 1
-[node name="AnswerA" type="Button" parent="SafeArea/Screens/QuizHUD/VBox"]
+autowrap_mode = 2
+
+[node name="AnswerA" type="Button" parent="SafeArea/Screens/QuizHUD/VBox" unique_id=1744267067]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,64)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "A."
 alignment = 0
-[node name="AnswerB" type="Button" parent="SafeArea/Screens/QuizHUD/VBox"]
+
+[node name="AnswerB" type="Button" parent="SafeArea/Screens/QuizHUD/VBox" unique_id=484699532]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,64)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "B."
 alignment = 0
-[node name="AnswerC" type="Button" parent="SafeArea/Screens/QuizHUD/VBox"]
+
+[node name="AnswerC" type="Button" parent="SafeArea/Screens/QuizHUD/VBox" unique_id=1883743988]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,64)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "C."
 alignment = 0
-[node name="AnswerD" type="Button" parent="SafeArea/Screens/QuizHUD/VBox"]
+
+[node name="AnswerD" type="Button" parent="SafeArea/Screens/QuizHUD/VBox" unique_id=1190103801]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,64)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "D."
 alignment = 0
-[node name="QuizFeedback" type="Label" parent="SafeArea/Screens/QuizHUD/VBox"]
+
+[node name="QuizFeedback" type="Label" parent="SafeArea/Screens/QuizHUD/VBox" unique_id=1185385127]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,92)
+custom_minimum_size = Vector2(0, 92)
 layout_mode = 2
-autowrap_mode = 2
 vertical_alignment = 1
-[node name="QuizNextButton" type="Button" parent="SafeArea/Screens/QuizHUD/VBox"]
+autowrap_mode = 2
+
+[node name="QuizNextButton" type="Button" parent="SafeArea/Screens/QuizHUD/VBox" unique_id=1508057542]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(0,48)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "SOAL BERIKUTNYA"
 
-[node name="FinalResultPanel" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="FinalResultPanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=723775500]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -776,24 +1011,27 @@ offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("PanelStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalResultPanel"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalResultPanel" unique_id=397785189]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 14
-[node name="FinalResultText" type="Label" parent="SafeArea/Screens/FinalResultPanel/VBox"]
+alignment = 1
+
+[node name="FinalResultText" type="Label" parent="SafeArea/Screens/FinalResultPanel/VBox" unique_id=570687253]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,300)
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 vertical_alignment = 1
-[node name="FinalResultNextButton" type="Button" parent="SafeArea/Screens/FinalResultPanel/VBox"]
+
+[node name="FinalResultNextButton" type="Button" parent="SafeArea/Screens/FinalResultPanel/VBox" unique_id=944592296]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,52)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 text = "LIHAT GALERI PENGETAHUAN"
 
-[node name="GalleryPanel" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="GalleryPanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=896505929]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -804,214 +1042,223 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("PanelStyle")
 
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel"]
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel" unique_id=431987573]
 layout_mode = 2
 theme_override_constants/separation = 10
+alignment = 1
 
-[node name="Title" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox"]
+[node name="Title" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox" unique_id=560799828]
 layout_mode = 2
-text = "GALERI PENGETAHUAN PANGAN"
 theme_override_font_sizes/font_size = 30
+text = "GALERI PENGETAHUAN PANGAN"
 horizontal_alignment = 1
 
-[node name="GalleryScroll" type="ScrollContainer" parent="SafeArea/Screens/GalleryPanel/VBox"]
+[node name="GalleryScroll" type="ScrollContainer" parent="SafeArea/Screens/GalleryPanel/VBox" unique_id=672689913]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ContentMargin" type="MarginContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll"]
+[node name="ContentMargin" type="MarginContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll" unique_id=343511845]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 4
+theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ContentVBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin"]
+[node name="ContentVBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin" unique_id=965587142]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 12
+alignment = 1
 
-[node name="FoodSectionTitle" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox"]
+[node name="FoodSectionTitle" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox" unique_id=557324178]
 layout_mode = 2
-text = "PANGAN LOKAL"
 theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_s0u7m")
+text = "PANGAN LOKAL"
 horizontal_alignment = 1
 
-[node name="GalleryFoodGrid" type="GridContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox"]
+[node name="GalleryFoodGrid" type="GridContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox" unique_id=1242096894]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-columns = 4
-theme_override_constants/h_separation = 12
+size_flags_vertical = 3
+theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
+columns = 5
 
-[node name="ProcessedSectionTitle" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox"]
+[node name="ProcessedSectionTitle" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox" unique_id=596365123]
 layout_mode = 2
-text = "HASIL OLAHAN"
 theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_weokc")
+text = "HASIL OLAHAN"
 horizontal_alignment = 1
 
-[node name="GalleryProcessedGrid" type="GridContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox"]
+[node name="GalleryProcessedGrid" type="GridContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox" unique_id=2100644776]
 layout_mode = 2
 size_flags_horizontal = 3
-columns = 4
 theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 4
 
-[node name="GalleryProcessedCard1" type="PanelContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid"]
+[node name="GalleryProcessedCard1" type="PanelContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid" unique_id=137051120]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(210, 196)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
 
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard1"]
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard1" unique_id=1180822906]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="GalleryProcessedImage1" type="TextureRect" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard1/VBox"]
+[node name="GalleryProcessedImage1" type="TextureRect" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard1/VBox" unique_id=1742670372]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(190, 122)
 layout_mode = 2
+mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
-mouse_filter = 2
 
-[node name="GalleryProcessedName1" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard1/VBox"]
+[node name="GalleryProcessedName1" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard1/VBox" unique_id=740854742]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 text = "OLAHAN 1"
 horizontal_alignment = 1
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 16
 
-[node name="GalleryProcessedSummary1" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard1/VBox"]
+[node name="GalleryProcessedSummary1" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard1/VBox" unique_id=645964120]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 text = "BAHAN + BAHAN → PROSES"
 horizontal_alignment = 1
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 13
 
-[node name="GalleryProcessedCard2" type="PanelContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid"]
+[node name="GalleryProcessedCard2" type="PanelContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid" unique_id=690536360]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(210, 196)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
 
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard2"]
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard2" unique_id=1414141512]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="GalleryProcessedImage2" type="TextureRect" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard2/VBox"]
+[node name="GalleryProcessedImage2" type="TextureRect" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard2/VBox" unique_id=2028050763]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(190, 122)
 layout_mode = 2
+mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
-mouse_filter = 2
 
-[node name="GalleryProcessedName2" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard2/VBox"]
+[node name="GalleryProcessedName2" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard2/VBox" unique_id=498313023]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 text = "OLAHAN 2"
 horizontal_alignment = 1
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 16
 
-[node name="GalleryProcessedSummary2" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard2/VBox"]
+[node name="GalleryProcessedSummary2" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard2/VBox" unique_id=1349940638]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 text = "BAHAN + BAHAN → PROSES"
 horizontal_alignment = 1
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 13
 
-[node name="GalleryProcessedCard3" type="PanelContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid"]
+[node name="GalleryProcessedCard3" type="PanelContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid" unique_id=124005394]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(210, 196)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
 
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard3"]
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard3" unique_id=804977265]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="GalleryProcessedImage3" type="TextureRect" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard3/VBox"]
+[node name="GalleryProcessedImage3" type="TextureRect" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard3/VBox" unique_id=105608752]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(190, 122)
 layout_mode = 2
+mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
-mouse_filter = 2
 
-[node name="GalleryProcessedName3" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard3/VBox"]
+[node name="GalleryProcessedName3" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard3/VBox" unique_id=906065386]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 text = "OLAHAN 3"
 horizontal_alignment = 1
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 16
 
-[node name="GalleryProcessedSummary3" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard3/VBox"]
+[node name="GalleryProcessedSummary3" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard3/VBox" unique_id=1992832432]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 text = "BAHAN + BAHAN → PROSES"
 horizontal_alignment = 1
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 13
 
-[node name="GalleryProcessedCard4" type="PanelContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid"]
+[node name="GalleryProcessedCard4" type="PanelContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid" unique_id=2085301557]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(210, 196)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
 
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard4"]
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard4" unique_id=918435994]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="GalleryProcessedImage4" type="TextureRect" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard4/VBox"]
+[node name="GalleryProcessedImage4" type="TextureRect" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard4/VBox" unique_id=1978121456]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(190, 122)
 layout_mode = 2
+mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
-mouse_filter = 2
 
-[node name="GalleryProcessedName4" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard4/VBox"]
+[node name="GalleryProcessedName4" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard4/VBox" unique_id=1141534916]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 text = "OLAHAN 4"
 horizontal_alignment = 1
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 16
 
-[node name="GalleryProcessedSummary4" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard4/VBox"]
+[node name="GalleryProcessedSummary4" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox/GalleryProcessedGrid/GalleryProcessedCard4/VBox" unique_id=735037021]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 text = "BAHAN + BAHAN → PROSES"
 horizontal_alignment = 1
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 13
 
-[node name="GalleryDisclaimer" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox"]
+[node name="GalleryDisclaimer" type="Label" parent="SafeArea/Screens/GalleryPanel/VBox/GalleryScroll/ContentMargin/ContentVBox" unique_id=2123015291]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = ""
-autowrap_mode = 3
-horizontal_alignment = 1
-vertical_alignment = 1
 theme_override_colors/font_color = Color(0.22, 0.35, 0.26, 0.9)
 theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
-[node name="GalleryNextButton" type="Button" parent="SafeArea/Screens/GalleryPanel/VBox"]
+[node name="GalleryNextButton" type="Button" parent="SafeArea/Screens/GalleryPanel/VBox" unique_id=639245754]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.84313726, 1, 0.90588236, 1)
+theme_override_colors/font_hover_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
 theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_438qo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l7q6l")
 text = "LANJUT KE BADGE"
 
-[node name="BadgePanel" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="BadgePanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=144366539]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -1027,67 +1274,76 @@ offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("PanelStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/BadgePanel"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/BadgePanel" unique_id=769839161]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 14
-[node name="Label" type="Label" parent="SafeArea/Screens/BadgePanel/VBox"]
+alignment = 1
+
+[node name="Label" type="Label" parent="SafeArea/Screens/BadgePanel/VBox" unique_id=1546493966]
 layout_mode = 2
-text = "BADGE FINAL"
 theme_override_font_sizes/font_size = 22
+text = "BADGE FINAL"
 horizontal_alignment = 1
-[node name="BadgeName" type="Label" parent="SafeArea/Screens/BadgePanel/VBox"]
+
+[node name="BadgeName" type="Label" parent="SafeArea/Screens/BadgePanel/VBox" unique_id=843049549]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 34
 horizontal_alignment = 1
-[node name="BadgeDescription" type="Label" parent="SafeArea/Screens/BadgePanel/VBox"]
+
+[node name="BadgeDescription" type="Label" parent="SafeArea/Screens/BadgePanel/VBox" unique_id=350645780]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,145)
+custom_minimum_size = Vector2(0, 145)
 layout_mode = 2
-autowrap_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
-[node name="BadgeNextButton" type="Button" parent="SafeArea/Screens/BadgePanel/VBox"]
+autowrap_mode = 2
+
+[node name="BadgeNextButton" type="Button" parent="SafeArea/Screens/BadgePanel/VBox" unique_id=1947123585]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,50)
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "LANJUT"
 
-[node name="ClosingPanel" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="ClosingPanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=188284245]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -245.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("PanelStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/ClosingPanel"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/ClosingPanel" unique_id=18178716]
 layout_mode = 2
 theme_override_constants/separation = 8
-[node name="ClosingSpeaker" type="Label" parent="SafeArea/Screens/ClosingPanel/VBox"]
+
+[node name="ClosingSpeaker" type="Label" parent="SafeArea/Screens/ClosingPanel/VBox" unique_id=1853168991]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-[node name="ClosingText" type="Label" parent="SafeArea/Screens/ClosingPanel/VBox"]
+
+[node name="ClosingText" type="Label" parent="SafeArea/Screens/ClosingPanel/VBox" unique_id=464817251]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,115)
+custom_minimum_size = Vector2(0, 115)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-autowrap_mode = 2
 vertical_alignment = 1
-[node name="ClosingNextButton" type="Button" parent="SafeArea/Screens/ClosingPanel/VBox"]
+autowrap_mode = 2
+
+[node name="ClosingNextButton" type="Button" parent="SafeArea/Screens/ClosingPanel/VBox" unique_id=1388185606]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0,48)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "LANJUT"
 
-[node name="FinalMapPanel" type="PanelContainer" parent="SafeArea/Screens"]
+[node name="FinalMapPanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=1908929612]
 unique_name_in_owner = true
-visible = false
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -1095,365 +1351,445 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("PanelStyle")
+theme_override_styles/panel = SubResource("StyleBoxFlat_alpow")
 
-[node name="MapBackground" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel"]
+[node name="MapBackground" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel" unique_id=1475909465]
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("8")
 expand_mode = 1
 stretch_mode = 6
-mouse_filter = 2
 
-[node name="MapShade" type="ColorRect" parent="SafeArea/Screens/FinalMapPanel"]
+[node name="MapShade" type="ColorRect" parent="SafeArea/Screens/FinalMapPanel" unique_id=1255412116]
 layout_mode = 2
-color = Color(0.965, 0.975, 0.945, 0.72)
 mouse_filter = 2
+color = Color(0.965, 0.975, 0.945, 0.72)
 
-[node name="ContentMargin" type="MarginContainer" parent="SafeArea/Screens/FinalMapPanel"]
+[node name="ContentMargin" type="MarginContainer" parent="SafeArea/Screens/FinalMapPanel" unique_id=573112182]
 layout_mode = 2
 theme_override_constants/margin_left = 18
 theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 18
 theme_override_constants/margin_bottom = 12
 
-[node name="ContentVBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin"]
+[node name="ContentVBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin" unique_id=1222427357]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 6
-
-[node name="Headline" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
-layout_mode = 2
-text = "PERJALANAN SELESAI!"
-theme_override_font_sizes/font_size = 40
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Subtitle" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
-layout_mode = 2
-text = "KAMU MENJADI DUTA PANGAN LOKAL"
-theme_override_font_sizes/font_size = 21
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CelebrationStage" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
-custom_minimum_size = Vector2(0, 222)
-layout_mode = 2
 alignment = 1
-theme_override_constants/separation = 8
 
-[node name="IbuBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage"]
-custom_minimum_size = Vector2(120, 0)
+[node name="Headline" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox" unique_id=1754712978]
 layout_mode = 2
-alignment = 2
-[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/IbuBox"]
-custom_minimum_size = Vector2(120, 172)
-layout_mode = 2
-texture = ExtResource("9")
-expand_mode = 1
-stretch_mode = 5
-mouse_filter = 2
-[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/IbuBox"]
-layout_mode = 2
-text = "IBU"
+theme_override_font_sizes/font_size = 40
+text = "PERJALANAN SELESAI!"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 14
+vertical_alignment = 1
 
-[node name="IbuGuruBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage"]
-custom_minimum_size = Vector2(120, 0)
+[node name="Subtitle" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox" unique_id=1350623726]
 layout_mode = 2
-alignment = 2
-[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/IbuGuruBox"]
-custom_minimum_size = Vector2(120, 172)
-layout_mode = 2
-texture = ExtResource("10")
-expand_mode = 1
-stretch_mode = 5
-mouse_filter = 2
-[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/IbuGuruBox"]
-layout_mode = 2
-text = "IBU GURU"
+theme_override_font_sizes/font_size = 21
+text = "KAMU MENJADI DUTA PANGAN LOKAL"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 14
+vertical_alignment = 1
 
-[node name="PlayerBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage"]
+[node name="HBoxContainer" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox" unique_id=1348516324]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer" unique_id=1261809962]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_su1ps")
+
+[node name="PlayerBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/PanelContainer" unique_id=221184275]
 custom_minimum_size = Vector2(205, 0)
 layout_mode = 2
-alignment = 2
-[node name="FinalPlayerTexture" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/PlayerBox"]
+alignment = 1
+
+[node name="FinalPlayerTexture" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/PanelContainer/PlayerBox" unique_id=809297087]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(205, 198)
 layout_mode = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.5, 1.5)
+mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
-mouse_filter = 2
-[node name="FinalPlayerName" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/PlayerBox"]
+
+[node name="FinalPlayerName" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/PanelContainer/PlayerBox" unique_id=1077834381]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 17
 text = "PLAYER"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 17
 
-[node name="LurahBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer" unique_id=882886972]
+layout_mode = 2
+
+[node name="CelebrationStage" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer" unique_id=1655970726]
+custom_minimum_size = Vector2(0, 222)
+layout_mode = 2
+theme_override_constants/separation = 55
+alignment = 1
+
+[node name="IbuBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage" unique_id=2023096804]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 alignment = 2
-[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/LurahBox"]
+
+[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage/IbuBox" unique_id=1631843299]
 custom_minimum_size = Vector2(120, 172)
 layout_mode = 2
-texture = ExtResource("11")
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.8, 1.8)
+mouse_filter = 2
+texture = ExtResource("9")
 expand_mode = 1
 stretch_mode = 5
-mouse_filter = 2
-[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/LurahBox"]
-layout_mode = 2
-text = "LURAH"
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 14
 
-[node name="NenekBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage"]
+[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage/IbuBox" unique_id=1516521880]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_d8ygg")
+text = "IBU"
+horizontal_alignment = 1
+
+[node name="IbuGuruBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage" unique_id=1930065650]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 alignment = 2
-[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/NenekBox"]
+
+[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage/IbuGuruBox" unique_id=1906648447]
 custom_minimum_size = Vector2(120, 172)
 layout_mode = 2
-texture = ExtResource("12")
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.8, 1.8)
+mouse_filter = 2
+texture = ExtResource("10")
 expand_mode = 1
 stretch_mode = 5
-mouse_filter = 2
-[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/NenekBox"]
-layout_mode = 2
-text = "NENEK"
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 14
 
-[node name="PedagangBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage"]
+[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage/IbuGuruBox" unique_id=1960239975]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_d8ygg")
+text = "IBU GURU"
+horizontal_alignment = 1
+
+[node name="PedagangBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage" unique_id=1277470670]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 alignment = 2
-[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/PedagangBox"]
+
+[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage/PedagangBox" unique_id=1107494591]
 custom_minimum_size = Vector2(120, 172)
 layout_mode = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.6, 1.6)
+mouse_filter = 2
 texture = ExtResource("13")
 expand_mode = 1
 stretch_mode = 5
-mouse_filter = 2
-[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/CelebrationStage/PedagangBox"]
+
+[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage/PedagangBox" unique_id=581653347]
 layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_d8ygg")
 text = "PEDAGANG"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 14
 
-[node name="LevelCards" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
+[node name="NenekBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage" unique_id=1754349503]
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-alignment = 1
-theme_override_constants/separation = 8
+alignment = 2
 
-[node name="FinalLevelCard1" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards"]
+[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage/NenekBox" unique_id=1751531934]
+custom_minimum_size = Vector2(120, 172)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.6, 1.6)
+mouse_filter = 2
+texture = ExtResource("12")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage/NenekBox" unique_id=1743504540]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_d8ygg")
+text = "NENEK"
+horizontal_alignment = 1
+
+[node name="LurahBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage" unique_id=519759603]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+alignment = 2
+
+[node name="Portrait" type="TextureRect" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage/LurahBox" unique_id=718276156]
+custom_minimum_size = Vector2(120, 172)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.8, 1.8)
+mouse_filter = 2
+texture = ExtResource("11")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/CelebrationStage/LurahBox" unique_id=1672469517]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_d8ygg")
+text = "LURAH"
+horizontal_alignment = 1
+
+[node name="LevelCards" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer" unique_id=776377938]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="FinalLevelCard1" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards" unique_id=1138694057]
 custom_minimum_size = Vector2(170, 84)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard1"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard1" unique_id=849219638]
 layout_mode = 2
 alignment = 1
-[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard1/VBox"]
+
+[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard1/VBox" unique_id=578566331]
 layout_mode = 2
+theme_override_font_sizes/font_size = 15
 text = "LEVEL 1 ✓"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 15
-[node name="FinalLevelScore1" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard1/VBox"]
+
+[node name="FinalLevelScore1" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard1/VBox" unique_id=107599279]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "0/100"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 18
-[node name="FinalLevelDuration1" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard1/VBox"]
+
+[node name="FinalLevelDuration1" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard1/VBox" unique_id=1102920082]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 text = "00:00"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 13
 
-[node name="FinalLevelCard2" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards"]
+[node name="FinalLevelCard2" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards" unique_id=1549502957]
 custom_minimum_size = Vector2(170, 84)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard2"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard2" unique_id=569675907]
 layout_mode = 2
 alignment = 1
-[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard2/VBox"]
+
+[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard2/VBox" unique_id=557097957]
 layout_mode = 2
+theme_override_font_sizes/font_size = 15
 text = "LEVEL 2 ✓"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 15
-[node name="FinalLevelScore2" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard2/VBox"]
+
+[node name="FinalLevelScore2" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard2/VBox" unique_id=451542442]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "0/100"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 18
-[node name="FinalLevelDuration2" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard2/VBox"]
+
+[node name="FinalLevelDuration2" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard2/VBox" unique_id=589004065]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 text = "00:00"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 13
 
-[node name="FinalLevelCard3" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards"]
+[node name="FinalLevelCard3" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards" unique_id=465712759]
 custom_minimum_size = Vector2(170, 84)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard3"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard3" unique_id=869304736]
 layout_mode = 2
 alignment = 1
-[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard3/VBox"]
+
+[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard3/VBox" unique_id=694936016]
 layout_mode = 2
+theme_override_font_sizes/font_size = 15
 text = "LEVEL 3 ✓"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 15
-[node name="FinalLevelScore3" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard3/VBox"]
+
+[node name="FinalLevelScore3" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard3/VBox" unique_id=1989652242]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "0/100"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 18
-[node name="FinalLevelDuration3" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard3/VBox"]
+
+[node name="FinalLevelDuration3" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard3/VBox" unique_id=583879670]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 text = "00:00"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 13
 
-[node name="FinalLevelCard4" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards"]
+[node name="FinalLevelCard4" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards" unique_id=899634077]
 custom_minimum_size = Vector2(170, 84)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard4"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard4" unique_id=2033341167]
 layout_mode = 2
 alignment = 1
-[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard4/VBox"]
+
+[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard4/VBox" unique_id=1013924257]
 layout_mode = 2
+theme_override_font_sizes/font_size = 15
 text = "LEVEL 4 ✓"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 15
-[node name="FinalLevelScore4" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard4/VBox"]
+
+[node name="FinalLevelScore4" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard4/VBox" unique_id=1756290534]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "0/100"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 18
-[node name="FinalLevelDuration4" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard4/VBox"]
+
+[node name="FinalLevelDuration4" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard4/VBox" unique_id=420566959]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 text = "00:00"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 13
 
-[node name="FinalLevelCard5" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards"]
+[node name="FinalLevelCard5" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards" unique_id=2061204112]
 custom_minimum_size = Vector2(170, 84)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard5"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard5" unique_id=678467593]
 layout_mode = 2
 alignment = 1
-[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard5/VBox"]
+
+[node name="Title" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard5/VBox" unique_id=1804740205]
 layout_mode = 2
+theme_override_font_sizes/font_size = 15
 text = "LEVEL 5 ✓"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 15
-[node name="FinalLevelScore5" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard5/VBox"]
+
+[node name="FinalLevelScore5" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard5/VBox" unique_id=719611900]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "0/100"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 18
-[node name="FinalLevelDuration5" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/LevelCards/FinalLevelCard5/VBox"]
+
+[node name="FinalLevelDuration5" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/LevelCards/FinalLevelCard5/VBox" unique_id=1258532427]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 text = "00:00"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 13
 
-[node name="AchievementRow" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
+[node name="AchievementRow" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer" unique_id=99108065]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 10
+alignment = 1
 
-[node name="FinalBadgeCard" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow"]
+[node name="FinalBadgeCard" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/AchievementRow" unique_id=843953390]
 custom_minimum_size = Vector2(260, 72)
 layout_mode = 2
 theme_override_styles/panel = SubResource("BottomLaneStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalBadgeCard"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/AchievementRow/FinalBadgeCard" unique_id=1805390054]
 layout_mode = 2
 alignment = 1
-[node name="BadgeIcon" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalBadgeCard/VBox"]
+
+[node name="BadgeIcon" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/AchievementRow/FinalBadgeCard/VBox" unique_id=1520796688]
 layout_mode = 2
+theme_override_font_sizes/font_size = 14
 text = "★  BADGE FINAL"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 14
-[node name="BadgeName" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalBadgeCard/VBox"]
+
+[node name="BadgeName" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/AchievementRow/FinalBadgeCard/VBox" unique_id=636036460]
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "DUTA PANGAN LOKAL"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 18
 
-[node name="FinalScoreCard" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow"]
+[node name="FinalScoreCard" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/AchievementRow" unique_id=1919018919]
 custom_minimum_size = Vector2(220, 72)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalScoreCard"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/AchievementRow/FinalScoreCard" unique_id=1593428123]
 layout_mode = 2
 alignment = 1
-[node name="Caption" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalScoreCard/VBox"]
+
+[node name="Caption" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/AchievementRow/FinalScoreCard/VBox" unique_id=479517043]
 layout_mode = 2
+theme_override_font_sizes/font_size = 14
 text = "TOTAL SKOR"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 14
-[node name="FinalTotalScore" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalScoreCard/VBox"]
+
+[node name="FinalTotalScore" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/AchievementRow/FinalScoreCard/VBox" unique_id=537300800]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "0/500"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 22
 
-[node name="FinalDurationCard" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow"]
+[node name="FinalDurationCard" type="PanelContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/AchievementRow" unique_id=1755817322]
 custom_minimum_size = Vector2(220, 72)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
-[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalDurationCard"]
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/AchievementRow/FinalDurationCard" unique_id=2131086888]
 layout_mode = 2
 alignment = 1
-[node name="Caption" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalDurationCard/VBox"]
+
+[node name="Caption" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/AchievementRow/FinalDurationCard/VBox" unique_id=959054798]
 layout_mode = 2
+theme_override_font_sizes/font_size = 14
 text = "DURASI AKTIF"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 14
-[node name="FinalTotalDuration" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/AchievementRow/FinalDurationCard/VBox"]
+
+[node name="FinalTotalDuration" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/VBoxContainer/AchievementRow/FinalDurationCard/VBox" unique_id=671243296]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "00:00"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 22
 
-[node name="SavedNote" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
+[node name="SavedNote" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox" unique_id=412720639]
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 text = "Perjalanan tersimpan di Riwayat."
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 13
 
-[node name="Buttons" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox"]
+[node name="Buttons" type="HBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox" unique_id=826931770]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 12
+alignment = 1
 
-[node name="FinalReplayButton" type="Button" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/Buttons"]
+[node name="FinalReplayButton" type="Button" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/Buttons" unique_id=16367409]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(260, 52)
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_oscwe")
 text = "PERJALANAN BARU"
 
-[node name="FinalMenuButton" type="Button" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/Buttons"]
+[node name="FinalMenuButton" type="Button" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/Buttons" unique_id=1241718456]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(260, 52)
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.84313726, 1, 0.90588236, 1)
+theme_override_colors/font_pressed_color = Color(0.035, 0.28, 0.16, 1)
+theme_override_colors/font_hover_color = Color(0.035, 0.28, 0.16, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_018nh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g6jrq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_s7va5")
 text = "KEMBALI KE MENU"

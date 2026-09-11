@@ -11,49 +11,49 @@
     "opening": [
       {
         "speaker": "Nenek",
-        "text": "Kamu sudah mengenali, mengelompokkan, dan memilih berbagai pangan. Sekarang kita akan melihat bagaimana beberapa pangan dapat dipadukan menjadi olahan."
+        "text": "[b]{player_name}[/b] cucu ku.\nKamu sudah mengenali, mengelompokkan, dan memilih berbagai pangan.\nSekarang kita akan melihat bagaimana beberapa pangan dapat dipadukan menjadi olahan."
       },
       {
         "speaker": "Pemain",
-        "text": "Berarti satu olahan bisa menggunakan lebih dari satu pangan?"
+        "text": "Iya Nek, berarti satu olahan bisa menggunakan lebih dari satu pangan, ya Nek?"
       },
       {
         "speaker": "Nenek",
-        "text": "Benar. Di dapur ini kamu akan mencoba memadukan dua pangan utama."
+        "text": "Benar sekali cucu ku.\n[b]Di dapur ini kamu akan mencoba memadukan dua pangan utama.[/b]"
       }
     ],
     "mission": [
       {
         "speaker": "Nenek",
-        "text": "Ada empat pesanan yang harus diselesaikan."
+        "text": "[b]Ada empat pesanan yang harus diselesaikan.[/b]"
       },
       {
         "speaker": "Nenek",
-        "text": "Setiap pesanan membutuhkan dua bahan pangan utama. Setelah bahannya cocok, pilih proses pengolahan yang sesuai."
+        "text": "Setiap pesanan membutuhkan dua bahan pangan utama.\nSetelah bahannya cocok, pilih proses pengolahan yang sesuai."
       },
       {
         "speaker": "Nenek",
-        "text": "Saat permainan dimulai, kamu memiliki waktu 2 menit untuk menyelesaikan semuanya."
+        "text": "Saat permainan dimulai, kamu hanya memiliki [b]waktu 2 menit[/b] untuk menyelesaikan semuanya."
       },
       {
         "speaker": "Pemain",
-        "text": "Baik. Aku harus memilih bahan dengan tepat dan tidak membuang waktu."
+        "text": "Baik. Berarti Aku harus memilih bahan dengan tepat dan tidak membuang waktu."
       }
     ],
     "closing": [
       {
         "speaker": "Nenek",
-        "text": "Sekarang kamu sudah melihat bahwa pangan dapat dipadukan dan diolah menjadi berbagai bentuk."
+        "text": "Pintar sekali cucu ku.\nSekarang kamu sudah melihat bahwa pangan dapat dipadukan dan diolah menjadi berbagai bentuk."
       },
       {
         "speaker": "Pemain",
-        "text": "Aku jadi lebih memahami hubungan bahan dengan hasil olahannya."
+        "text": "Terima Kasih Nenek.\nAku jadi lebih memahami hubungan bahan dengan hasil olahannya."
       }
     ]
   },
   "tutorial": {
     "title": "DUA BAHAN + PROSES + TIMER",
-    "text": "Setiap pesanan menampilkan target hasil olahan. Seret dua bahan pangan utama ke Slot Bahan 1 dan Bahan 2. Setelah pasangan benar, pilih proses yang sesuai. Countdown 02:00 baru berjalan setelah MULAI MENGOLAH ditekan.",
+    "text": "Setiap pesanan menampilkan target hasil olahan.\nSeret dua bahan pangan utama ke Slot Bahan 1 dan Bahan 2.\nSetelah pasangan benar, pilih proses yang sesuai.\nWaktu hitung mundur 02:00 baru berjalan setelah MULAI MENGOLAH ditekan.",
     "timer_runs": false,
     "analytics_main_game": false
   },
