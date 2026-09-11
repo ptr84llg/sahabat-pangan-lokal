@@ -3,12 +3,12 @@ extends LevelFlowController
 # BUNDLE49_LEVEL4_FLOW_FIX
 
 const FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
-const INGREDIENT_SLOT_SCENE := preload("res://scenes/shared/ingredient_slot.tscn")
-const NAMED_CARD_SCENE := preload("res://scenes/shared/named_drag_card.tscn")
-const NAMED_SLOT_SCENE := preload("res://scenes/shared/named_drop_slot.tscn")
-const ProcessVisuals = preload("res://scripts/app/process_visuals.gd")
+const INGREDIENT_SLOT_SCENE := preload("res://scenes/levels/level_04/ingredient_slot.tscn")
+const NAMED_CARD_SCENE := preload("res://scenes/levels/level_04/named_drag_card.tscn")
+const NAMED_SLOT_SCENE := preload("res://scenes/levels/level_04/named_drop_slot.tscn")
+const ProcessVisuals = preload("res://scripts/shared/gameplay/process_visuals.gd")
 const PROCESSED_RESULT_CARD_CONTENT_SCENE := preload(
-    "res://scenes/levels/shared/processed_result_card_content.tscn"
+    "res://scenes/levels/level_04/processed_result_card_content.tscn"
 )
 const FOOD_DROP_SLOT_SCENE := preload("res://scenes/shared/drop_slot.tscn")
 

@@ -11,9 +11,9 @@ const HAPPY_CHARACTER_TEXTURES := {
 }
 
 const STAR_TEXTURE_PATHS: Dictionary = {
-	"full": "res://assets/ui/stars/star_full.png",
-	"half": "res://assets/ui/stars/star_half.png",
-	"empty": "res://assets/ui/stars/star_empty.png"
+	"full": "res://assets/visual/ui/stars/star_full.png",
+	"half": "res://assets/visual/ui/stars/star_half.png",
+	"empty": "res://assets/visual/ui/stars/star_empty.png"
 }
 
 const LOCATION_DATA := [

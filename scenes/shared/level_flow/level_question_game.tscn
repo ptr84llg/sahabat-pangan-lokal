@@ -1,0 +1,324 @@
+[gd_scene format=3 uid="uid://utkkd7wro7pv"]
+
+[ext_resource type="Script" uid="uid://ddj0tcnek52ur" path="res://scripts/shared/level_flow/level_question_game.gd" id="1_question"]
+[ext_resource type="Texture2D" uid="uid://d3n01qo5f4ffo" path="res://assets/visual/ui/logo_game.png" id="2_logo"]
+[ext_resource type="PackedScene" uid="uid://dixcxvrl6srk3" path="res://scenes/shared/level_flow/level_question_answer_option.tscn" id="3_answer_option"]
+
+[sub_resource type="StyleBoxFlat" id="MainPanelStyle"]
+bg_color = Color(0.9844546, 0.97269243, 0.9138015, 0.70000005)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="QuestionPanelStyle"]
+bg_color = Color(0.99, 0.99, 0.985, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="QuestionTagStyle"]
+bg_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="ExplanationPanelStyle"]
+bg_color = Color(0.85, 0.91, 0.97, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.08, 0.25, 0.42, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="ActionNormalStyle"]
+bg_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="ActionPressedStyle"]
+bg_color = Color(0.008, 0.28, 0.18, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="ActionHoverStyle"]
+bg_color = Color(0.06, 0.44, 0.29, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="ActionDisabledStyle"]
+bg_color = Color(0.43, 0.56, 0.48, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[node name="LevelQuestionGame" type="Control" unique_id=571629170]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_question")
+
+[node name="InputBlocker" type="ColorRect" parent="." unique_id=1859001871]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="QuestionUI" type="Control" parent="." unique_id=1403031214]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainPanel" type="PanelContainer" parent="QuestionUI" unique_id=2117557460]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.075
+anchor_right = 0.975
+anchor_bottom = 0.985
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("MainPanelStyle")
+
+[node name="ContentMargin" type="MarginContainer" parent="QuestionUI/MainPanel" unique_id=718916063]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 57
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 10
+
+[node name="MainVBox" type="VBoxContainer" parent="QuestionUI/MainPanel/ContentMargin" unique_id=2009770359]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="QuestionBlock" type="Control" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=1856175816]
+custom_minimum_size = Vector2(0, 118)
+layout_mode = 2
+
+[node name="QuestionPanel" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock" unique_id=567470902]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.22
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("QuestionPanelStyle")
+
+[node name="QuestionMargin" type="MarginContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/QuestionPanel" unique_id=48783770]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 8
+
+[node name="QuestionText" type="RichTextLabel" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/QuestionPanel/QuestionMargin" unique_id=2093263691]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.012, 0.35, 0.23, 1)
+theme_override_font_sizes/normal_font_size = 26
+theme_override_font_sizes/bold_font_size = 27
+text = "Pangan lokal manakah yang sesuai dengan petunjuk berikut?"
+scroll_active = false
+vertical_alignment = 1
+
+[node name="QuestionTag" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock" unique_id=1380930541]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 250.0
+offset_bottom = 48.0
+theme_override_styles/panel = SubResource("QuestionTagStyle")
+
+[node name="QuestionTagMargin" type="MarginContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/QuestionTag" unique_id=613871848]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_right = 14
+
+[node name="QuestionTagLabel" type="Label" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/QuestionTag/QuestionTagMargin" unique_id=916458639]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "PERTANYAAN :"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MetaRow" type="HBoxContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock" unique_id=1131774100]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.58
+anchor_top = 0.235
+anchor_right = 0.985
+anchor_bottom = 0.47
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+alignment = 2
+
+[node name="ProgressLabel" type="Label" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/MetaRow" unique_id=755539952]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.4, 0.24, 1)
+theme_override_font_sizes/font_size = 17
+
+[node name="TimerLabel" type="Label" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/MetaRow" unique_id=1978285668]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.73, 0.28, 0.08, 1)
+theme_override_font_sizes/font_size = 19
+
+[node name="PreviewAnswerList" type="VBoxContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=574062811]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PreviewAnswerA" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PreviewAnswerList" unique_id=774755892 instance=ExtResource("3_answer_option")]
+layout_mode = 2
+alignment = 0
+autowrap_mode = 3
+
+[node name="PreviewAnswerB" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PreviewAnswerList" unique_id=1322333093 instance=ExtResource("3_answer_option")]
+layout_mode = 2
+alignment = 0
+
+[node name="PreviewAnswerC" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PreviewAnswerList" unique_id=1586985181 instance=ExtResource("3_answer_option")]
+layout_mode = 2
+alignment = 0
+
+[node name="AnswerList" type="VBoxContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=11621314]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ExplanationPanel" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=587071961]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("ExplanationPanelStyle")
+
+[node name="ExplanationMargin" type="MarginContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/ExplanationPanel" unique_id=414218945]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 8
+
+[node name="ExplanationVBox" type="VBoxContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/ExplanationPanel/ExplanationMargin" unique_id=1172381802]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ExplanationText" type="RichTextLabel" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/ExplanationPanel/ExplanationMargin/ExplanationVBox" unique_id=1284036274]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.012, 0.35, 0.23, 1)
+theme_override_font_sizes/normal_font_size = 22
+text = "Pilih jawaban untuk melihat penjelasan."
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ActionCenter" type="CenterContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/ExplanationPanel/ExplanationMargin/ExplanationVBox" unique_id=281471666]
+layout_mode = 2
+
+[node name="ActionButton" type="Button" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/ExplanationPanel/ExplanationMargin/ExplanationVBox/ActionCenter" unique_id=1235796483]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(270, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.92, 0.92, 0.92, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("ActionNormalStyle")
+theme_override_styles/pressed = SubResource("ActionPressedStyle")
+theme_override_styles/hover = SubResource("ActionHoverStyle")
+theme_override_styles/disabled = SubResource("ActionDisabledStyle")
+theme_override_styles/focus = SubResource("ActionHoverStyle")
+text = "LANJUT"
+
+[node name="GameLogo" type="TextureRect" parent="QuestionUI" unique_id=1139287300]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -117.0
+offset_right = 27.0
+offset_bottom = 144.0
+grow_horizontal = 2
+scale = Vector2(1.2, 1.2)
+mouse_filter = 2
+texture = ExtResource("2_logo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PortraitBlocker" type="ColorRect" parent="." unique_id=469767243]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.012, 0.35, 0.23, 1)
+
+[node name="RotateCenter" type="CenterContainer" parent="PortraitBlocker" unique_id=2001425788]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="RotateMessage" type="Label" parent="PortraitBlocker/RotateCenter" unique_id=376930192]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "PUTAR PERANGKAT
+Game hanya dapat dimainkan dalam posisi landscape."
+horizontal_alignment = 1
+vertical_alignment = 1

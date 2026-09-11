@@ -1,7 +1,7 @@
 extends LevelFlowController
 
 const FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
-const BASKET_SLOT_SCENE := preload("res://scenes/shared/basket_slot.tscn")
+const BASKET_SLOT_SCENE := preload("res://scenes/levels/level_03/basket_slot.tscn")
 const DROP_SLOT_SCENE := preload("res://scenes/shared/drop_slot.tscn")
 
 const V3_MAIN_GAME_ID: String = "L3-G01"

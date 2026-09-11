@@ -1,7 +1,7 @@
 extends LevelFlowController
 
 const GALLERY_FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
-const ProcessVisuals = preload("res://scripts/app/process_visuals.gd")
+const ProcessVisuals = preload("res://scripts/shared/gameplay/process_visuals.gd")
 const GALLERY_PROCESSED_TEXTURE_PATHS := {
     "processed_banana_cassava_compote": "res://assets/visual/processed_foods/processed_banana_cassava_compote.png",
     "processed_spinach_corn_clear_soup": "res://assets/visual/processed_foods/processed_spinach_corn_clear_soup.png",

@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/shared/level_flow/level_complete_mission_section.gd" id="1_script"]
+
+[node name="LevelCompleteMissionSection" type="MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_right = 8
+script = ExtResource("1_script")
+
+[node name="MissionVBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="MissionHeading" type="Label" parent="MissionVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/font_size = 20
+text = "Misi ke-1"
+autowrap_mode = 3
+
+[node name="SummaryRows" type="VBoxContainer" parent="MissionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="HistoryHeading" type="Label" parent="MissionVBox"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.36, 0.27, 1)
+theme_override_font_sizes/font_size = 18
+text = "Riwayat Percobaan"
+
+[node name="AttemptsVBox" type="VBoxContainer" parent="MissionVBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="InteractionRows" type="VBoxContainer" parent="MissionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 3

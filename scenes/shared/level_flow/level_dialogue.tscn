@@ -1,0 +1,348 @@
+[gd_scene format=3 uid="uid://nrphjmr4m33"]
+
+[ext_resource type="Script" uid="uid://df6g77wkc8iqc" path="res://scripts/shared/level_flow/level_dialogue.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://d3n01qo5f4ffo" path="res://assets/visual/ui/logo_game.png" id="2_logo"]
+[ext_resource type="Texture2D" uid="uid://cvb2d853nsfxa" path="res://assets/visual/npc/ibu/standing.png" id="3_npc_preview"]
+[ext_resource type="Texture2D" uid="uid://bi20dq2i184pg" path="res://assets/visual/character_select/character_01_female_standing.png" id="4_player_preview"]
+
+[sub_resource type="StyleBoxFlat" id="NameInactiveStyle"]
+bg_color = Color(0.9843, 0.9725, 0.9137, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.3294, 0.5098, 0.2078, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+
+[sub_resource type="StyleBoxFlat" id="NameActiveStyle"]
+bg_color = Color(1, 1, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.3294, 0.5098, 0.2078, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+
+[sub_resource type="StyleBoxFlat" id="DialoguePanelStyle"]
+bg_color = Color(0.9843, 0.9725, 0.9137, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.3294, 0.5098, 0.2078, 1)
+
+[sub_resource type="StyleBoxLine" id="SeparatorStyle"]
+color = Color(0.3294, 0.5098, 0.2078, 1)
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormalStyle"]
+bg_color = Color(0.050980393, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressedStyle"]
+bg_color = Color(0.26, 0.42, 0.16, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="ButtonHoverStyle"]
+bg_color = Color(0.39, 0.59, 0.24, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="ButtonDisabledStyle"]
+bg_color = Color(0.46, 0.52, 0.4, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="LevelDialogue" type="Control" unique_id=27279623]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1")
+name_inactive_style = SubResource("NameInactiveStyle")
+name_active_style = SubResource("NameActiveStyle")
+
+[node name="UIRoot" type="Control" parent="." unique_id=437390417]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CharacterLayer" type="Control" parent="UIRoot" unique_id=2111422704]
+z_index = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="NPCSlot" type="Control" parent="UIRoot/CharacterLayer" unique_id=1936677894]
+layout_mode = 1
+anchors_preset = 0
+offset_left = -100.0
+offset_top = 5.0
+offset_right = 300.0
+offset_bottom = 395.0
+scale = Vector2(1.5, 1.5)
+mouse_filter = 2
+
+[node name="NPCPortrait" type="TextureRect" parent="UIRoot/CharacterLayer/NPCSlot" unique_id=200936146]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_npc_preview")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlayerSlot" type="Control" parent="UIRoot/CharacterLayer" unique_id=500925149]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -380.0
+offset_top = 25.0
+offset_right = -50.0
+offset_bottom = 385.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="PlayerPortrait" type="TextureRect" parent="UIRoot/CharacterLayer/PlayerSlot" unique_id=505928401]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_player_preview")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DialogueLayer" type="Control" parent="UIRoot" unique_id=1761900010]
+z_index = 20
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DialoguePanel" type="Panel" parent="UIRoot/DialogueLayer" unique_id=1961472664]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -355.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("DialoguePanelStyle")
+
+[node name="TextMargin" type="MarginContainer" parent="UIRoot/DialogueLayer/DialoguePanel" unique_id=794158170]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 90
+theme_override_constants/margin_top = 105
+theme_override_constants/margin_right = 90
+theme_override_constants/margin_bottom = 92
+
+[node name="TextCenter" type="CenterContainer" parent="UIRoot/DialogueLayer/DialoguePanel/TextMargin" unique_id=1731443803]
+layout_mode = 2
+
+[node name="DialogueText" type="RichTextLabel" parent="UIRoot/DialogueLayer/DialoguePanel/TextMargin/TextCenter" unique_id=1370973628]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(900, 130)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0.3294, 0.5098, 0.2078, 1)
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+bbcode_enabled = true
+text = "[center]TEKS PERCAKAPAN[/center]"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 3
+
+[node name="BottomMargin" type="MarginContainer" parent="UIRoot/DialogueLayer/DialoguePanel" unique_id=1653288547]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 70.0
+offset_top = -82.0
+offset_right = -70.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BottomVBox" type="VBoxContainer" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin" unique_id=115593619]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Separator" type="HSeparator" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox" unique_id=1083336914]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+theme_override_styles/separator = SubResource("SeparatorStyle")
+
+[node name="ButtonCenter" type="CenterContainer" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox" unique_id=1258516341]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox/ButtonCenter" unique_id=1330419508]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(270, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.88, 0.9, 0.84, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("ButtonNormalStyle")
+theme_override_styles/pressed = SubResource("ButtonPressedStyle")
+theme_override_styles/hover = SubResource("ButtonHoverStyle")
+theme_override_styles/disabled = SubResource("ButtonDisabledStyle")
+text = "LANJUTKAN"
+
+[node name="NPCNamePanel" type="PanelContainer" parent="UIRoot/DialogueLayer" unique_id=1791626440]
+unique_name_in_owner = true
+z_index = 30
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -407.0
+offset_right = 415.0
+offset_bottom = -350.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("NameInactiveStyle")
+
+[node name="NPCName" type="Label" parent="UIRoot/DialogueLayer/NPCNamePanel" unique_id=940881443]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3294, 0.5098, 0.2078, 1)
+theme_override_font_sizes/font_size = 24
+text = "IBU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerNamePanel" type="PanelContainer" parent="UIRoot/DialogueLayer" unique_id=800071879]
+unique_name_in_owner = true
+z_index = 30
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -415.0
+offset_top = -407.0
+offset_bottom = -350.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("NameInactiveStyle")
+
+[node name="PlayerName" type="Label" parent="UIRoot/DialogueLayer/PlayerNamePanel" unique_id=1769295297]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3294, 0.5098, 0.2078, 1)
+theme_override_font_sizes/font_size = 24
+text = "PEMAIN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameLogo" type="TextureRect" parent="UIRoot/DialogueLayer" unique_id=780560840]
+unique_name_in_owner = true
+z_index = 40
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -253.0
+offset_right = 55.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+mouse_filter = 2
+texture = ExtResource("2_logo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PortraitBlocker" type="Control" parent="." unique_id=568860030]
+unique_name_in_owner = true
+visible = false
+z_index = 100
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DimBackground" type="ColorRect" parent="PortraitBlocker" unique_id=1265413401]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.05, 0.02, 0.96)
+
+[node name="RotateCenter" type="CenterContainer" parent="PortraitBlocker" unique_id=1780359942]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="RotateMessage" type="Label" parent="PortraitBlocker/RotateCenter" unique_id=752224795]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "PUTAR PERANGKAT
+Game hanya dapat dimainkan dalam posisi landscape."
+horizontal_alignment = 1
+vertical_alignment = 1

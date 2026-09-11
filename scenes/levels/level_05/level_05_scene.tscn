@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b06kge4fwtf"]
 
 [ext_resource type="Script" uid="uid://bd435adbamfjn" path="res://scripts/levels/level_05/level_05_controller.gd" id="1"]
-[ext_resource type="Script" uid="uid://7w20owy3nco2" path="res://scripts/shared/festival_food_slot.gd" id="1_slot"]
+[ext_resource type="Script" uid="uid://7w20owy3nco2" path="res://scripts/levels/level_05/festival_food_slot.gd" id="1_slot"]
 [ext_resource type="Script" uid="uid://cnqawgjwwmvbo" path="res://scripts/levels/level_05/moving_lane_controller.gd" id="2"]
 [ext_resource type="Script" uid="uid://ewxyjqld3ce0" path="res://scripts/shared/food_glyph.gd" id="2_glyph"]
 [ext_resource type="Script" uid="uid://ufxi7q2r50td" path="res://scripts/levels/level_05/schema_controller.gd" id="3"]
@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://d3n01qo5f4ffo" path="res://assets/visual/ui/logo_game.png" id="7"]
 [ext_resource type="Texture2D" uid="uid://b08xsyf0aix2" path="res://assets/visual/processes/dicampur.png" id="7_mixed"]
 [ext_resource type="Texture2D" uid="uid://ctjlpu4muiidw" path="res://assets/visual/main_map/bg_main_map.png" id="8"]
-[ext_resource type="Script" uid="uid://cdslfjhkecnts" path="res://scripts/shared/festival_basket_slot.gd" id="8_basket"]
+[ext_resource type="Script" uid="uid://cdslfjhkecnts" path="res://scripts/levels/level_05/festival_basket_slot.gd" id="8_basket"]
 [ext_resource type="Texture2D" uid="uid://cvb2d853nsfxa" path="res://assets/visual/npc/ibu/standing.png" id="9"]
 [ext_resource type="Texture2D" uid="uid://dvftv15lyjclm" path="res://assets/visual/npc/ibu_guru/standing.png" id="10"]
 [ext_resource type="Texture2D" uid="uid://d2to6lq5kkeds" path="res://assets/visual/npc/lurah/standing.png" id="11"]

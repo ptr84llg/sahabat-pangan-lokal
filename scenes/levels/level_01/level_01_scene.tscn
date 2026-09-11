@@ -3,24 +3,9 @@
 [ext_resource type="Script" uid="uid://cuxh0ypmcxjbu" path="res://scripts/levels/level_01/level_01_controller.gd" id="1"]
 [ext_resource type="Script" uid="uid://cmv0we0grnji4" path="res://scripts/levels/level_01/matching_controller.gd" id="2"]
 [ext_resource type="Script" uid="uid://ewxyjqld3ce0" path="res://scripts/shared/food_glyph.gd" id="3"]
-[ext_resource type="Texture2D" uid="uid://cjkdwvr7hjrdb" path="res://assets/visual/backgrounds/level_01_home.png" id="4"]
-[ext_resource type="Texture2D" uid="uid://cvb2d853nsfxa" path="res://assets/visual/npc/ibu/standing.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://cjkdwvr7hjrdb" path="res://assets/visual/backgrounds/levels/level_01_home.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://baug5wh57ay00" path="res://assets/visual/foods/food_rice.png" id="6"]
 [ext_resource type="PackedScene" uid="uid://d0st2mxxlk0we" path="res://scenes/levels/level_01/level_01_gameplay_presenter.tscn" id="57Dgp"]
-
-[sub_resource type="StyleBoxFlat" id="CharacterStyle"]
-bg_color = Color(1, 0.97, 0.88, 0.9)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.48, 0.45, 0.36, 0.55)
-corner_radius_top_left = 22
-corner_radius_top_right = 22
-corner_radius_bottom_right = 22
-corner_radius_bottom_left = 22
-shadow_color = Color(0, 0, 0, 0.12)
-shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id="PanelStyle"]
 bg_color = Color(1, 0.985, 0.93, 0.965)
@@ -166,107 +151,6 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 0.9, 0.62, 0.055)
 
-[node name="CharacterLayer" type="Control" parent="." unique_id=1772828526]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="MotherNPC" type="PanelContainer" parent="CharacterLayer" unique_id=1995521297]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.035
-anchor_top = 0.15
-anchor_right = 0.235
-anchor_bottom = 0.69
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("CharacterStyle")
-
-[node name="VBox" type="VBoxContainer" parent="CharacterLayer/MotherNPC" unique_id=1361718047]
-layout_mode = 2
-theme_override_constants/separation = 4
-alignment = 1
-
-[node name="Portrait" type="Control" parent="CharacterLayer/MotherNPC/VBox" unique_id=1113227646]
-custom_minimum_size = Vector2(190, 270)
-layout_mode = 2
-
-[node name="MotherVisual" type="TextureRect" parent="CharacterLayer/MotherNPC/VBox/Portrait" unique_id=1280299350]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("5")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="PortraitText" type="Label" parent="CharacterLayer/MotherNPC/VBox/Portrait" unique_id=1672773783]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "IBU"
-
-[node name="Name" type="Label" parent="CharacterLayer/MotherNPC/VBox" unique_id=1769243320]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.34, 0.14, 1)
-theme_override_font_sizes/font_size = 20
-text = "Ibu"
-horizontal_alignment = 1
-
-[node name="PoseNote" type="Label" parent="CharacterLayer/MotherNPC/VBox" unique_id=1309345216]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.43, 0.38, 0.28, 1)
-theme_override_font_sizes/font_size = 13
-text = "Pendamping di Rumah"
-horizontal_alignment = 1
-
-[node name="PlayerCard" type="PanelContainer" parent="CharacterLayer" unique_id=1298878369]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.765
-anchor_top = 0.15
-anchor_right = 0.965
-anchor_bottom = 0.69
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("CharacterStyle")
-
-[node name="VBox" type="VBoxContainer" parent="CharacterLayer/PlayerCard" unique_id=642708373]
-layout_mode = 2
-theme_override_constants/separation = 4
-alignment = 1
-
-[node name="PlayerVisual" type="TextureRect" parent="CharacterLayer/PlayerCard/VBox" unique_id=916764025]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(190, 270)
-layout_mode = 2
-mouse_filter = 2
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Role" type="Label" parent="CharacterLayer/PlayerCard/VBox" unique_id=295095201]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.34, 0.14, 1)
-theme_override_font_sizes/font_size = 18
-text = "Pemain"
-horizontal_alignment = 1
-
 [node name="SafeArea" type="MarginContainer" parent="." unique_id=820629576]
 visible = false
 layout_mode = 1
@@ -329,9 +213,6 @@ theme_override_colors/font_color = Color(0.34, 0.42, 0.23, 1)
 theme_override_font_sizes/font_size = 19
 text = "RUMAH - PAGI HARI"
 horizontal_alignment = 1
-
-[node name="Divider" type="HSeparator" parent="SafeArea/Screens/ThemePanel/Margin/VBox" unique_id=568799476]
-layout_mode = 2
 
 [node name="MissionIntro" type="Label" parent="SafeArea/Screens/ThemePanel/Margin/VBox" unique_id=1004137906]
 custom_minimum_size = Vector2(0, 300)

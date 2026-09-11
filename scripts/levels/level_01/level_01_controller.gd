@@ -12,26 +12,6 @@ const V3_LITERACY_GAME_ID: String = "L1-G02"
 const V3_LITERACY_GAME_TYPE: String = "literacy_question"
 const V3_LITERACY_INSTRUCTION_ID: String = "INST-L1-G02-LITERACY"
 
-const PLAYER_STANDING_TEXTURES := {
-	"rara": "res://assets/visual/character_select/character_01_female_standing.png",
-	"budi": "res://assets/visual/character_select/character_02_male_standing.png",
-	"anjani": "res://assets/visual/character_select/character_03_female_standing.png",
-	"riski": "res://assets/visual/character_select/character_04_male_standing.png"
-}
-
-const PLAYER_HAPPY_TEXTURES := {
-	"rara": "res://assets/visual/character_select/character_01_female_happy.png",
-	"budi": "res://assets/visual/character_select/character_02_male_happy.png",
-	"anjani": "res://assets/visual/character_select/character_03_female_happy.png",
-	"riski": "res://assets/visual/character_select/character_04_male_happy.png"
-}
-
-const NPC_MOTHER_TEXTURES := {
-	"standing": "res://assets/visual/npc/ibu/standing.png",
-	"talking": "res://assets/visual/npc/ibu/talking.png",
-	"happy": "res://assets/visual/npc/ibu/standing.png"
-}
-
 const FOOD_TEXTURES := {
 	"food_rice": "res://assets/visual/foods/food_rice.png",
 	"food_cassava": "res://assets/visual/foods/food_cassava.png",
@@ -41,11 +21,6 @@ const FOOD_TEXTURES := {
 	"food_papaya": "res://assets/visual/foods/food_papaya.png"
 }
 
-@onready var character_layer: Control = %CharacterLayer
-@onready var mother_card: PanelContainer = %MotherNPC
-@onready var mother_visual: TextureRect = %MotherVisual
-@onready var player_card: PanelContainer = %PlayerCard
-@onready var player_visual: TextureRect = %PlayerVisual
 @onready var theme_panel: Control = %ThemePanel
 @onready var dialogue_panel: Control = %DialoguePanel
 @onready var tutorial_panel: Control = %TutorialPanel
@@ -103,8 +78,6 @@ func _ready() -> void:
 	]
 
 	_connect_ui()
-	_apply_selected_player()
-	_apply_mother_pose("standing")
 	_setup_matching()
 	resized.connect(_apply_responsive_layout)
 	_apply_responsive_layout()
@@ -159,48 +132,6 @@ func _bind_motion_controls() -> void:
 
 		if button != null:
 			UIMotion.bind_button(button)
-
-func _apply_selected_player() -> void:
-	_apply_player_pose(false)
-
-func _apply_player_pose(happy: bool) -> void:
-	var character_id: String = GameState.selected_character_id()
-	var texture_path: String = ""
-
-	if happy:
-		texture_path = str(PLAYER_HAPPY_TEXTURES.get(character_id, ""))
-	else:
-		texture_path = str(PLAYER_STANDING_TEXTURES.get(character_id, ""))
-
-	if texture_path.is_empty():
-		texture_path = GameState.selected_character_texture_path()
-
-	if texture_path.is_empty():
-		return
-
-	if not ResourceLoader.exists(texture_path):
-		return
-
-	var loaded_resource: Resource = load(texture_path)
-
-	if loaded_resource is Texture2D:
-		player_visual.texture = loaded_resource
-
-func _apply_mother_pose(pose: String) -> void:
-	var texture_path: String = str(
-		NPC_MOTHER_TEXTURES.get(pose, NPC_MOTHER_TEXTURES["standing"])
-	)
-
-	if texture_path.is_empty():
-		return
-
-	if not ResourceLoader.exists(texture_path):
-		return
-
-	var loaded_resource: Resource = load(texture_path)
-
-	if loaded_resource is Texture2D:
-		mother_visual.texture = loaded_resource
 
 func _apply_responsive_layout() -> void:
 	var viewport_width: float = size.x
@@ -261,14 +192,12 @@ func _rebuild_matching_board() -> void:
 
 func _show_theme() -> void:
 	set_state("THEME_INTRO")
-	_set_character_layer(false)
 	show_only(screens, theme_panel)
 
 func _show_opening_dialogue() -> void:
 	set_state("DIALOGUE_OPENING")
 	dialogue_lines = level_config.get("dialogue", {}).get("opening", [])
 	dialogue_index = 0
-	_set_character_layer(false)
 	show_only(screens, dialogue_panel)
 	_render_dialogue_line()
 
@@ -309,43 +238,8 @@ func _render_dialogue_line() -> void:
 		else "LANJUT"
 	)
 
-func _apply_speaker_focus(mother_active: bool) -> void:
-	mother_card.add_theme_stylebox_override(
-		"panel",
-		_make_character_style(mother_active)
-	)
-	player_card.add_theme_stylebox_override(
-		"panel",
-		_make_character_style(not mother_active)
-	)
-
-func _make_character_style(active: bool) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = (
-		Color(1.0, 0.97, 0.87, 0.97)
-		if active
-		else Color(0.96, 0.96, 0.91, 0.82)
-	)
-	style.border_width_left = 4 if active else 2
-	style.border_width_top = 4 if active else 2
-	style.border_width_right = 4 if active else 2
-	style.border_width_bottom = 4 if active else 2
-	style.border_color = (
-		Color(0.24, 0.58, 0.18, 1)
-		if active
-		else Color(0.48, 0.45, 0.36, 0.55)
-	)
-	style.corner_radius_top_left = 22
-	style.corner_radius_top_right = 22
-	style.corner_radius_bottom_right = 22
-	style.corner_radius_bottom_left = 22
-	style.shadow_color = Color(0, 0, 0, 0.18)
-	style.shadow_size = 7 if active else 3
-	return style
-
 func _show_tutorial() -> void:
 	set_state("TUTORIAL_INTERACTIVE")
-	_set_character_layer(false)
 	show_only(screens, tutorial_panel)
 
 	%TutorialStepLabel.text = "LATIHAN LANGSUNG"
@@ -370,7 +264,6 @@ func _start_gameplay() -> void:
 	main_game_start_active_ms = DurationTracker.current_active_ms()
 
 	set_state("GAMEPLAY")
-	_set_character_layer(false)
 	show_only(screens, gameplay_layer)
 	_apply_responsive_layout()
 	matching_controller.begin_mission_timing()
@@ -613,14 +506,12 @@ func _on_all_matched(score: int) -> void:
 		)
 
 	set_state("GAMEPLAY_SUCCESS")
-	_set_character_layer(false)
 	show_only(screens, gameplay_success_panel)
 	%GameplaySuccessText.text = "Hebat! Semua pangan berhasil kamu kenali."
 	UIMotion.play_reward(gameplay_success_panel)
 
 func _show_literacy_intro() -> void:
 	set_state("LITERACY_INTRO")
-	_set_character_layer(false)
 	show_only(screens, literacy_panel)
 	%LiteracyIntro.visible = true
 	%LiteracyQuestion.visible = false
@@ -628,7 +519,6 @@ func _show_literacy_intro() -> void:
 
 func _start_literacy_question() -> void:
 	set_state("LITERACY_QUESTION")
-	_set_character_layer(false)
 	show_only(screens, literacy_panel)
 
 	%LiteracyIntro.visible = false
@@ -811,7 +701,6 @@ func _on_literacy_answer(answer_id: String) -> void:
 	%LiteracyResultButton.visible = false
 func _show_result() -> void:
 	set_state("RESULT")
-	_set_character_layer(false)
 
 	var duration_ms: int = DurationTracker.finish_level_session()
 	final_score = (
@@ -840,7 +729,6 @@ func _show_result() -> void:
 
 func _show_info() -> void:
 	set_state("FOOD_INFORMATION")
-	_set_character_layer(false)
 	info_index = 0
 	show_only(screens, info_panel)
 	_render_info()
@@ -885,7 +773,6 @@ func _advance_info() -> void:
 
 func _show_badge() -> void:
 	set_state("BADGE_REWARD")
-	_set_character_layer(false)
 	show_only(screens, badge_panel)
 	UIMotion.play_reward(badge_panel)
 
@@ -899,7 +786,6 @@ func _show_badge() -> void:
 
 func _show_closing() -> void:
 	set_state("CLOSING_DIALOGUE")
-	_set_character_layer(false)
 	show_only(screens, closing_panel)
 	closing_lines = level_config.get("dialogue", {}).get("closing", [])
 	closing_index = 0
@@ -964,9 +850,6 @@ func _finish_level() -> void:
 	)
 
 	SceneRouter.goto("main_map")
-
-func _set_character_layer(_should_show: bool) -> void:
-	character_layer.visible = false
 
 func _player_speaker_name() -> String:
 	if (

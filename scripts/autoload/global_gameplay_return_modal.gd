@@ -1,7 +1,7 @@
 extends Node
 
 const AUTOLOAD_ENTRY := "GlobalGameplayReturnModal"
-const OVERLAY_SCENE := preload("res://scenes/shared/global_gameplay_return_modal.tscn")
+const OVERLAY_SCENE := preload("res://scenes/shared/modals/global_gameplay_return_modal.tscn")
 const GAMEPLAY_ANCESTOR_NAMES := ["MainGameHUD", "GameplayLayer", "GameplayHUD", "MainGame", "GameHUD"]
 
 var _bound_scene_id: int = 0

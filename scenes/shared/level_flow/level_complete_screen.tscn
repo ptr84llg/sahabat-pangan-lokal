@@ -1,0 +1,320 @@
+[gd_scene format=3 uid="uid://bfpggi8wq373k"]
+
+[ext_resource type="Script" uid="uid://dc40inlravh10" path="res://scripts/shared/level_flow/level_complete_screen.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://d3n01qo5f4ffo" path="res://assets/visual/ui/logo_game.png" id="2_logo"]
+[ext_resource type="Texture2D" uid="uid://8vleikumt0fk" path="res://assets/visual/ui/icons/good.svg" id="3_complete_icon"]
+
+[sub_resource type="StyleBoxFlat" id="MainPanelStyle"]
+content_margin_bottom = 20.0
+bg_color = Color(0.92947316, 0.9255881, 0.87455684, 0.8)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0.4078, 0.2431, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_af43a"]
+bg_color = Color(1, 0.9490196, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+
+[sub_resource type="StyleBoxFlat" id="InfoPanelStyle"]
+bg_color = Color(0.82, 0.87, 0.93, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0.4078, 0.2431, 1)
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5rmbn"]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormalStyle"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3451, 0.5608, 0.1961, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressedStyle"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.27, 0.47, 0.16, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.27, 0.47, 0.16, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="ButtonHoverStyle"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.4, 0.62, 0.24, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.62, 0.24, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="ButtonDisabledStyle"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.45, 0.53, 0.39, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.53, 0.39, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[node name="LevelCompleteScreen" type="Control" unique_id=1040232076]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="InputBlocker" type="ColorRect" parent="." unique_id=1140473159]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="OverlayRoot" type="Control" parent="." unique_id=1548657803]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainPanel" type="Panel" parent="OverlayRoot" unique_id=1959103371]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 50.0
+offset_right = -20.0
+offset_bottom = -58.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+theme_override_styles/panel = SubResource("MainPanelStyle")
+
+[node name="MainMargin" type="MarginContainer" parent="OverlayRoot/MainPanel" unique_id=1058923128]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 46
+theme_override_constants/margin_top = 46
+theme_override_constants/margin_right = 46
+theme_override_constants/margin_bottom = 38
+
+[node name="MainVBox" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin" unique_id=843683339]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="PanelBody" type="PanelContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox" unique_id=380364559]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_af43a")
+
+[node name="TitleCenter" type="CenterContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/PanelBody" unique_id=1708603197]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+
+[node name="CompletionTitleRow" type="HBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/PanelBody/TitleCenter" unique_id=180098388]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="LevelCompleteTitle" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/PanelBody/TitleCenter/CompletionTitleRow" unique_id=2019026005]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+theme_override_font_sizes/font_size = 44
+text = "LEVEL 1 SELESAI"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CompleteIcon" type="TextureRect" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/PanelBody/TitleCenter/CompletionTitleRow" unique_id=2098617918]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(66, 66)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_complete_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InfoPanel" type="PanelContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox" unique_id=1245446939]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 270)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("InfoPanelStyle")
+
+[node name="InfoMargin" type="MarginContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel" unique_id=2003504202]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 15
+
+[node name="ContentVBox" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin" unique_id=1064693189]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="CompletionMessage" type="RichTextLabel" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox" unique_id=86316346]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/normal_font_size = 24
+text = "Kamu telah menyelesaikan level ini."
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StructuredResultBody" type="HBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox" unique_id=1295523353]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="ResultDetailScroll" type="ScrollContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody" unique_id=278816658]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(700, 300)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ResultDetailVBox" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody/ResultDetailScroll" unique_id=1335554955]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(660, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="LevelSummaryVBox" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody/ResultDetailScroll/ResultDetailVBox" unique_id=1717716364]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="TopSummarySeparator" type="HSeparator" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody/ResultDetailScroll/ResultDetailVBox" unique_id=912821598]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="GameSections" type="VBoxContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody/ResultDetailScroll/ResultDetailVBox" unique_id=510410485]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="FallbackText" type="Label" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody/ResultDetailScroll/ResultDetailVBox" unique_id=100059705]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0.4078, 0.2431, 1)
+theme_override_font_sizes/font_size = 19
+text = "Hasil"
+autowrap_mode = 3
+
+[node name="FixedLogoCenter" type="CenterContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody" unique_id=129966195]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GameLogo" type="TextureRect" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/InfoPanel/InfoMargin/ContentVBox/StructuredResultBody/FixedLogoCenter" unique_id=404502681]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(265, 265)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("2_logo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox" unique_id=1740156749]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5rmbn")
+
+[node name="ButtonCenter" type="CenterContainer" parent="OverlayRoot/MainPanel/MainMargin/MainVBox" unique_id=278592372]
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+
+[node name="PrimaryButton" type="Button" parent="OverlayRoot/MainPanel/MainMargin/MainVBox/ButtonCenter" unique_id=910015298]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 60)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("ButtonNormalStyle")
+theme_override_styles/pressed = SubResource("ButtonPressedStyle")
+theme_override_styles/hover = SubResource("ButtonHoverStyle")
+theme_override_styles/disabled = SubResource("ButtonDisabledStyle")
+theme_override_styles/focus = SubResource("ButtonNormalStyle")
+text = "LANJUT"

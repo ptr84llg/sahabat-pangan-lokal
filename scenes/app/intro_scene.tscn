@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/app/intro.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/visual/backgrounds/bg_character_select.jpg" id="2"]
+[ext_resource type="Texture2D" path="res://assets/visual/backgrounds/app/bg_character_select.jpg" id="2"]
 
 [sub_resource type="StyleBoxFlat" id="AvatarPanelStyle"]
 bg_color = Color(0.99, 0.99, 0.98, 0.96)
