@@ -16,6 +16,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]
 
+UpdateManager="*res://scripts/autoload/update_manager.gd"
 ContentDatabase="*res://scripts/autoload/content_database.gd"
 SettingsManager="*res://scripts/autoload/settings_manager.gd"
 GameState="*res://scripts/autoload/game_state.gd"
