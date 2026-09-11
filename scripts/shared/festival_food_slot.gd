@@ -3,9 +3,9 @@ extends PanelContainer
 
 signal drop_received(food_id: String, card: FoodCard, slot: FestivalFoodSlot)
 
-@onready var title_label: Label = %TitleLabel
-@onready var holder: CenterContainer = %Holder
-@onready var placeholder: Label = %Placeholder
+@onready var title_label: Label = $VBox/TitleLabel
+@onready var holder: CenterContainer = $VBox/Holder
+@onready var placeholder: Label = $VBox/Holder/Placeholder
 var accepted_kind := "festival_food_card"
 
 func _ready() -> void:

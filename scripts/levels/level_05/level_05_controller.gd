@@ -1,7 +1,5 @@
 extends LevelFlowController
 
-const FOOD_SLOT_SCENE := preload("res://scenes/shared/festival_food_slot.tscn")
-const BASKET_SLOT_SCENE := preload("res://scenes/shared/festival_basket_slot.tscn")
 const GALLERY_FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
 const ProcessVisuals = preload("res://scripts/app/process_visuals.gd")
 const GALLERY_PROCESSED_TEXTURE_PATHS := {
@@ -109,6 +107,101 @@ func _connect_ui() -> void:
     var answer_buttons := [%AnswerA, %AnswerB, %AnswerC, %AnswerD]
     for i in range(answer_buttons.size()):
         answer_buttons[i].pressed.connect(_on_answer_pressed.bind(i))
+    _connect_schema_editor_signals()
+
+func _schema2_slots() -> Array[FestivalFoodSlot]:
+    return [
+        %Schema2MissionContent.get_node(
+            "GroupRow/GroupSlot1"
+        ) as FestivalFoodSlot,
+        %Schema2MissionContent.get_node(
+            "GroupRow/GroupSlot2"
+        ) as FestivalFoodSlot,
+        %Schema2MissionContent.get_node(
+            "GroupRow/GroupSlot3"
+        ) as FestivalFoodSlot,
+        %Schema2MissionContent.get_node(
+            "GroupRow/GroupSlot4"
+        ) as FestivalFoodSlot
+    ]
+
+
+func _schema3_slots() -> Array[FestivalBasketSlot]:
+    return [
+        %Schema3MissionContent.get_node(
+            "BasketRow/BasketSlot1"
+        ) as FestivalBasketSlot,
+        %Schema3MissionContent.get_node(
+            "BasketRow/BasketSlot2"
+        ) as FestivalBasketSlot,
+        %Schema3MissionContent.get_node(
+            "BasketRow/BasketSlot3"
+        ) as FestivalBasketSlot,
+        %Schema3MissionContent.get_node(
+            "BasketRow/BasketSlot4"
+        ) as FestivalBasketSlot
+    ]
+
+
+func _connect_schema_editor_signals() -> void:
+    var schema1_slot := %Schema1MissionContent.get_node(
+        "TargetHolder/TargetSlot"
+    ) as FestivalFoodSlot
+
+    if not schema1_slot.drop_received.is_connected(
+        _on_schema1_drop
+    ):
+        schema1_slot.drop_received.connect(
+            _on_schema1_drop
+        )
+
+    for slot in _schema2_slots():
+        if not slot.drop_received.is_connected(
+            _on_schema2_drop
+        ):
+            slot.drop_received.connect(
+                _on_schema2_drop
+            )
+
+    for basket_slot in _schema3_slots():
+        if not basket_slot.drop_received.is_connected(
+            _on_schema3_drop
+        ):
+            basket_slot.drop_received.connect(
+                _on_schema3_drop
+            )
+
+        if not basket_slot.return_requested.is_connected(
+            _on_schema3_return
+        ):
+            basket_slot.return_requested.connect(
+                _on_schema3_return
+            )
+
+    var schema4_slot_a := %Schema4MissionContent.get_node(
+        "IngredientPhase/IngredientRow/IngredientSlotA"
+    ) as FestivalFoodSlot
+    var schema4_slot_b := %Schema4MissionContent.get_node(
+        "IngredientPhase/IngredientRow/IngredientSlotB"
+    ) as FestivalFoodSlot
+
+    for slot in [schema4_slot_a, schema4_slot_b]:
+        if not slot.drop_received.is_connected(
+            _on_schema4_ingredient_drop
+        ):
+            slot.drop_received.connect(
+                _on_schema4_ingredient_drop
+            )
+
+    for button in _schema4_process_buttons():
+        var callback := _on_schema4_process_button_pressed.bind(
+            button
+        )
+
+        if not button.pressed.is_connected(callback):
+            button.pressed.connect(callback)
+
+        UIMotion.bind_button(button)
 
 func _show_theme() -> void:
     set_state("THEME_INTRO")
@@ -237,8 +330,11 @@ func _load_schema(index: int) -> void:
     if index < 0 or index >= schemas.size():
         return
 
-    _clear_container(%SchemaMissionContent)
-    %ProcessChoiceRow.visible = false
+    %SchemaMissionContent.visible = true
+    %Schema1MissionContent.visible = index == 0
+    %Schema2MissionContent.visible = index == 1
+    %Schema3MissionContent.visible = index == 2
+    %Schema4MissionContent.visible = index == 3
     %SchemaFeedback.text = ""
     %SchemaDetailLabel.text = ""
 
@@ -283,87 +379,156 @@ func _setup_schema1(data: Dictionary) -> void:
     _render_schema1_target()
 
 func _render_schema1_target() -> void:
-    _clear_container(%SchemaMissionContent)
-    var food_id := str(schema1_targets[schema1_target_index])
+    var food_id := str(
+        schema1_targets[schema1_target_index]
+    )
     var food := ContentDatabase.get_food(food_id)
-    var target_name := Label.new()
-    target_name.name = "TargetNameDynamic"
-    target_name.text = str(food.get("display_name", food_id)).to_upper()
-    target_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-    target_name.add_theme_font_size_override("font_size", 40)
-    %SchemaMissionContent.add_child(target_name)
-    var holder := CenterContainer.new()
-    holder.custom_minimum_size = Vector2(0, 116)
-    %SchemaMissionContent.add_child(holder)
-    var slot: FestivalFoodSlot = FOOD_SLOT_SCENE.instantiate()
-    holder.add_child(slot)
-    slot.setup("TARGET %d/3" % [schema1_target_index + 1])
-    slot.drop_received.connect(_on_schema1_drop.bind(food_id, slot))
-    %SchemaProgress.text = "TARGET KE %d/3" % [schema1_target_index + 1]
+    var target_name := %Schema1MissionContent.get_node(
+        "TargetNameLabel"
+    ) as Label
+    var slot := %Schema1MissionContent.get_node(
+        "TargetHolder/TargetSlot"
+    ) as FestivalFoodSlot
 
-func _on_schema1_drop(food_id: String, card: FoodCard, _slot: FestivalFoodSlot, target_id: String, __slot_ref: FestivalFoodSlot) -> void:
+    target_name.text = str(
+        food.get(
+            "display_name",
+            food_id
+        )
+    ).to_upper()
+    slot.setup(
+        "TARGET %d/3" % [
+            schema1_target_index + 1
+        ]
+    )
+    %SchemaProgress.text = "TARGET KE %d/3" % [
+        schema1_target_index + 1
+    ]
+
+func _on_schema1_drop(
+    food_id: String,
+    card: FoodCard,
+    _slot: FestivalFoodSlot
+) -> void:
+    var target_id := str(
+        schema1_targets[schema1_target_index]
+    )
+
     if food_id != target_id:
-        _register_invalid("schema_1", "wrong_target_drop", food_id)
+        _register_invalid(
+            "schema_1",
+            "wrong_target_drop",
+            food_id
+        )
         card.show_wrong_feedback()
-        _feedback("Belum tepat. Cari pangan yang sesuai dengan nama target.", false)
+        _feedback(
+            "Belum tepat. Cari pangan yang sesuai dengan nama target.",
+            false
+        )
         return
+
     AudioManager.play_sfx("drop_correct")
     moving_lane.hold_card(card, %HeldPool)
     schema1_target_index += 1
+
     if schema1_target_index >= schema1_targets.size():
         _complete_schema("schema_1")
     else:
-        _feedback("Tepat! Lanjut ke target berikutnya.", true)
+        _feedback(
+            "Tepat! Lanjut ke target berikutnya.",
+            true
+        )
         _render_schema1_target()
 
 func _setup_schema2(data: Dictionary) -> void:
     schema2_completed_groups.clear()
-    var row := HBoxContainer.new()
-    row.name = "GroupTargetsDynamic"
-    row.alignment = BoxContainer.ALIGNMENT_CENTER
-    row.add_theme_constant_override("separation", 8)
-    %SchemaMissionContent.add_child(row)
-    for gid_value in data.get("group_ids", []):
-        var gid := str(gid_value)
-        var slot: FestivalFoodSlot = FOOD_SLOT_SCENE.instantiate()
-        row.add_child(slot)
-        slot.custom_minimum_size.x = 145
-        slot.setup(ContentDatabase.get_group_name(gid))
-        slot.drop_received.connect(_on_schema2_drop.bind(gid, slot))
+
+    var slots := _schema2_slots()
+    var group_ids: Array = data.get(
+        "group_ids",
+        []
+    )
+
+    for index in range(slots.size()):
+        var slot := slots[index]
+
+        if index >= group_ids.size():
+            slot.visible = false
+            continue
+
+        var group_id := str(group_ids[index])
+        slot.visible = true
+        slot.set_meta(
+            "schema2_group_id",
+            group_id
+        )
+        slot.setup(
+            ContentDatabase.get_group_name(
+                group_id
+            )
+        )
+
     %SchemaProgress.text = "KELOMPOK 0/4"
 
-func _on_schema2_drop(food_id: String, card: FoodCard, _emitter_slot: FestivalFoodSlot, group_id: String, slot: FestivalFoodSlot) -> void:
+func _on_schema2_drop(
+    food_id: String,
+    card: FoodCard,
+    slot: FestivalFoodSlot
+) -> void:
+    var group_id := str(
+        slot.get_meta(
+            "schema2_group_id",
+            ""
+        )
+    )
     var food := ContentDatabase.get_food(food_id)
+
     if str(food.get("group_id", "")) != group_id:
-        _register_invalid("schema_2", "wrong_group_drop", food_id)
+        _register_invalid(
+            "schema_2",
+            "wrong_group_drop",
+            food_id
+        )
         card.show_wrong_feedback()
-        _feedback("Belum sesuai dengan kelompok ini. Coba perhatikan kembali jenis pangannya.", false)
+        _feedback(
+            "Belum sesuai dengan kelompok ini. Coba perhatikan kembali jenis pangannya.",
+            false
+        )
         return
+
     if schema2_completed_groups.has(group_id):
         return
+
     AudioManager.play_sfx("drop_correct")
     slot.hold_card(card)
     schema2_completed_groups[group_id] = food_id
-    %SchemaProgress.text = "Kelompok %d/4" % schema2_completed_groups.size()
+    %SchemaProgress.text = "Kelompok %d/4" % (
+        schema2_completed_groups.size()
+    )
+
     if schema2_completed_groups.size() >= 4:
         _complete_schema("schema_2")
     else:
-        _feedback("Kelompok terisi dengan tepat.", true)
+        _feedback(
+            "Kelompok terisi dengan tepat.",
+            true
+        )
 
 func _setup_schema3(_data: Dictionary) -> void:
     schema3_selected.clear()
     schema3_total_coin = 0
-    var basket := HBoxContainer.new()
-    basket.name = "ShopBasketDynamic"
-    basket.alignment = BoxContainer.ALIGNMENT_CENTER
-    basket.add_theme_constant_override("separation", 8)
-    %SchemaMissionContent.add_child(basket)
-    for i in range(4):
-        var slot: FestivalBasketSlot = BASKET_SLOT_SCENE.instantiate()
-        basket.add_child(slot)
-        slot.setup("SLOT %d" % [i + 1])
-        slot.drop_received.connect(_on_schema3_drop)
-        slot.return_requested.connect(_on_schema3_return)
+
+    var slots := _schema3_slots()
+
+    for index in range(slots.size()):
+        var slot := slots[index]
+        slot.visible = true
+        slot.setup(
+            "SLOT %d" % [
+                index + 1
+            ]
+        )
+
     _refresh_schema3_ui()
 
 func _on_schema3_drop(food_id: String, card: FoodCard, slot: FestivalBasketSlot) -> void:
@@ -429,73 +594,305 @@ func _setup_schema4(data: Dictionary) -> void:
     _render_schema4_target()
 
 func _render_schema4_target() -> void:
-    _clear_container(%SchemaMissionContent)
-    %ProcessChoiceRow.visible = false
+    %SchemaMissionContent.visible = true
+    %Schema4MissionContent.visible = true
+    %SchemaInstructionLabel.text = "LENGKAPI 2 OLAHAN PANGAN"
     schema4_slots.clear()
-    var processed_id := str(schema4_targets[schema4_target_index])
-    var processed := ContentDatabase.get_processed_food(processed_id)
-    var label := Label.new()
-    label.name = "ProcessedTargetDynamic"
-    label.text = "OLAHAN %d/2\n%s" % [
-        schema4_target_index + 1,
-        str(processed.get("display_name", processed_id)).to_upper()
-    ]
-    label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-    label.add_theme_font_size_override("font_size", 20)
-    %SchemaMissionContent.add_child(label)
-    var row := HBoxContainer.new()
-    row.alignment = BoxContainer.ALIGNMENT_CENTER
-    row.add_theme_constant_override("separation", 12)
-    %SchemaMissionContent.add_child(row)
-    for title in ["BAHAN 1", "BAHAN 2"]:
-        var slot: FestivalFoodSlot = FOOD_SLOT_SCENE.instantiate()
-        row.add_child(slot)
-        slot.setup(title)
-        slot.drop_received.connect(_on_schema4_ingredient_drop.bind(slot))
-        schema4_slots.append(slot)
-    %SchemaProgress.text = "OLAHAN %d/2" % [schema4_target_index + 1]
 
-func _on_schema4_ingredient_drop(_food_id: String, card: FoodCard, _emitter: FestivalFoodSlot, slot: FestivalFoodSlot) -> void:
+    var mission_view := %Schema4MissionContent as Control
+    var processed_id := str(
+        schema4_targets[schema4_target_index]
+    )
+    var processed := ContentDatabase.get_processed_food(
+        processed_id
+    )
+
+    var ingredient_phase := mission_view.get_node(
+        "IngredientPhase"
+    ) as Control
+    var process_phase := mission_view.get_node(
+        "ProcessPhase"
+    ) as Control
+    var target_step_label := mission_view.get_node(
+        "IngredientPhase/TargetStepLabel"
+    ) as Label
+    var target_name_label := mission_view.get_node(
+        "IngredientPhase/TargetNameLabel"
+    ) as Label
+    var slot_a := mission_view.get_node(
+        "IngredientPhase/IngredientRow/IngredientSlotA"
+    ) as FestivalFoodSlot
+    var slot_b := mission_view.get_node(
+        "IngredientPhase/IngredientRow/IngredientSlotB"
+    ) as FestivalFoodSlot
+
+    ingredient_phase.visible = true
+    process_phase.visible = false
+
+    target_step_label.text = "OLAHAN %d/2" % [
+        schema4_target_index + 1
+    ]
+    target_name_label.text = str(
+        processed.get(
+            "display_name",
+            processed_id
+        )
+    ).to_upper()
+
+    slot_a.setup("BAHAN 1")
+    slot_b.setup("BAHAN 2")
+    schema4_slots.append(slot_a)
+    schema4_slots.append(slot_b)
+
+    %SchemaProgress.text = "OLAHAN %d/2" % [
+        schema4_target_index + 1
+    ]
+
+func _on_schema4_ingredient_drop(
+    _food_id: String,
+    card: FoodCard,
+    slot: FestivalFoodSlot
+) -> void:
     slot.hold_card(card)
-    if schema4_slots[0].current_card() == null or schema4_slots[1].current_card() == null:
+
+    if (
+        schema4_slots[0].current_card() == null
+        or schema4_slots[1].current_card() == null
+    ):
         return
-    var target := ContentDatabase.get_processed_food(str(schema4_targets[schema4_target_index]))
-    var selected := [schema4_slots[0].current_card().food_id, schema4_slots[1].current_card().food_id]
+
+    var target := ContentDatabase.get_processed_food(
+        str(schema4_targets[schema4_target_index])
+    )
+    var selected := [
+        schema4_slots[0].current_card().food_id,
+        schema4_slots[1].current_card().food_id
+    ]
     selected.sort()
-    var required := [str(target.get("ingredient_a_id", "")), str(target.get("ingredient_b_id", ""))]
+    var required := [
+        str(target.get("ingredient_a_id", "")),
+        str(target.get("ingredient_b_id", ""))
+    ]
     required.sort()
+
     if selected != required:
-        _register_invalid("schema_4", "wrong_pair_validation", str(selected))
-        _feedback("Kombinasi bahan belum sesuai dengan hasil olahan.", false)
-        for s in schema4_slots:
-            var wrong := s.release_card()
+        _register_invalid(
+            "schema_4",
+            "wrong_pair_validation",
+            str(selected)
+        )
+        _feedback(
+            "Kombinasi bahan belum sesuai dengan hasil olahan.",
+            false
+        )
+
+        for schema_slot in schema4_slots:
+            var wrong := schema_slot.release_card()
+
             if wrong != null:
                 wrong.show_wrong_feedback()
                 moving_lane.return_card(wrong)
+
         return
+
     AudioManager.play_sfx("drop_correct")
-    _feedback("Dua bahan sudah tepat. Pilih prosesnya.", true)
+    _feedback(
+        "Dua bahan sudah tepat. Pilih prosesnya.",
+        true
+    )
     _render_schema4_process_choices(target)
 
-func _render_schema4_process_choices(target: Dictionary) -> void:
-    _clear_container(%ProcessChoiceRow)
-    %ProcessChoiceRow.visible = true
-    var ids: Array = config.get("schemas", [])[3].get("process_choice_ids", []).duplicate()
-    ids.shuffle()
-    for pid_value in ids:
-        var pid := str(pid_value)
-        var button := Button.new()
-        button.custom_minimum_size = Vector2(128, 92)
-        button.text = ContentDatabase.get_process_name(pid)
-        ProcessVisuals.decorate_button(
-            button,
-            pid,
-            Vector2(128, 92)
+func _schema4_process_buttons() -> Array[Button]:
+    var mission_view := %Schema4MissionContent as Control
+    var buttons: Array[Button] = [
+        mission_view.get_node(
+            "ProcessPhase/ProcessChoiceRow/ProcessButton1"
+        ) as Button,
+        mission_view.get_node(
+            "ProcessPhase/ProcessChoiceRow/ProcessButton2"
+        ) as Button,
+        mission_view.get_node(
+            "ProcessPhase/ProcessChoiceRow/ProcessButton3"
+        ) as Button,
+        mission_view.get_node(
+            "ProcessPhase/ProcessChoiceRow/ProcessButton4"
+        ) as Button
+    ]
+    return buttons
+
+
+
+func _render_schema4_process_choices(
+    target: Dictionary
+) -> void:
+    var mission_view := %Schema4MissionContent as Control
+    var ingredient_phase := mission_view.get_node(
+        "IngredientPhase"
+    ) as Control
+    var process_phase := mission_view.get_node(
+        "ProcessPhase"
+    ) as Control
+
+    ingredient_phase.visible = false
+    process_phase.visible = true
+    %SchemaInstructionLabel.text = "PILIH PROSES OLAHAN"
+    %SchemaProgress.text = "OLAHAN %d/2 - PROSES" % [
+        schema4_target_index + 1
+    ]
+
+    var ingredient_a_id := str(
+        target.get(
+            "ingredient_a_id",
+            ""
         )
-        button.pressed.connect(_on_schema4_process.bind(pid, str(target.get("process_id", ""))))
-        %ProcessChoiceRow.add_child(button)
-        UIMotion.bind_button(button)
-        UIMotion.play_pop(button, 1.02)
+    )
+    var ingredient_b_id := str(
+        target.get(
+            "ingredient_b_id",
+            ""
+        )
+    )
+    var processed_id := str(
+        schema4_targets[schema4_target_index]
+    )
+
+    var ingredient_a := ContentDatabase.get_food(
+        ingredient_a_id
+    )
+    var ingredient_b := ContentDatabase.get_food(
+        ingredient_b_id
+    )
+
+    var trace_glyph_a := mission_view.get_node(
+        "ProcessPhase/TraceRow/IngredientTraceA/TraceVBoxA/TraceGlyphA"
+    ) as FoodGlyph
+    var trace_label_a := mission_view.get_node(
+        "ProcessPhase/TraceRow/IngredientTraceA/TraceVBoxA/TraceLabelA"
+    ) as Label
+    var trace_glyph_b := mission_view.get_node(
+        "ProcessPhase/TraceRow/IngredientTraceB/TraceVBoxB/TraceGlyphB"
+    ) as FoodGlyph
+    var trace_label_b := mission_view.get_node(
+        "ProcessPhase/TraceRow/IngredientTraceB/TraceVBoxB/TraceLabelB"
+    ) as Label
+    var result_image := mission_view.get_node(
+        "ProcessPhase/TraceRow/ResultTrace/ResultVBox/ResultImage"
+    ) as TextureRect
+    var result_label := mission_view.get_node(
+        "ProcessPhase/TraceRow/ResultTrace/ResultVBox/ResultLabel"
+    ) as Label
+
+    trace_glyph_a.food_id = ingredient_a_id
+    trace_label_a.text = str(
+        ingredient_a.get(
+            "display_name",
+            ingredient_a_id
+        )
+    )
+    trace_glyph_b.food_id = ingredient_b_id
+    trace_label_b.text = str(
+        ingredient_b.get(
+            "display_name",
+            ingredient_b_id
+        )
+    )
+
+    var processed_texture_path := str(
+        GALLERY_PROCESSED_TEXTURE_PATHS.get(
+            processed_id,
+            ""
+        )
+    )
+
+    result_image.texture = null
+
+    if (
+        not processed_texture_path.is_empty()
+        and ResourceLoader.exists(processed_texture_path)
+    ):
+        result_image.texture = load(
+            processed_texture_path
+        ) as Texture2D
+
+    result_label.text = str(
+        target.get(
+            "display_name",
+            processed_id
+        )
+    )
+
+    var buttons := _schema4_process_buttons()
+    var ids: Array = config.get(
+        "schemas",
+        []
+    )[3].get(
+        "process_choice_ids",
+        []
+    ).duplicate()
+    ids.shuffle()
+
+    var correct_id := str(
+        target.get(
+            "process_id",
+            ""
+        )
+    )
+
+    for index in range(buttons.size()):
+        var button := buttons[index]
+
+        if index >= ids.size():
+            button.visible = false
+            continue
+
+        var process_id := str(ids[index])
+        var image := button.get_node(
+            "ProcessVisual/ProcessImage"
+        ) as TextureRect
+        var label := button.get_node(
+            "ProcessVisual/ProcessLabel"
+        ) as Label
+
+        button.visible = true
+        button.set_meta(
+            "schema4_process_id",
+            process_id
+        )
+        button.set_meta(
+            "schema4_correct_process_id",
+            correct_id
+        )
+        button.tooltip_text = ProcessVisuals.get_display_name(
+            process_id
+        )
+        image.texture = ProcessVisuals.get_texture(
+            process_id
+        )
+        label.text = ProcessVisuals.get_display_name(
+            process_id
+        )
+        UIMotion.play_pop(
+            button,
+            1.02
+        )
+
+func _on_schema4_process_button_pressed(
+    button: Button
+) -> void:
+    _on_schema4_process(
+        str(
+            button.get_meta(
+                "schema4_process_id",
+                ""
+            )
+        ),
+        str(
+            button.get_meta(
+                "schema4_correct_process_id",
+                ""
+            )
+        )
+    )
 
 func _on_schema4_process(process_id: String, correct_id: String) -> void:
     if process_id != correct_id:

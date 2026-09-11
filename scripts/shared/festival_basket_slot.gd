@@ -4,10 +4,10 @@ extends PanelContainer
 signal drop_received(food_id: String, card: FoodCard, slot: FestivalBasketSlot)
 signal return_requested(slot: FestivalBasketSlot)
 
-@onready var holder: CenterContainer = %Holder
-@onready var placeholder: Label = %Placeholder
-@onready var return_button: Button = %ReturnButton
-@onready var slot_label: Label = %SlotLabel
+@onready var holder: CenterContainer = $VBox/Holder
+@onready var placeholder: Label = $VBox/Holder/Placeholder
+@onready var return_button: Button = $VBox/ReturnButton
+@onready var slot_label: Label = $VBox/SlotLabel
 
 func _ready() -> void:
 	_prepare_drop_surface()

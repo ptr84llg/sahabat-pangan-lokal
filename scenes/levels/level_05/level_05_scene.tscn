@@ -1,13 +1,21 @@
 [gd_scene format=3 uid="uid://b06kge4fwtf"]
 
 [ext_resource type="Script" uid="uid://bd435adbamfjn" path="res://scripts/levels/level_05/level_05_controller.gd" id="1"]
+[ext_resource type="Script" uid="uid://7w20owy3nco2" path="res://scripts/shared/festival_food_slot.gd" id="1_slot"]
 [ext_resource type="Script" uid="uid://cnqawgjwwmvbo" path="res://scripts/levels/level_05/moving_lane_controller.gd" id="2"]
+[ext_resource type="Script" uid="uid://ewxyjqld3ce0" path="res://scripts/shared/food_glyph.gd" id="2_glyph"]
 [ext_resource type="Script" uid="uid://ufxi7q2r50td" path="res://scripts/levels/level_05/schema_controller.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://cj5xep6cd3o04" path="res://assets/visual/processed_foods/processed_water_spinach_eggplant_stirfry.png" id="3_result"]
 [ext_resource type="Script" uid="uid://dha4xjpi5lba" path="res://scripts/levels/level_05/main_timer_controller.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://d3laf3t4tayrm" path="res://assets/visual/processes/direbus.png" id="4_boiled"]
 [ext_resource type="Script" uid="uid://b3lhx6gce1q4t" path="res://scripts/levels/level_05/quiz_controller.gd" id="5"]
+[ext_resource type="Texture2D" uid="uid://dmb8yqlmm24y0" path="res://assets/visual/processes/dikukus.png" id="5_steamed"]
 [ext_resource type="Script" uid="uid://cib7citjyytmx" path="res://scripts/levels/level_05/question_timer_controller.gd" id="6"]
+[ext_resource type="Texture2D" uid="uid://5ugxx5nnd5ci" path="res://assets/visual/processes/ditumis.png" id="6_stir"]
 [ext_resource type="Texture2D" uid="uid://d3n01qo5f4ffo" path="res://assets/visual/ui/logo_game.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://b08xsyf0aix2" path="res://assets/visual/processes/dicampur.png" id="7_mixed"]
 [ext_resource type="Texture2D" uid="uid://ctjlpu4muiidw" path="res://assets/visual/main_map/bg_main_map.png" id="8"]
+[ext_resource type="Script" uid="uid://cdslfjhkecnts" path="res://scripts/shared/festival_basket_slot.gd" id="8_basket"]
 [ext_resource type="Texture2D" uid="uid://cvb2d853nsfxa" path="res://assets/visual/npc/ibu/standing.png" id="9"]
 [ext_resource type="Texture2D" uid="uid://dvftv15lyjclm" path="res://assets/visual/npc/ibu_guru/standing.png" id="10"]
 [ext_resource type="Texture2D" uid="uid://d2to6lq5kkeds" path="res://assets/visual/npc/lurah/standing.png" id="11"]
@@ -182,6 +190,100 @@ border_width_bottom = 2
 border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="SlotStyle"]
+content_margin_left = 6.0
+content_margin_top = 4.0
+content_margin_right = 6.0
+content_margin_bottom = 4.0
+bg_color = Color(0.97, 0.98, 0.94, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.53, 0.34, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="BasketStyle"]
+content_margin_left = 5.0
+content_margin_top = 4.0
+content_margin_right = 5.0
+content_margin_bottom = 4.0
+bg_color = Color(0.95, 0.96, 0.9, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.49, 0.28, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="BasketButtonStyle"]
+bg_color = Color(1, 0.7647059, 0.7254902, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="BasketButtonHoverStyle"]
+bg_color = Color(0.46666667, 0.043137256, 0.1882353, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="TraceStyle"]
+content_margin_left = 4.0
+content_margin_top = 3.0
+content_margin_right = 4.0
+content_margin_bottom = 3.0
+bg_color = Color(0.94, 0.97, 0.9, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.27, 0.47, 0.32, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="ProcessButtonStyle"]
+content_margin_left = 4.0
+content_margin_top = 3.0
+content_margin_right = 4.0
+content_margin_bottom = 3.0
+bg_color = Color(0.94, 0.97, 0.9, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.27, 0.47, 0.32, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="ProcessButtonHoverStyle"]
+content_margin_left = 4.0
+content_margin_top = 3.0
+content_margin_right = 4.0
+content_margin_bottom = 3.0
+bg_color = Color(0.86, 0.95, 0.82, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.055, 0.36, 0.22, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
 
 [sub_resource type="StyleBoxFlat" id="BottomLaneStyle"]
 content_margin_left = 6.0
@@ -563,7 +665,6 @@ text = "MULAI FESTIVAL"
 
 [node name="MainGameHUD" type="PanelContainer" parent="SafeArea/Screens" unique_id=1349019804]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -662,7 +763,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="TopLanePanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox" unique_id=1208513362]
-custom_minimum_size = Vector2(0, 142)
+custom_minimum_size = Vector2(0, 136)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TopLaneStyle")
 
@@ -671,7 +772,7 @@ layout_mode = 2
 theme_override_constants/separation = 2
 
 [node name="TopLaneCaption" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/TopLanePanel/TopLaneVBox" unique_id=1978311646]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
 theme_override_font_sizes/font_size = 15
@@ -687,7 +788,7 @@ size_flags_vertical = 3
 
 [node name="MissionArea" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox" unique_id=1715824823]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 236)
+custom_minimum_size = Vector2(0, 210)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("TargetCenterStyle")
@@ -785,12 +886,759 @@ size_flags_vertical = 3
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="ProcessChoiceRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox" unique_id=284172521]
+[node name="Schema1MissionContent" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent" unique_id=626879341]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_constants/separation = 8
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
 alignment = 1
+
+[node name="TargetNameLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema1MissionContent" unique_id=1398638010]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.3, 0.19, 1)
+theme_override_font_sizes/font_size = 28
+text = "KETIMUN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TargetHolder" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema1MissionContent" unique_id=1385710218]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TargetSlot" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema1MissionContent/TargetHolder" unique_id=559891377]
+custom_minimum_size = Vector2(156, 124)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SlotStyle")
+script = ExtResource("1_slot")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema1MissionContent/TargetHolder/TargetSlot" unique_id=1711042436]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema1MissionContent/TargetHolder/TargetSlot/VBox" unique_id=1159241472]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 12
+text = "TARGET 1/3"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema1MissionContent/TargetHolder/TargetSlot/VBox" unique_id=1032868341]
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema1MissionContent/TargetHolder/TargetSlot/VBox/Holder" unique_id=536860658]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "LETAKKAN PANGAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Schema2MissionContent" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent" unique_id=1759155590]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="GroupRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent" unique_id=1798077603]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 7
+alignment = 1
+
+[node name="GroupSlot1" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow" unique_id=1045942044]
+custom_minimum_size = Vector2(132, 124)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SlotStyle")
+script = ExtResource("1_slot")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot1" unique_id=547061999]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot1/VBox" unique_id=1415001997]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 12
+text = "KELOMPOK 1"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot1/VBox" unique_id=1281595996]
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot1/VBox/Holder" unique_id=172255216]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "LETAKKAN PANGAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="GroupSlot2" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow" unique_id=965998514]
+custom_minimum_size = Vector2(132, 124)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SlotStyle")
+script = ExtResource("1_slot")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot2" unique_id=1050385762]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot2/VBox" unique_id=452884548]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 12
+text = "KELOMPOK 2"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot2/VBox" unique_id=2030331009]
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot2/VBox/Holder" unique_id=1054547562]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "LETAKKAN PANGAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="GroupSlot3" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow" unique_id=1936182703]
+custom_minimum_size = Vector2(132, 124)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SlotStyle")
+script = ExtResource("1_slot")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot3" unique_id=1341377591]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot3/VBox" unique_id=260843421]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 12
+text = "KELOMPOK 3"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot3/VBox" unique_id=1275395091]
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot3/VBox/Holder" unique_id=75011180]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "LETAKKAN PANGAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="GroupSlot4" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow" unique_id=1507126615]
+custom_minimum_size = Vector2(132, 124)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SlotStyle")
+script = ExtResource("1_slot")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot4" unique_id=889260318]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot4/VBox" unique_id=1835333620]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 12
+text = "KELOMPOK 4"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot4/VBox" unique_id=585332924]
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema2MissionContent/GroupRow/GroupSlot4/VBox/Holder" unique_id=1046827836]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "LETAKKAN PANGAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Schema3MissionContent" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent" unique_id=1958528037]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="BasketRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent" unique_id=1535122797]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 7
+alignment = 1
+
+[node name="BasketSlot1" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow" unique_id=1966412653]
+custom_minimum_size = Vector2(132, 142)
+layout_mode = 2
+theme_override_styles/panel = SubResource("BasketStyle")
+script = ExtResource("8_basket")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot1" unique_id=140180305]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="SlotLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot1/VBox" unique_id=1347178463]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "SLOT 1"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot1/VBox" unique_id=2050712817]
+custom_minimum_size = Vector2(0, 78)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot1/VBox/Holder" unique_id=2114675017]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "KOSONG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReturnButton" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot1/VBox" unique_id=1639382159]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.46666667, 0.043137256, 0.1882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.7647059, 0.7254902, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("BasketButtonStyle")
+theme_override_styles/hover = SubResource("BasketButtonHoverStyle")
+text = "KEMBALIKAN"
+
+[node name="BasketSlot2" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow" unique_id=1444264307]
+custom_minimum_size = Vector2(132, 142)
+layout_mode = 2
+theme_override_styles/panel = SubResource("BasketStyle")
+script = ExtResource("8_basket")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot2" unique_id=1950768872]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="SlotLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot2/VBox" unique_id=1848445248]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "SLOT 2"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot2/VBox" unique_id=1868986379]
+custom_minimum_size = Vector2(0, 78)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot2/VBox/Holder" unique_id=1674778633]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "KOSONG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReturnButton" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot2/VBox" unique_id=112939232]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.46666667, 0.043137256, 0.1882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.7647059, 0.7254902, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("BasketButtonStyle")
+theme_override_styles/hover = SubResource("BasketButtonHoverStyle")
+text = "KEMBALIKAN"
+
+[node name="BasketSlot3" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow" unique_id=1681433850]
+custom_minimum_size = Vector2(132, 142)
+layout_mode = 2
+theme_override_styles/panel = SubResource("BasketStyle")
+script = ExtResource("8_basket")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot3" unique_id=1583451196]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="SlotLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot3/VBox" unique_id=1076658652]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "SLOT 3"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot3/VBox" unique_id=2139372048]
+custom_minimum_size = Vector2(0, 78)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot3/VBox/Holder" unique_id=1728564548]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "KOSONG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReturnButton" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot3/VBox" unique_id=1545321031]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.46666667, 0.043137256, 0.1882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.7647059, 0.7254902, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("BasketButtonStyle")
+theme_override_styles/hover = SubResource("BasketButtonHoverStyle")
+text = "KEMBALIKAN"
+
+[node name="BasketSlot4" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow" unique_id=593045270]
+custom_minimum_size = Vector2(132, 142)
+layout_mode = 2
+theme_override_styles/panel = SubResource("BasketStyle")
+script = ExtResource("8_basket")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot4" unique_id=1102932204]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="SlotLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot4/VBox" unique_id=433249440]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "SLOT 4"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot4/VBox" unique_id=1988425053]
+custom_minimum_size = Vector2(0, 78)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot4/VBox/Holder" unique_id=997968467]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "KOSONG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReturnButton" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema3MissionContent/BasketRow/BasketSlot4/VBox" unique_id=132199770]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.46666667, 0.043137256, 0.1882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.7647059, 0.7254902, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("BasketButtonStyle")
+theme_override_styles/hover = SubResource("BasketButtonHoverStyle")
+text = "KEMBALIKAN"
+
+[node name="Schema4MissionContent" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent" unique_id=77639028]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 154)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="IngredientPhase" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent" unique_id=1966915411]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="TargetStepLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase" unique_id=82631351]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 13
+text = "OLAHAN 1/2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TargetNameLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase" unique_id=836966728]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.3, 0.19, 1)
+theme_override_font_sizes/font_size = 17
+text = "TUMIS KANGKUNG-TERUNG"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="IngredientRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase" unique_id=1372524830]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="IngredientSlotA" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase/IngredientRow" unique_id=357532838]
+custom_minimum_size = Vector2(148, 124)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SlotStyle")
+script = ExtResource("1_slot")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase/IngredientRow/IngredientSlotA" unique_id=333071815]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase/IngredientRow/IngredientSlotA/VBox" unique_id=774860214]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 12
+text = "BAHAN 1"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase/IngredientRow/IngredientSlotA/VBox" unique_id=299949469]
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase/IngredientRow/IngredientSlotA/VBox/Holder" unique_id=1626936456]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "LETAKKAN PANGAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="IngredientSlotB" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase/IngredientRow" unique_id=550648120]
+custom_minimum_size = Vector2(148, 124)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SlotStyle")
+script = ExtResource("1_slot")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase/IngredientRow/IngredientSlotB" unique_id=2088995775]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase/IngredientRow/IngredientSlotB/VBox" unique_id=155722144]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 12
+text = "BAHAN 2"
+horizontal_alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase/IngredientRow/IngredientSlotB/VBox" unique_id=1388566377]
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/IngredientPhase/IngredientRow/IngredientSlotB/VBox/Holder" unique_id=1055108661]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "LETAKKAN PANGAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ProcessPhase" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent" unique_id=926593236]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="TraceCaption" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase" unique_id=262015784]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 11
+text = "JEJAK OLAHAN SEBELUMNYA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TraceRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase" unique_id=513719076]
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="IngredientTraceA" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow" unique_id=740524044]
+custom_minimum_size = Vector2(86, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TraceStyle")
+
+[node name="TraceVBoxA" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/IngredientTraceA" unique_id=1209839089]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TraceGlyphA" type="Control" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/IngredientTraceA/TraceVBoxA" unique_id=1335476366]
+custom_minimum_size = Vector2(72, 44)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_glyph")
+food_id = "food_water_spinach"
+
+[node name="TraceLabelA" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/IngredientTraceA/TraceVBoxA" unique_id=760272191]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Kangkung"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="PlusLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow" unique_id=1066662624]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 18
+text = "+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="IngredientTraceB" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow" unique_id=736928075]
+custom_minimum_size = Vector2(86, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TraceStyle")
+
+[node name="TraceVBoxB" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/IngredientTraceB" unique_id=2052763693]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TraceGlyphB" type="Control" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/IngredientTraceB/TraceVBoxB" unique_id=1086988341]
+custom_minimum_size = Vector2(72, 44)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_glyph")
+food_id = "food_eggplant"
+
+[node name="TraceLabelB" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/IngredientTraceB/TraceVBoxB" unique_id=1479798098]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Terung"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ArrowLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow" unique_id=1821412344]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
+theme_override_font_sizes/font_size = 18
+text = "→"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResultTrace" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow" unique_id=363845720]
+custom_minimum_size = Vector2(118, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("TraceStyle")
+
+[node name="ResultVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/ResultTrace" unique_id=291117470]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ResultImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/ResultTrace/ResultVBox" unique_id=1038039391]
+custom_minimum_size = Vector2(96, 42)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_result")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ResultLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/ResultTrace/ResultVBox" unique_id=1466504516]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Tumis Kangkung-Terung"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ProcessPrompt" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase" unique_id=945318047]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.3, 0.19, 1)
+theme_override_font_sizes/font_size = 12
+text = "PILIH PROSES YANG SESUAI"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProcessChoiceRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase" unique_id=302675777]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="ProcessButton1" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow" unique_id=1262835290]
+custom_minimum_size = Vector2(102, 72)
+layout_mode = 2
+theme_override_styles/normal = SubResource("ProcessButtonStyle")
+theme_override_styles/pressed = SubResource("ProcessButtonHoverStyle")
+theme_override_styles/hover = SubResource("ProcessButtonHoverStyle")
+
+[node name="ProcessVisual" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton1" unique_id=1506275817]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = -4.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ProcessImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton1/ProcessVisual" unique_id=2013741121]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_boiled")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ProcessLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton1/ProcessVisual" unique_id=1160140940]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Direbus"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProcessButton2" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow" unique_id=831204608]
+custom_minimum_size = Vector2(102, 72)
+layout_mode = 2
+theme_override_styles/normal = SubResource("ProcessButtonStyle")
+theme_override_styles/pressed = SubResource("ProcessButtonHoverStyle")
+theme_override_styles/hover = SubResource("ProcessButtonHoverStyle")
+
+[node name="ProcessVisual" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton2" unique_id=1640108572]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = -4.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ProcessImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton2/ProcessVisual" unique_id=194371374]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_steamed")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ProcessLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton2/ProcessVisual" unique_id=1978607925]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Dikukus"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProcessButton3" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow" unique_id=1515377030]
+custom_minimum_size = Vector2(102, 72)
+layout_mode = 2
+theme_override_styles/normal = SubResource("ProcessButtonStyle")
+theme_override_styles/pressed = SubResource("ProcessButtonHoverStyle")
+theme_override_styles/hover = SubResource("ProcessButtonHoverStyle")
+
+[node name="ProcessVisual" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton3" unique_id=15800539]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = -4.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ProcessImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton3/ProcessVisual" unique_id=1557518595]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_stir")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ProcessLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton3/ProcessVisual" unique_id=212964289]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Ditumis"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProcessButton4" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow" unique_id=1877963626]
+custom_minimum_size = Vector2(102, 72)
+layout_mode = 2
+theme_override_styles/normal = SubResource("ProcessButtonStyle")
+theme_override_styles/pressed = SubResource("ProcessButtonHoverStyle")
+theme_override_styles/hover = SubResource("ProcessButtonHoverStyle")
+
+[node name="ProcessVisual" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton4" unique_id=1526129959]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = -4.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ProcessImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton4/ProcessVisual" unique_id=324036038]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("7_mixed")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ProcessLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton4/ProcessVisual" unique_id=2027742904]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Dicampur"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SchemaFeedback" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox" unique_id=746471613]
 unique_name_in_owner = true
@@ -803,7 +1651,7 @@ vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="BottomLanePanel" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox" unique_id=136968577]
-custom_minimum_size = Vector2(0, 142)
+custom_minimum_size = Vector2(0, 136)
 layout_mode = 2
 theme_override_styles/panel = SubResource("BottomLaneStyle")
 
@@ -812,7 +1660,7 @@ layout_mode = 2
 theme_override_constants/separation = 2
 
 [node name="BottomLaneCaption" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/BottomLanePanel/BottomLaneVBox" unique_id=1600898707]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
 theme_override_font_sizes/font_size = 15
@@ -1344,6 +2192,7 @@ text = "LANJUT"
 
 [node name="FinalMapPanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=1908929612]
 unique_name_in_owner = true
+visible = false
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
