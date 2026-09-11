@@ -19,7 +19,6 @@ var _level_root: Control
 var _native_gameplay: Control
 var _matching_board: GridContainer
 var _food_tray: GridContainer
-var _hint_button: Button
 var _mission_source: Node
 var _progress_source: Node
 var _score_source: Node
@@ -32,7 +31,9 @@ var _score_source: Node
 @onready var _progress_value: Label = %MatchValue
 @onready var _targets_host: MarginContainer = %TargetsHost
 @onready var _food_host: CenterContainer = %FoodTrayHost
-@onready var _hint_host: CenterContainer = %HintHost
+@onready var _hint_button: Button = %HintButton
+@onready var _reset_button: Button = %ResetButton
+@onready var _back_button: Button = %BackButton
 
 var _adopted: bool = false
 var _bind_failed: bool = false
@@ -108,14 +109,8 @@ func _bind_and_adopt_native_gameplay() -> void:
 		_native_gameplay,
 		"FoodTray"
 	)
-	var hint_node: Node = _find_descendant_by_name(
-		_native_gameplay,
-		"HintButton"
-	)
-
 	_matching_board = matching_node as GridContainer
 	_food_tray = food_tray_node as GridContainer
-	_hint_button = hint_node as Button
 
 	_mission_source = _find_descendant_by_name(
 		_native_gameplay,
@@ -133,7 +128,6 @@ func _bind_and_adopt_native_gameplay() -> void:
 	var required_ok: bool = (
 		_matching_board != null
 		and _food_tray != null
-		and _hint_button != null
 		and _progress_source != null
 		and _score_source != null
 	)
@@ -147,9 +141,9 @@ func _bind_and_adopt_native_gameplay() -> void:
 
 	_matching_board.reparent(_targets_host)
 	_food_tray.reparent(_food_host)
-	_hint_button.reparent(_hint_host)
 
 	_adopted = true
+	_bind_action_buttons()
 	_apply_interaction_layout()
 	_sync_native_text()
 
@@ -238,41 +232,40 @@ func _apply_interaction_layout() -> void:
 				)
 			)
 
-	_hint_button.custom_minimum_size = Vector2(170.0, 50.0)
-	_hint_button.add_theme_font_size_override("font_size", 18)
-	_hint_button.add_theme_color_override(
-		"font_color",
-		Color(0.012, 0.35, 0.23, 1.0)
+
+
+func _bind_action_buttons() -> void:
+	var matching_node: Node = _find_descendant_by_name(
+		_level_root,
+		"MatchingController"
 	)
-	_hint_button.add_theme_color_override(
-		"font_hover_color",
-		Color(0.012, 0.35, 0.23, 1.0)
-	)
-	_hint_button.add_theme_color_override(
-		"font_pressed_color",
-		Color(1.0, 1.0, 1.0, 1.0)
-	)
-	_hint_button.add_theme_stylebox_override(
-		"normal",
-		_make_button_style(
-			Color(0.91, 0.95, 0.84, 1.0),
-			Color(0.012, 0.35, 0.23, 1.0)
+
+	if matching_node == null:
+		push_error(
+			"100A_R2_R1: MatchingController Level 1 tidak ditemukan."
 		)
+		return
+
+	var hint_callable := Callable(
+		matching_node,
+		"request_hint"
 	)
-	_hint_button.add_theme_stylebox_override(
-		"hover",
-		_make_button_style(
-			Color(0.98, 0.95, 0.58, 1.0),
-			Color(0.012, 0.35, 0.23, 1.0)
-		)
+	var reset_callable := Callable(
+		_level_root,
+		"_on_reset_pressed"
 	)
-	_hint_button.add_theme_stylebox_override(
-		"pressed",
-		_make_button_style(
-			Color(0.26, 0.49, 0.18, 1.0),
-			Color(0.012, 0.35, 0.23, 1.0)
-		)
-	)
+
+	if hint_callable.is_valid():
+		if not _hint_button.pressed.is_connected(hint_callable):
+			_hint_button.pressed.connect(hint_callable)
+
+	if reset_callable.is_valid():
+		if not _reset_button.pressed.is_connected(reset_callable):
+			_reset_button.pressed.connect(reset_callable)
+
+	UIMotion.bind_button(_hint_button)
+	UIMotion.bind_button(_reset_button)
+	UIMotion.bind_button(_back_button)
 
 
 func _sync_native_text() -> void:
@@ -389,21 +382,4 @@ func _make_panel_style(
 	style.corner_radius_top_right = radius
 	style.corner_radius_bottom_right = radius
 	style.corner_radius_bottom_left = radius
-	return style
-
-
-func _make_button_style(
-	background: Color,
-	border: Color
-) -> StyleBoxFlat:
-	var style: StyleBoxFlat = _make_panel_style(
-		background,
-		border,
-		4,
-		18
-	)
-	style.content_margin_left = 18.0
-	style.content_margin_top = 10.0
-	style.content_margin_right = 18.0
-	style.content_margin_bottom = 10.0
 	return style

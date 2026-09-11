@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://x8tc0rrt0o22"]
+
+[ext_resource type="Texture2D" uid="uid://c4uolg2gqwc6b" path="res://assets/visual/processed_foods/processed_banana_cassava_compote.png" id="1_preview"]
+
+[node name="ProcessedResultContent" type="VBoxContainer" unique_id=1513926807]
+mouse_filter = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="ProcessedImage" type="TextureRect" parent="." unique_id=1263207880]
+custom_minimum_size = Vector2(154, 98)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_preview")
+expand_mode = 5
+stretch_mode = 6
+
+[node name="ProcessedLabel" type="Label" parent="." unique_id=39571546]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+theme_override_font_sizes/font_size = 14
+text = "Kolak Pisang-Singkong"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

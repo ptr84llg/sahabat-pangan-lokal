@@ -22,6 +22,8 @@ var mission_segment_started_active_ms: int = -1
 func configure(level_config: Dictionary, food_data: Array[Dictionary]) -> void:
     config = level_config
     foods = food_data
+    cards_by_id.clear()
+    slots_by_id.clear()
     attempts_by_food.clear()
     matched_ids.clear()
     score = 0
@@ -74,18 +76,96 @@ func _on_drop_received(food_id: String, card: FoodCard, slot: FoodDropSlot) -> v
 func request_hint() -> void:
     for food in foods:
         var food_id := str(food.get("food_id", ""))
-        if food_id not in matched_ids and slots_by_id.has(food_id):
-            var slot: FoodDropSlot = slots_by_id[food_id]
-            slot.pulse_hint()
-            AnalyticsLogger.log_event("hint_used", {"level_no":1, "context_id":food_id})
-            TelemetryManager.record_hint_event(
-                1,
-                V3_GAME_ID,
-                V3_GAME_TYPE,
-                food_id
-            )
-            feedback.emit("Coba lihat nama yang sedang ditandai.", true)
-            return
+
+        if food_id in matched_ids:
+            continue
+
+        if not slots_by_id.has(food_id):
+            continue
+
+        var slot: FoodDropSlot = slots_by_id[food_id]
+        slot.pulse_hint()
+
+        if cards_by_id.has(food_id):
+            var card: FoodCard = cards_by_id[food_id]
+            _pulse_food_hint(card)
+
+        AnalyticsLogger.log_event(
+            "hint_used",
+            {
+                "level_no": 1,
+                "context_id": food_id
+            }
+        )
+        TelemetryManager.record_hint_event(
+            1,
+            V3_GAME_ID,
+            V3_GAME_TYPE,
+            food_id
+        )
+        feedback.emit(
+            "Kotak target dan pangan yang sesuai sedang ditandai.",
+            true
+        )
+        return
+
+
+func _pulse_food_hint(card: FoodCard) -> void:
+    if card == null or not is_instance_valid(card):
+        return
+
+    var current_style: StyleBox = card.get_theme_stylebox("panel")
+    var restore_style: StyleBox = null
+
+    if current_style != null:
+        restore_style = current_style.duplicate() as StyleBox
+
+    var hint_style: StyleBoxFlat = StyleBoxFlat.new()
+
+    if current_style is StyleBoxFlat:
+        hint_style = current_style.duplicate() as StyleBoxFlat
+
+    hint_style.bg_color = Color(1.0, 0.94, 0.55, 0.96)
+    hint_style.border_color = Color(0.95, 0.66, 0.05, 1.0)
+    hint_style.border_width_left = 4
+    hint_style.border_width_top = 4
+    hint_style.border_width_right = 4
+    hint_style.border_width_bottom = 4
+    hint_style.corner_radius_top_left = 12
+    hint_style.corner_radius_top_right = 12
+    hint_style.corner_radius_bottom_right = 12
+    hint_style.corner_radius_bottom_left = 12
+
+    card.add_theme_stylebox_override(
+        "panel",
+        hint_style
+    )
+    UIMotion.play_pulse(card, 1.08)
+
+    var tween: Tween = card.create_tween()
+    tween.tween_interval(1.1)
+    tween.tween_callback(
+        _restore_food_hint.bind(
+            card,
+            restore_style
+        )
+    )
+
+
+func _restore_food_hint(
+    card: FoodCard,
+    restore_style: StyleBox
+) -> void:
+    if card == null or not is_instance_valid(card):
+        return
+
+    if restore_style != null:
+        card.add_theme_stylebox_override(
+            "panel",
+            restore_style
+        )
+    else:
+        card.remove_theme_stylebox_override("panel")
 
 func _record_v3_drop(
     food_id: String,

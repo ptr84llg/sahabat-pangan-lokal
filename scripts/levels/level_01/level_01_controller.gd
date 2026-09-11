@@ -79,6 +79,10 @@ var dialogue_index: int = 0
 var closing_lines: Array = []
 var closing_index: int = 0
 var literacy_game_start_active_ms: int = -1
+var level_attempt_base_duration_ms: int = 0
+var reset_count: int = 0
+var back_to_map_count: int = 0
+var main_game_start_active_ms: int = -1
 
 func _ready() -> void:
 	set_meta("level_no", 1)
@@ -111,7 +115,6 @@ func _connect_ui() -> void:
 	%DialogueNextButton.pressed.connect(_on_dialogue_next)
 	%TutorialContinueButton.pressed.connect(_on_tutorial_continue)
 	%TutorialSkipButton.pressed.connect(_start_gameplay)
-	%HintButton.pressed.connect(matching_controller.request_hint)
 	%GameplaySuccessNextButton.pressed.connect(_show_literacy_intro)
 	%LiteracyStartButton.pressed.connect(_start_literacy_question)
 
@@ -138,7 +141,6 @@ func _bind_motion_controls() -> void:
 		%DialogueNextButton,
 		%TutorialContinueButton,
 		%TutorialSkipButton,
-		%HintButton,
 		%GameplaySuccessNextButton,
 		%LiteracyStartButton,
 		%AnswerA,
@@ -212,6 +214,28 @@ func _apply_responsive_layout() -> void:
 		food_tray.columns = 6
 
 func _setup_matching() -> void:
+	_rebuild_matching_board()
+
+
+func _rebuild_matching_board() -> void:
+	for child_variant in matching_board.get_children():
+		var child_node: Node = child_variant as Node
+
+		if child_node == null:
+			continue
+
+		matching_board.remove_child(child_node)
+		child_node.queue_free()
+
+	for child_variant in food_tray.get_children():
+		var child_node: Node = child_variant as Node
+
+		if child_node == null:
+			continue
+
+		food_tray.remove_child(child_node)
+		child_node.queue_free()
+
 	matching_controller.configure(level_config, foods)
 
 	var shuffled_foods: Array[Dictionary] = foods.duplicate(true)
@@ -232,6 +256,8 @@ func _setup_matching() -> void:
 		food_tray.add_child(card)
 		card.setup(food_id)
 		matching_controller.register_card(food_id, card)
+
+	_apply_responsive_layout()
 
 func _show_theme() -> void:
 	set_state("THEME_INTRO")
@@ -334,21 +360,22 @@ func _on_tutorial_continue() -> void:
 	_start_gameplay()
 
 func _start_gameplay() -> void:
+	_prepare_or_resume_level_session()
+
+	DurationTracker.begin_level_session(
+		str(level_session.get("level_session_id", "")),
+		1
+	)
+	DurationTracker.resume_active_play()
+	main_game_start_active_ms = DurationTracker.current_active_ms()
+
 	set_state("GAMEPLAY")
 	_set_character_layer(false)
 	show_only(screens, gameplay_layer)
 	_apply_responsive_layout()
-
-	if level_session.is_empty():
-		level_session = GameState.begin_level_session(1)
-		DurationTracker.begin_level_session(
-			str(level_session.get("level_session_id", "")),
-			1
-		)
-
-	DurationTracker.resume_active_play()
 	matching_controller.begin_mission_timing()
-	TelemetryManager.begin_game(
+
+	if not TelemetryManager.begin_game(
 		1,
 		V3_MAIN_GAME_ID,
 		V3_MAIN_GAME_TYPE,
@@ -358,7 +385,11 @@ func _start_gameplay() -> void:
 			"instruction_text": V3_MAIN_INSTRUCTION_TEXT,
 			"content_version": ContentDatabase.content_version
 		}
-	)
+	):
+		push_warning(
+			"Telemetry v3 Level 1 Game 1 belum dapat memulai game."
+		)
+
 	progress_label.text = "Pangan 0/6"
 	score_label.text = "Skor Main Game: 0/60"
 
@@ -367,9 +398,161 @@ func _start_gameplay() -> void:
 		{
 			"level_session_id": level_session.get("level_session_id", ""),
 			"level_no": 1,
-			"content_version": ContentDatabase.content_version
+			"content_version": ContentDatabase.content_version,
+			"reset_count": reset_count,
+			"back_to_map_count": back_to_map_count
 		}
 	)
+
+
+func _prepare_or_resume_level_session() -> void:
+	if not level_session.is_empty():
+		return
+
+	var sessions: Array = GameState.active_run.get(
+		"level_sessions",
+		[]
+	)
+
+	for index in range(
+		sessions.size() - 1,
+		-1,
+		-1
+	):
+		var session_value: Dictionary = sessions[index]
+
+		if int(session_value.get("level_no", 0)) != 1:
+			continue
+
+		if int(session_value.get("completed_at", 0)) != 0:
+			continue
+
+		level_session = session_value.duplicate(true)
+		break
+
+	if level_session.is_empty():
+		level_session = GameState.begin_level_session(1)
+
+	level_attempt_base_duration_ms = int(
+		level_session.get(
+			"active_duration_ms",
+			0
+		)
+	)
+	reset_count = int(
+		level_session.get(
+			"reset_count",
+			0
+		)
+	)
+	back_to_map_count = int(
+		level_session.get(
+			"back_to_map_count",
+			0
+		)
+	)
+
+	level_session["reset_count"] = reset_count
+	level_session["retry_count"] = reset_count
+	level_session["back_to_map_count"] = back_to_map_count
+	GameState.update_level_session(level_session)
+	SaveManager.request_save()
+
+
+func _persist_level_interaction_snapshot(
+	interaction_name: String
+) -> void:
+	if level_session.is_empty():
+		return
+
+	var cumulative_duration_ms: int = (
+		level_attempt_base_duration_ms
+		+ DurationTracker.current_active_ms()
+	)
+
+	level_session["active_duration_ms"] = cumulative_duration_ms
+	level_session["reset_count"] = reset_count
+	level_session["retry_count"] = reset_count
+	level_session["back_to_map_count"] = back_to_map_count
+	level_session["last_interaction"] = interaction_name
+	level_session["last_interaction_at"] = (
+		Time.get_unix_time_from_system()
+	)
+
+	GameState.update_level_session(level_session)
+	SaveManager.request_save()
+
+
+func _on_reset_pressed() -> void:
+	if not gameplay_layer.visible:
+		return
+
+	var reset_game_duration_ms: int = 0
+
+	if main_game_start_active_ms >= 0:
+		reset_game_duration_ms = maxi(
+			0,
+			DurationTracker.current_active_ms()
+			- main_game_start_active_ms
+		)
+
+	reset_count += 1
+
+	if not TelemetryManager.reset_game(
+		1,
+		V3_MAIN_GAME_ID,
+		V3_MAIN_GAME_TYPE,
+		main_score,
+		reset_game_duration_ms
+	):
+		push_warning(
+			"Telemetry v3 Level 1 Game 1 belum dapat mencatat reset secara canonical."
+		)
+
+	_persist_level_interaction_snapshot("reset")
+
+	AnalyticsLogger.log_event(
+		"level_game_reset",
+		{
+			"level_session_id": level_session.get(
+				"level_session_id",
+				""
+			),
+			"level_no": 1,
+			"reset_count": reset_count,
+			"active_duration_ms": (
+				level_attempt_base_duration_ms
+				+ DurationTracker.current_active_ms()
+			)
+		}
+	)
+
+	main_score = 0
+	feedback_toast.visible = false
+	_rebuild_matching_board()
+
+	progress_label.text = "Pangan 0/6"
+	score_label.text = "Skor Main Game: 0/60"
+	main_game_start_active_ms = DurationTracker.current_active_ms()
+
+	if not TelemetryManager.begin_game(
+		1,
+		V3_MAIN_GAME_ID,
+		V3_MAIN_GAME_TYPE,
+		{
+			"instruction_id": V3_MAIN_INSTRUCTION_ID,
+			"instruction_version": 1,
+			"instruction_text": V3_MAIN_INSTRUCTION_TEXT,
+			"content_version": ContentDatabase.content_version
+		}
+	):
+		push_warning(
+			"Telemetry v3 Level 1 Game 1 belum dapat memulai attempt baru setelah reset."
+		)
+
+	matching_controller.begin_mission_timing()
+	set_state("GAMEPLAY")
+	show_only(screens, gameplay_layer)
 
 func _on_progress_changed(matched: int, total: int, score: int) -> void:
 	main_score = score
@@ -381,13 +564,13 @@ func _show_feedback(text: String, correct: bool) -> void:
 	feedback_toast.visible = true
 
 	if correct:
-		AudioManager.play_sfx("drop_correct")
+		AudioManager.play_drop_feedback(true)
 		feedback_toast.add_theme_color_override(
 			"font_color",
 			Color(0.12, 0.42, 0.16)
 		)
 	else:
-		AudioManager.play_sfx("wrong")
+		AudioManager.play_drop_feedback(false)
 		feedback_toast.add_theme_color_override(
 			"font_color",
 			Color(0.66, 0.18, 0.12)
@@ -407,14 +590,28 @@ func _show_feedback(text: String, correct: bool) -> void:
 
 func _on_all_matched(score: int) -> void:
 	main_score = score
+	var main_game_duration_ms: int = 0
+
+	if main_game_start_active_ms >= 0:
+		main_game_duration_ms = maxi(
+			0,
+			DurationTracker.current_active_ms()
+			- main_game_start_active_ms
+		)
+
 	DurationTracker.pause_active_play()
-	TelemetryManager.complete_game(
+
+	if not TelemetryManager.complete_game(
 		1,
 		V3_MAIN_GAME_ID,
 		V3_MAIN_GAME_TYPE,
 		main_score,
-		DurationTracker.current_active_ms()
-	)
+		main_game_duration_ms
+	):
+		push_warning(
+			"Telemetry v3 Level 1 Game 1 belum dapat menyelesaikan game."
+		)
+
 	set_state("GAMEPLAY_SUCCESS")
 	_set_character_layer(false)
 	show_only(screens, gameplay_success_panel)

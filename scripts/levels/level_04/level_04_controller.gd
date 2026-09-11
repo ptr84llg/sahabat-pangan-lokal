@@ -6,6 +6,10 @@ const FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
 const INGREDIENT_SLOT_SCENE := preload("res://scenes/shared/ingredient_slot.tscn")
 const NAMED_CARD_SCENE := preload("res://scenes/shared/named_drag_card.tscn")
 const NAMED_SLOT_SCENE := preload("res://scenes/shared/named_drop_slot.tscn")
+const ProcessVisuals = preload("res://scripts/app/process_visuals.gd")
+const PROCESSED_RESULT_CARD_CONTENT_SCENE := preload(
+    "res://scenes/levels/shared/processed_result_card_content.tscn"
+)
 const FOOD_DROP_SLOT_SCENE := preload("res://scenes/shared/drop_slot.tscn")
 
 const V3_MAIN_GAME_ID: String = "L4-G01"
@@ -458,7 +462,10 @@ func _populate_process_choices() -> void:
 			str(process.get("display_name", process_id)),
             "process_card"
 		)
-		card.custom_minimum_size = Vector2(170, 72)
+		ProcessVisuals.decorate_named_drag_card(
+			card,
+			process_id
+		)
 		UIMotion.play_pop(card, 1.025)
 
 func _on_process_drop(
@@ -1355,7 +1362,12 @@ func _add_static_process_chain_card(process_id: String) -> void:
 		str(process.get("display_name", process_id)),
         "process_card"
 	)
-	card.custom_minimum_size = Vector2(145, 92)
+	ProcessVisuals.decorate_named_drag_card(
+		card,
+		process_id,
+		Vector2(128, 84),
+		Vector2(145, 92)
+	)
 	card.lock_card()
 
 
@@ -1460,7 +1472,10 @@ func _populate_literacy_choices(round_data: Dictionary) -> void:
 					str(process.get("display_name", process_id)),
                     "process_card"
 				)
-				card.custom_minimum_size = Vector2(170, 78)
+				ProcessVisuals.decorate_named_drag_card(
+					card,
+					process_id
+				)
 				UIMotion.play_pop(card, 1.025)
 
 
@@ -1491,22 +1506,26 @@ func _decorate_processed_choice_card(
 	if title_node != null:
 		title_node.visible = false
 
-	var visual := VBoxContainer.new()
-	visual.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	visual.add_theme_constant_override("separation", 3)
-	card.add_child(visual)
+	var visual := PROCESSED_RESULT_CARD_CONTENT_SCENE.instantiate() as Control
 
-	var image := TextureRect.new()
-	image.custom_minimum_size = (
-		Vector2(154, 104)
-		if image_only
-		else Vector2(154, 98)
-	)
-	image.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	if visual == null:
+		if title_node != null:
+			title_node.visible = true
+		return
+
+	var image := visual.get_node_or_null("ProcessedImage") as TextureRect
+	var label := visual.get_node_or_null("ProcessedLabel") as Label
+
+	if image == null or label == null:
+		visual.queue_free()
+		if title_node != null:
+			title_node.visible = true
+		return
+
 	image.texture = preview_texture
-	visual.add_child(image)
+	label.text = str(processed.get("display_name", processed_id))
+	label.visible = not image_only
+	card.add_child(visual)
 
 	if image_only:
 		if preview_texture != null:
@@ -1516,16 +1535,6 @@ func _decorate_processed_choice_card(
 			)
 		elif title_node != null:
 			title_node.visible = true
-		return
-
-	var label := Label.new()
-	label.text = str(processed.get("display_name", processed_id))
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.add_theme_font_size_override("font_size", 14)
-	visual.add_child(label)
 
 func _on_named_literacy_drop(
 	item_id: String,

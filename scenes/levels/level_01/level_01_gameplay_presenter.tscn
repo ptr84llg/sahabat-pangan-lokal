@@ -13,6 +13,9 @@ border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
 corner_radius_top_left = 15
 corner_radius_top_right = 15
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_su1ps"]
+draw_center = false
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uo4h6"]
 bg_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
 border_width_left = 3
@@ -100,6 +103,10 @@ border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
 corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="HintFrameStyle"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
 bg_color = Color(0.99, 0.99, 0.975, 1)
 border_width_left = 3
 border_width_top = 3
@@ -107,6 +114,54 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
 corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="ActionButtonStyle"]
+content_margin_left = 14.0
+content_margin_top = 9.0
+content_margin_right = 14.0
+content_margin_bottom = 9.0
+bg_color = Color(0.91, 0.95, 0.84, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="ActionButtonPressedStyle"]
+content_margin_left = 14.0
+content_margin_top = 9.0
+content_margin_right = 14.0
+content_margin_bottom = 9.0
+bg_color = Color(0.26, 0.49, 0.18, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="ActionButtonHoverStyle"]
+content_margin_left = 14.0
+content_margin_top = 9.0
+content_margin_right = 14.0
+content_margin_bottom = 9.0
+bg_color = Color(0.98, 0.95, 0.58, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tssn2"]
 bg_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
@@ -160,9 +215,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
-offset_top = 64.0
+offset_top = 40.0
 offset_right = -4.0
-offset_bottom = -8.0
+offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -178,6 +233,11 @@ theme_override_constants/margin_bottom = 12
 [node name="GameplayVBox" type="VBoxContainer" parent="RecreatedMainBoard/BoardMargin" unique_id=134486336]
 layout_mode = 2
 theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox" unique_id=921837367]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_su1ps")
 
 [node name="InfoRow" type="HBoxContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox" unique_id=1426009670]
 custom_minimum_size = Vector2(0, 96)
@@ -329,7 +389,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_s7va5")
 [node name="TargetFrame" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox" unique_id=1875670404]
 custom_minimum_size = Vector2(0, 166)
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_styles/panel = SubResource("TransparentStyle")
 
 [node name="TargetsHost" type="MarginContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/TargetFrame" unique_id=489793021]
@@ -374,13 +433,56 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HintFrame" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/BottomRow" unique_id=493832236]
-custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("HintFrameStyle")
 
-[node name="HintHost" type="CenterContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/BottomRow/HintFrame" unique_id=1894152006]
-unique_name_in_owner = true
+[node name="GameplayHUD" type="VBoxContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/BottomRow/HintFrame" unique_id=1982014559]
 layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="HintButton" type="Button" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/BottomRow/HintFrame/GameplayHUD" unique_id=62325024]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(138, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.012, 0.35, 0.23, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.012, 0.35, 0.23, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("ActionButtonStyle")
+theme_override_styles/pressed = SubResource("ActionButtonPressedStyle")
+theme_override_styles/hover = SubResource("ActionButtonHoverStyle")
+theme_override_styles/focus = SubResource("ActionButtonHoverStyle")
+text = "PETUNJUK"
+
+[node name="ResetButton" type="Button" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/BottomRow/HintFrame/GameplayHUD" unique_id=409051974]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(138, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.012, 0.35, 0.23, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.012, 0.35, 0.23, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("ActionButtonStyle")
+theme_override_styles/pressed = SubResource("ActionButtonPressedStyle")
+theme_override_styles/hover = SubResource("ActionButtonHoverStyle")
+theme_override_styles/focus = SubResource("ActionButtonHoverStyle")
+text = "RESET"
+
+[node name="BackButton" type="Button" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/BottomRow/HintFrame/GameplayHUD" unique_id=111909992]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(138, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.012, 0.35, 0.23, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.012, 0.35, 0.23, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("ActionButtonStyle")
+theme_override_styles/pressed = SubResource("ActionButtonPressedStyle")
+theme_override_styles/hover = SubResource("ActionButtonHoverStyle")
+theme_override_styles/focus = SubResource("ActionButtonHoverStyle")
+text = "KEMBALI"
 
 [node name="BottomFrameStroke" type="ColorRect" parent="." unique_id=1916384390]
 visible = false
@@ -406,9 +508,9 @@ anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -325.0
-offset_top = 25.0
+offset_top = 5.0
 offset_right = 325.0
-offset_bottom = 97.0
+offset_bottom = 79.0
 grow_horizontal = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_tssn2")

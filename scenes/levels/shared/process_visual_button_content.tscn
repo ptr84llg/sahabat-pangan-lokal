@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cyj3sqkf1vu2x"]
+
+[ext_resource type="Texture2D" uid="uid://d3laf3t4tayrm" path="res://assets/visual/processes/direbus.png" id="1_process"]
+
+[node name="ProcessVisual" type="VBoxContainer" unique_id=1859956923]
+offset_right = 128.0
+offset_bottom = 112.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="ProcessImage" type="TextureRect" parent="." unique_id=986490060]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+texture = ExtResource("1_process")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ProcessLabel" type="Label" parent="." unique_id=1321365413]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+theme_override_font_sizes/font_size = 14
+text = "Direbus"
+horizontal_alignment = 1
+vertical_alignment = 1

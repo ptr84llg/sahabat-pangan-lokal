@@ -166,6 +166,14 @@ func play_sfx(sfx_key: String) -> void:
     player.stream = stream
     player.play()
 
+func play_drop_feedback(correct: bool) -> void:
+    if correct:
+        play_sfx("drop_correct")
+        return
+
+    play_sfx("wrong")
+
+
 func _get_sfx_stream(sfx_key: String) -> AudioStream:
     if sfx_cache.has(sfx_key):
         return sfx_cache[sfx_key]

@@ -47,6 +47,10 @@ var dead_end_state_active := false
 var back_to_map_count := 0
 var main_game_start_active_ms: int = -1
 var literacy_game_start_active_ms: int = -1
+var literacy_display_choice_ids: Array = []
+var rearrange_display_replacement_ids: Array = []
+var rearrange_display_fruit_ids: Array = []
+
 func _ready() -> void:
     if not _ensure_level_runtime_ready():
         return
@@ -408,6 +412,9 @@ func _start_literacy() -> void:
     literacy_attempts.clear()
     literacy_score = 0
     literacy_transition_pending = false
+    literacy_display_choice_ids.clear()
+    rearrange_display_replacement_ids.clear()
+    rearrange_display_fruit_ids.clear()
     literacy_game_start_active_ms = DurationTracker.current_active_ms()
 
     if not TelemetryManager.begin_game(
@@ -496,9 +503,13 @@ func _render_select_round(round_data: Dictionary) -> void:
     slot.drop_received.connect(_on_select_round_drop.bind(round_data))
     UIMotion.play_pulse(slot, 1.04)
 
-    var choice_ids: Array = round_data.get("choice_ids", [])
+    literacy_display_choice_ids = round_data.get(
+        "choice_ids",
+        []
+    ).duplicate()
+    literacy_display_choice_ids.shuffle()
 
-    for choice_id_value in choice_ids:
+    for choice_id_value in literacy_display_choice_ids:
         var food_id := str(choice_id_value)
         var food := ContentDatabase.get_food(food_id)
         var card: FoodCard = FOOD_CARD_SCENE.instantiate()
@@ -658,7 +669,18 @@ func _render_rearrange_step_one(round_data: Dictionary) -> void:
     %RearrangeCoinValue.text = "SISA KOIN: 0"
     %LiteracyStatusLabel.text = "PILIH PENGGANTI"
 
-    for food_id_value in round_data.get("replacement_choices", []):
+    rearrange_display_replacement_ids = round_data.get(
+        "replacement_choices",
+        []
+    ).duplicate()
+    rearrange_display_replacement_ids.shuffle()
+    rearrange_display_fruit_ids = round_data.get(
+        "fruit_choices",
+        []
+    ).duplicate()
+    rearrange_display_fruit_ids.shuffle()
+
+    for food_id_value in rearrange_display_replacement_ids:
         var food_id := str(food_id_value)
         var food := ContentDatabase.get_food(food_id)
         var current_food := _find_initial_food_by_group(
@@ -715,7 +737,7 @@ func _on_replacement_selected(
 
     _clear_container(%ChallengeChoiceTray)
 
-    for fruit_id_value in round_data.get("fruit_choices", []):
+    for fruit_id_value in rearrange_display_fruit_ids:
         var fruit_id := str(fruit_id_value)
         var fruit := ContentDatabase.get_food(fruit_id)
 
@@ -917,10 +939,15 @@ func _build_l3_literacy_options(
     )
 
     if kind == "select":
-        for food_id_value in round_data.get(
-            "choice_ids",
-            []
-        ):
+        var select_ids: Array = literacy_display_choice_ids
+
+        if select_ids.is_empty():
+            select_ids = round_data.get(
+                "choice_ids",
+                []
+            )
+
+        for food_id_value in select_ids:
             var food_id: String = str(food_id_value)
             var food: Dictionary = ContentDatabase.get_food(
                 food_id
@@ -940,14 +967,20 @@ func _build_l3_literacy_options(
             )
         return output
 
-    var replacement_ids: Array = round_data.get(
-        "replacement_choices",
-        []
-    )
-    var fruit_ids: Array = round_data.get(
-        "fruit_choices",
-        []
-    )
+    var replacement_ids: Array = rearrange_display_replacement_ids
+    var fruit_ids: Array = rearrange_display_fruit_ids
+
+    if replacement_ids.is_empty():
+        replacement_ids = round_data.get(
+            "replacement_choices",
+            []
+        )
+
+    if fruit_ids.is_empty():
+        fruit_ids = round_data.get(
+            "fruit_choices",
+            []
+        )
 
     for replacement_value in replacement_ids:
         var replacement_id: String = str(

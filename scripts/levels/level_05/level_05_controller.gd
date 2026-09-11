@@ -3,6 +3,7 @@ extends LevelFlowController
 const FOOD_SLOT_SCENE := preload("res://scenes/shared/festival_food_slot.tscn")
 const BASKET_SLOT_SCENE := preload("res://scenes/shared/festival_basket_slot.tscn")
 const GALLERY_FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
+const ProcessVisuals = preload("res://scripts/app/process_visuals.gd")
 const GALLERY_PROCESSED_TEXTURE_PATHS := {
     "processed_banana_cassava_compote": "res://assets/visual/processed_foods/processed_banana_cassava_compote.png",
     "processed_spinach_corn_clear_soup": "res://assets/visual/processed_foods/processed_spinach_corn_clear_soup.png",
@@ -484,8 +485,13 @@ func _render_schema4_process_choices(target: Dictionary) -> void:
     for pid_value in ids:
         var pid := str(pid_value)
         var button := Button.new()
-        button.custom_minimum_size = Vector2(160, 44)
+        button.custom_minimum_size = Vector2(128, 92)
         button.text = ContentDatabase.get_process_name(pid)
+        ProcessVisuals.decorate_button(
+            button,
+            pid,
+            Vector2(128, 92)
+        )
         button.pressed.connect(_on_schema4_process.bind(pid, str(target.get("process_id", ""))))
         %ProcessChoiceRow.add_child(button)
         UIMotion.bind_button(button)

@@ -66,6 +66,7 @@ var game2_target_hover_style: StyleBoxFlat
 var game2_target_hover_active: bool = false
 var main_game_start_active_ms: int = -1
 var literacy_game_start_active_ms: int = -1
+var literacy_display_choice_ids: Array = []
 
 func _ready() -> void:
 	if not _ensure_level_runtime_ready():
@@ -713,6 +714,7 @@ func _start_literacy() -> void:
 	literacy_round_index = 0
 	literacy_attempts.clear()
 	literacy_score = 0
+	literacy_display_choice_ids.clear()
 	literacy_game_start_active_ms = (
 		DurationTracker.current_active_ms()
 	)
@@ -799,7 +801,13 @@ func _render_literacy_round() -> void:
 		_on_challenge_drop.bind(round_data)
 	)
 
-	for choice_id_value in round_data.get("choice_ids", []):
+	literacy_display_choice_ids = round_data.get(
+		"choice_ids",
+		[]
+	).duplicate()
+	literacy_display_choice_ids.shuffle()
+
+	for choice_id_value in literacy_display_choice_ids:
 		var food_id: String = str(choice_id_value)
 		var food: Dictionary = foods_by_id.get(
 			food_id,
@@ -827,11 +835,15 @@ func _build_literacy_v3_options(
 ) -> Array:
 	var displayed_options: Array = []
 	var order: int = 0
+	var option_ids: Array = literacy_display_choice_ids
 
-	for choice_id_value in round_data.get(
-		"choice_ids",
-		[]
-	):
+	if option_ids.is_empty():
+		option_ids = round_data.get(
+			"choice_ids",
+			[]
+		)
+
+	for choice_id_value in option_ids:
 		var food_id: String = str(
 			choice_id_value
 		)
@@ -978,9 +990,7 @@ func _on_challenge_drop(
 	)
 
 	if correct:
-		AudioManager.play_sfx(
-			"character_select"
-		)
+		AudioManager.play_drop_feedback(true)
 		slot.accept_card(card)
 		_style_literacy_target_card(card)
 		_style_literacy_target_slot(slot)
@@ -1039,9 +1049,7 @@ func _on_challenge_drop(
 				"Telemetry v3 Level 2 Game 2 belum dapat merekam jawaban salah."
 			)
 
-		AudioManager.play_sfx(
-			"click"
-		)
+		AudioManager.play_drop_feedback(false)
 		card.show_wrong_feedback()
 		UIMotion.play_shake(
 			card,
@@ -1436,13 +1444,9 @@ func _show_feedback(
 	correct: bool
 ) -> void:
 	if text.begins_with("Tepat!"):
-		AudioManager.play_sfx(
-            "character_select"
-		)
+		AudioManager.play_drop_feedback(true)
 	elif text.begins_with("Belum tepat."):
-		AudioManager.play_sfx(
-            "click"
-		)
+		AudioManager.play_drop_feedback(false)
 
 	%FeedbackToast.text = text
 	%FeedbackToast.visible = true
