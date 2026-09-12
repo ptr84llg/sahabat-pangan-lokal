@@ -55,9 +55,10 @@ func show_completion(
 	var message_text: String = str(
 		data.get(
 			"message",
-			"Kamu telah menyelesaikan level ini."
+			"Hebat! Kamu sudah menyelesaikan level ini."
 		)
 	)
+	message_text = _child_friendly_message(message_text)
 
 	completion_message.clear()
 	completion_message.push_paragraph(
@@ -94,6 +95,30 @@ func hide_presenter() -> void:
 	visible = false
 
 
+func _child_friendly_message(message_text: String) -> String:
+	var clean_text: String = ""
+	var lines: PackedStringArray = message_text.split("\n")
+
+	for line_value in lines:
+		var line_text: String = str(line_value).strip_edges()
+
+		if line_text.begins_with("(Percobaan ke-") and line_text.ends_with(")"):
+			continue
+
+		if line_text.is_empty():
+			continue
+
+		if not clean_text.is_empty():
+			clean_text += "\n"
+
+		clean_text += line_text
+
+	if clean_text.is_empty():
+		return "Hebat! Kamu sudah menyelesaikan level ini."
+
+	return clean_text
+
+
 func _render_completion_detail(data: Dictionary) -> void:
 	_clear_dynamic_content()
 
@@ -113,7 +138,7 @@ func _render_completion_detail(data: Dictionary) -> void:
 		return
 
 	_add_level_metric(
-		"Total Poin",
+		"POIN",
 		str(
 			detail.get(
 				"score_text",
@@ -122,11 +147,11 @@ func _render_completion_detail(data: Dictionary) -> void:
 		)
 	)
 	_add_level_stars(
-		"Jumlah Bintang",
+		"BINTANG",
 		detail.get("star_slots", [])
 	)
 	_add_level_metric(
-		"Durasi Level",
+		"WAKTU",
 		str(
 			detail.get(
 				"duration_text",
@@ -157,7 +182,7 @@ func _render_fallback_detail(
 	data: Dictionary
 ) -> void:
 	_add_level_metric(
-		"Total Poin",
+		"POIN",
 		str(data.get("score_text", ""))
 	)
 
@@ -171,12 +196,12 @@ func _render_fallback_detail(
 
 		if not star_slots.is_empty():
 			_add_level_stars(
-				"Jumlah Bintang",
+				"BINTANG",
 				star_slots
 			)
 
 	_add_level_metric(
-		"Durasi Level",
+		"WAKTU",
 		str(data.get("duration_text", ""))
 	)
 

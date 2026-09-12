@@ -8,6 +8,16 @@
 [ext_resource type="Texture2D" uid="uid://c54pk6r214bn6" path="res://assets/visual/splash/loader_label_memuat.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://bu4ja4fwna8i5" path="res://assets/visual/splash/loader_corn.png" id="7"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_af43a"]
+bg_color = Color(0.96489865, 0.9452769, 0.8389701, 0.8)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
 [node name="SplashScene" type="Control" unique_id=1541764066]
 layout_mode = 3
 anchors_preset = 15
@@ -36,12 +46,20 @@ offset_right = 670.0
 offset_bottom = 112.0
 mouse_filter = 2
 
+[node name="PanelContainer" type="PanelContainer" parent="LoaderRoot" unique_id=1861814413]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 106.0
+offset_right = 586.0
+offset_bottom = 154.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_af43a")
+
 [node name="LoadingLabel" type="TextureRect" parent="LoaderRoot" unique_id=587702597]
-visible = false
 layout_mode = 0
 offset_left = 190.0
+offset_top = 20.0
 offset_right = 385.0
-offset_bottom = 41.0
+offset_bottom = 62.0
 mouse_filter = 2
 texture = ExtResource("6")
 expand_mode = 1
@@ -52,8 +70,8 @@ layout_mode = 0
 offset_left = 10.0
 offset_top = 30.0
 offset_right = 594.0
-offset_bottom = 60.0
-theme_override_colors/font_color = Color(1, 0.9490196, 0, 1)
+offset_bottom = 230.0
+theme_override_colors/font_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.65)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
