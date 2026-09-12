@@ -90,7 +90,7 @@ func _connect_ui() -> void:
     %TutorialContinueButton.pressed.connect(_show_ready)
     %TutorialSkipButton.pressed.connect(_show_ready)
     %FestivalStartButton.pressed.connect(_start_main_game)
-    %MainResultNextButton.pressed.connect(_show_literacy_intro)
+    %MainResultNextButton.pressed.connect(_show_literacy_dialogue)
     %QuizStartButton.pressed.connect(_start_quiz)
     %QuizNextButton.pressed.connect(_advance_quiz)
     %FinalResultNextButton.pressed.connect(_show_gallery)
@@ -216,15 +216,26 @@ func _show_opening_dialogue() -> void:
 
 func _on_dialogue_next() -> void:
     dialogue_index += 1
+
     if dialogue_index < dialogue_lines.size():
         _render_dialogue()
         return
+
     if current_state == "DIALOGUE_OPENING":
         set_state("DIALOGUE_MISSION")
         dialogue_lines = config.get("dialogue", {}).get("mission", [])
         dialogue_index = 0
         _render_dialogue()
         return
+
+    if current_state == "DIALOGUE_MISSION":
+        _show_tutorial()
+        return
+
+    if current_state == "DIALOGUE_LITERACY":
+        _show_literacy_intro()
+        return
+
     _show_tutorial()
 
 func _render_dialogue() -> void:
@@ -1585,6 +1596,19 @@ func _resolve_l5_readable_item_name(
         )
 
     return _humanize_v3_identifier(normalized)
+
+func _show_literacy_dialogue() -> void:
+    set_state("DIALOGUE_LITERACY")
+    dialogue_lines = config.get(
+        "dialogue",
+        {}
+    ).get(
+        "before_literacy",
+        []
+    )
+    dialogue_index = 0
+    show_only(screens, dialogue_panel)
+    _render_dialogue()
 
 func _show_literacy_intro() -> void:
     set_state("LITERACY_INTRO")

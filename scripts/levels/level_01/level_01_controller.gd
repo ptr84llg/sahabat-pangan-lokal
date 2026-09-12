@@ -88,7 +88,7 @@ func _connect_ui() -> void:
 	%DialogueNextButton.pressed.connect(_on_dialogue_next)
 	%TutorialContinueButton.pressed.connect(_on_tutorial_continue)
 	%TutorialSkipButton.pressed.connect(_start_gameplay)
-	%GameplaySuccessNextButton.pressed.connect(_show_literacy_intro)
+	%GameplaySuccessNextButton.pressed.connect(_show_literacy_dialogue)
 	%LiteracyStartButton.pressed.connect(_start_literacy_question)
 
 	for button_variant in [%AnswerA, %AnswerB, %AnswerC]:
@@ -216,8 +216,15 @@ func _on_dialogue_next() -> void:
 		_render_dialogue_line()
 		return
 
-	_show_tutorial()
+	if current_state == "DIALOGUE_MISSION":
+		_show_tutorial()
+		return
 
+	if current_state == "DIALOGUE_LITERACY":
+		_show_literacy_intro()
+		return
+
+	_show_tutorial()
 
 func _render_dialogue_line() -> void:
 	if dialogue_lines.is_empty():
@@ -509,6 +516,19 @@ func _on_all_matched(score: int) -> void:
 	show_only(screens, gameplay_success_panel)
 	%GameplaySuccessText.text = "Hebat! Semua pangan berhasil kamu kenali."
 	UIMotion.play_reward(gameplay_success_panel)
+
+func _show_literacy_dialogue() -> void:
+	set_state("DIALOGUE_LITERACY")
+	dialogue_lines = level_config.get(
+		"dialogue",
+		{}
+	).get(
+		"before_literacy",
+		[]
+	)
+	dialogue_index = 0
+	show_only(screens, dialogue_panel)
+	_render_dialogue_line()
 
 func _show_literacy_intro() -> void:
 	set_state("LITERACY_INTRO")

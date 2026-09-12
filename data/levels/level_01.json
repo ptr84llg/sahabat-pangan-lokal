@@ -43,43 +43,176 @@
 	"opening": [
 	  {
 		"speaker": "Ibu",
-		"text": "Selamat Pagi [b]{player_name}[/b] Anakku!\nSebelum berangkat ke sekolah, bantu Ibu mengenali beberapa pangan yang sudah disiapkan, ya."
+		"text": "Pagi, [b]{player_name}[/b].\nSudah siap berangkat sekolah?"
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Sudah, Bu. Tapi... Ibu sedang menyiapkan apa itu?"
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Ibu sedang merapikan beberapa bahan pangan yang ada di rumah. Coba kamu lihat baik-baik.\nAda yang sudah kamu kenal?"
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Hmm... ada yang sering aku lihat, Bu. Tapi beberapa aku belum yakin namanya."
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Tidak apa-apa. Kita bisa mengenalnya bersama.\bBeberapa di antaranya termasuk pangan lokal yang dekat dengan kehidupan kita sehari-hari."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Pangan lokal itu maksudnya apa, Bu?"
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Pangan yang dikenal dan dimanfaatkan masyarakat sesuai potensi daerahnya.\nJadi kita bisa mulai mengenalnya dari yang dekat dengan kita."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Oh, jadi pangan yang ada di rumah juga bisa kita pelajari, ya, Bu?"
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Tentu saja. Kita mulai dari yang dekat dulu.\b[b]Kalau kita mengenal nama dan bentuk pangan, nanti akan lebih mudah memahami pangan itu lebih jauh.[/b]"
 	  }
 	],
 	"mission": [
 	  {
-		"speaker": "Pemain",
-		"text": "Baik, Ibu.\nApa yang harus aku lakukan?"
-	  },
-	  {
 		"speaker": "Ibu",
-		"text": "Pangan lokal adalah pangan yang dikenal dan dimanfaatkan masyarakat sesuai potensi daerahnya."
-	  },
-	  {
-		"speaker": "Ibu",
-		"text": "Kamu akan mencocokkan gambar pangan dan menempatkannya sesuai dengan namanya."
+		"text": "Nah, [b]{player_name}[/b], hari ini Ibu punya enam pangan untuk kamu kenali."
 	  },
 	  {
 		"speaker": "Pemain",
-		"text": "Baik Ibu. Aku mengerti.\nBagaimana aku melakukannya?"
+		"text": "Enam? Banyak juga, Bu."
 	  },
 	  {
 		"speaker": "Ibu",
-		"text": "Kamu akan diajarkan cara memindahkan gambar pangan pada tempatnya.\n[font space_spacing=4][b]Apakah kamu siap Anakku?[/b][/font]"
+		"text": "Tidak terlalu banyak, kok. Kita pelajari satu per satu.\nAda [b]beras, singkong, kangkung, bayam, pisang, dan pepaya[/b]."
 	  },
 	  {
 		"speaker": "Pemain",
-		"text": "Aku siap Ibu!"
+		"text": "Oh, beberapa memang sering aku lihat."
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Bagus. Sekarang coba perhatikan juga bentuknya.\nAda yang mudah dikenali, tapi kita tetap harus teliti."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Jadi bukan hanya mengingat namanya, ya, Bu?"
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Betul sekali.\n[b]Perhatikan nama dan bentuk setiap pangan supaya kamu bisa membedakannya.[/b]"
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Lalu aku harus melakukan apa, Bu?"
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Nanti ada gambar pangan dan kotak nama.\n[b]Cocokkan setiap gambar pangan dengan nama yang tepat.[/b]"
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Baik, Bu. Aku akan coba satu per satu."
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Bagus. Sebelum mulai, kita kenali dulu enam pangannya, lalu Ibu tunjukkan cara memindahkan gambar."
+	  }
+	],
+	"before_literacy": [
+	  {
+		"speaker": "Ibu",
+		"text": "Bagus, [b]{player_name}[/b].\nSemua gambar sudah berhasil kamu cocokkan dengan namanya."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Iya, Bu. Sekarang aku lebih mudah membedakan pangannya."
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Nah, berarti kamu sudah mulai mengenali [b]nama dan bentuk setiap pangan[/b]."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Berarti sudah selesai, Bu?"
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Belum dulu. Ibu masih punya satu tantangan kecil."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Tantangan apa, Bu?"
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Tadi kamu sudah mencocokkan gambar dengan namanya.\nSekarang Ibu ingin tahu apakah kamu benar-benar sudah mengenal pangan-pangan itu."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Jadi aku harus mengingat yang tadi?"
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Betul, [b]{player_name}[/b].\nKali ini Ibu akan memberikan [b]pertanyaan tentang pangan yang baru saja kamu pelajari[/b]."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Oh... jadi aku harus memilih jawaban yang benar?"
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Iya. Baca pertanyaannya baik-baik, lalu pikirkan kembali pangan yang tadi kamu lihat."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Baik, Bu. Aku akan coba."
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Bagus. Tidak perlu terburu-buru.\n[b]Perhatikan pertanyaannya, ingat kembali pangannya, lalu pilih jawaban yang paling tepat.[/b]"
 	  }
 	],
 	"closing": [
 	  {
 		"speaker": "Ibu",
-		"text": "Kamu hebat Anakku!.\nSekarang kamu sudah mengenal beberapa pangan lokal.\nBawa pengetahuan itu untuk menyelesaikan misi berikutnya."
+		"text": "Bagaimana, [b]{player_name}[/b]?\nHari ini kamu sudah mengenal cukup banyak pangan."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Iya, Bu. Sekarang aku sudah lebih tahu nama dan bentuknya."
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Coba sebutkan apa yang kamu pelajari hari ini."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Aku belajar mengenali pangan dari [b]nama dan bentuknya[/b]."
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Tepat sekali.\n[b]Mengenali pangan adalah langkah pertama supaya kita bisa memahaminya lebih jauh.[/b]"
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Aku akan mengingatnya, Bu."
+	  },
+	  {
+		"speaker": "Ibu",
+		"text": "Bagus. Sekarang lanjutkan perjalananmu.\nNanti kamu akan menemukan lebih banyak pangan dan belajar hal baru lagi."
+	  },
+	  {
+		"speaker": "Pemain",
+		"text": "Baik, Bu. Aku siap."
 	  }
 	]
-  },
-  "literacy": {
+  },  "literacy": {
 	"question_id": "l1_q01",
 	"question_text": "Mengapa pangan yang kamu pelajari pada level ini disebut pangan lokal?",
 	"answers": [

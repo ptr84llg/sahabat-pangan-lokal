@@ -40,7 +40,7 @@ func accept_card(card: FoodCard) -> void:
 		old_parent.remove_child(card)
 	holder.add_child(card)
 	card.lock_card()
-	title_label.text = "%s  âœ“" % title_label.text
+	title_label.text = "%s  ✓" % title_label.text
 
 func pulse_hint() -> void:
 	var tween := create_tween()

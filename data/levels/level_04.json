@@ -11,53 +11,154 @@
     "opening": [
       {
         "speaker": "Nenek",
-        "text": "[b]{player_name}[/b] cucu ku.\nKamu sudah mengenali, mengelompokkan, dan memilih berbagai pangan.\nSekarang kita akan melihat bagaimana beberapa pangan dapat dipadukan menjadi olahan."
+        "text": "Wah, [b]{player_name}[/b], akhirnya sampai juga di dapur Nenek.\nKamu sudah belajar mengenali, mengelompokkan, dan memilih berbagai pangan."
       },
       {
         "speaker": "Pemain",
-        "text": "Iya Nek, berarti satu olahan bisa menggunakan lebih dari satu pangan, ya Nek?"
+        "text": "Iya, Nek. Sekarang aku akan belajar apa?"
       },
       {
         "speaker": "Nenek",
-        "text": "Benar sekali cucu ku.\n[b]Di dapur ini kamu akan mencoba memadukan dua pangan utama.[/b]"
+        "text": "Sekarang kita akan melihat bagaimana beberapa pangan bisa dipadukan menjadi sebuah olahan."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Berarti satu makanan bisa dibuat dari lebih dari satu pangan?"
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Betul sekali.\nDi permainan ini, kita akan memperhatikan [b]dua bahan pangan utama[/b] untuk setiap olahan."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Apakah hanya memilih bahannya, Nek?"
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Tidak. Setelah memilih bahan, kamu juga harus menentukan [b]cara pengolahan yang sesuai[/b]."
       }
     ],
     "mission": [
       {
         "speaker": "Nenek",
-        "text": "[b]Ada empat pesanan yang harus diselesaikan.[/b]"
-      },
-      {
-        "speaker": "Nenek",
-        "text": "Setiap pesanan membutuhkan dua bahan pangan utama.\nSetelah bahannya cocok, pilih proses pengolahan yang sesuai."
-      },
-      {
-        "speaker": "Nenek",
-        "text": "Saat permainan dimulai, kamu hanya memiliki [b]waktu 2 menit[/b] untuk menyelesaikan semuanya."
+        "text": "Hari ini ada empat pesanan yang harus kamu selesaikan, [b]{player_name}[/b]."
       },
       {
         "speaker": "Pemain",
-        "text": "Baik. Berarti Aku harus memilih bahan dengan tepat dan tidak membuang waktu."
+        "text": "Empat pesanan? Apa saja yang harus kulakukan?"
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Setiap pesanan akan menunjukkan hasil olahan yang harus dibuat.\nTugasmu adalah mencari [b]dua bahan pangan yang tepat[/b]."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Setelah dua bahannya benar, apa yang kulakukan?"
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Kamu memilih cara pengolahannya.\nPada pesanan nanti kamu akan menggunakan cara seperti: [b]direbus, ditumis, dan dicampur[/b]."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Jadi aku harus memperhatikan hubungan antara bahan, cara mengolah, dan hasil akhirnya?"
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Tepat sekali, [b]{player_name}[/b].\n[b]Bahan yang benar harus dipadukan dengan proses yang benar agar menghasilkan olahan yang sesuai.[/b]"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Baik, Nek. Aku akan memperhatikannya."
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Satu hal lagi.\nSetelah kamu menekan [b]MULAI MENGOLAH[/b], kamu hanya mempunyai [b]2 menit[/b] untuk menyelesaikan empat pesanan.\nJadi tetap teliti, tetapi jangan terlalu lama."
+      }
+    ],
+    "before_literacy": [
+      {
+        "speaker": "Nenek",
+        "text": "Hebat sekali, [b]{player_name}[/b].\nEmpat pesanan sudah berhasil kamu selesaikan."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Ternyata aku harus mengingat bahannya sekaligus cara mengolahnya, Nek."
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Betul, [b]{player_name}[/b].\nSekarang coba pikirkan lagi hubungan yang baru saja kamu pelajari."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Hubungan antara bahan, proses, dan hasil olahan?"
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Tepat sekali.\nMisalnya dua bahan tertentu dipadukan, lalu diproses dengan cara tertentu, maka kita memperoleh hasil olahan yang sesuai."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Lalu apa tantangan berikutnya?"
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Nenek akan menunjukkan beberapa [b]rantai olahan[/b], tetapi salah satu bagiannya akan hilang."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Jadi aku harus mencari bagian yang hilang?"
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Betul, [b]{player_name}[/b].\nKadang yang hilang adalah [b]hasil olahannya[/b], kadang [b]bahannya[/b], dan kadang [b]prosesnya[/b]."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Baik, Nek. Aku akan melihat hubungan ketiganya."
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Bagus. [b]Perhatikan bahan, proses, dan hasil olahan yang sudah terlihat,[/b]\nlalu lengkapi bagian yang hilang dengan jawaban yang tepat."
       }
     ],
     "closing": [
       {
         "speaker": "Nenek",
-        "text": "Pintar sekali cucu ku.\nSekarang kamu sudah melihat bahwa pangan dapat dipadukan dan diolah menjadi berbagai bentuk."
+        "text": "Bagaimana, [b]{player_name}[/b]?\nApa yang paling kamu ingat dari kegiatan di dapur hari ini?"
       },
       {
         "speaker": "Pemain",
-        "text": "Terima Kasih Nenek.\nAku jadi lebih memahami hubungan bahan dengan hasil olahannya."
+        "text": "Aku belajar bahwa bahan pangan bisa dipadukan dan diolah menjadi makanan."
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Benar. Apakah cukup hanya mengetahui bahannya?"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Tidak, Nek. Aku juga harus memahami proses pengolahannya."
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Tepat sekali, [b]{player_name}[/b].\n[b]Bahan, proses, dan hasil olahan saling berhubungan.[/b]"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Sekarang aku lebih mudah memahami bagaimana sebuah olahan terbentuk."
+      },
+      {
+        "speaker": "Nenek",
+        "text": "Bagus sekali, [b]{player_name}[/b].\nSimpan pengetahuan itu, karena perjalanan berikutnya akan menggabungkan banyak hal yang sudah kamu pelajari."
       }
     ]
   },
   "tutorial": {
     "title": "DUA BAHAN + PROSES + TIMER",
-    "text": "Setiap pesanan menampilkan target hasil olahan.\nSeret dua bahan pangan utama ke Slot Bahan 1 dan Bahan 2.\nSetelah pasangan benar, pilih proses yang sesuai.\nWaktu hitung mundur 02:00 baru berjalan setelah MULAI MENGOLAH ditekan.",
+    "text": "Setiap pesanan menampilkan hasil olahan yang harus dibuat.\n[b]Seret dua pangan yang tepat ke BAHAN 1 dan BAHAN 2.[/b]\nSetelah kedua bahan benar, [b]pilih proses pengolahan yang sesuai.[/b]\nWaktu [b]02:00[/b] baru mulai setelah kamu menekan [b]MULAI MENGOLAH[/b].",
     "timer_runs": false,
     "analytics_main_game": false
-  },
-  "processes": [
+  },  "processes": [
     {
       "process_id": "process_boiled",
       "display_name": "Direbus",

@@ -39,39 +39,132 @@
     "opening": [
       {
         "speaker": "Ibu Guru",
-        "text": "Selamat [b]{player_name}[/b].\nKamu sudah mengenali beberapa pangan pada misi sebelumnya.\nTernyata pangan yang kita temui memiliki jenis yang berbeda-beda."
+        "text": "Selamat datang, [b]{player_name}[/b].\nBagaimana, masih ingat pangan yang kamu pelajari di rumah?"
       },
       {
         "speaker": "Pemain",
-        "text": "Berarti pangan yang sudah aku kenal bisa dikelompokkan ya, Bu Guru?"
+        "text": "Masih, Bu Guru. Aku sudah mulai mengenali nama dan bentuknya."
       },
       {
         "speaker": "Ibu Guru",
-        "text": "Benar Sekali.\nSekarang kita akan mencoba mengelompokkannya."
+        "text": "Bagus. Sekarang coba perhatikan pangan yang ada di kelas ini.\nAda beberapa yang sudah kamu kenal, tetapi ada juga yang baru."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Wah, ternyata lebih banyak, Bu Guru. Apakah semuanya akan dipelajari?"
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Iya. Hari ini kita akan belajar sesuatu yang berbeda.\n[b]Pangan yang kita kenal dapat dikelompokkan berdasarkan jenisnya.[/b]"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Dikelompokkan seperti apa, Bu Guru?"
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Ada [b]Pangan Pokok dan Umbi, Sayuran, serta Buah[/b].\nNanti kamu akan belajar membedakan ketiganya."
       }
     ],
     "mission": [
       {
         "speaker": "Ibu Guru",
-        "text": "[b]Ada dua belas pangan di meja.[/b]\nMasukkan setiap pangan ke kelompok yang sesuai."
-      },
-      {
-        "speaker": "Ibu Guru",
-        "text": "Kelompoknya adalah [b]Pangan Pokok dan Umbi, Sayuran, serta Buah.[/b]\nSetiap kelompok harus berisi empat pangan."
+        "text": "Sebelum mulai, [b]{player_name}[/b], ada enam pangan baru yang perlu kamu kenali terlebih dahulu."
       },
       {
         "speaker": "Pemain",
-        "text": "Baik, Bu. Aku akan mengelompokkannya satu per satu."
+        "text": "Pangan apa saja, Bu Guru?"
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Ada [b]jagung, ubi jalar, terung, ketimun, mangga, dan jambu biji[/b]."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Berarti nanti ada pangan yang sudah kupelajari di rumah dan ada pangan baru juga?"
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Betul. Semuanya akan menjadi dua belas pangan.\n[b]Tugasmu adalah menempatkan setiap pangan ke kelompok yang tepat.[/b]"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Jadi aku harus melihat pangannya, lalu menentukan apakah termasuk pangan pokok dan umbi, sayuran, atau buah?"
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Tepat sekali. Tetapi sebelum bermain,\n[b]perhatikan dulu enam pangan baru yang akan kamu temui.[/b]"
+      }
+    ],
+    "before_literacy": [
+      {
+        "speaker": "Ibu Guru",
+        "text": "Bagus, [b]{player_name}[/b].\nSemua pangan sudah berada di kelompok yang tepat."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Iya, Bu Guru. Sekarang aku mulai tahu perbedaannya."
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Coba ingat kembali. Ada berapa kelompok yang kita gunakan tadi?"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Tiga, Bu Guru.\n[b]Pangan Pokok dan Umbi, Sayuran, serta Buah.[/b]"
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Betul. Sekarang Ibu Guru ingin melihat apakah kamu benar-benar sudah memahami kelompoknya."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Apa ada permainan lagi, Bu Guru?"
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Ada. Kali ini setiap kelompok sudah berisi tiga pangan, tetapi masih kurang satu."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Jadi aku harus mencari pangan yang cocok untuk melengkapinya?"
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Tepat sekali.\n[b]Perhatikan tiga pangan yang sudah ada,[/b]\nlalu pilih satu pangan yang termasuk kelompok yang sama."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Baik, Bu Guru. Aku akan melihatnya dengan teliti."
       }
     ],
     "closing": [
       {
         "speaker": "Ibu Guru",
-        "text": "Sekarang kamu sudah tahu bahwa pangan yang kita kenal dapat dikelompokkan berdasarkan jenisnya.\nPengetahuan itu akan kamu gunakan pada misi berikutnya."
+        "text": "Bagaimana, [b]{player_name}[/b]?\nSekarang kamu sudah tahu bahwa pangan tidak hanya bisa dikenali dari nama dan bentuknya."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Iya, Bu Guru. Pangan juga bisa dikelompokkan berdasarkan jenisnya."
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Coba sebutkan tiga kelompok yang kamu pelajari."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "[b]Pangan Pokok dan Umbi, Sayuran, serta Buah.[/b]"
+      },
+      {
+        "speaker": "Ibu Guru",
+        "text": "Bagus sekali [b]{player_name}[/b].\n[b]Memahami kelompok pangan akan membantumu memilih pangan dengan lebih tepat pada perjalanan berikutnya.[/b]"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Baik, Bu Guru. Aku siap melanjutkan perjalanan."
       }
     ]
-  },
-  "food_details": {
+  },  "food_details": {
     "food_rice": {
       "info_level_02": "Beras merupakan hasil pengolahan gabah dari tanaman padi. Setelah dimasak, beras menjadi nasi yang banyak dikonsumsi sebagai pangan pokok dan sumber energi sehari-hari."
     },

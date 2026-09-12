@@ -26,43 +26,148 @@
     "opening": [
       {
         "speaker": "Pedagang",
-        "text": "Selamat datang di Pasar Pangan Lokal [b]{player_name}[/b].\nKamu sudah bisa mengenali dan mengelompokkan pangan.\nSekarang kita akan mencoba berbelanja pangan dengan menggunakan Koin yang tersedia."
-      },
-      {
-        "speaker": "Pedagang",
-        "text": "Di lapak ini ada beberapa pilihan pangan. Kamu tidak harus mengambil semuanya."
+        "text": "Selamat datang di pasar, [b]{player_name}[/b].\nBagaimana, masih ingat kelompok pangan yang kamu pelajari di sekolah?"
       },
       {
         "speaker": "Pemain",
-        "text": "Berarti aku harus memilih yang sesuai dengan kebutuhan belanja?"
+        "text": "Masih. Ada Pangan Pokok dan Umbi, Sayuran, dan Buah."
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Bagus. Di pasar, pengetahuan itu akan kamu gunakan untuk memilih pangan yang akan dibeli."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Berarti kali ini aku harus berbelanja?"
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Betul. Tetapi kamu tidak bisa mengambil semuanya.\nSetiap pangan memiliki nilai [b]Koin Pangan[/b], dan jumlah Koin yang kamu miliki terbatas."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Jadi aku harus memilih pangan yang dibutuhkan tanpa menghabiskan Koin sembarangan?"
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Tepat sekali.\n[b]Kamu harus memilih sesuai kelompok yang dibutuhkan sekaligus memperhatikan jumlah Koin yang tersedia.[/b]"
       }
     ],
     "mission": [
       {
         "speaker": "Pedagang",
-        "text": "Pilih satu pangan dari setiap kelompok.\n[b]Kamu punya 15 Koin Pangan, jadi pilihlah dengan cermat.[/b]"
+        "text": "Sebelum mulai, [b]{player_name}[/b], ada satu kelompok pangan lagi yang perlu kamu kenali."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Kelompok apa?"
       },
       {
         "speaker": "Pedagang",
-        "text": "Nilai Koin Pangan hanya berlaku di dalam permainan ini saja."
+        "text": "Namanya [b]Hasil Perikanan[/b].\nDi permainan ini kamu akan bertemu [b]Ikan Nila dan Ikan Lele[/b]."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Berarti sekarang ada empat kelompok pangan?"
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Betul.\n[b]Pangan Pokok dan Umbi, Sayuran, Buah, serta Hasil Perikanan.[/b]"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Lalu aku harus membeli satu dari setiap kelompok?"
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Tepat. Kamu mempunyai [b]15 Koin Pangan[/b].\n[b]Pilih satu pangan dari setiap kelompok tanpa melebihi jumlah Koin yang tersedia.[/b]"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Kalau pilihanku membuat Koin tidak cukup, boleh diganti?"
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Tentu. Kamu bisa mengembalikan pangan ke lapak lalu memilih yang lain.\nKoin Pangan yang dipakai di sini hanya bagian dari permainan untuk melatihmu membuat pilihan dengan batas yang tersedia."
+      }
+    ],
+    "before_literacy": [
+      {
+        "speaker": "Pedagang",
+        "text": "Bagus, [b]{player_name}[/b].\nKeranjangmu sudah berisi pangan dari empat kelompok dan Koinmu juga cukup."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Ternyata aku harus memikirkan kelompok pangan dan jumlah Koin sekaligus."
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Betul, [b]{player_name}[/b].\nKalau hanya melihat satu hal, belanjamu bisa jadi belum lengkap."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Lalu apa tantangan berikutnya?"
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Sekarang keadaan belanjanya akan sedikit berbeda.\nKadang keranjang masih kekurangan satu kelompok, tetapi Koin yang tersisa hanya sedikit."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Berarti aku harus mencari pangan yang kelompoknya tepat dan masih bisa dibeli dengan Koin yang tersisa?"
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Tepat sekali.\n[b]Perhatikan kelompok yang belum lengkap dan jumlah Koin yang masih tersedia sebelum memilih.[/b]"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Bagaimana kalau Koin sudah habis, tetapi masih ada kelompok yang belum terpenuhi?"
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Nah, di situlah kamu perlu mengatur kembali rencanamu.\n[b]Kamu bisa mengganti pilihan sebelumnya agar ada Koin yang tersisa untuk pangan yang masih dibutuhkan.[/b]"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Jadi aku tidak harus mempertahankan pilihan pertamaku?"
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Betul. Kadang pilihan perlu diubah supaya kebutuhan tetap terpenuhi."
       }
     ],
     "closing": [
       {
         "speaker": "Pedagang",
-        "text": "[b]Belanjamu sudah lengkap.[/b]\nKamu berhasil memilih pangan dari setiap kelompok dengan Koin Pangan yang tersedia."
-      },
-      {
-        "speaker": "Pedagang",
-        "text": "Kerja yang Bagus.\nSaat memilih, kamu tidak hanya melihat satu hal, tetapi juga mempertimbangkan kebutuhan yang harus dipenuhi."
+        "text": "Bagaimana, [b]{player_name}[/b]?\nApa yang kamu pelajari dari belanja hari ini?"
       },
       {
         "speaker": "Pemain",
-        "text": "Aku jadi tahu bahwa pilihan bisa diatur kembali jika rencana pertamaku belum sesuai."
+        "text": "Aku harus memperhatikan pangan yang dibutuhkan dan jumlah Koin yang tersedia."
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Betul, [b]{player_name}[/b].\nLalu apa yang bisa kamu lakukan kalau pilihan pertama membuat Koin tidak cukup?"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Aku bisa mengatur ulang belanja dan mengganti pilihan dengan pangan yang masih sesuai kebutuhan."
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Tepat sekali.\n[b]Memilih dengan cermat berarti mempertimbangkan kebutuhan dan batas yang kita miliki.[/b]"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Sekarang aku lebih mengerti.\nAku tidak harus langsung mengambil semua yang aku inginkan."
+      },
+      {
+        "speaker": "Pedagang",
+        "text": "Bagus sekali, [b]{player_name}[/b].\nSimpan pengetahuan itu, karena pada perjalanan berikutnya kamu akan belajar menggunakan pangan dengan cara yang berbeda."
       }
     ]
-  },
-  "information": {
+  },  "information": {
     "food_rice": "Pilihan pangan pokok dan umbi dalam misi belanja. Nilai 6 adalah Koin Pangan simulasi.",
     "food_cassava": "Pilihan dari kelompok yang sama dengan kebutuhan Koin lebih rendah dalam simulasi.",
     "food_water_spinach": "Salah satu pilihan sayuran yang dapat digunakan untuk melengkapi keranjang.",

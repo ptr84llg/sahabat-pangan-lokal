@@ -10,53 +10,186 @@
     "opening": [
       {
         "speaker": "Lurah",
-        "text": "[b]Selamat {player_name}.[/b]\nKamu sudah mengenali berbagai pangan, memahami kelompoknya, memilihnya saat berbelanja, dan melihat beberapa hasil olahannya."
+        "text": "Selamat datang di [b]Festival Pangan Lokal, {player_name}[/b].\nAkhirnya kamu sampai pada perjalanan terakhir."
       },
       {
         "speaker": "Pemain",
-        "text": "Sekarang aku harus menggunakan semuanya di festival ini?"
+        "text": "Wah, festivalnya ramai sekali, Pak. Apa yang harus kulakukan di sini?"
       },
       {
         "speaker": "Lurah",
-        "text": "Benar sekali [b]{player_name}[/b].\nMisi terakhir akan berubah beberapa kali, tetapi pangan yang kamu pelajari tetap menjadi bekalmu."
+        "text": "Selama perjalanan, kamu sudah belajar mengenali pangan, mengelompokkannya, memilih saat berbelanja, sampai memahami bahan dan hasil olahan."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Apakah semuanya akan dipakai lagi?"
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Betul sekali, [b]{player_name}[/b].\nDi festival ini, [b]semua pengetahuan yang sudah kamu pelajari akan digunakan bersama-sama[/b]."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Berarti tantangannya akan lebih banyak?"
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Tantangannya memang lebih lengkap, tetapi semuanya berasal dari hal yang sudah pernah kamu pelajari."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Baik, Pak. Aku siap mencobanya."
       }
     ],
     "mission": [
       {
         "speaker": "Lurah",
-        "text": "[b]Pangan akan bergerak pada dua jalur.[/b]\nPerhatikan misi di tengah layar dan ambil pangan yang sesuai."
+        "text": "Ada [b]empat permainan[/b] yang harus kamu selesaikan, [b]{player_name}[/b]."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Empat permainan sekaligus?"
       },
       {
         "speaker": "Lurah",
-        "text": "Misinya akan berubah: mengenali pangan, memenuhi kelompok, berbelanja dengan Koin Pangan, lalu merakit hasil olahan."
+        "text": "Tenang, semuanya dilakukan satu per satu.\nPertama, kamu akan [b]menemukan pangan yang diminta[/b]."
       },
       {
         "speaker": "Lurah",
-        "text": "Waktu terus berjalan sampai skema terakhir.\nJika waktunya habis, permainan tetap lanjut, tetapi nilai waktumu akan berkurang."
+        "text": "Setelah itu kamu akan [b]mengisi kelompok pangan[/b],\nlalu [b]berbelanja dengan Koin Pangan[/b],\ndan terakhir [b]merakit hasil olahan[/b]."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Jadi permainan dari level sebelumnya akan muncul lagi dalam bentuk berbeda?"
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Tepat sekali.\nTetapi sekarang pangan bergerak pada [b]dua jalur[/b],\njadi kamu harus memperhatikan misi yang sedang aktif."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Apakah waktunya juga dibatasi?"
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Iya, tepat sekali, [b]{player_name}[/b].\nSetelah permainan dimulai, kamu mempunyai [b]4 menit[/b] untuk menyelesaikan keempat permainan."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Apakah waktunya kembali penuh setiap berganti permainan?"
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Tidak.\n[b]Waktu terus berjalan dari permainan pertama sampai permainan keempat selesai.[/b]"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Kalau waktunya habis bagaimana?"
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Permainan tetap bisa kamu selesaikan,\ntetapi [b]bonus waktumu menjadi nol[/b].\nJadi tetap teliti dan gunakan waktumu dengan baik."
+      }
+    ],
+    "before_literacy": [
+      {
+        "speaker": "Lurah",
+        "text": "Hebat, [b]{player_name}[/b].\nEmpat tantangan festival sudah berhasil kamu selesaikan."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Ternyata aku harus menggunakan banyak hal yang kupelajari sebelumnya."
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Betul, [b]{player_name}[/b].\nKamu sudah mengenali pangan, menentukan kelompoknya, memilih dengan Koin Pangan, dan merakit olahan."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Apakah perjalanan sudah selesai, Pak?"
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Tinggal satu tantangan terakhir."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Tantangan apa?"
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Sekarang kamu akan mengikuti [b]Uji Literasi Pangan[/b] untuk melihat seberapa baik kamu memahami seluruh perjalanan tadi."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Apakah masih menggunakan drag and drop?"
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Tidak. Kali ini kamu akan membaca pertanyaan dan memilih satu jawaban yang menurutmu paling tepat."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Berapa banyak pertanyaannya?"
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Ada [b]5 pertanyaan[/b].\nSetiap pertanyaan mempunyai waktu [b]30 detik[/b] dan hanya bisa dijawab satu kali."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Baik, Pak. Aku akan membaca setiap pertanyaan dengan teliti."
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Bagus.\n[b]Ingat kembali apa yang sudah kamu pelajari dari Level 1 sampai Level 4, lalu pilih jawaban yang paling tepat.[/b]"
       }
     ],
     "closing": [
       {
         "speaker": "Lurah",
-        "text": "Kamu sudah menyelesaikan seluruh misi festival dan menggunakan kembali pengetahuan dari perjalanan sebelumnya."
+        "text": "Selamat, [b]{player_name}[/b].\nKamu sudah menyelesaikan seluruh perjalanan Sahabat Pangan Lokal."
       },
       {
         "speaker": "Pemain",
-        "text": "Aku bisa mengenali, mengelompokkan, memilih, dan memahami hubungan pangan dengan hasil olahannya."
+        "text": "Aku belajar banyak, Pak.\nMulai dari mengenali pangan sampai memahami bagaimana pangan dipilih dan diolah."
       },
       {
         "speaker": "Lurah",
-        "text": "Bagus. Perjalanan Sahabat Pangan Lokal selesai, tetapi semua level tetap dapat dimainkan ulang."
+        "text": "Coba ingat kembali. Apa yang paling penting dari perjalananmu?"
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Aku harus mengenali pangan, memahami kelompoknya, memilih dengan cermat, dan mengetahui hubungan bahan, proses, serta hasil olahannya."
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Tepat sekali. Pengetahuan itu tidak berhenti hanya di dalam permainan."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Aku bisa menggunakannya untuk lebih mengenal pangan yang ada di sekitarku."
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Benar, [b]{player_name}[/b].\nKarena itulah hari ini kamu mendapatkan gelar [b]Duta Pangan Lokal[/b]."
+      },
+      {
+        "speaker": "Pemain",
+        "text": "Terima kasih, Pak. Aku akan terus belajar mengenal pangan lokal."
+      },
+      {
+        "speaker": "Lurah",
+        "text": "Bagus. Perjalanan utama memang sudah selesai, tetapi semua level tetap bisa kamu mainkan kembali kapan saja."
       }
     ]
   },
   "tutorial": {
-    "title": "MOVING LANES + 4 SKEMA + TIMER",
-    "text": "Pangan bergerak pada dua jalur dengan arah berlawanan.\nSeret pangan ke area misi yang aktif.\nSkema berubah dari Kenali, Kelompokkan, Belanja, sampai Olah.\nWaktu hitung mundur akan berjalan terus dari Skema 1 sampai Skema 4.\nJika mencapai 00:00, permainan tetap dilanjutkan dan bonus waktu menjadi 0.",
+    "title": "4 TANTANGAN FESTIVAL",
+    "text": "Pangan akan bergerak pada dua jalur dengan arah berlawanan.\nBaca misi yang tampil, lalu seret pangan yang tepat ke area misi.\nKamu akan menyelesaikan empat permainan: Temukan Pangan, Penuhi Kelompok, Belanja Festival, dan Rakit Olahan.\nWaktu 04:00 mulai berjalan setelah kamu menekan tombol mulai dan terus berjalan sampai permainan keempat selesai.\nJika waktu habis, permainan tetap dilanjutkan, tetapi bonus waktu menjadi 0.",
     "timer_runs": false,
     "analytics_main_game": false
-  },
-  "bank_food_ids": [
+  },  "bank_food_ids": [
     "food_rice",
     "food_cassava",
     "food_water_spinach",
@@ -177,7 +310,7 @@
       "bonus": 0
     }
   ],
-  "quiz_intro": "Uji Literasi Pangan terdiri dari 5 pertanyaan. Setiap pertanyaan memiliki waktu 30 detik dan hanya satu kesempatan menjawab. Urutan soal dan posisi pilihan jawaban diacak.",
+  "quiz_intro": "Kamu akan menjawab 5 pertanyaan tentang seluruh perjalanan Sahabat Pangan Lokal. Setiap pertanyaan memiliki waktu 30 detik dan hanya satu kesempatan menjawab. Baca pertanyaannya dengan teliti, ingat kembali yang sudah kamu pelajari, lalu pilih jawaban yang paling tepat.",
   "quiz": {
     "question_count": 5,
     "seconds_per_question": 30,

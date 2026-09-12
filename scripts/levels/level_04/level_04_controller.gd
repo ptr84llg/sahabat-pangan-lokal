@@ -93,7 +93,7 @@ func _connect_ui() -> void:
 	%PreGameStartButton.pressed.connect(_start_main_attempt)
 	%HintButton.pressed.connect(_request_hint)
 	%TimeoutRetryButton.pressed.connect(_retry_main_game)
-	%MainSuccessNextButton.pressed.connect(_show_literacy_intro)
+	%MainSuccessNextButton.pressed.connect(_show_literacy_dialogue)
 	%LiteracyStartButton.pressed.connect(_start_literacy)
 	%ResultNextButton.pressed.connect(_show_info)
 	%InfoNextButton.pressed.connect(_advance_info)
@@ -116,16 +116,30 @@ func _show_opening_dialogue() -> void:
 	_render_dialogue_line()
 
 func _on_dialogue_next() -> void:
+	if dialogue_index < 0:
+		return
+
 	dialogue_index += 1
+
 	if dialogue_index < dialogue_lines.size():
 		_render_dialogue_line()
 		return
+
 	if current_state == "DIALOGUE_OPENING":
 		set_state("DIALOGUE_MISSION")
 		dialogue_lines = level_config.get("dialogue", {}).get("mission", [])
 		dialogue_index = 0
 		_render_dialogue_line()
 		return
+
+	if current_state == "DIALOGUE_MISSION":
+		_show_tutorial()
+		return
+
+	if current_state == "DIALOGUE_LITERACY":
+		_show_literacy_intro()
+		return
+
 	_show_tutorial()
 
 func _render_dialogue_line() -> void:
@@ -1150,6 +1164,19 @@ func _resolve_v3_mission_scoring(
 		"awarded_points": awarded_points,
 		"penalty_points": penalty_points
 	}
+
+func _show_literacy_dialogue() -> void:
+	set_state("DIALOGUE_LITERACY")
+	dialogue_lines = level_config.get(
+		"dialogue",
+		{}
+	).get(
+		"before_literacy",
+		[]
+	)
+	dialogue_index = 0
+	show_only(screens, dialogue_panel)
+	_render_dialogue_line()
 
 func _show_literacy_intro() -> void:
 	set_state("LITERACY_INTRO")
