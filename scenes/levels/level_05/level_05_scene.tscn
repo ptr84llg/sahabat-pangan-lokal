@@ -1280,7 +1280,6 @@ text = "KEMBALIKAN"
 
 [node name="Schema4MissionContent" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent" unique_id=77639028]
 unique_name_in_owner = true
-visible = false
 custom_minimum_size = Vector2(0, 154)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1383,7 +1382,6 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="ProcessPhase" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent" unique_id=926593236]
-visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 2
@@ -1508,7 +1506,7 @@ alignment = 1
 custom_minimum_size = Vector2(96, 42)
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_scale = Vector2(3, 3)
+offset_transform_scale = Vector2(2.8, 2.8)
 mouse_filter = 2
 texture = ExtResource("3_result")
 expand_mode = 1

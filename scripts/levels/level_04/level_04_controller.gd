@@ -425,7 +425,6 @@ func _validate_ingredient_pair() -> void:
 
 		_populate_process_choices()
 
-		AudioManager.play_sfx("drop_correct")
 		_show_feedback(
 			"Bahan sudah tepat! Sekarang pilih proses pengolahannya.",
 			true
@@ -443,7 +442,6 @@ func _validate_ingredient_pair() -> void:
 	card_b.show_wrong_feedback()
 	UIMotion.play_shake(card_a, 6.0)
 	UIMotion.play_shake(card_b, 6.0)
-	AudioManager.play_sfx("wrong")
 	_show_feedback(
 		"Kombinasi bahan belum tepat. Kedua bahan dikembalikan.",
 		false
@@ -540,7 +538,6 @@ func _on_process_drop(
 	if not correct:
 		card.show_wrong_feedback()
 		UIMotion.play_shake(card, 6.0)
-		AudioManager.play_sfx("wrong")
 		_show_feedback(
 			"Proses belum tepat. Hubungkan bahan dengan hasil olahan.",
 			false
@@ -551,7 +548,6 @@ func _on_process_drop(
 		_begin_l4_main_occurrence("process")
 		return
 
-	AudioManager.play_sfx("drop_correct")
 	slot.accept_card(card)
 	%MainStatusLabel.text = "PESANAN SELESAI"
 	%MainInstructionLabel.text = (
@@ -1582,7 +1578,6 @@ func _on_named_literacy_drop(
 	)
 
 	if correct:
-		AudioManager.play_sfx("drop_correct")
 		slot.accept_card(card)
 		_award_literacy_round(attempt_no)
 		_record_l4_literacy_answer(
@@ -1604,7 +1599,6 @@ func _on_named_literacy_drop(
 	)
 	card.show_wrong_feedback()
 	UIMotion.play_shake(card, 6.0)
-	AudioManager.play_sfx("wrong")
 	%ChallengeFeedback.text = (
         "Belum tepat. Perhatikan kembali bagian lain pada rantai."
 	)
@@ -1631,7 +1625,6 @@ func _on_food_literacy_drop(
 	)
 
 	if correct:
-		AudioManager.play_sfx("drop_correct")
 		slot.accept_card(card)
 		_award_literacy_round(attempt_no)
 		_record_l4_literacy_answer(
@@ -1653,7 +1646,6 @@ func _on_food_literacy_drop(
 	)
 	card.show_wrong_feedback()
 	UIMotion.play_shake(card, 6.0)
-	AudioManager.play_sfx("wrong")
 	%ChallengeFeedback.text = (
         "Belum tepat. Cocokkan bahan dengan proses dan hasil olahan."
 	)

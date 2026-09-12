@@ -85,7 +85,7 @@ func _is_gameplay_back_button(button: Button, scene: Node) -> bool:
 
 func _on_gameplay_back_pressed(_button: Button) -> void:
     if AudioManager != null:
-        AudioManager.play_sfx("click")
+        pass
     var scene := get_tree().current_scene
     if scene == null:
         return
@@ -97,14 +97,14 @@ func _on_gameplay_back_pressed(_button: Button) -> void:
 
 func _on_cancel_pressed() -> void:
     if AudioManager != null:
-        AudioManager.play_sfx("click")
+        pass
     _mask.visible = false
     if DurationTracker != null:
         DurationTracker.resume_active_play()
 
 func _on_confirm_pressed() -> void:
     if AudioManager != null:
-        AudioManager.play_sfx("click")
+        pass
     var scene := _active_scene
     if scene == null or not is_instance_valid(scene):
         scene = get_tree().current_scene

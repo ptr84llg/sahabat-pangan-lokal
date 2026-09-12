@@ -186,7 +186,7 @@
   },
   "tutorial": {
     "title": "4 TANTANGAN FESTIVAL",
-    "text": "Pangan akan bergerak pada dua jalur dengan arah berlawanan.\nBaca misi yang tampil, lalu seret pangan yang tepat ke area misi.\nKamu akan menyelesaikan empat permainan: Temukan Pangan, Penuhi Kelompok, Belanja Festival, dan Rakit Olahan.\nWaktu 04:00 mulai berjalan setelah kamu menekan tombol mulai dan terus berjalan sampai permainan keempat selesai.\nJika waktu habis, permainan tetap dilanjutkan, tetapi bonus waktu menjadi 0.",
+    "text": "Pangan akan bergerak pada dua jalur dengan arah berlawanan.\nKamu akan menyelesaikan empat permainan:\n[b]Temukan Pangan, Penuhi Kelompok, Belanja Festival, dan Rakit Olahan.[/b]\nWaktu 04:00 mulai berjalan setelah kamu menekan tombol mulai.\n[b]Jika waktu habis, permainan tetap dilanjutkan, tetapi bonus waktu menjadi 0.[/b]",
     "timer_runs": false,
     "analytics_main_game": false
   },  "bank_food_ids": [
@@ -310,7 +310,7 @@
       "bonus": 0
     }
   ],
-  "quiz_intro": "Kamu akan menjawab 5 pertanyaan tentang seluruh perjalanan Sahabat Pangan Lokal. Setiap pertanyaan memiliki waktu 30 detik dan hanya satu kesempatan menjawab. Baca pertanyaannya dengan teliti, ingat kembali yang sudah kamu pelajari, lalu pilih jawaban yang paling tepat.",
+  "quiz_intro": "Kamu akan menjawab 5 pertanyaan tentang seluruh perjalanan Sahabat Pangan Lokal.\n[b]Setiap pertanyaan memiliki waktu 30 detik dan hanya satu kesempatan menjawab.[/b]\nBaca pertanyaannya dengan teliti, ingat kembali yang sudah kamu pelajari, lalu pilih jawaban yang paling tepat.",
   "quiz": {
     "question_count": 5,
     "seconds_per_question": 30,

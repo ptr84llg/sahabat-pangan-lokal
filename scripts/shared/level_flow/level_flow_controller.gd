@@ -63,8 +63,6 @@ const LEVEL_INTRO_FALLBACK: Dictionary = {
 var current_state: String = ""
 var _level_background: TextureRect
 var _active_window: Control
-var _global_audio_game_phase: String = ""
-var _global_audio_last_event_token: String = ""
 var _pending_speaker: String = ""
 var _level4_helper_message: String = ""
 var _level_intro_presenter: Control
@@ -161,7 +159,6 @@ func show_only(nodes: Array[Control], active: Control) -> void:
 			node.visible = node == active
 
 	_active_window = active
-	_dispatch_global_screen_sfx(active)
 	call_deferred("_refresh_level_intro_presenter")
 	call_deferred("_refresh_level_dialogue_presenter")
 	call_deferred("_refresh_level_tutorial_presenter")
@@ -171,55 +168,6 @@ func show_only(nodes: Array[Control], active: Control) -> void:
 	call_deferred("_refresh_level_complete_presenter")
 	call_deferred("_refresh_level_food_information_presenter")
 	call_deferred("_refresh_level_badge_reward_presenter")
-
-func _dispatch_global_screen_sfx(active: Control) -> void:
-	if active == null:
-		return
-	var state_upper: String = current_state.to_upper()
-	var window_name: String = str(active.name).to_lower()
-	var phase: String = _resolve_global_game_audio_phase(window_name, state_upper)
-	if not phase.is_empty():
-		if _global_audio_game_phase != phase:
-			_global_audio_game_phase = phase
-			AudioManager.play_sfx("scene_game_open")
-		return
-	var event_key: String = ""
-	if _is_global_level_done_audio_state(window_name, state_upper):
-		event_key = "scene_level_done"
-	elif _is_global_badge_audio_state(window_name, state_upper):
-		event_key = "scene_badge"
-	if event_key.is_empty():
-		return
-	var event_token: String = event_key + ":" + str(active.get_instance_id())
-	if _global_audio_last_event_token == event_token:
-		return
-	_global_audio_last_event_token = event_token
-	AudioManager.play_sfx(event_key)
-
-func _resolve_global_game_audio_phase(window_name: String, state_upper: String) -> String:
-	if window_name == "gameplaylayer" or window_name == "maingamehud" or window_name == "gameplayhud":
-		if not state_upper.contains("SUCCESS") and not state_upper.contains("COMPLETE") and not state_upper.contains("RESULT"):
-			return "game1"
-	if state_upper in ["GAMEPLAY", "MAIN_GAME", "MAIN_GAME_PLAYER_CONTROL"]:
-		return "game1"
-	if window_name.contains("literacy") or window_name == "quizhud" or window_name.contains("game2"):
-		return "game2"
-	if state_upper.begins_with("LITERACY_") or state_upper.begins_with("QUESTION_") or state_upper.begins_with("QUIZ_"):
-		if not state_upper.contains("RESULT") and not state_upper.contains("COMPLETE"):
-			return "game2"
-	return ""
-
-func _is_global_level_done_audio_state(window_name: String, state_upper: String) -> bool:
-	if state_upper == "RESULT" or state_upper == "FINAL_RESULT" or state_upper == "LEVEL_RESULT":
-		return true
-	if state_upper.ends_with("_RESULT") and not state_upper.begins_with("MAIN_GAME"):
-		return true
-	if window_name == "resultpanel" or window_name == "finalresultpanel":
-		return true
-	return false
-
-func _is_global_badge_audio_state(window_name: String, state_upper: String) -> bool:
-	return state_upper.contains("BADGE") or window_name.contains("badge")
 
 func _set_dialogue_speaker(speaker: String) -> void:
 	_pending_speaker = speaker

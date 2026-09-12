@@ -438,7 +438,6 @@ func _on_schema1_drop(
 		)
 		return
 
-	AudioManager.play_sfx("drop_correct")
 	moving_lane.hold_card(card, %HeldPool)
 	schema1_target_index += 1
 
@@ -510,7 +509,6 @@ func _on_schema2_drop(
 	if schema2_completed_groups.has(group_id):
 		return
 
-	AudioManager.play_sfx("drop_correct")
 	slot.hold_card(card)
 	schema2_completed_groups[group_id] = food_id
 	%SchemaProgress.text = "Kelompok %d/4" % (
@@ -556,7 +554,6 @@ func _on_schema3_drop(food_id: String, card: FoodCard, slot: FestivalBasketSlot)
 		card.show_wrong_feedback()
 		_feedback("Koin Pangan tidak cukup untuk pilihan ini. Coba pertimbangkan pilihan lain.", false)
 		return
-	AudioManager.play_sfx("drop_correct")
 	slot.hold_card(card)
 	schema3_selected[group_id] = {"food_id":food_id,"coin":coin,"slot":slot}
 	schema3_total_coin += coin
@@ -706,7 +703,6 @@ func _on_schema4_ingredient_drop(
 
 		return
 
-	AudioManager.play_sfx("drop_correct")
 	_feedback(
 		"Dua bahan sudah tepat. Pilih prosesnya.",
 		true
@@ -717,16 +713,16 @@ func _schema4_process_buttons() -> Array[Button]:
 	var mission_view := %Schema4MissionContent as Control
 	var buttons: Array[Button] = [
 		mission_view.get_node(
-            "ProcessPhase/ProcessChoiceRow/ProcessButton1"
+            "ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton1"
 		) as Button,
 		mission_view.get_node(
-            "ProcessPhase/ProcessChoiceRow/ProcessButton2"
+            "ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton2"
 		) as Button,
 		mission_view.get_node(
-            "ProcessPhase/ProcessChoiceRow/ProcessButton3"
+            "ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton3"
 		) as Button,
 		mission_view.get_node(
-            "ProcessPhase/ProcessChoiceRow/ProcessButton4"
+            "ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton4"
 		) as Button
 	]
 	return buttons
@@ -775,22 +771,22 @@ func _render_schema4_process_choices(
 	)
 
 	var trace_glyph_a := mission_view.get_node(
-        "ProcessPhase/TraceRow/IngredientTraceA/TraceVBoxA/TraceGlyphA"
+        "ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow/IngredientTraceA/TraceVBoxA/TraceGlyphA"
 	) as FoodGlyph
 	var trace_label_a := mission_view.get_node(
-        "ProcessPhase/TraceRow/IngredientTraceA/TraceVBoxA/TraceLabelA"
+        "ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow/IngredientTraceA/TraceVBoxA/TraceLabelA"
 	) as Label
 	var trace_glyph_b := mission_view.get_node(
-        "ProcessPhase/TraceRow/IngredientTraceB/TraceVBoxB/TraceGlyphB"
+        "ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow/IngredientTraceB/TraceVBoxB/TraceGlyphB"
 	) as FoodGlyph
 	var trace_label_b := mission_view.get_node(
-        "ProcessPhase/TraceRow/IngredientTraceB/TraceVBoxB/TraceLabelB"
+        "ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow/IngredientTraceB/TraceVBoxB/TraceLabelB"
 	) as Label
 	var result_image := mission_view.get_node(
-        "ProcessPhase/TraceRow/ResultTrace/ResultVBox/ResultImage"
+        "ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/ResultTrace/ResultVBox/ResultImage"
 	) as TextureRect
 	var result_label := mission_view.get_node(
-        "ProcessPhase/TraceRow/ResultTrace/ResultVBox/ResultLabel"
+        "ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/ResultTrace/ResultVBox/ResultLabel"
 	) as Label
 
 	trace_glyph_a.food_id = ingredient_a_id
@@ -926,7 +922,6 @@ func _register_invalid(
 	event_type: String,
 	item_id: String
 ) -> void:
-	AudioManager.play_sfx("wrong")
 
 	var score_now := schema_controller.register_invalid(
 		schema_id,

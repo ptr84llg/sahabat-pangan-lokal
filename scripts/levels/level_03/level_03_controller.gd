@@ -599,7 +599,6 @@ func _on_select_round_drop(
     )
 
     if correct:
-        AudioManager.play_sfx("drop_correct")
         slot.accept_card(card)
         slot.title_label.text = "TARGET TERPENUHI"
         _style_literacy_card(card, true)
@@ -644,7 +643,6 @@ func _on_select_round_drop(
     card.show_wrong_feedback()
     UIMotion.play_shake(card, 6.0)
     UIMotion.play_shake(%ReferenceTargetValue, 5.0)
-    AudioManager.play_sfx("wrong")
     DurationTracker.resume_active_play()
     _begin_l3_literacy_occurrence(round_data)
 
@@ -849,7 +847,6 @@ func _on_rearrange_fruit_selected(
     )
 
     if correct:
-        AudioManager.play_sfx("drop_correct")
         _award_literacy_round(attempt_no)
         _record_l3_literacy_answer(
             selected_answer_id,
@@ -868,7 +865,6 @@ func _on_rearrange_fruit_selected(
         selected_answer_id,
         correct_answer_id
     )
-    AudioManager.play_sfx("wrong")
 
     if r3_replacement_id != correct_replacement_id:
         %ChallengeFeedback.text = (
@@ -890,7 +886,6 @@ func _register_rearrange_invalid(
     selected_id: String,
     message: String
 ) -> void:
-    AudioManager.play_sfx("wrong")
     DurationTracker.pause_active_play()
 
     var round_data: Dictionary = (

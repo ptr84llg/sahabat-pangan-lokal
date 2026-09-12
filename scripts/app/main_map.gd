@@ -457,4 +457,4 @@ func _earned_medal_count() -> int:
 
 func _play_click() -> void:
 	if is_instance_valid(AudioManager) and AudioManager.has_method("play_sfx"):
-		AudioManager.play_sfx("click")
+		pass

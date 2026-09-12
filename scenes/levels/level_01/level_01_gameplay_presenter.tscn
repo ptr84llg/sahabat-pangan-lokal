@@ -58,7 +58,7 @@ content_margin_bottom = 2.0
 bg_color = Color(1, 0.9490196, 0, 1)
 border_width_bottom = 3
 border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
-corner_radius_top_left = 15
+corner_radius_top_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oscwe"]
 bg_color = Color(1, 1, 1, 1)
@@ -75,7 +75,7 @@ content_margin_bottom = 2.0
 bg_color = Color(1, 0.9490196, 0, 1)
 border_width_bottom = 3
 border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
-corner_radius_top_right = 15
+corner_radius_top_right = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s7va5"]
 draw_center = false

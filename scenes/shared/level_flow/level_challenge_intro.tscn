@@ -164,6 +164,7 @@ autowrap_mode = 3
 [node name="InstructionArea" type="MarginContainer" parent="ChallengeUI/MainPanel/ContentMargin/VBoxContainer/HBoxContainer/ContentVBox" unique_id=626046423]
 custom_minimum_size = Vector2(0, 118)
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/margin_left = 70
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 70
@@ -177,12 +178,13 @@ theme_override_colors/default_color = Color(0.3294, 0.5098, 0.2078, 1)
 theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "[center]PETUNJUK TANTANGAN[/center]"
+fit_content = true
 scroll_active = false
 vertical_alignment = 1
 
 [node name="FlexibleSpacer" type="Control" parent="ChallengeUI/MainPanel/ContentMargin/VBoxContainer/HBoxContainer/ContentVBox" unique_id=549878244]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-size_flags_vertical = 3
 mouse_filter = 2
 
 [node name="Separator" type="HSeparator" parent="ChallengeUI/MainPanel/ContentMargin/VBoxContainer/HBoxContainer/ContentVBox" unique_id=601840894]

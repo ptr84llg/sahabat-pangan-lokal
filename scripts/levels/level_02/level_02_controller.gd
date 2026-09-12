@@ -1014,7 +1014,6 @@ func _on_challenge_drop(
 	)
 
 	if correct:
-		AudioManager.play_drop_feedback(true)
 		slot.accept_card(card)
 		_style_literacy_target_card(card)
 		_style_literacy_target_slot(slot)
@@ -1073,7 +1072,6 @@ func _on_challenge_drop(
 				"Telemetry v3 Level 2 Game 2 belum dapat merekam jawaban salah."
 			)
 
-		AudioManager.play_drop_feedback(false)
 		card.show_wrong_feedback()
 		UIMotion.play_shake(
 			card,
@@ -1468,9 +1466,9 @@ func _show_feedback(
 	correct: bool
 ) -> void:
 	if text.begins_with("Tepat!"):
-		AudioManager.play_drop_feedback(true)
+		pass
 	elif text.begins_with("Belum tepat."):
-		AudioManager.play_drop_feedback(false)
+		pass
 
 	%FeedbackToast.text = text
 	%FeedbackToast.visible = true

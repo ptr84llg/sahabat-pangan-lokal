@@ -531,7 +531,6 @@ func _play_answer_result_sfx(feedback_value: String) -> void:
 	if feedback_kind == "correct":
 		_answer_result_sfx_played = true
 	elif feedback_kind == "wrong":
-		AudioManager.play_sfx("wrong")
 		_answer_result_sfx_played = true
 
 func _feedback_kind(value: String) -> String:

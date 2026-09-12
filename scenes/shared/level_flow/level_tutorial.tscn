@@ -175,6 +175,7 @@ stretch_mode = 5
 
 [node name="InstructionText" type="RichTextLabel" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent" unique_id=1739258034]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(1100, 76)
 layout_mode = 2
 size_flags_horizontal = 3

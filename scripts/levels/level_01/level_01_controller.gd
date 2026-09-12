@@ -464,13 +464,11 @@ func _show_feedback(text: String, correct: bool) -> void:
 	feedback_toast.visible = true
 
 	if correct:
-		AudioManager.play_drop_feedback(true)
 		feedback_toast.add_theme_color_override(
 			"font_color",
 			Color(0.12, 0.42, 0.16)
 		)
 	else:
-		AudioManager.play_drop_feedback(false)
 		feedback_toast.add_theme_color_override(
 			"font_color",
 			Color(0.66, 0.18, 0.12)
