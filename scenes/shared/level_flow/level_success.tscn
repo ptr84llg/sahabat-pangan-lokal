@@ -5,11 +5,11 @@
 [ext_resource type="Texture2D" uid="uid://8vleikumt0fk" path="res://assets/visual/ui/icons/good.svg" id="3_success_icon"]
 
 [sub_resource type="StyleBoxFlat" id="SuccessPanelStyle"]
-bg_color = Color(0.9843, 0.9725, 0.9137, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+bg_color = Color(0.91627353, 1, 0.9058309, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
 border_color = Color(0.32941177, 0.50980395, 0.20784314, 1)
 corner_radius_top_left = 15
 corner_radius_top_right = 15
@@ -155,7 +155,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.3294, 0.5098, 0.2078, 1)
-theme_override_font_sizes/normal_font_size = 26
+theme_override_font_sizes/normal_font_size = 34
+theme_override_font_sizes/bold_font_size = 34
 bbcode_enabled = true
 text = "[center]PESAN KEBERHASILAN[/center]"
 fit_content = true

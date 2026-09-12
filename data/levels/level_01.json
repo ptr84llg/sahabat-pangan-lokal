@@ -47,19 +47,19 @@
 	  },
 	  {
 		"speaker": "Pemain",
-		"text": "Sudah, Bu. Tapi... Ibu sedang menyiapkan apa itu?"
+		"text": "Sudah, Bu.\nTapi... Ibu sedang menyiapkan apa itu?"
 	  },
 	  {
 		"speaker": "Ibu",
-		"text": "Ibu sedang merapikan beberapa bahan pangan yang ada di rumah. Coba kamu lihat baik-baik.\nAda yang sudah kamu kenal?"
+		"text": "Ibu sedang merapikan beberapa bahan pangan yang ada di rumah.\nCoba kamu lihat baik-baik. Ada yang sudah kamu kenal?"
 	  },
 	  {
 		"speaker": "Pemain",
-		"text": "Hmm... ada yang sering aku lihat, Bu. Tapi beberapa aku belum yakin namanya."
+		"text": "Hmm... ada yang sering aku lihat, Bu.\nTapi... Beberapa aku belum yakin namanya."
 	  },
 	  {
 		"speaker": "Ibu",
-		"text": "Tidak apa-apa. Kita bisa mengenalnya bersama.\bBeberapa di antaranya termasuk pangan lokal yang dekat dengan kehidupan kita sehari-hari."
+		"text": "Tidak apa-apa. Kita bisa mengenalnya bersama.\nBeberapa di antaranya termasuk pangan lokal yang dekat dengan kehidupan kita sehari-hari."
 	  },
 	  {
 		"speaker": "Pemain",
@@ -67,7 +67,7 @@
 	  },
 	  {
 		"speaker": "Ibu",
-		"text": "Pangan yang dikenal dan dimanfaatkan masyarakat sesuai potensi daerahnya.\nJadi kita bisa mulai mengenalnya dari yang dekat dengan kita."
+		"text": "[b]Pangan yang dikenal dan dimanfaatkan masyarakat sesuai potensi daerahnya.[/b]\nJadi kita bisa mulai mengenalnya dari yang dekat dengan kita."
 	  },
 	  {
 		"speaker": "Pemain",
@@ -75,7 +75,7 @@
 	  },
 	  {
 		"speaker": "Ibu",
-		"text": "Tentu saja. Kita mulai dari yang dekat dulu.\b[b]Kalau kita mengenal nama dan bentuk pangan, nanti akan lebih mudah memahami pangan itu lebih jauh.[/b]"
+		"text": "Tentu saja. Kita mulai dari yang dekat dulu.\n[b]Kalau kita mengenal nama dan bentuk pangan, nanti akan lebih mudah memahami pangan itu lebih jauh.[/b]"
 	  }
 	],
 	"mission": [
@@ -89,7 +89,7 @@
 	  },
 	  {
 		"speaker": "Ibu",
-		"text": "Tidak terlalu banyak, kok. Kita pelajari satu per satu.\nAda [b]beras, singkong, kangkung, bayam, pisang, dan pepaya[/b]."
+		"text": "Tidak terlalu banyak, kok. Kita pelajari satu per satu.\nAda: [b]beras, singkong, kangkung, bayam, pisang, dan pepaya[/b]."
 	  },
 	  {
 		"speaker": "Pemain",
@@ -97,7 +97,7 @@
 	  },
 	  {
 		"speaker": "Ibu",
-		"text": "Bagus. Sekarang coba perhatikan juga bentuknya.\nAda yang mudah dikenali, tapi kita tetap harus teliti."
+		"text": "Bagus.\nSekarang coba perhatikan juga bentuknya.\nAda yang mudah dikenali, tapi kita tetap harus teliti."
 	  },
 	  {
 		"speaker": "Pemain",
@@ -121,7 +121,7 @@
 	  },
 	  {
 		"speaker": "Ibu",
-		"text": "Bagus. Sebelum mulai, kita kenali dulu enam pangannya, lalu Ibu tunjukkan cara memindahkan gambar."
+		"text": "Bagus.\nSebelum mulai, kita kenali dulu enam pangannya,\nlalu Ibu akan tunjukkan cara memindahkan gambar tersebut."
 	  }
 	],
 	"before_literacy": [
@@ -181,7 +181,7 @@
 	"closing": [
 	  {
 		"speaker": "Ibu",
-		"text": "Bagaimana, [b]{player_name}[/b]?\nHari ini kamu sudah mengenal cukup banyak pangan."
+		"text": "Bagaimana, [b]{player_name}?[/b]\nHari ini kamu sudah mengenal cukup banyak pangan."
 	  },
 	  {
 		"speaker": "Pemain",

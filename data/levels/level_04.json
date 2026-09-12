@@ -41,7 +41,7 @@
     "mission": [
       {
         "speaker": "Nenek",
-        "text": "Hari ini ada empat pesanan yang harus kamu selesaikan, [b]{player_name}[/b]."
+        "text": "Hari ini ada [b]empat pesanan[/b] yang harus kamu selesaikan, [b]{player_name}[/b]."
       },
       {
         "speaker": "Pemain",
@@ -49,7 +49,7 @@
       },
       {
         "speaker": "Nenek",
-        "text": "Setiap pesanan akan menunjukkan hasil olahan yang harus dibuat.\nTugasmu adalah mencari [b]dua bahan pangan yang tepat[/b]."
+        "text": "Setiap pesanan akan menunjukkan hasil olahan yang harus dibuat.\n[b]Tugasmu adalah mencari dua bahan pangan yang tepat[/b]."
       },
       {
         "speaker": "Pemain",
@@ -57,7 +57,7 @@
       },
       {
         "speaker": "Nenek",
-        "text": "Kamu memilih cara pengolahannya.\nPada pesanan nanti kamu akan menggunakan cara seperti: [b]direbus, ditumis, dan dicampur[/b]."
+        "text": "Kamu memilih cara pengolahannya.\nPada pesanan nanti kamu akan menggunakan cara seperti:\n[b]direbus, ditumis, dan dicampur[/b]."
       },
       {
         "speaker": "Pemain",
@@ -119,13 +119,13 @@
       },
       {
         "speaker": "Nenek",
-        "text": "Bagus. [b]Perhatikan bahan, proses, dan hasil olahan yang sudah terlihat,[/b]\nlalu lengkapi bagian yang hilang dengan jawaban yang tepat."
+        "text": "Benar, [b]{player_name}[/b].\n[b]Perhatikan bahan, proses, dan hasil olahan yang sudah terlihat,[/b]\nlalu lengkapi bagian yang hilang dengan jawaban yang tepat."
       }
     ],
     "closing": [
       {
         "speaker": "Nenek",
-        "text": "Bagaimana, [b]{player_name}[/b]?\nApa yang paling kamu ingat dari kegiatan di dapur hari ini?"
+        "text": "Bagaimana, [b]{player_name}?[/b]\nApa yang paling kamu ingat dari kegiatan di dapur hari ini?"
       },
       {
         "speaker": "Pemain",

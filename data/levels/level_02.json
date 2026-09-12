@@ -63,13 +63,13 @@
       },
       {
         "speaker": "Ibu Guru",
-        "text": "Ada [b]Pangan Pokok dan Umbi, Sayuran, serta Buah[/b].\nNanti kamu akan belajar membedakan ketiganya."
+        "text": "Ada: [b]Pangan Pokok dan Umbi, Sayuran, serta Buah[/b].\nNanti kamu akan belajar membedakan ketiganya."
       }
     ],
     "mission": [
       {
         "speaker": "Ibu Guru",
-        "text": "Sebelum mulai, [b]{player_name}[/b], ada enam pangan baru yang perlu kamu kenali terlebih dahulu."
+        "text": "Sebelum mulai, [b]{player_name}[/b],\nAda enam pangan baru yang perlu kamu kenali terlebih dahulu."
       },
       {
         "speaker": "Pemain",
@@ -77,7 +77,7 @@
       },
       {
         "speaker": "Ibu Guru",
-        "text": "Ada [b]jagung, ubi jalar, terung, ketimun, mangga, dan jambu biji[/b]."
+        "text": "Ada: [b]Jagung, Ubi Jalar, Terung, Ketimun, Mangga, dan Jambu Biji[/b]."
       },
       {
         "speaker": "Pemain",
@@ -141,7 +141,7 @@
     "closing": [
       {
         "speaker": "Ibu Guru",
-        "text": "Bagaimana, [b]{player_name}[/b]?\nSekarang kamu sudah tahu bahwa pangan tidak hanya bisa dikenali dari nama dan bentuknya."
+        "text": "Bagaimana, [b]{player_name}?[/b]\nSekarang kamu sudah tahu bahwa pangan tidak hanya bisa dikenali dari nama dan bentuknya."
       },
       {
         "speaker": "Pemain",

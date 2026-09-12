@@ -26,7 +26,7 @@ corner_radius_top_left = 12
 corner_radius_top_right = 12
 
 [sub_resource type="StyleBoxFlat" id="DialoguePanelStyle"]
-bg_color = Color(0.9843, 0.9725, 0.9137, 1)
+bg_color = Color(0.9843137, 0.972549, 0.9137255, 1)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -185,7 +185,7 @@ layout_mode = 2
 
 [node name="DialogueText" type="RichTextLabel" parent="UIRoot/DialogueLayer/DialoguePanel/TextMargin/TextCenter" unique_id=1370973628]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(900, 130)
+custom_minimum_size = Vector2(1100, 130)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/default_color = Color(0.3294, 0.5098, 0.2078, 1)
@@ -196,6 +196,7 @@ text = "[center]TEKS PERCAKAPAN[/center]"
 fit_content = true
 scroll_active = false
 horizontal_alignment = 3
+vertical_alignment = 1
 
 [node name="BottomMargin" type="MarginContainer" parent="UIRoot/DialogueLayer/DialoguePanel" unique_id=1653288547]
 layout_mode = 1

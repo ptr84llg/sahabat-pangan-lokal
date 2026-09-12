@@ -237,6 +237,9 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_enqro"]
+draw_center = false
+
 [sub_resource type="StyleBoxFlat" id="TraceStyle"]
 content_margin_left = 4.0
 content_margin_top = 3.0
@@ -252,6 +255,22 @@ corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0d6jp"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.84313726, 1, 0.90588236, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="ProcessButtonStyle"]
 content_margin_left = 4.0
@@ -1261,6 +1280,7 @@ text = "KEMBALIKAN"
 
 [node name="Schema4MissionContent" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent" unique_id=77639028]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(0, 154)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1363,44 +1383,61 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="ProcessPhase" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent" unique_id=926593236]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 2
 alignment = 1
 
-[node name="TraceCaption" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase" unique_id=262015784]
+[node name="HBoxContainer" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase" unique_id=1313667920]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PanelJejakOlahan" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer" unique_id=148817959]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_enqro")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan" unique_id=641507069]
+layout_mode = 2
+alignment = 1
+
+[node name="TraceCaption" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer" unique_id=262015784]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 14
 text = "JEJAK OLAHAN SEBELUMNYA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TraceRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase" unique_id=513719076]
+[node name="TraceRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer" unique_id=513719076]
 custom_minimum_size = Vector2(0, 66)
 layout_mode = 2
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="IngredientTraceA" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow" unique_id=740524044]
+[node name="IngredientTraceA" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow" unique_id=740524044]
 custom_minimum_size = Vector2(86, 64)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TraceStyle")
 
-[node name="TraceVBoxA" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/IngredientTraceA" unique_id=1209839089]
+[node name="TraceVBoxA" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow/IngredientTraceA" unique_id=1209839089]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="TraceGlyphA" type="Control" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/IngredientTraceA/TraceVBoxA" unique_id=1335476366]
+[node name="TraceGlyphA" type="Control" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow/IngredientTraceA/TraceVBoxA" unique_id=1335476366]
 custom_minimum_size = Vector2(72, 44)
 layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("2_glyph")
 food_id = "food_water_spinach"
 
-[node name="TraceLabelA" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/IngredientTraceA/TraceVBoxA" unique_id=760272191]
+[node name="TraceLabelA" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow/IngredientTraceA/TraceVBoxA" unique_id=760272191]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Kangkung"
@@ -1408,7 +1445,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="PlusLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow" unique_id=1066662624]
+[node name="PlusLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow" unique_id=1066662624]
 custom_minimum_size = Vector2(18, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
@@ -1417,25 +1454,27 @@ text = "+"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="IngredientTraceB" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow" unique_id=736928075]
+[node name="IngredientTraceB" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow" unique_id=736928075]
 custom_minimum_size = Vector2(86, 64)
 layout_mode = 2
 theme_override_styles/panel = SubResource("TraceStyle")
 
-[node name="TraceVBoxB" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/IngredientTraceB" unique_id=2052763693]
+[node name="TraceVBoxB" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow/IngredientTraceB" unique_id=2052763693]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="TraceGlyphB" type="Control" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/IngredientTraceB/TraceVBoxB" unique_id=1086988341]
+[node name="TraceGlyphB" type="Control" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow/IngredientTraceB/TraceVBoxB" unique_id=1086988341]
 custom_minimum_size = Vector2(72, 44)
 layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("2_glyph")
 food_id = "food_eggplant"
 
-[node name="TraceLabelB" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/IngredientTraceB/TraceVBoxB" unique_id=1479798098]
+[node name="TraceLabelB" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow/IngredientTraceB/TraceVBoxB" unique_id=1479798098]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Terung"
@@ -1443,7 +1482,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="ArrowLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow" unique_id=1821412344]
+[node name="ArrowLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/TraceRow" unique_id=1821412344]
+visible = false
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.055, 0.36, 0.22, 1)
@@ -1452,26 +1492,30 @@ text = "→"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ResultTrace" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow" unique_id=363845720]
+[node name="ResultTrace" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer" unique_id=363845720]
 custom_minimum_size = Vector2(118, 64)
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/panel = SubResource("TraceStyle")
 
-[node name="ResultVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/ResultTrace" unique_id=291117470]
+[node name="ResultVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/ResultTrace" unique_id=291117470]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="ResultImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/ResultTrace/ResultVBox" unique_id=1038039391]
+[node name="ResultImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/ResultTrace/ResultVBox" unique_id=1038039391]
 custom_minimum_size = Vector2(96, 42)
 layout_mode = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(3, 3)
 mouse_filter = 2
 texture = ExtResource("3_result")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ResultLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/TraceRow/ResultTrace/ResultVBox" unique_id=1466504516]
+[node name="ResultLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelJejakOlahan/VBoxContainer/ResultTrace/ResultVBox" unique_id=1466504516]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Tumis Kangkung-Terung"
@@ -1479,27 +1523,36 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="ProcessPrompt" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase" unique_id=945318047]
+[node name="PanelContainer" type="PanelContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer" unique_id=2091109018]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0d6jp")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer" unique_id=61731350]
+layout_mode = 2
+alignment = 1
+
+[node name="ProcessPrompt" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer" unique_id=945318047]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.055, 0.3, 0.19, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 20
 text = "PILIH PROSES YANG SESUAI"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ProcessChoiceRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase" unique_id=302675777]
+[node name="ProcessChoiceRow" type="HBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer" unique_id=302675777]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 6
 alignment = 1
 
-[node name="ProcessButton1" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow" unique_id=1262835290]
+[node name="ProcessButton1" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow" unique_id=1262835290]
 custom_minimum_size = Vector2(102, 72)
 layout_mode = 2
 theme_override_styles/normal = SubResource("ProcessButtonStyle")
 theme_override_styles/pressed = SubResource("ProcessButtonHoverStyle")
 theme_override_styles/hover = SubResource("ProcessButtonHoverStyle")
 
-[node name="ProcessVisual" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton1" unique_id=1506275817]
+[node name="ProcessVisual" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton1" unique_id=1506275817]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1514,29 +1567,30 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="ProcessImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton1/ProcessVisual" unique_id=2013741121]
-custom_minimum_size = Vector2(0, 48)
+[node name="ProcessImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton1/ProcessVisual" unique_id=2013741121]
+custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
+offset_transform_enabled = true
 mouse_filter = 2
 texture = ExtResource("4_boiled")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ProcessLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton1/ProcessVisual" unique_id=1160140940]
+[node name="ProcessLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton1/ProcessVisual" unique_id=1160140940]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Direbus"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ProcessButton2" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow" unique_id=831204608]
+[node name="ProcessButton2" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow" unique_id=831204608]
 custom_minimum_size = Vector2(102, 72)
 layout_mode = 2
 theme_override_styles/normal = SubResource("ProcessButtonStyle")
 theme_override_styles/pressed = SubResource("ProcessButtonHoverStyle")
 theme_override_styles/hover = SubResource("ProcessButtonHoverStyle")
 
-[node name="ProcessVisual" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton2" unique_id=1640108572]
+[node name="ProcessVisual" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton2" unique_id=1640108572]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1551,29 +1605,29 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="ProcessImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton2/ProcessVisual" unique_id=194371374]
-custom_minimum_size = Vector2(0, 48)
+[node name="ProcessImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton2/ProcessVisual" unique_id=194371374]
+custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("5_steamed")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ProcessLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton2/ProcessVisual" unique_id=1978607925]
+[node name="ProcessLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton2/ProcessVisual" unique_id=1978607925]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Dikukus"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ProcessButton3" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow" unique_id=1515377030]
+[node name="ProcessButton3" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow" unique_id=1515377030]
 custom_minimum_size = Vector2(102, 72)
 layout_mode = 2
 theme_override_styles/normal = SubResource("ProcessButtonStyle")
 theme_override_styles/pressed = SubResource("ProcessButtonHoverStyle")
 theme_override_styles/hover = SubResource("ProcessButtonHoverStyle")
 
-[node name="ProcessVisual" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton3" unique_id=15800539]
+[node name="ProcessVisual" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton3" unique_id=15800539]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1588,29 +1642,29 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="ProcessImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton3/ProcessVisual" unique_id=1557518595]
-custom_minimum_size = Vector2(0, 48)
+[node name="ProcessImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton3/ProcessVisual" unique_id=1557518595]
+custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("6_stir")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ProcessLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton3/ProcessVisual" unique_id=212964289]
+[node name="ProcessLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton3/ProcessVisual" unique_id=212964289]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Ditumis"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ProcessButton4" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow" unique_id=1877963626]
+[node name="ProcessButton4" type="Button" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow" unique_id=1877963626]
 custom_minimum_size = Vector2(102, 72)
 layout_mode = 2
 theme_override_styles/normal = SubResource("ProcessButtonStyle")
 theme_override_styles/pressed = SubResource("ProcessButtonHoverStyle")
 theme_override_styles/hover = SubResource("ProcessButtonHoverStyle")
 
-[node name="ProcessVisual" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton4" unique_id=1526129959]
+[node name="ProcessVisual" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton4" unique_id=1526129959]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1625,15 +1679,15 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="ProcessImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton4/ProcessVisual" unique_id=324036038]
-custom_minimum_size = Vector2(0, 48)
+[node name="ProcessImage" type="TextureRect" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton4/ProcessVisual" unique_id=324036038]
+custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("7_mixed")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ProcessLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/ProcessChoiceRow/ProcessButton4/ProcessVisual" unique_id=2027742904]
+[node name="ProcessLabel" type="Label" parent="SafeArea/Screens/MainGameHUD/GameMargin/GameVBox/MissionArea/MissionVBox/MissionSplit/MissionTargetPanel/TargetVBox/SchemaMissionContent/Schema4MissionContent/ProcessPhase/HBoxContainer/PanelContainer/VBoxContainer/ProcessChoiceRow/ProcessButton4/ProcessVisual" unique_id=2027742904]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Dicampur"

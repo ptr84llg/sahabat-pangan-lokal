@@ -175,8 +175,7 @@ stretch_mode = 5
 
 [node name="InstructionText" type="RichTextLabel" parent="TutorialUI/MainPanel/ContentMargin/ContentCenter/TutorialContent" unique_id=1739258034]
 unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(0, 76)
+custom_minimum_size = Vector2(1100, 76)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -262,7 +261,8 @@ theme_override_colors/default_color = Color(0.05490196, 0.36078432, 0.21960784, 
 theme_override_font_sizes/normal_font_size = 22
 theme_override_font_sizes/bold_font_size = 23
 bbcode_enabled = true
-text = "[b]Perhatikan nama dan bentuk setiap pangan, ya. Setelah ini kamu akan mencocokkan gambar pangan dengan nama yang tepat.[/b]"
+text = "[b]Perhatikan nama dan bentuk setiap pangan.
+Setelah ini kamu akan mencocokkan gambar pangan dengan nama yang tepat.[/b]"
 fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -377,7 +377,8 @@ theme_override_colors/default_color = Color(0.05490196, 0.36078432, 0.21960784, 
 theme_override_font_sizes/normal_font_size = 22
 theme_override_font_sizes/bold_font_size = 23
 bbcode_enabled = true
-text = "[b]Perhatikan nama dan kelompoknya, ya. Setelah ini kamu akan belajar berbelanja menggunakan Koin Pangan.[/b]"
+text = "[b]Perhatikan nama dan kelompoknya.
+Setelah ini kamu akan belajar berbelanja menggunakan Koin Pangan.[/b]"
 fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
