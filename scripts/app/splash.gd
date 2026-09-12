@@ -68,6 +68,8 @@ func _ready() -> void:
 		_fail("Penyimpanan permainan gagal disimpan.")
 		return
 
+	CompletedHistorySyncManager.schedule_sync("startup")
+
 	_set_progress(85.0)
 	await get_tree().create_timer(0.10).timeout
 

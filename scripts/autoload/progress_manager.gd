@@ -330,6 +330,15 @@ func _device_snapshot(
 func _version_block(run: Dictionary) -> Dictionary:
 	return {
 		"schema_version": SCHEMA_VERSION,
+		"app_version": str(
+			run.get("app_version", UpdateManager.get_app_version())
+		),
+		"version_code": int(
+			run.get("version_code", UpdateManager.get_version_code())
+		),
+		"save_schema_version": int(
+			run.get("save_schema_version", SCHEMA_VERSION)
+		),
 		"game_version": str(run.get("game_version", "levels1-5-v1.4")),
 		"content_version": str(
 			run.get("content_version", ContentDatabase.content_version)

@@ -2176,8 +2176,11 @@ func _finish_completed_journey(target_scene: String) -> void:
     if not finalized:
         push_warning("Completed run sudah kosong atau belum berstatus COMPLETED.")
 
-    if not SaveManager.save_now():
+    var save_ok: bool = SaveManager.save_now()
+    if not save_ok:
         push_warning("Finalisasi perjalanan belum dapat disimpan langsung. Autosave tetap diminta.")
+    else:
+        CompletedHistorySyncManager.schedule_sync("level5_completion")
 
     SceneRouter.goto(target_scene)
 # BUNDLE_53B_R2_LEVEL5_FINALIZE_END

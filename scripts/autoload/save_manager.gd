@@ -223,6 +223,45 @@ func load_v3_history_records() -> Array:
 		records.append(payload.duplicate(true))
 	return records
 
+func load_completed_history_sync_ledger() -> Dictionary:
+	if not initialize_native_storage():
+		return {}
+	var ledger: Dictionary = _read_json(
+		_path("history_sync/ledger.json")
+	)
+	if ledger.is_empty():
+		return {
+			"schema_version": 1,
+			"history_sync": {}
+		}
+	if not ledger.get("history_sync", {}) is Dictionary:
+		return {
+			"schema_version": 1,
+			"history_sync": {}
+		}
+	return ledger
+
+func commit_completed_history_sync_ledger(
+	payload: Dictionary
+) -> bool:
+	if not initialize_native_storage():
+		return false
+	var history_sync_value: Variant = payload.get(
+		"history_sync",
+		{}
+	)
+	if not history_sync_value is Dictionary:
+		return false
+	var normalized: Dictionary = payload.duplicate(true)
+	normalized["schema_version"] = 1
+	normalized["updated_at_unix"] = (
+		Time.get_unix_time_from_system()
+	)
+	return _atomic_write_json(
+		_path("history_sync/ledger.json"),
+		normalized
+	)
+
 func commit_v3_native_current(payload: Dictionary) -> bool:
 	if not initialize_native_storage():
 		return false
@@ -466,6 +505,7 @@ func _ensure_directories() -> bool:
 		_root(),
 		_path("current"),
 		_path("history"),
+		_path("history_sync"),
 		_path("telemetry"),
 		_path("backups")
 	]

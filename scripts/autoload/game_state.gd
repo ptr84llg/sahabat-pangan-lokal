@@ -434,6 +434,9 @@ func complete_level(level_no: int, score: int, duration_ms: int, badge_id: Strin
     else:
         active_run["status"] = "COMPLETED"
         active_run["completed_at"] = Time.get_unix_time_from_system()
+        active_run["app_version"] = UpdateManager.get_app_version()
+        active_run["version_code"] = UpdateManager.get_version_code()
+        active_run["save_schema_version"] = ProgressManager.SCHEMA_VERSION
 
     var best_scores: Dictionary = profile.get("best_scores_by_level", {})
     best_scores[key] = max(int(best_scores.get(key, 0)), score)
