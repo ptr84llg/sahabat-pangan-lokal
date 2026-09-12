@@ -1,0 +1,99 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/app/history_level_row.gd" id="1_level_row"]
+
+[sub_resource type="StyleBoxFlat" id="LevelRowStyle"]
+bg_color = Color(0.985, 0.98, 0.94, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.48, 0.4, 0.24, 0.24)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="HistoryLevelRow" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("LevelRowStyle")
+script = ExtResource("1_level_row")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="Row" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LevelLabel" type="Label" parent="Margin/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 17
+text = "LEVEL 1"
+vertical_alignment = 1
+
+[node name="ScoreColumn" type="VBoxContainer" parent="Margin/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="Margin/Row/ScoreColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.4, 0.24, 1)
+theme_override_font_sizes/font_size = 11
+text = "POIN"
+horizontal_alignment = 1
+
+[node name="ScoreValue" type="Label" parent="Margin/Row/ScoreColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.24, 0.18, 1)
+theme_override_font_sizes/font_size = 17
+text = "-"
+horizontal_alignment = 1
+
+[node name="StarsColumn" type="VBoxContainer" parent="Margin/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="Margin/Row/StarsColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.4, 0.24, 1)
+theme_override_font_sizes/font_size = 11
+text = "BINTANG"
+horizontal_alignment = 1
+
+[node name="StarsValue" type="Label" parent="Margin/Row/StarsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.24, 0.18, 1)
+theme_override_font_sizes/font_size = 17
+text = "-"
+horizontal_alignment = 1
+
+[node name="TimeColumn" type="VBoxContainer" parent="Margin/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="Margin/Row/TimeColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.4, 0.24, 1)
+theme_override_font_sizes/font_size = 11
+text = "WAKTU"
+horizontal_alignment = 1
+
+[node name="TimeValue" type="Label" parent="Margin/Row/TimeColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.24, 0.18, 1)
+theme_override_font_sizes/font_size = 17
+text = "-"
+horizontal_alignment = 1

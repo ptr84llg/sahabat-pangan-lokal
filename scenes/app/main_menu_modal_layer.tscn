@@ -602,6 +602,27 @@ vertical_scroll_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 12
+
+[node name="HistoryIntroNote" type="Label" parent="HistoryModal/OuterMargin/ModalVBox/ModalBodyScroll/ModalBody"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.42, 0.32, 1)
+theme_override_font_sizes/font_size = 14
+text = "Pilih perjalanan untuk melihat hasil Level 1 sampai Level 5."
+autowrap_mode = 3
+
+[node name="HistoryStateLabel" type="Label" parent="HistoryModal/OuterMargin/ModalVBox/ModalBodyScroll/ModalBody"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.36, 0.28, 1)
+theme_override_font_sizes/font_size = 18
+text = "Belum ada perjalanan yang selesai."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HistoryCardsHost" type="VBoxContainer" parent="HistoryModal/OuterMargin/ModalVBox/ModalBodyScroll/ModalBody"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
 [node name="FooterSeparator" type="HSeparator" parent="HistoryModal/OuterMargin/ModalVBox"]
 layout_mode = 2
 [node name="ModalFooter" type="HBoxContainer" parent="HistoryModal/OuterMargin/ModalVBox"]

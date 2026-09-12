@@ -1,0 +1,295 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/app/history_run_card.gd" id="1_run_card"]
+
+[sub_resource type="StyleBoxFlat" id="CardPanel"]
+bg_color = Color(0.98, 0.97, 0.91, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.48, 0.4, 0.24, 0.32)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="HeaderNormal"]
+bg_color = Color(0.965, 0.955, 0.89, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.48, 0.4, 0.24, 0.26)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="HeaderHover"]
+bg_color = Color(0.93, 0.95, 0.84, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.32, 0.48, 0.24, 0.48)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="HeaderPressed"]
+bg_color = Color(0.89, 0.93, 0.79, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.28, 0.43, 0.2, 0.64)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="BodyPanelStyle"]
+bg_color = Color(1, 0.995, 0.97, 0.98)
+border_width_left = 3
+border_color = Color(0.32, 0.48, 0.24, 0.48)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="MetricPanelStyle"]
+bg_color = Color(1, 0.99, 0.94, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.48, 0.4, 0.24, 0.22)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="HistoryRunCard" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("CardPanel")
+script = ExtResource("1_run_card")
+
+[node name="OuterMargin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="Content" type="VBoxContainer" parent="OuterMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ToggleButton" type="Button" parent="OuterMargin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 82)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = ""
+theme_override_styles/normal = SubResource("HeaderNormal")
+theme_override_styles/hover = SubResource("HeaderHover")
+theme_override_styles/pressed = SubResource("HeaderPressed")
+theme_override_styles/hover_pressed = SubResource("HeaderPressed")
+theme_override_styles/focus = SubResource("HeaderHover")
+
+[node name="HeaderMargin" type="MarginContainer" parent="OuterMargin/Content/ToggleButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="HeaderRow" type="HBoxContainer" parent="OuterMargin/Content/ToggleButton/HeaderMargin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="ArrowLabel" type="Label" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 18
+text = ">"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="IdentityColumn" type="VBoxContainer" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="JourneyLabel" type="Label" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/IdentityColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 19
+text = "PERJALANAN 1"
+
+[node name="MetaLabel" type="Label" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/IdentityColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.38, 0.4, 0.3, 1)
+theme_override_font_sizes/font_size = 14
+text = "2026-09-12  |  BUDI"
+text_overrun_behavior = 3
+
+[node name="MetricsRow" type="HBoxContainer" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 7
+
+[node name="TotalScorePanel" type="PanelContainer" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow"]
+custom_minimum_size = Vector2(104, 58)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("MetricPanelStyle")
+
+[node name="Margin" type="MarginContainer" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow/TotalScorePanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 5
+
+[node name="Column" type="VBoxContainer" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow/TotalScorePanel/Margin"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow/TotalScorePanel/Margin/Column"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.48, 0.4, 0.24, 1)
+theme_override_font_sizes/font_size = 11
+text = "POIN"
+horizontal_alignment = 1
+
+[node name="TotalScoreValue" type="Label" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow/TotalScorePanel/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 18
+text = "-"
+horizontal_alignment = 1
+
+[node name="TotalStarsPanel" type="PanelContainer" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow"]
+custom_minimum_size = Vector2(104, 58)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("MetricPanelStyle")
+
+[node name="Margin" type="MarginContainer" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow/TotalStarsPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 5
+
+[node name="Column" type="VBoxContainer" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow/TotalStarsPanel/Margin"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow/TotalStarsPanel/Margin/Column"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.48, 0.4, 0.24, 1)
+theme_override_font_sizes/font_size = 11
+text = "BINTANG"
+horizontal_alignment = 1
+
+[node name="TotalStarsValue" type="Label" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow/TotalStarsPanel/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 18
+text = "-"
+horizontal_alignment = 1
+
+[node name="TotalTimePanel" type="PanelContainer" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow"]
+custom_minimum_size = Vector2(112, 58)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("MetricPanelStyle")
+
+[node name="Margin" type="MarginContainer" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow/TotalTimePanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 5
+
+[node name="Column" type="VBoxContainer" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow/TotalTimePanel/Margin"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow/TotalTimePanel/Margin/Column"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.48, 0.4, 0.24, 1)
+theme_override_font_sizes/font_size = 11
+text = "WAKTU"
+horizontal_alignment = 1
+
+[node name="TotalTimeValue" type="Label" parent="OuterMargin/Content/ToggleButton/HeaderMargin/HeaderRow/MetricsRow/TotalTimePanel/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 18
+text = "-"
+horizontal_alignment = 1
+
+[node name="BodyPanel" type="PanelContainer" parent="OuterMargin/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("BodyPanelStyle")
+
+[node name="BodyMargin" type="MarginContainer" parent="OuterMargin/Content/BodyPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="BodyColumn" type="VBoxContainer" parent="OuterMargin/Content/BodyPanel/BodyMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SectionTitle" type="Label" parent="OuterMargin/Content/BodyPanel/BodyMargin/BodyColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 15
+text = "HASIL 5 LEVEL"
+
+[node name="LevelRowsHost" type="VBoxContainer" parent="OuterMargin/Content/BodyPanel/BodyMargin/BodyColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
