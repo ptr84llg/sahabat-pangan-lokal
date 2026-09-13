@@ -38,11 +38,17 @@ func _ready() -> void:
     %ChangeCharacterButton.pressed.connect(func(): SceneRouter.goto("character_select"))
     %IntroNext.pressed.connect(_next)
 
-    UIMotion.bind_button(%BackButton)
-    UIMotion.bind_button(%ChangeCharacterButton)
-    UIMotion.bind_button(%IntroNext)
+    ScreenMotionPresenter.bind_buttons([
+        %BackButton,
+        %ChangeCharacterButton,
+        %IntroNext
+    ])
 
     _render()
+    ScreenMotionPresenter.enter_staggered([
+        get_node_or_null("Safe/HBox/AvatarPanel"),
+        get_node_or_null("Safe/HBox/StoryPanel")
+    ])
 
 func _next() -> void:
     page += 1
@@ -51,7 +57,10 @@ func _next() -> void:
         SceneRouter.goto("main_map")
         return
 
-    _render()
+    ScreenMotionPresenter.swap_content(
+        %IntroText,
+        Callable(self, "_render")
+    )
 
 func _back() -> void:
     if page <= 0:
@@ -59,7 +68,10 @@ func _back() -> void:
         return
 
     page -= 1
-    _render()
+    ScreenMotionPresenter.swap_content(
+        %IntroText,
+        Callable(self, "_render")
+    )
 
 func _render() -> void:
     %IntroText.text = lines[page]

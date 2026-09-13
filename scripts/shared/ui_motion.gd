@@ -76,6 +76,98 @@ static func reset(control: Control, duration: float = -1.0) -> void:
 	)
 
 
+static func play_panel_enter(
+	control: Control,
+	delay: float = 0.0
+) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+
+	var config := _config()
+
+	if config == null:
+		return
+
+	_prepare_control(control)
+	_stop_active_tween(control)
+
+	if not config.motion_enabled:
+		control.offset_transform_position = NEUTRAL_POSITION
+		control.offset_transform_scale = NEUTRAL_SCALE
+		_set_canvas_alpha(control, 1.0)
+		return
+
+	var safe_delay: float = maxf(delay, 0.0)
+	control.offset_transform_position = config.panel_enter_position
+	control.offset_transform_scale = config.panel_enter_scale
+	_set_canvas_alpha(control, 0.0)
+
+	var tween := control.create_tween()
+	control.set_meta(META_TWEEN, tween)
+	tween.set_parallel(true)
+	tween.tween_property(
+		control,
+		"offset_transform_position",
+		NEUTRAL_POSITION,
+		config.panel_enter_duration
+	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(
+		control,
+		"offset_transform_scale",
+		NEUTRAL_SCALE,
+		config.panel_enter_duration
+	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(
+		control,
+		"modulate:a",
+		1.0,
+		config.panel_enter_duration
+	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+
+static func play_content_swap(
+	control: Control,
+	apply_content: Callable
+) -> void:
+	if control == null or not is_instance_valid(control):
+		if apply_content.is_valid():
+			apply_content.call()
+		return
+
+	var config := _config()
+
+	if config == null:
+		if apply_content.is_valid():
+			apply_content.call()
+		return
+
+	_stop_active_tween(control)
+
+	if not config.motion_enabled:
+		if apply_content.is_valid():
+			apply_content.call()
+		_set_canvas_alpha(control, 1.0)
+		return
+
+	var tween := control.create_tween()
+	control.set_meta(META_TWEEN, tween)
+	tween.tween_property(
+		control,
+		"modulate:a",
+		0.0,
+		config.content_out_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+
+	if apply_content.is_valid():
+		tween.tween_callback(apply_content)
+
+	tween.tween_property(
+		control,
+		"modulate:a",
+		1.0,
+		config.content_in_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
 static func play_modal_open(
 	panel: Control,
 	mask: CanvasItem = null

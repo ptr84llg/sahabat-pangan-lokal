@@ -80,7 +80,7 @@ func _ready() -> void:
 
 	_refresh_audio_ui()
 	_populate_gallery_preview()
-	_setup_motion_pilot()
+	_setup_motion_presenter()
 
 func _bind_scene_authored_modals() -> bool:
 	var layer: Control = get_node_or_null("ManualModalLayer") as Control
@@ -140,8 +140,8 @@ func _bind_scene_authored_modals() -> bool:
 
 	return true
 
-func _setup_motion_pilot() -> void:
-	var pilot_buttons: Array = [
+func _setup_motion_presenter() -> void:
+	ScreenMotionPresenter.bind_buttons([
 		%ContinueButton,
 		%NewRunButton,
 		%GalleryButton,
@@ -150,24 +150,23 @@ func _setup_motion_pilot() -> void:
 		%SettingsButton,
 		%AboutButton,
 		%ResetDataButton,
-		%QuitButton
-	]
+		%QuitButton,
+		%NoticeClose,
+		%GalleryClose,
+		%AudioClose,
+		_about_close_button,
+		_exit_cancel_button,
+		_exit_confirm_button,
+		_reset_game_cancel_button,
+		_reset_game_confirm_button,
+		_device_close_button,
+		_history_close_button
+	])
 
-	for button_value in pilot_buttons:
-		var button := button_value as BaseButton
-		if button != null:
-			UIMotion.bind_button(button)
+	var safe := get_node_or_null("Safe") as Control
 
-	UIMotion.bind_button(%NoticeClose)
-	UIMotion.bind_button(%GalleryClose)
-	UIMotion.bind_button(%AudioClose)
-	UIMotion.bind_button(_about_close_button)
-	UIMotion.bind_button(_exit_cancel_button)
-	UIMotion.bind_button(_exit_confirm_button)
-	UIMotion.bind_button(_reset_game_cancel_button)
-	UIMotion.bind_button(_reset_game_confirm_button)
-	UIMotion.bind_button(_device_close_button)
-	UIMotion.bind_button(_history_close_button)
+	if safe != null:
+		ScreenMotionPresenter.enter_screen(safe)
 
 func _set_modal_input_state(opened: bool) -> void:
 	var safe := get_node_or_null("Safe") as Control
@@ -187,10 +186,13 @@ func _open_modal(panel: Control) -> void:
 	_set_modal_input_state(true)
 	_modal_mask.visible = true
 	panel.visible = true
-	UIMotion.play_modal_open(panel, _modal_mask)
+	ScreenMotionPresenter.open_modal(
+		panel,
+		_modal_mask
+	)
 
 func _close_modal(panel: Control) -> void:
-	UIMotion.play_modal_close(
+	ScreenMotionPresenter.close_modal(
 		panel,
 		_modal_mask,
 		func(): _set_modal_input_state(false)

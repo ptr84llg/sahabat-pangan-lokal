@@ -75,6 +75,11 @@ func _ready() -> void:
 	_refresh_map()
 	_layout_canvas()
 
+	var info_panel := canvas.get_node_or_null("LevelInfoPanel") as Control
+
+	if info_panel != null:
+		ScreenMotionPresenter.enter_screen(info_panel)
+
 func _bind_scene_authored_ui() -> void:
 	location_buttons = {
 		1: %Location_1,
@@ -90,15 +95,21 @@ func _bind_scene_authored_ui() -> void:
 	exit_cancel_button.pressed.connect(_close_exit_confirmation)
 	exit_confirm_button.pressed.connect(_confirm_exit)
 
-	UIMotion.bind_button(%BackButton)
-	UIMotion.bind_button(%ExitButton)
-	UIMotion.bind_button(start_button)
-	UIMotion.bind_button(exit_cancel_button)
-	UIMotion.bind_button(exit_confirm_button)
+	ScreenMotionPresenter.bind_buttons([
+		%BackButton,
+		%ExitButton,
+		start_button,
+		exit_cancel_button,
+		exit_confirm_button
+	])
 
 	for level_no in range(1, 6):
 		var button: TextureButton = location_buttons[level_no]
 		button.pressed.connect(_select_location.bind(level_no))
+
+	ScreenMotionPresenter.bind_buttons(
+		location_buttons.values()
+	)
 
 func _layout_canvas() -> void:
 	if not is_instance_valid(canvas):
@@ -219,6 +230,11 @@ func _select_location(level_no: int) -> void:
 	selected_level_no = level_no
 	_refresh_selection()
 
+	var selected_button := location_buttons.get(level_no) as Control
+
+	if selected_button != null:
+		ScreenMotionPresenter.select_control(selected_button)
+
 func _on_start_pressed() -> void:
 	var status: String = GameState.level_status(selected_level_no)
 
@@ -250,8 +266,10 @@ func _show_exit_confirmation() -> void:
 
 
 func _close_exit_confirmation() -> void:
-	exit_modal.visible = false
-	exit_mask.visible = false
+	ScreenMotionPresenter.close_modal(
+		exit_modal,
+		exit_mask
+	)
 
 
 func _confirm_exit() -> void:
@@ -309,7 +327,10 @@ func _configure_confirmation_modal(
 	exit_confirm_button.text = confirm_text
 	exit_mask.visible = true
 	exit_modal.visible = true
-	UIMotion.play_pop(exit_modal, 1.02)
+	ScreenMotionPresenter.open_modal(
+		exit_modal,
+		exit_mask
+	)
 
 
 func _ensure_level_result_star_row() -> void:

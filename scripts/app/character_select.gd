@@ -19,10 +19,12 @@ func _ready() -> void:
 	%BackButton.pressed.connect(func(): SceneRouter.goto("player_setup"))
 	%ContinueButton.pressed.connect(_continue_to_intro)
 
-	UIMotion.bind_button(%SlotAButton)
-	UIMotion.bind_button(%SlotBButton)
-	UIMotion.bind_button(%BackButton)
-	UIMotion.bind_button(%ContinueButton)
+	ScreenMotionPresenter.bind_buttons([
+		%SlotAButton,
+		%SlotBButton,
+		%BackButton,
+		%ContinueButton
+	])
 
 	selected_character_id = GameState.selected_character_id()
 
@@ -30,6 +32,10 @@ func _ready() -> void:
 		selected_character_id = ""
 
 	_render()
+	ScreenMotionPresenter.enter_staggered([
+		%SlotACard,
+		%SlotBCard
+	])
 
 func _apply_character_pose(
 	texture_node: TextureRect,
@@ -57,11 +63,7 @@ func _select_character(character_id: String) -> void:
 	_render()
 
 	var card: Control = %SlotACard if character_id == available_character_ids[0] else %SlotBCard
-	card.pivot_offset = card.size * 0.5
-
-	var tween: Tween = create_tween()
-	tween.tween_property(card, "scale", Vector2(1.025, 1.025), 0.10)
-	tween.tween_property(card, "scale", Vector2.ONE, 0.12)
+	ScreenMotionPresenter.select_control(card)
 
 func _continue_to_intro() -> void:
 	if selected_character_id.is_empty():

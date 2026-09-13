@@ -16,6 +16,10 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_layout_loader)
 	_layout_loader()
 	_set_progress(0.0)
+	ScreenMotionPresenter.bind_buttons([
+		%RetryButton
+	])
+	ScreenMotionPresenter.enter_screen(loader_root)
 
 	UpdateManager.status_changed.connect(_on_update_status_changed)
 	UpdateManager.progress_changed.connect(_on_update_progress_changed)

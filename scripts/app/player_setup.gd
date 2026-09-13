@@ -17,14 +17,21 @@ func _ready() -> void:
     %BackButton.pressed.connect(func(): SceneRouter.goto("main_menu"))
     %ContinueButton.pressed.connect(_continue_to_character)
 
-    UIMotion.bind_button(%MaleButton)
-    UIMotion.bind_button(%FemaleButton)
-    UIMotion.bind_button(%BackButton)
-    UIMotion.bind_button(%ContinueButton)
+    ScreenMotionPresenter.bind_buttons([
+        %MaleButton,
+        %FemaleButton,
+        %BackButton,
+        %ContinueButton
+    ])
 
     call_deferred("_focus_input")
     _render_gender_buttons()
     _render_state()
+
+    var card := get_node_or_null("Center/Card") as Control
+
+    if card != null:
+        ScreenMotionPresenter.enter_screen(card)
 
 func _focus_input() -> void:
     %NameInput.grab_focus()
