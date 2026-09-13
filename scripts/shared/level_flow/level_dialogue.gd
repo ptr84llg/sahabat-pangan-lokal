@@ -1,5 +1,7 @@
 extends Control
 
+const TYPEWRITER_CHARACTERS_PER_SECOND: float = 20.0
+
 const PLAYER_POSES: Dictionary = {
 	"rara": {
 		"standing": "res://assets/visual/character_select/character_01_female_standing.png",
@@ -66,6 +68,9 @@ var _continue_target: Button
 var _level_no: int = 0
 var _speaker_name: String = ""
 var _last_presented_body_text: String = ""
+var _typing_active: bool = false
+var _typing_progress: float = 0.0
+var _typing_total_characters: int = 0
 
 
 func _ready() -> void:
@@ -110,16 +115,63 @@ func present(
 	)
 
 	_refresh_character_state()
-	continue_button.disabled = _continue_target == null
 	visible = true
+	_start_typing()
 	_check_orientation()
 
 
 func hide_presenter() -> void:
+	_typing_active = false
+	_typing_progress = 0.0
+	_typing_total_characters = 0
+	dialogue_text.visible_characters = -1
 	visible = false
 	_source_panel = null
 	_continue_target = null
 	_last_presented_body_text = ""
+
+
+func _process(delta: float) -> void:
+	if not _typing_active:
+		return
+
+	_typing_progress += (
+		delta * TYPEWRITER_CHARACTERS_PER_SECOND
+	)
+
+	var visible_count: int = mini(
+		_typing_total_characters,
+		int(floor(_typing_progress))
+	)
+
+	if visible_count > dialogue_text.visible_characters:
+		dialogue_text.visible_characters = visible_count
+
+	if visible_count >= _typing_total_characters:
+		_finish_typing()
+
+
+func _start_typing() -> void:
+	_typing_active = false
+	_typing_progress = 0.0
+	dialogue_text.visible_characters = 0
+	_typing_total_characters = (
+		dialogue_text.get_total_character_count()
+	)
+	continue_button.disabled = true
+
+	if _typing_total_characters <= 0:
+		_finish_typing()
+		return
+
+	_typing_active = true
+
+
+func _finish_typing() -> void:
+	_typing_active = false
+	_typing_progress = float(_typing_total_characters)
+	dialogue_text.visible_characters = -1
+	continue_button.disabled = _continue_target == null
 
 
 func _format_dialogue_text(body_text: String) -> String:
@@ -282,5 +334,3 @@ func _load_texture(texture_path: String) -> Texture2D:
 		return resource as Texture2D
 
 	return null
-
-

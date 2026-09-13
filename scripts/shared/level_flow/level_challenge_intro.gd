@@ -81,5 +81,3 @@ func _check_orientation() -> void:
 
 	portrait_blocker.visible = portrait
 	challenge_ui.visible = not portrait
-
-
