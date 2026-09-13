@@ -4,9 +4,6 @@ const STATUS_LOCKED = "LOCKED"
 const STATUS_AVAILABLE = "AVAILABLE"
 const STATUS_COMPLETED = "COMPLETED"
 
-const STAR_TWO_THRESHOLD = 60
-const STAR_THREE_THRESHOLD = 80
-
 const CHARACTER_DATA = {
     "budi": {
         "display_name": "Budi",
@@ -40,6 +37,7 @@ func initialize(saved_state: Dictionary = {}) -> void:
     profile["player_id"] = SaveManager.get_installation_id()
     _ensure_profile_fields()
     _ensure_run_fields()
+    _reconcile_profile_star_policy()
 
     if _clear_completed_active_run():
         SaveManager.request_save()
@@ -59,7 +57,8 @@ func _new_profile() -> Dictionary:
         "gallery_unlocks": [],
         "processed_gallery_unlocks": [],
         "completion_counts_by_level": {},
-        "completed_run_history": []
+        "completed_run_history": [],
+        "achievements": {}
     }
 
 func _ensure_profile_fields() -> void:
@@ -83,6 +82,8 @@ func _ensure_profile_fields() -> void:
         profile["completion_counts_by_level"] = {}
     if not profile.has("completed_run_history"):
         profile["completed_run_history"] = []
+    if not profile.has("achievements"):
+        profile["achievements"] = {}
 
 
 func _ensure_run_fields() -> void:
@@ -109,8 +110,7 @@ func _ensure_run_fields() -> void:
 
     for key_value in level_scores.keys():
         var key: String = str(key_value)
-        if not stars_by_level.has(key):
-            stars_by_level[key] = stars_for_score(int(level_scores.get(key, 0)))
+        stars_by_level[key] = stars_for_score(int(level_scores.get(key, 0)))
 
     active_run["stars_by_level"] = stars_by_level
 
@@ -346,36 +346,27 @@ func total_points() -> int:
 
     return total
 
-func total_stars() -> int:
-    var total: int = 0
+func total_stars() -> float:
+    var total: float = 0.0
     var stars: Dictionary = active_run.get("stars_by_level", {})
 
     for star_value in stars.values():
-        total += int(star_value)
+        total += float(star_value)
 
     return total
 
-func stars_for_level(level_no: int) -> int:
+func stars_for_level(level_no: int) -> float:
     var key: String = str(level_no)
     var stars: Dictionary = active_run.get("stars_by_level", {})
 
     if stars.has(key):
-        return int(stars.get(key, 0))
+        return float(stars.get(key, 0.0))
 
     var scores: Dictionary = active_run.get("level_scores", {})
     return stars_for_score(int(scores.get(key, 0)))
 
-func stars_for_score(score: int) -> int:
-    if score >= STAR_THREE_THRESHOLD:
-        return 3
-
-    if score >= STAR_TWO_THRESHOLD:
-        return 2
-
-    if score > 0:
-        return 1
-
-    return 0
+func stars_for_score(score: int) -> float:
+    return ProgressionRules.star_value_for_score(score)
 
 func level_status(level_no: int) -> String:
     if active_run.is_empty():
@@ -415,7 +406,7 @@ func update_level_session(session: Dictionary) -> void:
 
 func complete_level(level_no: int, score: int, duration_ms: int, badge_id: String, badge_name: String, level_session_id: String) -> void:
     var key: String = str(level_no)
-    var earned_stars: int = stars_for_score(score)
+    var earned_stars: float = stars_for_score(score)
 
     active_run["level_status"][key] = STATUS_COMPLETED
     active_run["level_scores"][key] = score
@@ -447,7 +438,7 @@ func complete_level(level_no: int, score: int, duration_ms: int, badge_id: Strin
     profile["best_times_by_level"] = best_times
 
     var best_stars: Dictionary = profile.get("best_stars_by_level", {})
-    best_stars[key] = max(int(best_stars.get(key, 0)), earned_stars)
+    best_stars[key] = ProgressionRules.star_value_for_score(int(best_scores.get(key, 0)))
     profile["best_stars_by_level"] = best_stars
 
     var badges: Dictionary = profile.get("badges", {})
@@ -465,6 +456,7 @@ func complete_level(level_no: int, score: int, duration_ms: int, badge_id: Strin
         active_run["final_badges"].append(badge_id)
 
     _unlock_gallery_for_level(level_no)
+    AchievementManager.evaluate_level_completion(level_no, score, duration_ms)
 
     if level_no == 5:
         _archive_completed_run()
@@ -504,9 +496,9 @@ func _archive_completed_run() -> bool:
     record["player_name"] = player_display_name()
     record["selected_character_display_name"] = selected_character_display_name()
     record["archived_at"] = Time.get_unix_time_from_system()
-    record["badges_snapshot"] = profile.get("badges", {}).duplicate(true)
-    record["gallery_unlocks_snapshot"] = profile.get("gallery_unlocks", []).duplicate()
-    record["processed_gallery_unlocks_snapshot"] = profile.get("processed_gallery_unlocks", []).duplicate()
+    record["badges_snapshot"] = current_run_badges(true).duplicate(true)
+    record["gallery_unlocks_snapshot"] = current_gallery_unlocks(true).duplicate()
+    record["processed_gallery_unlocks_snapshot"] = current_processed_gallery_unlocks(true).duplicate()
 
     history.append(record)
     profile["completed_run_history"] = history
@@ -530,7 +522,6 @@ func _rebuild_profile_from_completed_history() -> void:
         var record: Dictionary = record_value
         var scores: Dictionary = record.get("level_scores", {})
         var durations: Dictionary = record.get("level_durations_ms", {})
-        var stars: Dictionary = record.get("stars_by_level", {})
         var statuses: Dictionary = record.get("level_status", {})
 
         for key_value in scores.keys():
@@ -548,11 +539,13 @@ func _rebuild_profile_from_completed_history() -> void:
             if duration_ms > 0 and (old_duration == 0 or duration_ms < old_duration):
                 best_times[key] = duration_ms
 
-        for key_value in stars.keys():
+        for key_value in scores.keys():
             var key: String = str(key_value)
-            best_stars[key] = max(
-                int(best_stars.get(key, 0)),
-                int(stars.get(key_value, 0))
+            best_stars[key] = maxf(
+                float(best_stars.get(key, 0.0)),
+                ProgressionRules.star_value_for_score(
+                    int(scores.get(key_value, 0))
+                )
             )
 
         for key_value in statuses.keys():
@@ -596,6 +589,152 @@ func _rebuild_profile_from_completed_history() -> void:
     profile["processed_gallery_unlocks"] = processed_unlocks
     profile["completion_counts_by_level"] = completion_counts
 
+func _reconcile_profile_star_policy() -> void:
+    var best_scores: Dictionary = profile.get("best_scores_by_level", {})
+    var best_stars: Dictionary = {}
+
+    for key_value in best_scores.keys():
+        var key: String = str(key_value)
+        best_stars[key] = ProgressionRules.star_value_for_score(
+            int(best_scores.get(key_value, 0))
+        )
+
+    profile["best_stars_by_level"] = best_stars
+
+func current_gallery_unlocks(include_completed: bool = false) -> Array:
+    var unlocks: Array = []
+
+    if active_run.is_empty():
+        return unlocks
+
+    if (
+        not include_completed
+        and str(active_run.get("status", "")) != "IN_PROGRESS"
+    ):
+        return unlocks
+
+    var statuses: Dictionary = active_run.get("level_status", {})
+
+    for food_value in ContentDatabase.master.get("foods", []):
+        if not food_value is Dictionary:
+            continue
+
+        var food: Dictionary = food_value
+        var introduced_level: int = int(
+            food.get(
+                "introduced_level",
+                99
+            )
+        )
+
+        if introduced_level < 1 or introduced_level > 5:
+            continue
+
+        if str(
+            statuses.get(
+                str(introduced_level),
+                STATUS_LOCKED
+            )
+        ) != STATUS_COMPLETED:
+            continue
+
+        var food_id: String = str(
+            food.get(
+                "food_id",
+                ""
+            )
+        )
+
+        if not food_id.is_empty():
+            unlocks.append(food_id)
+
+    return unlocks
+
+func current_processed_gallery_unlocks(
+    include_completed: bool = false
+) -> Array:
+    var unlocks: Array = []
+
+    if active_run.is_empty():
+        return unlocks
+
+    if (
+        not include_completed
+        and str(active_run.get("status", "")) != "IN_PROGRESS"
+    ):
+        return unlocks
+
+    var level_4_completed: bool = (
+        level_status(4) == STATUS_COMPLETED
+        or level_status(5) == STATUS_COMPLETED
+    )
+
+    if not level_4_completed:
+        return unlocks
+
+    for item_value in ContentDatabase.master.get("processed_foods", []):
+        if not item_value is Dictionary:
+            continue
+
+        var item: Dictionary = item_value
+        var processed_id: String = str(
+            item.get(
+                "processed_food_id",
+                ""
+            )
+        )
+
+        if not processed_id.is_empty():
+            unlocks.append(processed_id)
+
+    return unlocks
+
+func current_run_badges(
+    include_completed: bool = false
+) -> Dictionary:
+    var result: Dictionary = {}
+
+    if active_run.is_empty():
+        return result
+
+    if (
+        not include_completed
+        and str(active_run.get("status", "")) != "IN_PROGRESS"
+    ):
+        return result
+
+    var badge_ids: Array = active_run.get(
+        "final_badges",
+        []
+    )
+    var legacy_badges: Dictionary = profile.get(
+        "badges",
+        {}
+    )
+
+    for badge_id_value in badge_ids:
+        var badge_id: String = str(badge_id_value)
+        var display_name: String = "Medali"
+        var legacy_value: Variant = legacy_badges.get(
+            badge_id,
+            {}
+        )
+
+        if legacy_value is Dictionary:
+            var legacy_badge: Dictionary = legacy_value
+            display_name = str(
+                legacy_badge.get(
+                    "display_name",
+                    display_name
+                )
+            )
+
+        result[badge_id] = {
+            "earned": true,
+            "display_name": display_name
+        }
+
+    return result
 func export_state() -> Dictionary:
     return {
         "profile": profile.duplicate(true),

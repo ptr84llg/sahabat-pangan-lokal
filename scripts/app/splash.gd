@@ -70,10 +70,19 @@ func _ready() -> void:
 
 	CompletedHistorySyncManager.schedule_sync("startup")
 
-	_set_progress(85.0)
+	_set_update_status("MEMBACA INFORMASI PERANGKAT...")
+	_set_progress(88.0)
+	await get_tree().process_frame
+	DeviceProfileManager.refresh_snapshot()
+
+	_set_progress(95.0)
 	await get_tree().create_timer(0.10).timeout
 
 	AnalyticsLogger.initialize()
+	AchievementManager.reconcile_current_run()
+	if not SaveManager.save_now():
+		_fail("Pencapaian permainan gagal disimpan.")
+		return
 	AudioManager.apply_settings()
 
 	_set_update_status("SIAP BERMAIN")

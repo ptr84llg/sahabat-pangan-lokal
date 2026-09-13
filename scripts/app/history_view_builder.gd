@@ -222,15 +222,30 @@ func _legacy_levels(record: Dictionary) -> Dictionary:
 func _history_display_data(item: Dictionary, display_no: int) -> Dictionary:
 	var level_rows: Array = []
 	var levels: Dictionary = _as_dictionary(item.get("levels", null))
+	var reconciled_total_stars: float = 0.0
+	var has_star_source: bool = false
 
 	for level_no in range(1, 6):
 		var level: Dictionary = _as_dictionary(levels.get(str(level_no), null))
 		var summary: Dictionary = _as_dictionary(level.get("level_summary", null))
+		var score_value: Variant = summary.get(
+			"legacy_score",
+			summary.get("score", null)
+		)
+		var star_text: String = "-"
+
+		if score_value != null:
+			var canonical_star_value: float = ProgressionRules.star_value_for_score(
+				int(float(score_value))
+			)
+			reconciled_total_stars += canonical_star_value
+			has_star_source = true
+			star_text = str(canonical_star_value)
 
 		level_rows.append({
 			"level_no": level_no,
-			"score": _display(summary.get("legacy_score", summary.get("score", null))),
-			"stars": _display(summary.get("legacy_stars", summary.get("stars", null))),
+			"score": _display(score_value),
+			"stars": star_text,
 			"duration": _duration(
 				summary.get(
 					"legacy_active_duration_ms",
@@ -239,16 +254,21 @@ func _history_display_data(item: Dictionary, display_no: int) -> Dictionary:
 			)
 		})
 
+	var total_stars_text: String = (
+		str(reconciled_total_stars)
+		if has_star_source
+		else "-"
+	)
+
 	return {
 		"journey": "PERJALANAN %d" % display_no,
 		"completed_at": _date_text(item.get("completed_at", null)),
 		"character": _display(item.get("character_name", null)),
 		"total_score": _display(item.get("total_score", null)),
-		"total_stars": _display(item.get("total_stars", null)),
+		"total_stars": total_stars_text,
 		"total_duration": _duration(item.get("total_duration_ms", null)),
 		"levels": level_rows
 	}
-
 
 func _on_card_toggled(card: Control, opened: bool) -> void:
 	if opened:

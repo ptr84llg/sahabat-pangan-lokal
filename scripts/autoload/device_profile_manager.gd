@@ -5,6 +5,26 @@ const WINDOWS_PROFILE_CACHE_MS: int = 60000
 
 var _windows_profile_cache: Dictionary = {}
 var _windows_profile_cached_at_msec: int = -1
+var _snapshot_cache: Dictionary = {}
+var _snapshot_cached_at_msec: int = -1
+
+func refresh_snapshot() -> Dictionary:
+	var snapshot: Dictionary = capture_snapshot(true)
+	_snapshot_cache = snapshot.duplicate(true)
+	_snapshot_cached_at_msec = Time.get_ticks_msec()
+	return _snapshot_cache.duplicate(true)
+
+func get_cached_snapshot() -> Dictionary:
+	if _snapshot_cache.is_empty():
+		_snapshot_cache = capture_snapshot(false)
+		_snapshot_cached_at_msec = Time.get_ticks_msec()
+	return _snapshot_cache.duplicate(true)
+
+func has_cached_snapshot() -> bool:
+	return not _snapshot_cache.is_empty()
+
+func snapshot_cached_at_msec() -> int:
+	return _snapshot_cached_at_msec
 
 func capture_snapshot(allow_windows_profile_refresh: bool = true) -> Dictionary:
 	var screen_id: int = DisplayServer.SCREEN_OF_MAIN_WINDOW

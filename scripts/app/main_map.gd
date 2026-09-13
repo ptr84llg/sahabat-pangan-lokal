@@ -380,20 +380,8 @@ func _resolve_latest_level_result(
 
 
 func _star_slots_from_value(star_value: float) -> Array[String]:
-	var slots: Array[String] = []
-	var remainder: float = clampf(star_value, 0.0, 3.0)
+	return ProgressionRules.star_slots_for_value(star_value)
 
-	for _index in range(3):
-		if remainder >= 1.0:
-			slots.append("full")
-			remainder -= 1.0
-		elif remainder >= 0.5:
-			slots.append("half")
-			remainder -= 0.5
-		else:
-			slots.append("empty")
-
-	return slots
 func _on_back_pressed() -> void:
 	_play_click()
 	SceneRouter.goto("main_menu")

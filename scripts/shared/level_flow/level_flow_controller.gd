@@ -2705,21 +2705,9 @@ func _format_v3_game_result_line(
 
 
 func _resolve_level_star_value(
-	score: int
+	 score: int
 ) -> float:
-	if score >= 100:
-		return 3.0
-	if score >= 90:
-		return 2.5
-	if score >= 75:
-		return 2.0
-	if score >= 50:
-		return 1.5
-	if score >= 35:
-		return 1.0
-	if score >= 5:
-		return 0.5
-	return 0.0
+	return ProgressionRules.star_value_for_score(score)
 
 
 func _build_star_slots(

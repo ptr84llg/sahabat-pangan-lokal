@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ProgressionConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/config/progression_config.gd" id="1_progression"]
+
+[resource]
+script = ExtResource("1_progression")
+three_star_score = 100
+two_half_star_score = 90
+two_star_score = 75
+one_half_star_score = 50
+one_star_score = 35
+half_star_min_score = 5

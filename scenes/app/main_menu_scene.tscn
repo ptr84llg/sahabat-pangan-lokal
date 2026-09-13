@@ -513,7 +513,7 @@ text = "GALERI PANGAN"
 layout_mode = 2
 theme_override_colors/font_color = Color(0.35, 0.36, 0.28, 1)
 theme_override_font_sizes/font_size = 18
-text = "Pilih kategori koleksi untuk melihat bahan pangan, pangan olahan, atau medali yang sudah kamu peroleh."
+text = "Bahan pangan, pangan olahan, dan medali mengikuti perjalanan saat ini. Gelar tersimpan permanen sebagai pencapaian."
 autowrap_mode = 3
 
 [node name="GalleryHeaderSeparator" type="HSeparator" parent="GalleryPanel/GalleryMargin/GalleryVBox"]
@@ -621,6 +621,30 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
+[node name="GELAR" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleCountLabel" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/GELAR"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.25, 0.56, 1)
+theme_override_font_sizes/font_size = 20
+text = "0/14 gelar diperoleh"
+horizontal_alignment = 1
+
+[node name="TitleScroll" type="ScrollContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/GELAR"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="TitleList" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/GELAR/TitleScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
 [node name="GalleryFooterSeparator" type="HSeparator" parent="GalleryPanel/GalleryMargin/GalleryVBox"]
 layout_mode = 2
 

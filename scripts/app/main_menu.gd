@@ -8,6 +8,8 @@ const RESET_CONFIRMATION_NEW_RUN := "new_run"
 var _modal_mask: ColorRect
 var _medal_count_label: Label
 var _medal_list: VBoxContainer
+var _title_count_label: Label
+var _title_list: VBoxContainer
 var _about_panel: PanelContainer
 var _about_close_button: Button
 var _exit_panel: PanelContainer
@@ -34,6 +36,8 @@ func _ready() -> void:
 
 	_medal_count_label = %MedalCountLabel
 	_medal_list = %MedalList
+	_title_count_label = %TitleCountLabel
+	_title_list = %TitleList
 
 	%ContinueButton.visible = GameState.has_active_run()
 	%ResetDataButton.visible = GameState.has_active_run()
@@ -326,13 +330,14 @@ func _refresh_audio_ui() -> void:
 	%MouseClickCheckBox.set_pressed_no_signal(mouse_click_enabled)
 
 func _populate_gallery_preview() -> void:
-	var fresh_unlocks: Array = GameState.profile.get("gallery_unlocks", [])
-	var processed_unlocks: Array = GameState.profile.get("processed_gallery_unlocks", [])
+	var fresh_unlocks: Array = GameState.current_gallery_unlocks()
+	var processed_unlocks: Array = GameState.current_processed_gallery_unlocks()
 	var medal_count: int = _count_earned_badges()
+	var title_count: int = AchievementManager.earned_count()
 	var bullet: String = String.chr(0x2022)
 
 	%GalleryPreview.text = (
-		"Koleksi terbuka: "
+		"Koleksi perjalanan: "
 		+ str(fresh_unlocks.size())
 		+ " bahan "
 		+ bullet
@@ -342,22 +347,28 @@ func _populate_gallery_preview() -> void:
 		+ bullet
 		+ " "
 		+ str(medal_count)
-		+ " medali"
+		+ " medali "
+		+ bullet
+		+ " "
+		+ str(title_count)
+		+ " gelar"
 	)
 
 func _build_gallery_lists() -> void:
 	_clear_children(%FreshFoodList)
 	_clear_children(%ProcessedFoodList)
 	_clear_children(_medal_list)
+	_clear_children(_title_list)
 
 	var fresh_grid: GridContainer = _create_gallery_grid(%FreshFoodList)
 	var processed_grid: GridContainer = _create_gallery_grid(%ProcessedFoodList)
 	var medal_grid: GridContainer = _create_gallery_grid(_medal_list)
+	var title_grid: GridContainer = _create_gallery_grid(_title_list)
 
-	var fresh_unlocks: Array = GameState.profile.get("gallery_unlocks", [])
-	var processed_unlocks: Array = GameState.profile.get("processed_gallery_unlocks", [])
-	var badges: Dictionary = GameState.profile.get("badges", {})
-	var found_any: bool = false
+	var fresh_unlocks: Array = GameState.current_gallery_unlocks()
+	var processed_unlocks: Array = GameState.current_processed_gallery_unlocks()
+	var badges: Dictionary = GameState.current_run_badges()
+	var title_entries: Array[Dictionary] = AchievementManager.title_entries()
 
 	%FreshCountLabel.text = "%d bahan ditemukan" % fresh_unlocks.size()
 	%ProcessedCountLabel.text = "%d olahan ditemukan" % processed_unlocks.size()
@@ -367,7 +378,6 @@ func _build_gallery_lists() -> void:
 		var food_id: String = str(food.get("food_id", ""))
 
 		if food_id in fresh_unlocks:
-			found_any = true
 			fresh_grid.add_child(
 				_make_gallery_card(
 					str(food.get("display_name", "Pangan Lokal")),
@@ -383,7 +393,6 @@ func _build_gallery_lists() -> void:
 		var item_id: String = str(item.get("processed_food_id", ""))
 
 		if item_id in processed_unlocks:
-			found_any = true
 			processed_grid.add_child(
 				_make_gallery_card(
 					str(item.get("display_name", "Olahan Pangan")),
@@ -398,7 +407,7 @@ func _build_gallery_lists() -> void:
 		_clear_children(%FreshFoodList)
 		%FreshFoodList.add_child(
 			_make_empty_card(
-				"Belum ada bahan pangan yang terbuka. Selesaikan misi untuk menambah koleksi."
+				"Belum ada bahan pangan pada perjalanan saat ini. Selesaikan misi untuk membuka koleksi."
 			)
 		)
 
@@ -406,7 +415,7 @@ func _build_gallery_lists() -> void:
 		_clear_children(%ProcessedFoodList)
 		%ProcessedFoodList.add_child(
 			_make_empty_card(
-				"Belum ada pangan olahan yang terbuka. Lanjutkan permainan hingga misi dapur dan festival."
+				"Belum ada pangan olahan pada perjalanan saat ini. Lanjutkan hingga misi dapur dan festival."
 			)
 		)
 
@@ -430,11 +439,10 @@ func _build_gallery_lists() -> void:
 	_medal_count_label.text = "%d medali diperoleh" % earned_badges.size()
 
 	for badge in earned_badges:
-		found_any = true
 		medal_grid.add_child(
 			_make_gallery_card(
 				str(badge.get("display_name", "Medali")),
-				"Medali pencapaian",
+				"Medali perjalanan saat ini",
 				"Sudah diperoleh",
 				"badge",
 				str(badge.get("badge_id", ""))
@@ -445,17 +453,51 @@ func _build_gallery_lists() -> void:
 		_clear_children(_medal_list)
 		_medal_list.add_child(
 			_make_empty_card(
-				"Belum ada medali. Medali diperoleh setelah kamu menyelesaikan pencapaian penting."
+				"Belum ada medali pada perjalanan saat ini."
 			)
 		)
 
-	%GalleryEmptyState.visible = not found_any
-	%GalleryTabs.visible = found_any
+	var earned_title_count: int = 0
+
+	for entry in title_entries:
+		var earned: bool = bool(entry.get("earned", false))
+
+		if earned:
+			earned_title_count += 1
+
+		title_grid.add_child(
+			_make_gallery_card(
+				str(entry.get("display_name", "Gelar")),
+				str(entry.get("requirement_text", "")),
+				"SUDAH DIPEROLEH" if earned else "BELUM DIPEROLEH",
+				"title_earned" if earned else "title_locked",
+				str(entry.get("title_id", ""))
+			)
+		)
+
+	_title_count_label.text = (
+		"%d/%d gelar diperoleh"
+		% [
+			earned_title_count,
+			title_entries.size()
+		]
+	)
+
+	if title_grid.get_child_count() == 0:
+		_clear_children(_title_list)
+		_title_list.add_child(
+			_make_empty_card(
+				"Daftar gelar belum tersedia."
+			)
+		)
+
+	%GalleryEmptyState.visible = false
+	%GalleryTabs.visible = true
 	_populate_gallery_preview()
 
 func _populate_device_modal() -> void:
 	_clear_runtime_children(_device_body)
-	var snapshot: Dictionary = DeviceProfileManager.capture_snapshot()
+	var snapshot: Dictionary = DeviceProfileManager.get_cached_snapshot()
 	var availability: Dictionary = snapshot.get("availability", {})
 
 	_add_information_section(_device_body, "IDENTITAS INSTALASI", [
@@ -757,17 +799,7 @@ func _clear_runtime_children(parent: Node) -> void:
 		child.queue_free()
 
 func _count_earned_badges() -> int:
-	var badges: Dictionary = GameState.profile.get("badges", {})
-	var total: int = 0
-
-	for badge_id_value in badges.keys():
-		var badge_id: String = str(badge_id_value)
-		var badge: Dictionary = badges.get(badge_id, {})
-
-		if bool(badge.get("earned", false)):
-			total += 1
-
-	return total
+	return GameState.current_run_badges().size()
 
 func _clear_children(node: Node) -> void:
 	for child in node.get_children():
@@ -793,7 +825,7 @@ func _make_gallery_card(
 
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.custom_minimum_size = Vector2(0, 136)
+	panel.custom_minimum_size = Vector2(0, 156 if entry_kind.begins_with("title_") else 136)
 
 	var style := StyleBoxFlat.new()
 	style.bg_color = palette.get("panel")
@@ -847,6 +879,10 @@ func _make_gallery_card(
 
 func _gallery_palette(entry_kind: String) -> Dictionary:
 	match entry_kind:
+		"title_earned":
+			return AchievementManager.gallery_palette_for(true)
+		"title_locked":
+			return AchievementManager.gallery_palette_for(false)
 		"badge":
 			return {
 				"panel": Color(1.00, 0.97, 0.88, 0.98),
@@ -914,11 +950,22 @@ func _make_gallery_thumbnail(entry_kind: String, entry_id: String, palette: Dict
 		texture_rect.custom_minimum_size = Vector2(78, 78)
 		texture_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+
+		if entry_kind.begins_with("title_"):
+			texture_rect.modulate = AchievementManager.icon_modulate_for(
+				entry_kind == "title_earned"
+			)
+
 		center.add_child(texture_rect)
 		return frame
 
 	var fallback := Label.new()
-	fallback.text = "MEDALI" if entry_kind == "badge" else "OLAHAN"
+	if entry_kind == "badge":
+		fallback.text = "MEDALI"
+	elif entry_kind.begins_with("title_"):
+		fallback.text = "GELAR"
+	else:
+		fallback.text = "OLAHAN"
 	fallback.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	fallback.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	fallback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -960,6 +1007,8 @@ func _resolve_gallery_texture_path(entry_kind: String, entry_id: String) -> Stri
 		return str(VisualAssets.processed_food_texture_paths().get(entry_id, ""))
 	if entry_kind == "badge":
 		return str(VisualAssets.badge_texture_paths().get(entry_id, ""))
+	if entry_kind.begins_with("title_"):
+		return AchievementManager.icon_path_for(entry_id)
 	return ""
 
 func _load_texture_or_null(texture_path: String) -> Texture2D:

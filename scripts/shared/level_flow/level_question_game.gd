@@ -286,11 +286,7 @@ func _sync_explanation(feedback_value: String) -> void:
 		return
 
 	var feedback_kind: String = _feedback_kind(feedback_value)
-	var lowered_feedback: String = feedback_value.to_lower()
-	var is_timeout: bool = (
-		lowered_feedback.contains("waktu menjawab habis")
-		or lowered_feedback.contains("timeout")
-	)
+	var is_timeout: bool = _feedback_is_timeout(feedback_value)
 
 	if is_timeout:
 		feedback_status_label.text = "\u2715 WAKTU HABIS"
@@ -764,18 +760,47 @@ func _play_answer_result_sfx(feedback_value: String) -> void:
 		AudioManager.play_choice_feedback(false)
 		_answer_result_sfx_played = true
 
+func _feedback_first_line(value: String) -> String:
+	var lines: PackedStringArray = value.strip_edges().split("\n")
+
+	for raw_line in lines:
+		var line: String = str(raw_line).strip_edges()
+
+		if not line.is_empty():
+			return line
+
+	return ""
+
+
+func _feedback_is_timeout(value: String) -> bool:
+	var lowered: String = _feedback_first_line(value).to_lower()
+
+	return (
+		lowered.begins_with("waktu menjawab habis")
+		or lowered.begins_with("timeout")
+	)
+
+
 func _feedback_kind(value: String) -> String:
-	var lowered: String = value.to_lower()
+	var lowered: String = _feedback_first_line(value).to_lower()
+
+	if lowered.is_empty():
+		return "neutral"
+
+	if (
+		lowered.begins_with("waktu menjawab habis")
+		or lowered.begins_with("timeout")
+	):
+		return "wrong"
 
 	for wrong_token in [
-		"belum",
+		"belum tepat",
+		"jawaban salah",
 		"salah",
 		"wrong",
-		"waktu menjawab habis",
-		"timeout",
 		"coba lagi"
 	]:
-		if lowered.contains(wrong_token):
+		if lowered.begins_with(wrong_token):
 			return "wrong"
 
 	for correct_token in [
@@ -784,7 +809,7 @@ func _feedback_kind(value: String) -> String:
 		"correct",
 		"hebat"
 	]:
-		if lowered.contains(correct_token):
+		if lowered.begins_with(correct_token):
 			return "correct"
 
 	return "neutral"
