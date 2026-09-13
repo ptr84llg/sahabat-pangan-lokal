@@ -180,6 +180,10 @@ func _rebuild_answer_options_if_needed() -> void:
 	var target_container: Container = answer_list
 
 	if mode == "IMAGE_OPTIONS":
+		if _native_answers.size() >= 4:
+			image_answer_grid.columns = 4
+		else:
+			image_answer_grid.columns = 3
 		target_container = image_answer_grid
 
 	answer_list.visible = mode != "IMAGE_OPTIONS"
@@ -276,14 +280,21 @@ func _sync_explanation(feedback_value: String) -> void:
 		return
 
 	var feedback_kind: String = _feedback_kind(feedback_value)
+	var lowered_feedback: String = feedback_value.to_lower()
 
-	match feedback_kind:
-		"correct":
-			feedback_status_label.text = "BENAR!"
-		"wrong":
-			feedback_status_label.text = "BELUM TEPAT"
-		_:
-			feedback_status_label.text = "HASIL JAWABAN"
+	if (
+		lowered_feedback.contains("waktu menjawab habis")
+		or lowered_feedback.contains("timeout")
+	):
+		feedback_status_label.text = "WAKTU HABIS"
+	else:
+		match feedback_kind:
+			"correct":
+				feedback_status_label.text = "BENAR!"
+			"wrong":
+				feedback_status_label.text = "BELUM TEPAT"
+			_:
+				feedback_status_label.text = "HASIL JAWABAN"
 
 	if not feedback_value.is_empty():
 		_set_rich_text(

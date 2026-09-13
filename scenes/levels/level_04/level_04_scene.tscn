@@ -178,6 +178,9 @@ border_color = Color(0.055, 0.36, 0.22, 1)
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x8lru"]
+draw_center = false
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3c0hv"]
 bg_color = Color(0.99215686, 0.38039216, 0.007843138, 1)
 border_width_left = 2
@@ -358,6 +361,9 @@ border_width_bottom = 2
 border_color = Color(0.055, 0.36, 0.22, 1)
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d0puw"]
+draw_center = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e6h1j"]
 bg_color = Color(0.99215686, 0.38039216, 0.007843138, 1)
@@ -601,7 +607,6 @@ text = "MULAI MENGOLAH"
 
 [node name="MainGameHUD" type="PanelContainer" parent="SafeArea/Screens" unique_id=1920003659]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -783,7 +788,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_mkk4o")
 
 [node name="ProcessVBox" type="VBoxContainer" parent="SafeArea/Screens/MainGameHUD/MainMargin/MainVBox/BodyRow/MainGameColumn/RecipeChainPanel/ChainMargin/RecipeChainRow/ProcessPanel" unique_id=443488453]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 0
 alignment = 1
 
 [node name="ProcessHeader" type="Label" parent="SafeArea/Screens/MainGameHUD/MainMargin/MainVBox/BodyRow/MainGameColumn/RecipeChainPanel/ChainMargin/RecipeChainRow/ProcessPanel/ProcessVBox" unique_id=1278668481]
@@ -883,6 +888,7 @@ propagate_maximum_size = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.055, 0.3, 0.19, 1)
 theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_x8lru")
 text = "???"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1177,6 +1183,7 @@ text = "MULAI TANTANGAN"
 
 [node name="LiteracyHUD" type="PanelContainer" parent="SafeArea/Screens" unique_id=993331564]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1353,6 +1360,7 @@ custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.055, 0.3, 0.19, 1)
 theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_d0puw")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3

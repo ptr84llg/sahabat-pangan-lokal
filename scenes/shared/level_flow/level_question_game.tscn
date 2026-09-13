@@ -16,6 +16,18 @@ corner_radius_top_right = 15
 corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5rmbn"]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_af43a"]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="QuestionTagStyle"]
+bg_color = Color(0.012, 0.35, 0.23, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
 [sub_resource type="StyleBoxFlat" id="QuestionPanelStyle"]
 bg_color = Color(0.99, 0.99, 0.985, 1)
 border_width_left = 3
@@ -28,11 +40,8 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxFlat" id="QuestionTagStyle"]
-bg_color = Color(0.012, 0.35, 0.23, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_su1ps"]
+draw_center = false
 
 [sub_resource type="StyleBoxFlat" id="ExplanationPanelStyle"]
 bg_color = Color(0.85, 0.91, 0.97, 1)
@@ -123,31 +132,65 @@ theme_override_constants/margin_bottom = 10
 
 [node name="MainVBox" type="VBoxContainer" parent="QuestionUI/MainPanel/ContentMargin" unique_id=2009770359]
 layout_mode = 2
-theme_override_constants/separation = 7
+theme_override_constants/separation = 10
 
-[node name="QuestionBlock" type="Control" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=1856175816]
-custom_minimum_size = Vector2(0, 118)
+[node name="PanelQuestion" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=1790898325]
+custom_minimum_size = Vector2(0, 150)
+propagate_maximum_size = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5rmbn")
+
+[node name="QuestionBlock" type="Control" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PanelQuestion" unique_id=1856175816]
 layout_mode = 2
 
-[node name="QuestionPanel" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock" unique_id=567470902]
-unique_name_in_owner = true
+[node name="PanelContainer" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PanelQuestion/QuestionBlock" unique_id=1946966318]
 layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.22
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 166.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_af43a")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PanelQuestion/QuestionBlock/PanelContainer" unique_id=1287582137]
+layout_mode = 2
+theme_override_constants/separation = -25
+
+[node name="QuestionTag" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PanelQuestion/QuestionBlock/PanelContainer/VBoxContainer" unique_id=1380930541]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("QuestionTagStyle")
+
+[node name="QuestionTagMargin" type="MarginContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PanelQuestion/QuestionBlock/PanelContainer/VBoxContainer/QuestionTag" unique_id=613871848]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_right = 14
+
+[node name="QuestionTagLabel" type="Label" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PanelQuestion/QuestionBlock/PanelContainer/VBoxContainer/QuestionTag/QuestionTagMargin" unique_id=916458639]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "PERTANYAAN :"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuestionPanel" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PanelQuestion/QuestionBlock/PanelContainer/VBoxContainer" unique_id=567470902]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
 theme_override_styles/panel = SubResource("QuestionPanelStyle")
 
-[node name="QuestionMargin" type="MarginContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/QuestionPanel" unique_id=48783770]
+[node name="QuestionMargin" type="MarginContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PanelQuestion/QuestionBlock/PanelContainer/VBoxContainer/QuestionPanel" unique_id=48783770]
 layout_mode = 2
 theme_override_constants/margin_left = 18
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 18
 theme_override_constants/margin_bottom = 8
 
-[node name="QuestionText" type="RichTextLabel" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/QuestionPanel/QuestionMargin" unique_id=2093263691]
+[node name="QuestionText" type="RichTextLabel" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/PanelQuestion/QuestionBlock/PanelContainer/VBoxContainer/QuestionPanel/QuestionMargin" unique_id=2093263691]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -159,83 +202,64 @@ fit_content = true
 scroll_active = false
 vertical_alignment = 1
 
-[node name="QuestionTag" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock" unique_id=1380930541]
-unique_name_in_owner = true
-layout_mode = 1
-offset_right = 250.0
-offset_bottom = 48.0
-theme_override_styles/panel = SubResource("QuestionTagStyle")
-
-[node name="QuestionTagMargin" type="MarginContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/QuestionTag" unique_id=613871848]
-layout_mode = 2
-theme_override_constants/margin_left = 14
-theme_override_constants/margin_right = 14
-
-[node name="QuestionTagLabel" type="Label" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/QuestionTag/QuestionTagMargin" unique_id=916458639]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 32
-text = "PERTANYAAN :"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MetaRow" type="HBoxContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock" unique_id=1131774100]
+[node name="MetaRow" type="HBoxContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=1131774100]
 unique_name_in_owner = true
 visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.58
-anchor_top = 0.235
-anchor_right = 0.985
-anchor_bottom = 0.47
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 theme_override_constants/separation = 18
 alignment = 2
 
-[node name="ProgressLabel" type="Label" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/MetaRow" unique_id=755539952]
+[node name="ProgressLabel" type="Label" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/MetaRow" unique_id=755539952]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.22, 0.4, 0.24, 1)
 theme_override_font_sizes/font_size = 17
 
-[node name="ScoreLabel" type="Label" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/MetaRow"]
+[node name="ScoreLabel" type="Label" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/MetaRow" unique_id=899591828]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.37, 0.1, 1)
 theme_override_font_sizes/font_size = 17
-[node name="TimerLabel" type="Label" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionBlock/MetaRow" unique_id=1978285668]
+
+[node name="TimerLabel" type="Label" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/MetaRow" unique_id=1978285668]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.73, 0.28, 0.08, 1)
 theme_override_font_sizes/font_size = 19
 
-[node name="QuestionMediaPanel" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox"]
+[node name="PanelDivider" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=1859827219]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_su1ps")
+
+[node name="QuestionMediaPanel" type="PanelContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=1877335917]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 theme_override_styles/panel = SubResource("QuestionPanelStyle")
 
-[node name="MediaMargin" type="MarginContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionMediaPanel"]
+[node name="MediaMargin" type="MarginContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionMediaPanel" unique_id=1159342513]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 8
 
-[node name="MediaCenter" type="CenterContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionMediaPanel/MediaMargin"]
+[node name="MediaCenter" type="CenterContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionMediaPanel/MediaMargin" unique_id=1474476370]
 layout_mode = 2
 
-[node name="QuestionMediaImage" type="TextureRect" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionMediaPanel/MediaMargin/MediaCenter"]
+[node name="QuestionMediaImage" type="TextureRect" parent="QuestionUI/MainPanel/ContentMargin/MainVBox/QuestionMediaPanel/MediaMargin/MediaCenter" unique_id=618603242]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(260, 134)
 layout_mode = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
+
 [node name="PreviewAnswerList" type="VBoxContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=574062811]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 8
 
@@ -254,10 +278,11 @@ alignment = 0
 
 [node name="AnswerList" type="VBoxContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=11621314]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="ImageAnswerGrid" type="GridContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox"]
+[node name="ImageAnswerGrid" type="GridContainer" parent="QuestionUI/MainPanel/ContentMargin/MainVBox" unique_id=1919309769]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(0, 190)
@@ -267,7 +292,8 @@ size_flags_vertical = 3
 theme_override_constants/h_separation = 14
 theme_override_constants/v_separation = 10
 columns = 3
-[node name="FeedbackModalLayer" type="Control" parent="QuestionUI"]
+
+[node name="FeedbackModalLayer" type="Control" parent="QuestionUI" unique_id=1858174538]
 unique_name_in_owner = true
 visible = false
 z_index = 80
@@ -277,9 +303,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 
-[node name="FeedbackMask" type="ColorRect" parent="QuestionUI/FeedbackModalLayer"]
+[node name="FeedbackMask" type="ColorRect" parent="QuestionUI/FeedbackModalLayer" unique_id=1773092394]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -287,17 +312,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 color = Color(0.02, 0.03, 0.02, 0.52)
 
-[node name="FeedbackCenter" type="CenterContainer" parent="QuestionUI/FeedbackModalLayer"]
+[node name="FeedbackCenter" type="CenterContainer" parent="QuestionUI/FeedbackModalLayer" unique_id=818344209]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
 
 [node name="ExplanationPanel" type="PanelContainer" parent="QuestionUI/FeedbackModalLayer/FeedbackCenter" unique_id=587071961]
 unique_name_in_owner = true
@@ -316,7 +339,7 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="FeedbackStatusLabel" type="Label" parent="QuestionUI/FeedbackModalLayer/FeedbackCenter/ExplanationPanel/ExplanationMargin/ExplanationVBox"]
+[node name="FeedbackStatusLabel" type="Label" parent="QuestionUI/FeedbackModalLayer/FeedbackCenter/ExplanationPanel/ExplanationMargin/ExplanationVBox" unique_id=1686170269]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 34)
 layout_mode = 2
@@ -325,6 +348,7 @@ theme_override_font_sizes/font_size = 26
 text = "HASIL JAWABAN"
 horizontal_alignment = 1
 vertical_alignment = 1
+
 [node name="ExplanationText" type="RichTextLabel" parent="QuestionUI/FeedbackModalLayer/FeedbackCenter/ExplanationPanel/ExplanationMargin/ExplanationVBox" unique_id=1284036274]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 64)

@@ -39,7 +39,7 @@ func submit(answer_id: String, response_time_ms: int) -> Dictionary:
     var correct_id := str(current_question.get("correct_answer_id", ""))
     var correct := answer_id == correct_id
     var status := "CORRECT" if correct else "WRONG"
-    var gained := int(config.get("score_correct", 8)) if correct else int(config.get("score_wrong", 0))
+    var gained := int(config.get("score_correct", 4)) if correct else int(config.get("score_wrong", 0))
     score += gained
     var response := _response_base(status, response_time_ms)
     response["selected_answer_id"] = answer_id

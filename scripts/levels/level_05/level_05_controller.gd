@@ -23,7 +23,7 @@ const V3_MAIN_INSTRUCTION_TEXT: String = "Selesaikan empat skema Festival Pangan
 const V3_QUIZ_GAME_ID: String = "L5-G02"
 const V3_QUIZ_GAME_TYPE: String = "literacy_question"
 const V3_QUIZ_INSTRUCTION_ID: String = "INST-L5-G02-QUIZ"
-const V3_QUIZ_INSTRUCTION_TEXT: String = "Jawab lima pertanyaan Uji Literasi Pangan dengan waktu 30 detik per pertanyaan."
+const V3_QUIZ_INSTRUCTION_TEXT: String = "Jawab sepuluh pertanyaan sulit Uji Literasi Pangan dengan waktu 30 detik per pertanyaan."
 @onready var theme_panel: Control = %ThemePanel
 @onready var dialogue_panel: Control = %DialoguePanel
 @onready var tutorial_panel: Control = %TutorialPanel
@@ -1459,10 +1459,7 @@ func _resolve_v3_mission_scoring(
 			{}
 		)
 		base_points = int(
-			quiz_scoring.get(
-				"score_correct",
-				8
-			)
+			quiz_scoring.get("score_correct", 4)
 		)
 		retry_points = 0
 
@@ -1650,8 +1647,21 @@ func _start_quiz() -> void:
 	show_only(screens, quiz_hud)
 	_advance_quiz()
 
+func _refresh_l5_quiz_score_meta() -> void:
+	var quiz_max_score: int = int(
+		config.get("scoring", {}).get("quiz_max", 40)
+	)
+	%QuestionText.set_meta(
+		"score_text",
+		"POIN %d / %d" % [
+			quiz_controller.score,
+			quiz_max_score
+		]
+	)
+
+
 func _advance_quiz() -> void:
-	var next := quiz_controller.advance_question()
+	var next: Dictionary = quiz_controller.advance_question()
 
 	if next.is_empty():
 		_complete_quiz()
@@ -1664,7 +1674,7 @@ func _advance_quiz() -> void:
 		)
 	) + 1
 	set_state(
-        "QUESTION_%d"
+		"QUESTION_%d"
 		% question_order
 	)
 	%QuizNextButton.visible = false
@@ -1674,18 +1684,43 @@ func _advance_quiz() -> void:
 		"question",
 		{}
 	)
+	var question_id: String = str(
+		q.get("question_id", "")
+	)
+	var presentation_mode: String = str(
+		q.get("presentation_mode", "TEXT_ONLY")
+	).strip_edges().to_upper()
+	var media_path: String = str(
+		q.get("media_path", "")
+	).strip_edges()
+	var question_count: int = quiz_controller.question_count()
+
 	%QuestionProgress.text = "SOAL %d / %d" % [
 		question_order,
-		quiz_controller.question_count()
+		question_count
 	]
 	%QuestionText.text = str(
 		q.get(
 			"question_text",
-            ""
+			""
 		)
 	)
+	%QuestionText.set_meta("question_id", question_id)
+	%QuestionText.set_meta(
+		"presentation_mode",
+		presentation_mode
+	)
+	%QuestionText.set_meta("media_path", media_path)
+	%QuestionText.set_meta(
+		"progress_text",
+		"PERTANYAAN %d / %d" % [
+			question_order,
+			question_count
+		]
+	)
+	_refresh_l5_quiz_score_meta()
 
-	var buttons := [
+	var buttons: Array[Button] = [
 		%AnswerA,
 		%AnswerB,
 		%AnswerC,
@@ -1700,26 +1735,20 @@ func _advance_quiz() -> void:
 		var b: Button = buttons[i]
 		b.disabled = false
 		b.visible = i < answers.size()
+		b.set_meta("answer_id", "")
+		b.set_meta("image_path", "")
 
 		if i < answers.size():
+			var answer: Dictionary = answers[i]
 			b.set_meta(
 				"answer_id",
-				str(
-					answers[i].get(
-						"answer_id",
-                        ""
-					)
-				)
+				str(answer.get("answer_id", ""))
 			)
-			b.text = "%s. %s" % [
-				["A", "B", "C", "D"][i],
-				str(
-					answers[i].get(
-						"text",
-                        ""
-					)
-				)
-			]
+			b.set_meta(
+				"image_path",
+				str(answer.get("image_path", ""))
+			)
+			b.text = str(answer.get("text", ""))
 
 	DurationTracker.resume_active_play()
 	question_timer.start_question()
@@ -1728,7 +1757,6 @@ func _advance_quiz() -> void:
 		answers,
 		question_order
 	)
-
 func _on_answer_pressed(button_index: int) -> void:
 	if not question_timer.running:
 		return
@@ -1736,27 +1764,27 @@ func _on_answer_pressed(button_index: int) -> void:
 	question_timer.stop()
 	DurationTracker.pause_active_play()
 
-	var buttons := [
+	var buttons: Array[Button] = [
 		%AnswerA,
 		%AnswerB,
 		%AnswerC,
 		%AnswerD
 	]
 	var button: Button = buttons[button_index]
-	var answer_id := str(
+	var answer_id: String = str(
 		button.get_meta(
 			"answer_id",
-            ""
+			""
 		)
 	)
-	var result := quiz_controller.submit(
+	var result: Dictionary = quiz_controller.submit(
 		answer_id,
 		question_timer.elapsed_ms()
 	)
 	var correct_answer_id: String = str(
 		result.get(
 			"correct_answer_id",
-            ""
+			""
 		)
 	)
 
@@ -1770,49 +1798,44 @@ func _on_answer_pressed(button_index: int) -> void:
 		false
 	):
 		push_warning(
-            "Telemetry v3 Level 5 Game 2 belum dapat merekam jawaban."
+			"Telemetry v3 Level 5 Game 2 belum dapat merekam jawaban."
 		)
 
 	_lock_answer_buttons()
-	var q := quiz_controller.current_question
+	_refresh_l5_quiz_score_meta()
+	var q: Dictionary = quiz_controller.current_question
 
 	if bool(result.get("correct", false)):
+		var awarded_points: int = int(
+			result.get("score_awarded", 0)
+		)
 		%QuizFeedback.text = (
-            "BENAR +8\n"
-			+ str(
-				q.get(
-					"feedback_correct",
-                    ""
-				)
-			)
+			"BENAR +%d\n%s"
+			% [
+				awarded_points,
+				str(q.get("feedback_correct", ""))
+			]
 		)
 	else:
 		%QuizFeedback.text = (
-            "BELUM TEPAT +0\n"
-			+ "Jawaban benar: %s\n%s"
+			"BELUM TEPAT +0\nJawaban benar: %s\n%s"
 			% [
 				quiz_controller.current_correct_text(),
-				str(
-					q.get(
-						"feedback_wrong",
-                        ""
-					)
-				)
+				str(q.get("feedback_wrong", ""))
 			]
 		)
 
 	_log_quiz_response(result)
 	%QuizNextButton.text = (
-        "LIHAT HASIL"
+		"LIHAT HASIL"
 		if not quiz_controller.has_more()
 		else "SOAL BERIKUTNYA"
 	)
 	%QuizNextButton.visible = true
-
 func _on_question_timeout() -> void:
 	DurationTracker.pause_active_play()
 
-	var result := quiz_controller.submit_timeout(
+	var result: Dictionary = quiz_controller.submit_timeout(
 		int(
 			config.get(
 				"quiz",
@@ -1827,7 +1850,7 @@ func _on_question_timeout() -> void:
 	var correct_answer_id: String = str(
 		result.get(
 			"correct_answer_id",
-            ""
+			""
 		)
 	)
 
@@ -1839,32 +1862,26 @@ func _on_question_timeout() -> void:
 		quiz_controller.score
 	):
 		push_warning(
-            "Telemetry v3 Level 5 Game 2 belum dapat merekam timeout."
+			"Telemetry v3 Level 5 Game 2 belum dapat merekam timeout."
 		)
 
 	_lock_answer_buttons()
-	var q := quiz_controller.current_question
+	_refresh_l5_quiz_score_meta()
+	var q: Dictionary = quiz_controller.current_question
 	%QuizFeedback.text = (
-        "WAKTU MENJAWAB HABIS +0\n"
-		+ "Jawaban benar: %s\n%s"
+		"WAKTU MENJAWAB HABIS +0\nJawaban benar: %s\n%s"
 		% [
 			quiz_controller.current_correct_text(),
-			str(
-				q.get(
-					"feedback_wrong",
-                    ""
-				)
-			)
+			str(q.get("feedback_wrong", ""))
 		]
 	)
 	_log_quiz_response(result)
 	%QuizNextButton.text = (
-        "LIHAT HASIL"
+		"LIHAT HASIL"
 		if not quiz_controller.has_more()
 		else "SOAL BERIKUTNYA"
 	)
 	%QuizNextButton.visible = true
-
 func _log_quiz_response(result: Dictionary) -> void:
 	var response: Dictionary = result.get("response", {})
 	response["level_session_id"] = str(level_session.get("level_session_id", ""))

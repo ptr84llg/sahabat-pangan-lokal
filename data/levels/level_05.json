@@ -134,7 +134,7 @@
       },
       {
         "speaker": "Lurah",
-        "text": "Ada [b]5 pertanyaan[/b].\nSetiap pertanyaan mempunyai waktu [b]30 detik[/b] dan hanya bisa dijawab satu kali."
+        "text": "Ada [b]10 pertanyaan sulit[/b].\nSetiap pertanyaan mempunyai waktu [b]30 detik[/b], bernilai [b]4 poin jika benar[/b], dan hanya bisa dijawab satu kali."
       },
       {
         "speaker": "Pemain",
@@ -310,161 +310,379 @@
       "bonus": 0
     }
   ],
-  "quiz_intro": "Kamu akan menjawab 5 pertanyaan tentang seluruh perjalanan Sahabat Pangan Lokal.\n[b]Setiap pertanyaan memiliki waktu 30 detik dan hanya satu kesempatan menjawab.[/b]\nBaca pertanyaannya dengan teliti, ingat kembali yang sudah kamu pelajari, lalu pilih jawaban yang paling tepat.",
+  "quiz_intro": "Kamu akan menjawab 10 pertanyaan sulit tentang seluruh perjalanan Sahabat Pangan Lokal.\n[b]Setiap pertanyaan memiliki waktu 30 detik, bernilai 4 poin jika benar, dan hanya satu kesempatan menjawab.[/b]\nUrutan pertanyaan dan jawaban akan diacak. Baca setiap kondisi dengan teliti, hubungkan informasi yang sudah kamu pelajari, lalu pilih jawaban yang paling tepat.",
   "quiz": {
-    "question_count": 5,
+    "question_count": 10,
     "seconds_per_question": 30,
-    "score_correct": 8,
+    "score_correct": 4,
     "score_wrong": 0,
     "score_timeout": 0,
     "retry": false,
     "shuffle_questions": true,
     "shuffle_answers": true,
+    "difficulty_policy": "ALL_HARD",
+    "presentation_distribution": {
+      "TEXT_ONLY": 6,
+      "IMAGE_STIMULUS": 2,
+      "IMAGE_OPTIONS": 2
+    },
     "content_status": "CONTENT_DRAFT_REQUIRES_EXPERT_VALIDATION",
     "questions": [
       {
         "question_id": "Q01",
-        "focus_tag": "kelompok_pangan",
-        "difficulty": "MENENGAH",
-        "question_text": "Pasangan pangan manakah yang berada dalam kelompok yang sama?",
+        "presentation_mode": "TEXT_ONLY",
+        "focus_tag": "kelompok_dan_koin",
+        "difficulty": "SULIT",
+        "cognitive_process": [
+          "HUBUNGKAN",
+          "BANDINGKAN",
+          "ELIMINASI"
+        ],
+        "question_text": "Pasangan pangan manakah yang terdiri dari satu Hasil Perikanan dan satu Sayuran dengan jumlah tepat 8 Koin Pangan?",
         "answers": [
           {
             "answer_id": "q01_a",
-            "text": "Beras dan Singkong"
+            "text": "Ikan Nila dan Kangkung"
           },
           {
             "answer_id": "q01_b",
-            "text": "Bayam dan Pepaya"
+            "text": "Ikan Lele dan Pepaya"
           },
           {
             "answer_id": "q01_c",
-            "text": "Pisang dan Ikan Nila"
+            "text": "Beras dan Pisang"
           },
           {
             "answer_id": "q01_d",
-            "text": "Jagung dan Mangga"
+            "text": "Ikan Nila dan Pepaya"
           }
         ],
         "correct_answer_id": "q01_a",
-        "feedback_correct": "Beras dan Singkong berada pada kelompok Pangan Pokok dan Umbi.",
-        "feedback_wrong": "Perhatikan kembali kelompok setiap pangan. Beras dan Singkong berada pada kelompok Pangan Pokok dan Umbi.",
+        "feedback_correct": "Tepat! Ikan Nila termasuk Hasil Perikanan dengan nilai 6 Koin, sedangkan Kangkung termasuk Sayuran dengan nilai 2 Koin. Jumlahnya tepat 8 Koin.",
+        "feedback_wrong": "Periksa dua syarat sekaligus, yaitu kelompok pangan dan jumlah Koin. Ikan Nila adalah Hasil Perikanan bernilai 6 Koin dan Kangkung adalah Sayuran bernilai 2 Koin.",
         "validation_status": "CONTENT_DRAFT"
       },
       {
         "question_id": "Q02",
-        "focus_tag": "pemilihan_pangan",
-        "difficulty": "MENENGAH",
-        "question_text": "Keranjang belum memiliki sayuran dan hanya tersedia 2 Koin Pangan. Pilihan manakah yang memenuhi kedua syarat tersebut?",
+        "presentation_mode": "TEXT_ONLY",
+        "focus_tag": "keputusan_belanja",
+        "difficulty": "SULIT",
+        "cognitive_process": [
+          "HUBUNGKAN",
+          "PERTIMBANGKAN",
+          "PUTUSKAN"
+        ],
+        "question_text": "Keranjang sudah berisi Singkong, Kangkung, dan Pepaya dengan total 9 Koin Pangan. Keranjang masih membutuhkan kelompok Hasil Perikanan. Pangan manakah yang melengkapi keempat kelompok sekaligus membuat total belanja tepat 15 Koin?",
         "answers": [
           {
             "answer_id": "q02_a",
-            "text": "Kangkung - 2 Koin"
+            "text": "Ikan Nila"
           },
           {
             "answer_id": "q02_b",
-            "text": "Terung - 3 Koin"
+            "text": "Ikan Lele"
           },
           {
             "answer_id": "q02_c",
-            "text": "Pisang - 2 Koin"
+            "text": "Bayam"
           },
           {
             "answer_id": "q02_d",
-            "text": "Singkong - 4 Koin"
+            "text": "Beras"
           }
         ],
         "correct_answer_id": "q02_a",
-        "feedback_correct": "Kangkung termasuk Sayuran dan membutuhkan 2 Koin Pangan dalam simulasi game.",
-        "feedback_wrong": "Jawaban harus memenuhi kelompok Sayuran dan batas 2 Koin Pangan. Kangkung memenuhi kedua syarat tersebut.",
+        "feedback_correct": "Tepat! Singkong, Kangkung, dan Pepaya bernilai total 9 Koin. Ikan Nila termasuk Hasil Perikanan dan bernilai 6 Koin, sehingga total menjadi tepat 15 Koin.",
+        "feedback_wrong": "Keranjang membutuhkan Hasil Perikanan dan total akhirnya harus tepat 15 Koin. Dari total awal 9 Koin, diperlukan pangan bernilai 6 Koin. Ikan Nila memenuhi kedua syarat tersebut.",
         "validation_status": "CONTENT_DRAFT"
       },
       {
         "question_id": "Q03",
-        "focus_tag": "pangan_hasil_olahan",
-        "difficulty": "MENENGAH_SULIT",
-        "question_text": "Dua bahan pangan utama yang digunakan pada Kolak Pisang-Singkong dalam permainan adalah ...",
+        "presentation_mode": "TEXT_ONLY",
+        "focus_tag": "kombinasi_kelompok_dan_koin",
+        "difficulty": "SULIT",
+        "cognitive_process": [
+          "BANDINGKAN",
+          "ELIMINASI",
+          "PUTUSKAN"
+        ],
+        "question_text": "Kamu harus memilih tepat dua pangan, satu dari kelompok Sayuran dan satu dari kelompok Buah, dengan jumlah tepat 5 Koin Pangan. Pasangan manakah yang memenuhi seluruh syarat?",
         "answers": [
           {
             "answer_id": "q03_a",
-            "text": "Pisang dan Singkong"
+            "text": "Kangkung dan Pepaya"
           },
           {
             "answer_id": "q03_b",
-            "text": "Bayam dan Jagung"
+            "text": "Bayam dan Pisang"
           },
           {
             "answer_id": "q03_c",
-            "text": "Pepaya dan Mangga"
+            "text": "Terung dan Mangga"
           },
           {
             "answer_id": "q03_d",
-            "text": "Kangkung dan Terung"
+            "text": "Ketimun dan Kangkung"
           }
         ],
         "correct_answer_id": "q03_a",
-        "feedback_correct": "Kolak Pisang-Singkong menggunakan Pisang dan Singkong sebagai dua bahan pangan utama dalam penyederhanaan game.",
-        "feedback_wrong": "Perhatikan nama hasil olahannya. Dua bahan utama yang dipakai dalam game adalah Pisang dan Singkong.",
+        "feedback_correct": "Tepat! Kangkung termasuk Sayuran bernilai 2 Koin dan Pepaya termasuk Buah bernilai 3 Koin. Jumlah keduanya tepat 5 Koin.",
+        "feedback_wrong": "Cocokkan kelompok sekaligus nilai Koin. Kangkung adalah Sayuran dengan 2 Koin dan Pepaya adalah Buah dengan 3 Koin, sehingga jumlahnya tepat 5 Koin.",
         "validation_status": "CONTENT_DRAFT"
       },
       {
         "question_id": "Q04",
+        "presentation_mode": "TEXT_ONLY",
         "focus_tag": "bahan_proses_hasil",
         "difficulty": "SULIT",
-        "question_text": "Dalam permainan, proses sederhana yang menghubungkan Pepaya dan Mangga dengan Rujak Buah Pepaya-Mangga adalah ...",
+        "cognitive_process": [
+          "INGAT",
+          "HUBUNGKAN",
+          "ELIMINASI"
+        ],
+        "question_text": "Rangkaian bahan, proses, dan hasil olahan manakah yang seluruh hubungannya sesuai dengan yang digunakan dalam permainan?",
         "answers": [
           {
             "answer_id": "q04_a",
-            "text": "Dicampur"
+            "text": "Bayam + Jagung -> Direbus -> Sayur Bening Bayam-Jagung"
           },
           {
             "answer_id": "q04_b",
-            "text": "Direbus"
+            "text": "Kangkung + Terung -> Direbus -> Tumis Kangkung-Terung"
           },
           {
             "answer_id": "q04_c",
-            "text": "Ditumis"
+            "text": "Pepaya + Mangga -> Ditumis -> Rujak Buah Pepaya-Mangga"
           },
           {
             "answer_id": "q04_d",
-            "text": "Dikukus"
+            "text": "Pisang + Singkong -> Dicampur -> Kolak Pisang-Singkong"
           }
         ],
         "correct_answer_id": "q04_a",
-        "feedback_correct": "Pepaya dan Mangga dihubungkan dengan proses sederhana Dicampur pada Rujak Buah Pepaya-Mangga.",
-        "feedback_wrong": "Dalam dataset Level 4, Pepaya dan Mangga menggunakan proses sederhana Dicampur.",
+        "feedback_correct": "Tepat! Dalam penyederhanaan game, Sayur Bening Bayam-Jagung menggunakan Bayam dan Jagung dengan proses Direbus.",
+        "feedback_wrong": "Periksa tiga unsur sekaligus, yaitu kedua bahan, proses, dan hasil akhirnya. Bayam dan Jagung dengan proses Direbus membentuk rangkaian yang sesuai untuk Sayur Bening Bayam-Jagung.",
         "validation_status": "CONTENT_DRAFT"
       },
       {
         "question_id": "Q05",
-        "focus_tag": "integrasi_pengetahuan",
+        "presentation_mode": "TEXT_ONLY",
+        "focus_tag": "integrasi_pangan_dan_olahan",
         "difficulty": "SULIT",
-        "question_text": "Pernyataan manakah yang sesuai dengan informasi yang digunakan sepanjang permainan?",
+        "cognitive_process": [
+          "HUBUNGKAN",
+          "BANDINGKAN",
+          "PUTUSKAN"
+        ],
+        "question_text": "Pernyataan manakah yang seluruh informasinya benar berdasarkan kelompok, Koin Pangan, serta hubungan bahan dan hasil olahan dalam permainan?",
         "answers": [
           {
             "answer_id": "q05_a",
-            "text": "Singkong termasuk Pangan Pokok dan Umbi, Pepaya termasuk Buah, dan Pepaya-Mangga digunakan pada Rujak Buah."
+            "text": "Singkong termasuk Pangan Pokok dan Umbi, bernilai 4 Koin, dan menjadi salah satu bahan Kolak Pisang-Singkong."
           },
           {
             "answer_id": "q05_b",
-            "text": "Singkong termasuk Sayuran, Pepaya termasuk Hasil Perikanan, dan Pepaya-Mangga ditumis."
+            "text": "Pepaya termasuk Sayuran, bernilai 3 Koin, dan menjadi bahan Rujak Buah Pepaya-Mangga."
           },
           {
             "answer_id": "q05_c",
-            "text": "Ikan Nila termasuk Buah, Bayam termasuk Pangan Pokok dan Umbi, dan Kolak dibuat dari Bayam-Jagung."
+            "text": "Kangkung termasuk Sayuran, bernilai 3 Koin, dan menjadi bahan Tumis Kangkung-Terung."
           },
           {
             "answer_id": "q05_d",
-            "text": "Kangkung termasuk Buah, Beras termasuk Sayuran, dan Rujak Buah direbus."
+            "text": "Jagung termasuk Pangan Pokok dan Umbi, bernilai 5 Koin, dan menjadi bahan Kolak Pisang-Singkong."
           }
         ],
         "correct_answer_id": "q05_a",
-        "feedback_correct": "Pernyataan tersebut sesuai dengan kelompok pangan dan hubungan bahan-hasil olahan yang digunakan dalam game.",
-        "feedback_wrong": "Cocokkan kembali kelompok pangan serta hubungan bahan dan hasil olahan dari level sebelumnya.",
+        "feedback_correct": "Tepat! Singkong berada pada kelompok Pangan Pokok dan Umbi, bernilai 4 Koin, serta menjadi bahan Kolak Pisang-Singkong bersama Pisang.",
+        "feedback_wrong": "Perhatikan bahwa satu pilihan harus benar pada ketiga informasi sekaligus. Singkong berada pada kelompok Pangan Pokok dan Umbi, bernilai 4 Koin, dan digunakan pada Kolak Pisang-Singkong.",
+        "validation_status": "CONTENT_DRAFT"
+      },
+      {
+        "question_id": "Q06",
+        "presentation_mode": "TEXT_ONLY",
+        "focus_tag": "keputusan_final_terintegrasi",
+        "difficulty": "SULIT",
+        "cognitive_process": [
+          "HUBUNGKAN",
+          "ELIMINASI",
+          "PERTIMBANGKAN",
+          "PUTUSKAN"
+        ],
+        "question_text": "Untuk menyelesaikan Belanja Festival, kamu harus membawa satu pangan dari setiap kelompok dengan maksimal 15 Koin. Pilihan juga harus memuat sedikitnya satu bahan Tumis Kangkung-Terung dan satu bahan Rujak Buah Pepaya-Mangga. Paket manakah yang memenuhi semua syarat?",
+        "answers": [
+          {
+            "answer_id": "q06_a",
+            "text": "Singkong, Kangkung, Pepaya, dan Ikan Nila"
+          },
+          {
+            "answer_id": "q06_b",
+            "text": "Beras, Terung, Mangga, dan Ikan Lele"
+          },
+          {
+            "answer_id": "q06_c",
+            "text": "Jagung, Kangkung, Pisang, dan Ikan Nila"
+          },
+          {
+            "answer_id": "q06_d",
+            "text": "Ubi Jalar, Ketimun, Mangga, dan Ikan Lele"
+          }
+        ],
+        "correct_answer_id": "q06_a",
+        "feedback_correct": "Tepat! Singkong, Kangkung, Pepaya, dan Ikan Nila mewakili empat kelompok pangan. Totalnya 4 + 2 + 3 + 6 = 15 Koin. Kangkung merupakan bahan Tumis Kangkung-Terung dan Pepaya merupakan bahan Rujak Buah Pepaya-Mangga.",
+        "feedback_wrong": "Periksa empat syarat sekaligus, yaitu empat kelompok berbeda, total maksimal 15 Koin, adanya bahan dari Tumis Kangkung-Terung, dan adanya bahan dari Rujak Buah Pepaya-Mangga. Paket Singkong, Kangkung, Pepaya, dan Ikan Nila memenuhi semuanya.",
+        "validation_status": "CONTENT_DRAFT"
+      },
+      {
+        "question_id": "Q07",
+        "presentation_mode": "IMAGE_STIMULUS",
+        "media_path": "res://assets/visual/processed_foods/processed_papaya_mango_rujak.png",
+        "focus_tag": "visual_bahan_proses_hasil",
+        "difficulty": "SULIT",
+        "cognitive_process": [
+          "KENALI",
+          "HUBUNGKAN",
+          "ELIMINASI"
+        ],
+        "question_text": "Perhatikan hasil olahan pada gambar. Kombinasi bahan dan proses manakah yang sesuai dengan hasil tersebut dalam permainan?",
+        "answers": [
+          {
+            "answer_id": "q07_a",
+            "text": "Pepaya + Mangga -> Dicampur"
+          },
+          {
+            "answer_id": "q07_b",
+            "text": "Pepaya + Mangga -> Direbus"
+          },
+          {
+            "answer_id": "q07_c",
+            "text": "Pisang + Singkong -> Dicampur"
+          },
+          {
+            "answer_id": "q07_d",
+            "text": "Kangkung + Terung -> Ditumis"
+          }
+        ],
+        "correct_answer_id": "q07_a",
+        "feedback_correct": "Tepat! Gambar menunjukkan Rujak Buah Pepaya-Mangga. Dalam data permainan, bahan utamanya Pepaya dan Mangga dengan proses sederhana Dicampur.",
+        "feedback_wrong": "Hubungkan gambar hasil olahan dengan bahan dan prosesnya. Rujak Buah Pepaya-Mangga menggunakan Pepaya dan Mangga dengan proses Dicampur.",
+        "validation_status": "CONTENT_DRAFT"
+      },
+      {
+        "question_id": "Q08",
+        "presentation_mode": "IMAGE_STIMULUS",
+        "media_path": "res://assets/visual/foods/food_tilapia.png",
+        "focus_tag": "visual_kelompok_koin_keputusan",
+        "difficulty": "SULIT",
+        "cognitive_process": [
+          "KENALI",
+          "HUBUNGKAN",
+          "PERTIMBANGKAN",
+          "PUTUSKAN"
+        ],
+        "question_text": "Keranjang sudah berisi Singkong, Kangkung, dan Pepaya dengan total 9 Koin. Jika pangan pada gambar ditambahkan, pernyataan manakah yang benar?",
+        "answers": [
+          {
+            "answer_id": "q08_a",
+            "text": "Keempat kelompok pangan menjadi lengkap dan totalnya tepat 15 Koin."
+          },
+          {
+            "answer_id": "q08_b",
+            "text": "Kelompok Sayuran bertambah dan totalnya menjadi 11 Koin."
+          },
+          {
+            "answer_id": "q08_c",
+            "text": "Keempat kelompok lengkap, tetapi totalnya melebihi 15 Koin."
+          },
+          {
+            "answer_id": "q08_d",
+            "text": "Kelompok Buah bertambah dan totalnya menjadi 12 Koin."
+          }
+        ],
+        "correct_answer_id": "q08_a",
+        "feedback_correct": "Tepat! Pangan pada gambar adalah Ikan Nila, termasuk Hasil Perikanan dengan nilai 6 Koin. Singkong, Kangkung, dan Pepaya sudah mewakili tiga kelompok lain dengan total 9 Koin. Setelah Ikan Nila ditambahkan, keempat kelompok lengkap dan totalnya tepat 15 Koin.",
+        "feedback_wrong": "Kenali dulu pangan pada gambar, lalu hubungkan kelompok dan nilai Koinnya. Ikan Nila termasuk Hasil Perikanan dan bernilai 6 Koin, sehingga total keranjang menjadi 15 Koin dan keempat kelompok terpenuhi.",
+        "validation_status": "CONTENT_DRAFT"
+      },
+      {
+        "question_id": "Q09",
+        "presentation_mode": "IMAGE_OPTIONS",
+        "focus_tag": "visual_kelompok_koin_olahan",
+        "difficulty": "SULIT",
+        "cognitive_process": [
+          "KENALI",
+          "HUBUNGKAN",
+          "ELIMINASI"
+        ],
+        "question_text": "Pilih pangan yang memenuhi ketiga syarat berikut: termasuk Sayuran, bernilai 2 Koin, dan menjadi bahan pada hasil olahan yang menggunakan proses Ditumis.",
+        "answers": [
+          {
+            "answer_id": "q09_a",
+            "text": "Kangkung",
+            "image_path": "res://assets/visual/foods/food_water_spinach.png"
+          },
+          {
+            "answer_id": "q09_b",
+            "text": "Bayam",
+            "image_path": "res://assets/visual/foods/food_spinach.png"
+          },
+          {
+            "answer_id": "q09_c",
+            "text": "Ketimun",
+            "image_path": "res://assets/visual/foods/food_cucumber.png"
+          },
+          {
+            "answer_id": "q09_d",
+            "text": "Terung",
+            "image_path": "res://assets/visual/foods/food_eggplant.png"
+          }
+        ],
+        "correct_answer_id": "q09_a",
+        "feedback_correct": "Tepat! Kangkung termasuk Sayuran, bernilai 2 Koin, dan bersama Terung menjadi bahan Tumis Kangkung-Terung yang menggunakan proses Ditumis.",
+        "feedback_wrong": "Ketiga syarat harus terpenuhi sekaligus. Kangkung termasuk Sayuran, bernilai 2 Koin, dan menjadi bahan Tumis Kangkung-Terung dengan proses Ditumis.",
+        "validation_status": "CONTENT_DRAFT"
+      },
+      {
+        "question_id": "Q10",
+        "presentation_mode": "IMAGE_OPTIONS",
+        "focus_tag": "visual_kelompok_koin_bahan",
+        "difficulty": "SULIT",
+        "cognitive_process": [
+          "KENALI",
+          "HUBUNGKAN",
+          "ELIMINASI",
+          "PUTUSKAN"
+        ],
+        "question_text": "Pilih pangan yang memenuhi ketiga syarat berikut: termasuk Pangan Pokok dan Umbi, bernilai 4 Koin, dan menjadi salah satu bahan Kolak Pisang-Singkong.",
+        "answers": [
+          {
+            "answer_id": "q10_a",
+            "text": "Singkong",
+            "image_path": "res://assets/visual/foods/food_cassava.png"
+          },
+          {
+            "answer_id": "q10_b",
+            "text": "Ubi Jalar",
+            "image_path": "res://assets/visual/foods/food_sweet_potato.png"
+          },
+          {
+            "answer_id": "q10_c",
+            "text": "Beras",
+            "image_path": "res://assets/visual/foods/food_rice.png"
+          },
+          {
+            "answer_id": "q10_d",
+            "text": "Jagung",
+            "image_path": "res://assets/visual/foods/food_corn.png"
+          }
+        ],
+        "correct_answer_id": "q10_a",
+        "feedback_correct": "Tepat! Singkong termasuk Pangan Pokok dan Umbi, bernilai 4 Koin, dan bersama Pisang menjadi bahan Kolak Pisang-Singkong.",
+        "feedback_wrong": "Jangan berhenti pada kelompok atau nilai Koin saja. Ubi Jalar juga bernilai 4 Koin, tetapi bukan bahan Kolak Pisang-Singkong. Singkong memenuhi ketiga syarat.",
         "validation_status": "CONTENT_DRAFT"
       }
     ]
-  },
-  "information_disclaimer": "Galeri Level 5 mengonsolidasikan pangan dan hasil olahan yang sudah diperkenalkan. Informasi hasil olahan menampilkan dua bahan utama dan satu proses sederhana untuk tujuan belajar, bukan resep lengkap.",
+  },  "information_disclaimer": "Galeri Level 5 mengonsolidasikan pangan dan hasil olahan yang sudah diperkenalkan. Informasi hasil olahan menampilkan dua bahan utama dan satu proses sederhana untuk tujuan belajar, bukan resep lengkap.",
   "badge": {
     "badge_id": "badge_level_05",
     "display_name": "Duta Pangan Lokal",
@@ -482,6 +700,6 @@
   "implementation_notes": [
     "Skema 1 memilih 3 target dari bank 14 pangan pada setiap entry sebagai pilihan prototype karena storyboard mengunci jumlah target tetapi tidak mengunci tiga nama final.",
     "Skema 4 memilih 2 dari 4 hasil olahan pada setiap entry. Seluruh hasil olahan tetap mengikuti validation_status pada master content.",
-    "Lima teks soal merupakan development content sesuai pola Q01-Q05 storyboard dan tetap wajib divalidasi ahli materi sebelum aset/konten final."
+    "Sepuluh teks soal merupakan development content Q01-Q10 dengan komposisi 6 teks/skenario, 2 image stimulus, dan 2 image options. Seluruh soal tetap wajib divalidasi ahli materi sebelum aset/konten final."
   ]
 }
