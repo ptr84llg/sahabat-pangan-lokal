@@ -187,12 +187,14 @@ func _open_modal(panel: Control) -> void:
 	_set_modal_input_state(true)
 	_modal_mask.visible = true
 	panel.visible = true
-	UIMotion.play_pop(panel, 1.02)
+	UIMotion.play_modal_open(panel, _modal_mask)
 
 func _close_modal(panel: Control) -> void:
-	panel.visible = false
-	_modal_mask.visible = false
-	_set_modal_input_state(false)
+	UIMotion.play_modal_close(
+		panel,
+		_modal_mask,
+		func(): _set_modal_input_state(false)
+	)
 
 func _continue_run() -> void:
 	if GameState.has_selected_character():
