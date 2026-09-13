@@ -4,6 +4,11 @@ const ANSWER_OPTION_SCENE: PackedScene = preload(
 	"res://scenes/shared/level_flow/level_question_answer_option.tscn"
 )
 
+@export_group("Feedback Header")
+@export var feedback_header_correct_bg: Color = Color(0.90, 0.96, 0.91, 1.0)
+@export var feedback_header_wrong_bg: Color = Color(0.98, 0.90, 0.90, 1.0)
+@export var feedback_header_timeout_bg: Color = Color(0.93, 0.94, 0.93, 1.0)
+@export var feedback_header_neutral_bg: Color = Color(0.9843137, 0.972549, 0.9137255, 1.0)
 
 @onready var question_ui: Control = %QuestionUI
 @onready var question_text: RichTextLabel = %QuestionText
@@ -13,6 +18,7 @@ const ANSWER_OPTION_SCENE: PackedScene = preload(
 @onready var action_button: Button = %ActionButton
 @onready var feedback_modal_layer: Control = %FeedbackModalLayer
 @onready var feedback_status_label: Label = %FeedbackStatusLabel
+@onready var feedback_status_panel: PanelContainer = %PanelFeedbackStatus
 @onready var meta_row: HBoxContainer = %MetaRow
 @onready var progress_label: Label = %ProgressLabel
 @onready var score_label: Label = %ScoreLabel
@@ -281,31 +287,115 @@ func _sync_explanation(feedback_value: String) -> void:
 
 	var feedback_kind: String = _feedback_kind(feedback_value)
 	var lowered_feedback: String = feedback_value.to_lower()
-
-	if (
+	var is_timeout: bool = (
 		lowered_feedback.contains("waktu menjawab habis")
 		or lowered_feedback.contains("timeout")
-	):
-		feedback_status_label.text = "WAKTU HABIS"
+	)
+
+	if is_timeout:
+		feedback_status_label.text = "\u2715 WAKTU HABIS"
+		_apply_feedback_header_style("timeout")
 	else:
 		match feedback_kind:
 			"correct":
-				feedback_status_label.text = "BENAR!"
+				feedback_status_label.text = "\u2713 BENAR!"
+				_apply_feedback_header_style("correct")
 			"wrong":
-				feedback_status_label.text = "BELUM TEPAT"
+				feedback_status_label.text = "\u2715 BELUM TEPAT"
+				_apply_feedback_header_style("wrong")
 			_:
 				feedback_status_label.text = "HASIL JAWABAN"
+				_apply_feedback_header_style("neutral")
 
 	if not feedback_value.is_empty():
-		_set_rich_text(
-			explanation_text,
-			feedback_value,
-			false,
-			HORIZONTAL_ALIGNMENT_CENTER
-		)
+		_set_feedback_explanation_text(feedback_value)
 	else:
 		explanation_text.clear()
 
+
+func _apply_feedback_header_style(state_name: String) -> void:
+	var source_style: StyleBox = feedback_status_panel.get_theme_stylebox(
+		"panel"
+	)
+	var flat_style: StyleBoxFlat = source_style as StyleBoxFlat
+
+	if flat_style == null:
+		return
+
+	var runtime_style: StyleBoxFlat = flat_style.duplicate() as StyleBoxFlat
+
+	match state_name:
+		"correct":
+			runtime_style.bg_color = feedback_header_correct_bg
+		"wrong":
+			runtime_style.bg_color = feedback_header_wrong_bg
+		"timeout":
+			runtime_style.bg_color = feedback_header_timeout_bg
+		_:
+			runtime_style.bg_color = feedback_header_neutral_bg
+
+	feedback_status_panel.add_theme_stylebox_override(
+		"panel",
+		runtime_style
+	)
+
+
+func _set_feedback_explanation_text(value: String) -> void:
+	var lines: PackedStringArray = value.strip_edges().split("\n")
+	var wrote_line: bool = false
+
+	explanation_text.clear()
+	explanation_text.push_paragraph(HORIZONTAL_ALIGNMENT_CENTER)
+
+	for raw_line in lines:
+		var display_line: String = _feedback_display_line(
+			str(raw_line)
+		)
+
+		if display_line.is_empty():
+			continue
+
+		if wrote_line:
+			explanation_text.add_text("\n")
+
+		if display_line.begins_with("Jawaban benar:"):
+			explanation_text.push_bold()
+			explanation_text.add_text("Jawaban benar:")
+			explanation_text.pop()
+
+			var answer_text: String = display_line.trim_prefix(
+				"Jawaban benar:"
+			).strip_edges()
+
+			if not answer_text.is_empty():
+				explanation_text.add_text(" " + answer_text)
+		else:
+			explanation_text.add_text(display_line)
+
+		wrote_line = true
+
+	explanation_text.pop()
+
+
+func _feedback_display_line(value: String) -> String:
+	var clean_line: String = value.strip_edges()
+	var upper_line: String = clean_line.to_upper()
+
+	if upper_line.begins_with("BENAR +"):
+		var plus_index: int = clean_line.find("+")
+
+		if plus_index >= 0:
+			return "POIN +" + clean_line.substr(
+				plus_index + 1
+			).strip_edges()
+
+	if upper_line.begins_with("BELUM TEPAT +"):
+		return "POIN +0 (JAWABAN SALAH)"
+
+	if upper_line.begins_with("WAKTU MENJAWAB HABIS +"):
+		return "POIN +0 (WAKTU HABIS)"
+
+	return clean_line
 
 func _sync_action_button() -> void:
 	if not is_instance_valid(_native_action_button):

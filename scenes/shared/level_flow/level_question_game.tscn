@@ -69,7 +69,7 @@ corner_radius_bottom_left = 10
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_018nh"]
 content_margin_top = 5.0
 content_margin_bottom = 5.0
-bg_color = Color(0.9843137, 0.972549, 0.9137255, 1)
+bg_color = Color(0.90, 0.96, 0.91, 1)
 border_width_bottom = 2
 border_color = Color(0.078431375, 0.2509804, 0.41960785, 1)
 corner_radius_top_left = 10
@@ -369,6 +369,7 @@ theme_override_styles/panel = SubResource("ExplanationPanelStyle")
 layout_mode = 2
 
 [node name="PanelFeedbackStatus" type="PanelContainer" parent="QuestionUI/FeedbackModalLayer/FeedbackCenter/ExplanationPanel/VBoxContainer" unique_id=1384685115]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_018nh")
 

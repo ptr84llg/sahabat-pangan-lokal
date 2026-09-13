@@ -374,6 +374,11 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hpo8r"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+draw_center = false
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d8ygg"]
 bg_color = Color(0.84313726, 1, 0.90588236, 1)
 border_width_left = 2
@@ -684,6 +689,7 @@ text = "MULAI FESTIVAL"
 
 [node name="MainGameHUD" type="PanelContainer" parent="SafeArea/Screens" unique_id=1349019804]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2244,7 +2250,6 @@ text = "LANJUT"
 
 [node name="FinalMapPanel" type="PanelContainer" parent="SafeArea/Screens" unique_id=1908929612]
 unique_name_in_owner = true
-visible = false
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -2310,8 +2315,9 @@ alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(205, 198)
 layout_mode = 2
+size_flags_vertical = 3
 offset_transform_enabled = true
-offset_transform_scale = Vector2(1.5, 1.5)
+offset_transform_scale = Vector2(1.7, 1.7)
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
@@ -2319,9 +2325,11 @@ stretch_mode = 5
 [node name="FinalPlayerName" type="Label" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer/PanelContainer/PlayerBox" unique_id=1077834381]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_hpo8r")
 text = "PLAYER"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SafeArea/Screens/FinalMapPanel/ContentMargin/ContentVBox/HBoxContainer" unique_id=882886972]
 layout_mode = 2
