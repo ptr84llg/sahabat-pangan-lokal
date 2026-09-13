@@ -75,7 +75,8 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="QuestionAnswerOption" type="Button" unique_id=98938694]
-custom_minimum_size = Vector2(0, 46)
+custom_minimum_size = Vector2(220, 46)
+size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("NeutralNormalStyle")
 theme_override_styles/pressed = SubResource("NeutralPressedStyle")
 theme_override_styles/hover = SubResource("NeutralHoverStyle")
@@ -94,6 +95,7 @@ wrong_text_color = Color(1, 1, 1, 1)
 disabled_text_color = Color(0.26, 0.4, 0.3, 1)
 
 [node name="TextMargin" type="MarginContainer" parent="." unique_id=2038186886]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -117,3 +119,45 @@ theme_override_font_sizes/normal_font_size = 20
 text = "A. Contoh jawaban pangan lokal"
 scroll_active = false
 vertical_alignment = 1
+[node name="ImageContent" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="ImageVBox" type="VBoxContainer" parent="ImageContent"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="AnswerImage" type="TextureRect" parent="ImageContent/ImageVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 118)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ImageAnswerText" type="Label" parent="ImageContent/ImageVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.02, 0.34, 0.22, 1)
+theme_override_font_sizes/font_size = 18
+text = "Pangan"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

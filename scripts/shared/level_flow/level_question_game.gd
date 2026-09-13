@@ -11,9 +11,15 @@ const ANSWER_OPTION_SCENE: PackedScene = preload(
 @onready var preview_answer_list: VBoxContainer = %PreviewAnswerList
 @onready var explanation_text: RichTextLabel = %ExplanationText
 @onready var action_button: Button = %ActionButton
+@onready var feedback_modal_layer: Control = %FeedbackModalLayer
+@onready var feedback_status_label: Label = %FeedbackStatusLabel
 @onready var meta_row: HBoxContainer = %MetaRow
 @onready var progress_label: Label = %ProgressLabel
+@onready var score_label: Label = %ScoreLabel
 @onready var timer_label: Label = %TimerLabel
+@onready var question_media_panel: PanelContainer = %QuestionMediaPanel
+@onready var question_media_image: TextureRect = %QuestionMediaImage
+@onready var image_answer_grid: GridContainer = %ImageAnswerGrid
 @onready var portrait_blocker: Control = %PortraitBlocker
 
 var _source_panel: Control
@@ -23,6 +29,8 @@ var _answer_options: Array[Button] = []
 var _selected_index: int = -1
 var _review_active: bool = false
 var _last_question_text: String = ""
+var _last_question_key: String = ""
+var _loaded_media_path: String = ""
 var _native_action_button: Button
 var _answer_result_sfx_played: bool = false
 
@@ -57,6 +65,8 @@ func present(
 		_selected_index = -1
 		_review_active = false
 		_last_question_text = ""
+		_last_question_key = ""
+		_loaded_media_path = ""
 		_answer_result_sfx_played = false
 
 	if is_instance_valid(_source_panel):
@@ -79,6 +89,11 @@ func hide_presenter() -> void:
 	_selected_index = -1
 	_review_active = false
 	_last_question_text = ""
+	_last_question_key = ""
+	_loaded_media_path = ""
+	question_media_image.texture = null
+	feedback_modal_layer.visible = false
+	feedback_status_label.text = ""
 	_answer_result_sfx_played = false
 
 
@@ -101,11 +116,14 @@ func _sync_runtime() -> void:
 	if current_question.is_empty():
 		return
 
-	if current_question != _last_question_text:
+	var current_question_key: String = _question_key(current_question)
+
+	if current_question_key != _last_question_key:
 		_selected_index = -1
 		_review_active = false
 		_answer_result_sfx_played = false
 		_last_question_text = current_question
+		_last_question_key = current_question_key
 
 	_set_rich_text(
 		question_text,
@@ -113,6 +131,7 @@ func _sync_runtime() -> void:
 		true,
 		HORIZONTAL_ALIGNMENT_CENTER
 	)
+	_sync_presentation_mode()
 	_rebuild_answer_options_if_needed()
 
 	var feedback_node: Node = _find_first_node_by_names(
@@ -157,7 +176,23 @@ func _sync_runtime() -> void:
 
 
 func _rebuild_answer_options_if_needed() -> void:
-	if _answer_options.size() == _native_answers.size():
+	var mode: String = _presentation_mode()
+	var target_container: Container = answer_list
+
+	if mode == "IMAGE_OPTIONS":
+		target_container = image_answer_grid
+
+	answer_list.visible = mode != "IMAGE_OPTIONS"
+	image_answer_grid.visible = mode == "IMAGE_OPTIONS"
+
+	var correct_parent: bool = true
+
+	for option in _answer_options:
+		if not is_instance_valid(option) or option.get_parent() != target_container:
+			correct_parent = false
+			break
+
+	if _answer_options.size() == _native_answers.size() and correct_parent:
 		return
 
 	for option in _answer_options:
@@ -173,16 +208,16 @@ func _rebuild_answer_options_if_needed() -> void:
 		if option_button == null:
 			continue
 
-		answer_list.add_child(option_button)
+		target_container.add_child(option_button)
 		option_button.pressed.connect(
 			_on_option_pressed.bind(index)
 		)
 		_answer_options.append(option_button)
 
-
 func _sync_answer_options(feedback_value: String) -> void:
 	var feedback_kind: String = _feedback_kind(feedback_value)
 	var correct_index: int = _correct_index_from_feedback(feedback_value)
+	var mode: String = _presentation_mode()
 	var option_count: int = mini(
 		_answer_options.size(),
 		_native_answers.size()
@@ -201,6 +236,12 @@ func _sync_answer_options(feedback_value: String) -> void:
 
 		option.visible = native_visible
 		option.call("set_option_text", native_button.text)
+		option.call(
+			"set_option_presentation",
+			native_button.text,
+			str(native_button.get_meta("image_path", "")),
+			mode == "IMAGE_OPTIONS"
+		)
 
 		if _review_active:
 			interactive = false
@@ -227,12 +268,29 @@ func _sync_answer_options(feedback_value: String) -> void:
 
 
 func _sync_explanation(feedback_value: String) -> void:
-	if _review_active and not feedback_value.is_empty():
+	feedback_modal_layer.visible = _review_active
+
+	if not _review_active:
+		feedback_status_label.text = ""
+		explanation_text.clear()
+		return
+
+	var feedback_kind: String = _feedback_kind(feedback_value)
+
+	match feedback_kind:
+		"correct":
+			feedback_status_label.text = "BENAR!"
+		"wrong":
+			feedback_status_label.text = "BELUM TEPAT"
+		_:
+			feedback_status_label.text = "HASIL JAWABAN"
+
+	if not feedback_value.is_empty():
 		_set_rich_text(
 			explanation_text,
 			feedback_value,
 			false,
-			HORIZONTAL_ALIGNMENT_LEFT
+			HORIZONTAL_ALIGNMENT_CENTER
 		)
 	else:
 		explanation_text.clear()
@@ -271,13 +329,28 @@ func _sync_meta_row() -> void:
 	)
 	var progress_text: String = _text_from_node(progress_node)
 	var timer_text: String = _text_from_node(timer_node)
+	var score_text: String = ""
+
+	if is_instance_valid(_question_node):
+		if progress_text.is_empty():
+			progress_text = str(
+				_question_node.get_meta("progress_text", "")
+			).strip_edges()
+		score_text = str(
+			_question_node.get_meta("score_text", "")
+		).strip_edges()
 
 	progress_label.text = progress_text
+	score_label.text = score_text
 	timer_label.text = timer_text
 	progress_label.visible = not progress_text.is_empty()
+	score_label.visible = not score_text.is_empty()
 	timer_label.visible = not timer_text.is_empty()
-	meta_row.visible = progress_label.visible or timer_label.visible
-
+	meta_row.visible = (
+		progress_label.visible
+		or score_label.visible
+		or timer_label.visible
+	)
 
 func _on_option_pressed(index: int) -> void:
 	if _review_active:
@@ -525,6 +598,61 @@ func _normalize_answer_text(value: String) -> String:
 
 	return cleaned.to_lower()
 
+
+func _question_key(current_question: String) -> String:
+	if is_instance_valid(_question_node):
+		var question_id: String = str(
+			_question_node.get_meta("question_id", "")
+		).strip_edges()
+
+		if not question_id.is_empty():
+			return question_id
+
+	return current_question
+
+
+func _presentation_mode() -> String:
+	if not is_instance_valid(_question_node):
+		return "TEXT_ONLY"
+
+	var mode: String = str(
+		_question_node.get_meta("presentation_mode", "TEXT_ONLY")
+	).strip_edges().to_upper()
+
+	if mode not in ["TEXT_ONLY", "IMAGE_STIMULUS", "IMAGE_OPTIONS"]:
+		return "TEXT_ONLY"
+
+	return mode
+
+
+func _sync_presentation_mode() -> void:
+	var mode: String = _presentation_mode()
+	var media_path: String = ""
+
+	if is_instance_valid(_question_node):
+		media_path = str(
+			_question_node.get_meta("media_path", "")
+		).strip_edges()
+
+	var show_media: bool = (
+		mode == "IMAGE_STIMULUS"
+		and not media_path.is_empty()
+		and ResourceLoader.exists(media_path)
+	)
+
+	question_media_panel.visible = show_media
+
+	if not show_media:
+		_loaded_media_path = ""
+		question_media_image.texture = null
+		return
+
+	if media_path == _loaded_media_path and question_media_image.texture != null:
+		return
+
+	var loaded_resource: Resource = load(media_path)
+	question_media_image.texture = loaded_resource as Texture2D
+	_loaded_media_path = media_path
 
 func _play_answer_result_sfx(feedback_value: String) -> void:
 	var feedback_kind: String = _feedback_kind(feedback_value)

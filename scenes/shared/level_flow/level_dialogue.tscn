@@ -221,11 +221,29 @@ custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
 theme_override_styles/separator = SubResource("SeparatorStyle")
 
-[node name="ButtonCenter" type="CenterContainer" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox" unique_id=1258516341]
+[node name="ActionRow" type="HBoxContainer" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox" unique_id=1499809615]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+theme_override_constants/separation = 24
 
-[node name="ContinueButton" type="Button" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox/ButtonCenter" unique_id=1330419508]
+[node name="SkipTypingCheckBox" type="CheckBox" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox/ActionRow" unique_id=1005280243]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(420, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.050980393, 0.36078432, 0.21960784, 1)
+theme_override_colors/font_pressed_color = Color(0.050980393, 0.36078432, 0.21960784, 1)
+theme_override_colors/font_hover_color = Color(0.050980393, 0.36078432, 0.21960784, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.050980393, 0.36078432, 0.21960784, 1)
+theme_override_font_sizes/font_size = 20
+text = "LEWATI ANIMASI PERCAKAPAN"
+
+[node name="ButtonRight" type="CenterContainer" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox/ActionRow" unique_id=1605172628]
+custom_minimum_size = Vector2(330, 52)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="ContinueButton" type="Button" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox/ActionRow/ButtonRight" unique_id=1330419508]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(270, 52)
 layout_mode = 2

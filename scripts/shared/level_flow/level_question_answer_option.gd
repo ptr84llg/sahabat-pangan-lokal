@@ -14,9 +14,18 @@ extends Button
 @export var wrong_text_color: Color
 @export var disabled_text_color: Color
 
+@export_group("Scene-owned mode geometry")
+@export var text_min_height: float = 46.0
+@export var image_min_height: float = 178.0
+
+@onready var text_margin: MarginContainer = %TextMargin
 @onready var answer_text: RichTextLabel = %AnswerText
+@onready var image_content: MarginContainer = %ImageContent
+@onready var answer_image: TextureRect = %AnswerImage
+@onready var image_answer_text: Label = %ImageAnswerText
 
 var _visual_state: String = "neutral"
+var _loaded_image_path: String = ""
 
 
 func _ready() -> void:
@@ -25,6 +34,7 @@ func _ready() -> void:
 	answer_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	answer_text.scroll_active = false
 	answer_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	image_content.visible = false
 	set_visual_state("neutral", true)
 
 
@@ -49,6 +59,37 @@ func set_option_text(value: String) -> void:
 		+ float(estimated_lines - 1) * 18.0
 	)
 
+
+func set_option_presentation(
+	value: String,
+	image_path: String,
+	image_mode: bool
+) -> void:
+	var normalized_path: String = image_path.strip_edges()
+	var use_image: bool = (
+		image_mode
+		and not normalized_path.is_empty()
+		and ResourceLoader.exists(normalized_path)
+	)
+
+	text_margin.visible = not use_image
+	image_content.visible = use_image
+
+	if not use_image:
+		_loaded_image_path = ""
+		answer_image.texture = null
+		image_answer_text.text = ""
+		return
+
+	custom_minimum_size.y = image_min_height
+	image_answer_text.text = value.strip_edges()
+
+	if normalized_path == _loaded_image_path and answer_image.texture != null:
+		return
+
+	var loaded_resource: Resource = load(normalized_path)
+	answer_image.texture = loaded_resource as Texture2D
+	_loaded_image_path = normalized_path
 func set_visual_state(state_name: String, interactive: bool) -> void:
 	_visual_state = state_name
 	disabled = not interactive
@@ -93,6 +134,10 @@ func set_visual_state(state_name: String, interactive: bool) -> void:
 
 	answer_text.add_theme_color_override(
 		"default_color",
+		text_color
+	)
+	image_answer_text.add_theme_color_override(
+		"font_color",
 		text_color
 	)
 

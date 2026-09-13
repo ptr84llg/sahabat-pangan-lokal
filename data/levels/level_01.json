@@ -231,7 +231,127 @@
 	],
 	"correct_answer_id": "l1_a_correct",
 	"feedback_correct": "Tepat! Pangan lokal berkaitan dengan pangan yang dikenal dan dimanfaatkan masyarakat sesuai potensi daerah setempat.",
-	"feedback_retry": "Belum tepat. Pangan lokal tidak ditentukan oleh warna atau kemasannya. Coba perhatikan hubungan pangan dengan potensi dan kehidupan masyarakat."
+	"feedback_retry": "Belum tepat. Pangan lokal tidak ditentukan oleh warna atau kemasannya. Coba perhatikan hubungan pangan dengan potensi dan kehidupan masyarakat.",
+	"questions": [
+	  {
+		"question_id": "l1_q01",
+		"presentation_mode": "TEXT_ONLY",
+		"question_text": "Mengapa pangan yang kamu pelajari pada level ini disebut pangan lokal?",
+		"answers": [
+		  {
+			"answer_id": "l1_a_correct",
+			"text": "Karena pangan tersebut dikenal dan dimanfaatkan masyarakat sesuai potensi daerah setempat."
+		  },
+		  {
+			"answer_id": "l1_a_color",
+			"text": "Karena semua pangan lokal memiliki warna yang sama."
+		  },
+		  {
+			"answer_id": "l1_a_package",
+			"text": "Karena pangan lokal harus selalu dijual tanpa kemasan."
+		  }
+		],
+		"correct_answer_id": "l1_a_correct",
+		"feedback_correct": "Tepat! Pangan lokal dikenal dan dimanfaatkan masyarakat sesuai potensi daerah setempat.",
+		"feedback_retry": "Belum tepat. Ingat kembali penjelasan Ibu tentang pangan lokal."
+	  },
+	  {
+		"question_id": "l1_q02",
+		"presentation_mode": "IMAGE_STIMULUS",
+		"media_path": "res://assets/visual/foods/food_cassava.png",
+		"question_text": "Apa nama pangan pada gambar ini?",
+		"answers": [
+		  {
+			"answer_id": "l1_q02_rice",
+			"text": "Beras"
+		  },
+		  {
+			"answer_id": "l1_q02_cassava",
+			"text": "Singkong"
+		  },
+		  {
+			"answer_id": "l1_q02_papaya",
+			"text": "Pepaya"
+		  }
+		],
+		"correct_answer_id": "l1_q02_cassava",
+		"feedback_correct": "Tepat! Pangan pada gambar adalah singkong.",
+		"feedback_retry": "Belum tepat. Perhatikan kembali bentuk pangan pada gambar."
+	  },
+	  {
+		"question_id": "l1_q03",
+		"presentation_mode": "IMAGE_OPTIONS",
+		"question_text": "Manakah yang merupakan kangkung?",
+		"answers": [
+		  {
+			"answer_id": "l1_q03_spinach",
+			"text": "Bayam",
+			"image_path": "res://assets/visual/foods/food_spinach.png"
+		  },
+		  {
+			"answer_id": "l1_q03_water_spinach",
+			"text": "Kangkung",
+			"image_path": "res://assets/visual/foods/food_water_spinach.png"
+		  },
+		  {
+			"answer_id": "l1_q03_banana",
+			"text": "Pisang",
+			"image_path": "res://assets/visual/foods/food_banana.png"
+		  }
+		],
+		"correct_answer_id": "l1_q03_water_spinach",
+		"feedback_correct": "Tepat! Kamu berhasil mengenali bentuk kangkung.",
+		"feedback_retry": "Belum tepat. Ingat kembali bentuk kangkung yang sudah kamu cocokkan sebelumnya."
+	  },
+	  {
+		"question_id": "l1_q04",
+		"presentation_mode": "IMAGE_STIMULUS",
+		"media_path": "res://assets/visual/foods/food_papaya.png",
+		"question_text": "Apa nama pangan pada gambar ini?",
+		"answers": [
+		  {
+			"answer_id": "l1_q04_banana",
+			"text": "Pisang"
+		  },
+		  {
+			"answer_id": "l1_q04_papaya",
+			"text": "Pepaya"
+		  },
+		  {
+			"answer_id": "l1_q04_rice",
+			"text": "Beras"
+		  }
+		],
+		"correct_answer_id": "l1_q04_papaya",
+		"feedback_correct": "Tepat! Pangan pada gambar adalah pepaya.",
+		"feedback_retry": "Belum tepat. Perhatikan kembali bentuk buah pada gambar."
+	  },
+	  {
+		"question_id": "l1_q05",
+		"presentation_mode": "IMAGE_OPTIONS",
+		"question_text": "Manakah yang merupakan beras?",
+		"answers": [
+		  {
+			"answer_id": "l1_q05_rice",
+			"text": "Beras",
+			"image_path": "res://assets/visual/foods/food_rice.png"
+		  },
+		  {
+			"answer_id": "l1_q05_cassava",
+			"text": "Singkong",
+			"image_path": "res://assets/visual/foods/food_cassava.png"
+		  },
+		  {
+			"answer_id": "l1_q05_spinach",
+			"text": "Bayam",
+			"image_path": "res://assets/visual/foods/food_spinach.png"
+		  }
+		],
+		"correct_answer_id": "l1_q05_rice",
+		"feedback_correct": "Tepat! Kamu berhasil mengenali beras.",
+		"feedback_retry": "Belum tepat. Ingat kembali bentuk beras yang sudah kamu pelajari."
+	  }
+	]
   },
   "badge": {
 	"badge_id": "badge_level_01",
@@ -241,8 +361,8 @@
   "scoring": {
 	"food_first_attempt": 10,
 	"food_after_retry": 5,
-	"literacy_first_attempt": 30,
-	"literacy_after_retry": 20,
+	"literacy_first_attempt": 6,
+	"literacy_after_retry": 4,
 	"completion": 10
   }
 }

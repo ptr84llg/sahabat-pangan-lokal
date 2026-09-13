@@ -596,7 +596,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.25, 0.25, 0.18, 1)
 theme_override_font_sizes/font_size = 20
-text = "Sekarang jawab satu pertanyaan tentang pangan lokal."
+text = "Sekarang jawab lima pertanyaan tentang pangan yang baru kamu pelajari."
 horizontal_alignment = 1
 autowrap_mode = 2
 

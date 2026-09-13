@@ -60,6 +60,7 @@ const NPC_PROFILES: Dictionary = {
 @onready var npc_name: Label = %NPCName
 @onready var player_name: Label = %PlayerName
 @onready var dialogue_text: RichTextLabel = %DialogueText
+@onready var skip_typing_checkbox: CheckBox = %SkipTypingCheckBox
 @onready var continue_button: Button = %ContinueButton
 @onready var portrait_blocker: Control = %PortraitBlocker
 
@@ -77,6 +78,15 @@ func _ready() -> void:
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_force_landscape()
+	skip_typing_checkbox.button_pressed = bool(
+		SettingsManager.get_flag(
+			"dialogue_skip_typing",
+			false
+		)
+	)
+	skip_typing_checkbox.toggled.connect(
+		_on_skip_typing_toggled
+	)
 	continue_button.pressed.connect(_on_continue_pressed)
 	get_viewport().size_changed.connect(_check_orientation)
 	_check_orientation()
@@ -158,6 +168,11 @@ func _start_typing() -> void:
 	_typing_total_characters = (
 		dialogue_text.get_total_character_count()
 	)
+
+	if skip_typing_checkbox.button_pressed:
+		_finish_typing()
+		return
+
 	continue_button.disabled = true
 
 	if _typing_total_characters <= 0:
@@ -286,6 +301,15 @@ func _speaker_is_player(
 
 	return clean_speaker == player_display_name.to_lower()
 
+
+func _on_skip_typing_toggled(enabled: bool) -> void:
+	SettingsManager.set_flag(
+		"dialogue_skip_typing",
+		enabled
+	)
+
+	if enabled and _typing_active:
+		_finish_typing()
 
 func _on_continue_pressed() -> void:
 	if not is_instance_valid(_continue_target):
