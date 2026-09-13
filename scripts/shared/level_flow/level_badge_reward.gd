@@ -31,6 +31,7 @@ func show_reward(
 	data: Dictionary,
 	native_button: Button
 ) -> void:
+	var was_visible: bool = visible
 	_source_panel = source_panel
 	_native_button = native_button
 
@@ -73,6 +74,10 @@ func show_reward(
 
 	reward_ui.visible = true
 	visible = true
+
+	if not was_visible:
+		AudioManager.play_sfx("scene_badge")
+
 	_check_orientation()
 	action_button.call_deferred("grab_focus")
 

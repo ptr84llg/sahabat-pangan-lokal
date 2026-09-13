@@ -529,8 +529,10 @@ func _normalize_answer_text(value: String) -> String:
 func _play_answer_result_sfx(feedback_value: String) -> void:
 	var feedback_kind: String = _feedback_kind(feedback_value)
 	if feedback_kind == "correct":
+		AudioManager.play_choice_feedback(true)
 		_answer_result_sfx_played = true
 	elif feedback_kind == "wrong":
+		AudioManager.play_choice_feedback(false)
 		_answer_result_sfx_played = true
 
 func _feedback_kind(value: String) -> String:

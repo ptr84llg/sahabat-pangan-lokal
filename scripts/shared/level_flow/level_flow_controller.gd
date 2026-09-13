@@ -63,6 +63,7 @@ const LEVEL_INTRO_FALLBACK: Dictionary = {
 var current_state: String = ""
 var _level_background: TextureRect
 var _active_window: Control
+var _game_open_sfx_phase: String = ""
 var _pending_speaker: String = ""
 var _level4_helper_message: String = ""
 var _level_intro_presenter: Control
@@ -128,7 +129,11 @@ func _ensure_level_attempt_started() -> void:
 	)
 
 func set_state(new_state: String) -> void:
+	var state_changed: bool = current_state != new_state
 	current_state = new_state
+
+	if state_changed and new_state == "THEME_INTRO":
+		AudioManager.play_sfx("level_intro")
 
 	if not _is_dialogue_state():
 		_pending_speaker = ""
@@ -159,6 +164,7 @@ func show_only(nodes: Array[Control], active: Control) -> void:
 			node.visible = node == active
 
 	_active_window = active
+	_dispatch_game_open_sfx(active)
 	call_deferred("_refresh_level_intro_presenter")
 	call_deferred("_refresh_level_dialogue_presenter")
 	call_deferred("_refresh_level_tutorial_presenter")
@@ -168,6 +174,71 @@ func show_only(nodes: Array[Control], active: Control) -> void:
 	call_deferred("_refresh_level_complete_presenter")
 	call_deferred("_refresh_level_food_information_presenter")
 	call_deferred("_refresh_level_badge_reward_presenter")
+
+func _dispatch_game_open_sfx(active: Control) -> void:
+	if active == null:
+		return
+
+	var state_upper: String = current_state.to_upper()
+	var window_name: String = str(active.name).to_lower()
+	var phase: String = _resolve_game_open_sfx_phase(
+		window_name,
+		state_upper
+	)
+
+	if phase.is_empty():
+		return
+
+	if _game_open_sfx_phase == phase:
+		return
+
+	_game_open_sfx_phase = phase
+	AudioManager.play_sfx("scene_game_open")
+
+
+func _resolve_game_open_sfx_phase(
+	window_name: String,
+	state_upper: String
+) -> String:
+	if (
+		window_name == "gameplaylayer"
+		or window_name == "maingamehud"
+		or window_name == "gameplayhud"
+	):
+		if (
+			not state_upper.contains("SUCCESS")
+			and not state_upper.contains("COMPLETE")
+			and not state_upper.contains("RESULT")
+		):
+			return "game1"
+
+	if state_upper in [
+		"GAMEPLAY",
+		"MAIN_GAME",
+		"MAIN_GAME_PLAYER_CONTROL"
+	]:
+		return "game1"
+
+	if (
+		window_name.contains("literacy")
+		or window_name == "quizhud"
+		or window_name.contains("game2")
+	):
+		return "game2"
+
+	if (
+		state_upper.begins_with("LITERACY_")
+		or state_upper.begins_with("QUESTION_")
+		or state_upper.begins_with("QUIZ_")
+	):
+		if (
+			not state_upper.contains("RESULT")
+			and not state_upper.contains("COMPLETE")
+		):
+			return "game2"
+
+	return ""
+
 
 func _set_dialogue_speaker(speaker: String) -> void:
 	_pending_speaker = speaker

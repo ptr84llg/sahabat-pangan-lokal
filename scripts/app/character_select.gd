@@ -71,6 +71,7 @@ func _select_character(character_id: String) -> void:
 	if not GameState.set_selected_character(character_id):
 		return
 
+	AudioManager.play_sfx("character_selected")
 	selected_character_id = character_id
 	_render()
 

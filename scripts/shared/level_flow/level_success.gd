@@ -23,6 +23,7 @@ func present(
 	body_text: String,
 	continue_target: Button
 ) -> void:
+	var was_visible: bool = visible
 	_source_panel = source_panel
 	_continue_target = continue_target
 
@@ -36,6 +37,10 @@ func present(
 	)
 	continue_button.disabled = _continue_target == null
 	visible = true
+
+	if not was_visible:
+		AudioManager.play_sfx("scene_game_success")
+
 	_check_orientation()
 
 

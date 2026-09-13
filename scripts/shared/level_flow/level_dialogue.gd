@@ -65,6 +65,7 @@ var _source_panel: Control
 var _continue_target: Button
 var _level_no: int = 0
 var _speaker_name: String = ""
+var _last_presented_body_text: String = ""
 
 
 func _ready() -> void:
@@ -83,6 +84,7 @@ func present(
 	body_text: String,
 	continue_target: Button
 ) -> void:
+	var was_visible: bool = visible
 	_source_panel = source_panel
 	_continue_target = continue_target
 	_level_no = level_no
@@ -94,6 +96,13 @@ func present(
 	var formatted_body_text: String = _format_dialogue_text(
 		body_text
 	)
+
+	if not was_visible:
+		AudioManager.play_sfx("scene_dialogue_open")
+	elif _last_presented_body_text != formatted_body_text:
+		AudioManager.play_sfx("dialogue_change")
+
+	_last_presented_body_text = formatted_body_text
 	dialogue_text.text = (
 		"[center]" +
 		formatted_body_text.strip_edges() +
@@ -110,6 +119,7 @@ func hide_presenter() -> void:
 	visible = false
 	_source_panel = null
 	_continue_target = null
+	_last_presented_body_text = ""
 
 
 func _format_dialogue_text(body_text: String) -> String:

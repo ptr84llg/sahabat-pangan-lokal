@@ -462,6 +462,7 @@ func _on_progress_changed(matched: int, total: int, score: int) -> void:
 func _show_feedback(text: String, correct: bool) -> void:
 	feedback_toast.text = text
 	feedback_toast.visible = true
+	AudioManager.play_drop_feedback(correct)
 
 	if correct:
 		feedback_toast.add_theme_color_override(

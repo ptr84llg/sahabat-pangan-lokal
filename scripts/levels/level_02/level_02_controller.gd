@@ -1014,6 +1014,7 @@ func _on_challenge_drop(
 	)
 
 	if correct:
+		AudioManager.play_drop_feedback(true)
 		slot.accept_card(card)
 		_style_literacy_target_card(card)
 		_style_literacy_target_slot(slot)
@@ -1064,6 +1065,7 @@ func _on_challenge_drop(
 			round_data
 		)
 	else:
+		AudioManager.play_drop_feedback(false)
 		if not _record_literacy_v3_answer(
 			food_id,
 			round_data
@@ -1466,9 +1468,9 @@ func _show_feedback(
 	correct: bool
 ) -> void:
 	if text.begins_with("Tepat!"):
-		pass
+		AudioManager.play_drop_feedback(true)
 	elif text.begins_with("Belum tepat."):
-		pass
+		AudioManager.play_drop_feedback(false)
 
 	%FeedbackToast.text = text
 	%FeedbackToast.visible = true

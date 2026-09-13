@@ -84,6 +84,17 @@ func _ready() -> void:
 	_connect_ui()
 	_show_theme()
 
+
+func _exit_tree() -> void:
+	if (
+		is_instance_valid(AudioManager)
+		and AudioManager.has_method(
+			"stop_final_scene_audio"
+		)
+	):
+		AudioManager.stop_final_scene_audio()
+
+
 func _connect_ui() -> void:
 	%ThemeStartButton.pressed.connect(_show_opening_dialogue)
 	%DialogueNextButton.pressed.connect(_on_dialogue_next)
@@ -438,6 +449,7 @@ func _on_schema1_drop(
 		)
 		return
 
+	AudioManager.play_drop_feedback(true)
 	moving_lane.hold_card(card, %HeldPool)
 	schema1_target_index += 1
 
@@ -509,6 +521,7 @@ func _on_schema2_drop(
 	if schema2_completed_groups.has(group_id):
 		return
 
+	AudioManager.play_drop_feedback(true)
 	slot.hold_card(card)
 	schema2_completed_groups[group_id] = food_id
 	%SchemaProgress.text = "Kelompok %d/4" % (
@@ -554,6 +567,7 @@ func _on_schema3_drop(food_id: String, card: FoodCard, slot: FestivalBasketSlot)
 		card.show_wrong_feedback()
 		_feedback("Koin Pangan tidak cukup untuk pilihan ini. Coba pertimbangkan pilihan lain.", false)
 		return
+	AudioManager.play_drop_feedback(true)
 	slot.hold_card(card)
 	schema3_selected[group_id] = {"food_id":food_id,"coin":coin,"slot":slot}
 	schema3_total_coin += coin
@@ -703,6 +717,7 @@ func _on_schema4_ingredient_drop(
 
 		return
 
+	AudioManager.play_drop_feedback(true)
 	_feedback(
 		"Dua bahan sudah tepat. Pilih prosesnya.",
 		true
@@ -906,6 +921,7 @@ func _on_schema4_process(process_id: String, correct_id: String) -> void:
 		_register_invalid("schema_4", "wrong_process_drop", process_id)
 		_feedback("Prosesnya belum tepat. Perhatikan kembali hubungan bahan dan hasil olahan.", false)
 		return
+	AudioManager.play_drop_feedback(true)
 	for slot in schema4_slots:
 		var card := slot.release_card()
 		if card != null:
@@ -922,6 +938,7 @@ func _register_invalid(
 	event_type: String,
 	item_id: String
 ) -> void:
+	AudioManager.play_drop_feedback(false)
 
 	var score_now := schema_controller.register_invalid(
 		schema_id,
@@ -2071,9 +2088,14 @@ func _render_closing() -> void:
 	%ClosingNextButton.text = "LIHAT PERJALANAN" if closing_index == dialogue_lines.size()-1 else "LANJUT"
 
 func _show_final_map() -> void:
+	var was_visible: bool = final_map_panel.visible
 	_save_final_completion()
 	set_state("FINAL_MAP")
 	show_only(screens, final_map_panel)
+
+	if not was_visible:
+		AudioManager.start_final_scene_audio()
+
 	%FinalReplayButton.text = "PERJALANAN BARU"
 	_apply_final_player_texture()
 

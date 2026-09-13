@@ -62,3 +62,6 @@ func _emit_time_if_needed(force: bool) -> void:
     if force or display_seconds != last_display_seconds:
         last_display_seconds = display_seconds
         time_changed.emit(display_seconds)
+
+        if display_seconds == 5 and not force:
+            AudioManager.play_sfx("timer_critical")
