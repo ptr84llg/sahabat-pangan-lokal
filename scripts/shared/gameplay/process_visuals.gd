@@ -1,19 +1,5 @@
 extends RefCounted
 
-const PROCESS_TEXTURE_PATHS := {
-    "process_boiled": "res://assets/visual/processes/direbus.png",
-    "process_stir_fried": "res://assets/visual/processes/ditumis.png",
-    "process_steamed": "res://assets/visual/processes/dikukus.png",
-    "process_mixed": "res://assets/visual/processes/dicampur.png"
-}
-
-const PROCESS_DISPLAY_NAMES := {
-    "process_boiled": "Direbus",
-    "process_stir_fried": "Ditumis",
-    "process_steamed": "Dikukus",
-    "process_mixed": "Dicampur"
-}
-
 const CARD_VISUAL_SCENE := preload(
     "res://scenes/levels/level_04/process_visual_card_content.tscn"
 )
@@ -23,7 +9,7 @@ const BUTTON_VISUAL_SCENE := preload(
 
 static func get_texture(process_id: String) -> Texture2D:
     var texture_path := str(
-        PROCESS_TEXTURE_PATHS.get(
+        VisualAssets.process_texture_paths().get(
             process_id,
             ""
         )
@@ -37,7 +23,7 @@ static func get_texture(process_id: String) -> Texture2D:
 
 static func get_display_name(process_id: String) -> String:
     return str(
-        PROCESS_DISPLAY_NAMES.get(
+        VisualAssets.process_display_names().get(
             process_id,
             process_id
         )

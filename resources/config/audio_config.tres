@@ -1,0 +1,52 @@
+[gd_resource type="Resource" script_class="AudioConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/config/audio_config.gd" id="1_audio"]
+
+[resource]
+script = ExtResource("1_audio")
+music_tracks = {
+"shell": "res://assets/audio/music/bgm_shell.mp3",
+"map": "res://assets/audio/music/bgm_map.mp3",
+"game": "res://assets/audio/music/bgm_game.mp3"
+}
+sfx_tracks = {
+"menu_modal_open": "res://assets/audio/sfx/menu-modal-open.mp3",
+"level_intro": "res://assets/audio/sfx/level-intro.mp3",
+"drop_true": "res://assets/audio/sfx/drop-true.mp3",
+"drop_false": "res://assets/audio/sfx/drop-false.mp3",
+"choice_false": "res://assets/audio/sfx/choice-false.mp3",
+"choice_true": "res://assets/audio/sfx/choice-true.mp3",
+"character_selected": "res://assets/audio/sfx/character-selected.mp3",
+"scene_dialogue_open": "res://assets/audio/sfx/scene-dialoque-open.mp3",
+"dialogue_change": "res://assets/audio/sfx/dialoque-change.mp3",
+"scene_game_success": "res://assets/audio/sfx/scene-game-success.mp3",
+"scene_level_done": "res://assets/audio/sfx/scene-level-done.mp3",
+"scene_game_open": "res://assets/audio/sfx/scene-game-open.mp3",
+"scene_badge": "res://assets/audio/sfx/scene-badge.mp3",
+"hover": "res://assets/audio/sfx/hover.mp3",
+"click_press": "res://assets/audio/sfx/click-press.mp3",
+"timer_critical": "res://assets/audio/sfx/timer-critical.mp3",
+"scene_final_01": "res://assets/audio/sfx/scene-final-01.mp3",
+"scene_final_02": "res://assets/audio/sfx/scene-final-02.mp3"
+}
+shell_scene_keys = Array[String](["splash", "main_menu", "player_setup", "character_select", "intro"])
+game_scene_keys = Array[String](["level_01", "level_02", "level_03", "level_04", "level_05"])
+final_scene_sfx_keys = Array[String](["scene_final_01", "scene_final_02"])
+direct_scene_music = {
+"res://scenes/app/splash_scene.tscn": "shell",
+"res://scenes/app/main_menu_scene.tscn": "shell",
+"res://scenes/app/player_setup_scene.tscn": "shell",
+"res://scenes/app/character_select_scene.tscn": "shell",
+"res://scenes/app/intro_scene.tscn": "shell",
+"res://scenes/app/main_map_scene.tscn": "map"
+}
+level_scene_prefix = "res://scenes/levels/level_"
+level_music_key = "game"
+main_map_scene_key = "main_map"
+shell_music_key = "shell"
+map_music_key = "map"
+game_music_key = "game"
+sfx_player_count = 4
+final_scene_sfx_player_count = 2
+music_player_volume_db = -4.0
+sfx_player_volume_db = -2.0

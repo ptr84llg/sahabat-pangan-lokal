@@ -1,23 +1,6 @@
 class_name FoodGlyph
 extends Control
 
-const FOOD_TEXTURE_PATHS := {
-	"food_rice": "res://assets/visual/foods/food_rice.png",
-	"food_cassava": "res://assets/visual/foods/food_cassava.png",
-	"food_water_spinach": "res://assets/visual/foods/food_water_spinach.png",
-	"food_spinach": "res://assets/visual/foods/food_spinach.png",
-	"food_banana": "res://assets/visual/foods/food_banana.png",
-	"food_papaya": "res://assets/visual/foods/food_papaya.png",
-	"food_corn": "res://assets/visual/foods/food_corn.png",
-	"food_sweet_potato": "res://assets/visual/foods/food_sweet_potato.png",
-	"food_eggplant": "res://assets/visual/foods/food_eggplant.png",
-	"food_cucumber": "res://assets/visual/foods/food_cucumber.png",
-	"food_mango": "res://assets/visual/foods/food_mango.png",
-	"food_guava": "res://assets/visual/foods/food_guava.png",
-	"food_tilapia": "res://assets/visual/foods/food_tilapia.png",
-	"food_catfish": "res://assets/visual/foods/food_catfish.png"
-}
-
 @export var food_id := "":
 	set(value):
 		food_id = value
@@ -37,7 +20,7 @@ func _notification(what: int) -> void:
 
 func _refresh_texture() -> void:
 	_food_texture = null
-	var texture_path: String = str(FOOD_TEXTURE_PATHS.get(food_id, ""))
+	var texture_path: String = str(VisualAssets.food_texture_paths().get(food_id, ""))
 
 	if texture_path.is_empty() or not ResourceLoader.exists(texture_path):
 		return

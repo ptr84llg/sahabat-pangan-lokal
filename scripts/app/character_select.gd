@@ -1,24 +1,5 @@
 extends Control
 
-const CHARACTER_POSE_TEXTURES := {
-	"rara": {
-		"standing": "res://assets/visual/character_select/character_01_female_standing.png",
-		"happy": "res://assets/visual/character_select/character_01_female_happy.png"
-	},
-	"budi": {
-		"standing": "res://assets/visual/character_select/character_02_male_standing.png",
-		"happy": "res://assets/visual/character_select/character_02_male_happy.png"
-	},
-	"anjani": {
-		"standing": "res://assets/visual/character_select/character_03_female_standing.png",
-		"happy": "res://assets/visual/character_select/character_03_female_happy.png"
-	},
-	"riski": {
-		"standing": "res://assets/visual/character_select/character_04_male_standing.png",
-		"happy": "res://assets/visual/character_select/character_04_male_happy.png"
-	}
-}
-
 var selected_character_id: String = ""
 var available_character_ids: Array[String] = []
 
@@ -55,7 +36,7 @@ func _apply_character_pose(
 	character_id: String,
 	use_happy_pose: bool
 ) -> void:
-	var pose_data: Dictionary = CHARACTER_POSE_TEXTURES.get(character_id, {})
+	var pose_data: Dictionary = VisualAssets.character_pose_texture_paths().get(character_id, {})
 	var pose_key: String = "happy" if use_happy_pose else "standing"
 	var texture_path: String = str(pose_data.get(pose_key, ""))
 

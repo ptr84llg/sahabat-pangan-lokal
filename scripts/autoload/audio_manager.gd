@@ -1,38 +1,12 @@
 extends Node
 
-const MUSIC_TRACKS := {
-    "shell": "res://assets/audio/music/bgm_shell.mp3",
-    "map": "res://assets/audio/music/bgm_map.mp3",
-    "game": "res://assets/audio/music/bgm_game.mp3"
-}
+const CONFIG_PATH: String = "res://resources/config/audio_config.tres"
 
-const SFX_TRACKS := {
-    "menu_modal_open": "res://assets/audio/sfx/menu-modal-open.mp3",
-    "level_intro": "res://assets/audio/sfx/level-intro.mp3",
-    "drop_true": "res://assets/audio/sfx/drop-true.mp3",
-    "drop_false": "res://assets/audio/sfx/drop-false.mp3",
-    "choice_false": "res://assets/audio/sfx/choice-false.mp3",
-    "choice_true": "res://assets/audio/sfx/choice-true.mp3",
-    "character_selected": "res://assets/audio/sfx/character-selected.mp3",
-    "scene_dialogue_open": "res://assets/audio/sfx/scene-dialoque-open.mp3",
-    "dialogue_change": "res://assets/audio/sfx/dialoque-change.mp3",
-    "scene_game_success": "res://assets/audio/sfx/scene-game-success.mp3",
-    "scene_level_done": "res://assets/audio/sfx/scene-level-done.mp3",
-    "scene_game_open": "res://assets/audio/sfx/scene-game-open.mp3",
-    "scene_badge": "res://assets/audio/sfx/scene-badge.mp3",
-    "hover": "res://assets/audio/sfx/hover.mp3",
-    "click_press": "res://assets/audio/sfx/click-press.mp3",
-    "timer_critical": "res://assets/audio/sfx/timer-critical.mp3",
-    "scene_final_01": "res://assets/audio/sfx/scene-final-01.mp3",
-    "scene_final_02": "res://assets/audio/sfx/scene-final-02.mp3"
-}
+var config: AudioConfig
 
 const META_AUDIO_BUTTON_BOUND: StringName = &"spl_audio_button_bound"
 const META_AUDIO_MODAL_BOUND: StringName = &"spl_audio_modal_bound"
 const META_AUDIO_MODAL_VISIBLE: StringName = &"spl_audio_modal_visible"
-
-const SHELL_SCENE_KEYS := ["splash", "main_menu", "player_setup", "character_select", "intro"]
-const GAME_SCENE_KEYS := ["level_01", "level_02", "level_03", "level_04", "level_05"]
 
 var music_player: AudioStreamPlayer
 var sfx_players: Array[AudioStreamPlayer] = []
@@ -45,6 +19,13 @@ var final_scene_audio_active: bool = false
 
 
 func _ready() -> void:
+    var loaded := load(CONFIG_PATH)
+    if loaded is AudioConfig:
+        config = loaded as AudioConfig
+    else:
+        push_error("AudioConfig tidak dapat dimuat.")
+        return
+
     _ensure_audio_buses()
     _create_music_player()
     _create_sfx_players()
@@ -73,26 +54,26 @@ func _create_music_player() -> void:
     music_player = AudioStreamPlayer.new()
     music_player.name = "MusicPlayer"
     music_player.bus = "Music"
-    music_player.volume_db = -4.0
+    music_player.volume_db = config.music_player_volume_db
     add_child(music_player)
 
 
 func _create_sfx_players() -> void:
-    for index in range(4):
+    for index in range(config.sfx_player_count):
         var player := AudioStreamPlayer.new()
         player.name = "SfxPlayer%d" % index
         player.bus = "SFX"
-        player.volume_db = -2.0
+        player.volume_db = config.sfx_player_volume_db
         add_child(player)
         sfx_players.append(player)
 
 
 func _create_final_scene_sfx_players() -> void:
-    for index in range(2):
+    for index in range(config.final_scene_sfx_player_count):
         var player := AudioStreamPlayer.new()
         player.name = "FinalSceneSfxPlayer%d" % (index + 1)
         player.bus = "SFX"
-        player.volume_db = -2.0
+        player.volume_db = config.sfx_player_volume_db
         add_child(player)
         final_scene_sfx_players.append(player)
 
@@ -140,7 +121,7 @@ func play_music(music_key: String) -> void:
     if current_music_key == music_key and music_player.playing:
         return
 
-    var stream_path: String = str(MUSIC_TRACKS.get(music_key, ""))
+    var stream_path: String = str(config.music_tracks.get(music_key, ""))
 
     if stream_path.is_empty():
         return
@@ -169,19 +150,15 @@ func start_final_scene_audio() -> void:
     final_scene_audio_active = true
     apply_settings()
 
-    var final_keys: Array[String] = [
-        "scene_final_01",
-        "scene_final_02"
-    ]
 
     for index in range(
         mini(
-            final_keys.size(),
+            config.final_scene_sfx_keys.size(),
             final_scene_sfx_players.size()
         )
     ):
         var source_stream: AudioStream = _get_sfx_stream(
-            final_keys[index]
+            config.final_scene_sfx_keys[index]
         )
 
         if source_stream == null:
@@ -247,7 +224,7 @@ func _get_sfx_stream(sfx_key: String) -> AudioStream:
     if sfx_cache.has(sfx_key):
         return sfx_cache[sfx_key]
 
-    var stream_path: String = str(SFX_TRACKS.get(sfx_key, ""))
+    var stream_path: String = str(config.sfx_tracks.get(sfx_key, ""))
 
     if stream_path.is_empty():
         return null
@@ -486,38 +463,25 @@ func _sync_music_from_current_scene() -> void:
 
 
 func _music_key_for_scene_key(scene_key: String) -> String:
-    if scene_key in SHELL_SCENE_KEYS:
-        return "shell"
+    if scene_key in config.shell_scene_keys:
+        return config.shell_music_key
 
-    if scene_key == "main_map":
-        return "map"
+    if scene_key == config.main_map_scene_key:
+        return config.map_music_key
 
-    if scene_key in GAME_SCENE_KEYS:
-        return "game"
+    if scene_key in config.game_scene_keys:
+        return config.game_music_key
 
     return ""
 
 
 func _music_key_for_scene_path(scene_path: String) -> String:
-    if scene_path == "res://scenes/app/splash_scene.tscn":
-        return "shell"
+    var direct_key: String = str(config.direct_scene_music.get(scene_path, ""))
 
-    if scene_path == "res://scenes/app/main_menu_scene.tscn":
-        return "shell"
+    if not direct_key.is_empty():
+        return direct_key
 
-    if scene_path == "res://scenes/app/player_setup_scene.tscn":
-        return "shell"
-
-    if scene_path == "res://scenes/app/character_select_scene.tscn":
-        return "shell"
-
-    if scene_path == "res://scenes/app/intro_scene.tscn":
-        return "shell"
-
-    if scene_path == "res://scenes/app/main_map_scene.tscn":
-        return "map"
-
-    if scene_path.begins_with("res://scenes/levels/level_"):
-        return "game"
+    if scene_path.begins_with(config.level_scene_prefix):
+        return config.level_music_key
 
     return ""

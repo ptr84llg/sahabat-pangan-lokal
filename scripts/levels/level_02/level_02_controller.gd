@@ -13,21 +13,6 @@ const V3_LITERACY_GAME_ID: String = "L2-G02"
 const V3_LITERACY_GAME_TYPE: String = "literacy_question"
 const V3_LITERACY_INSTRUCTION_ID: String = "INST-L2-G02-LITERACY"
 const V3_LITERACY_INSTRUCTION_TEXT: String = "Lengkapi kelompok pangan dengan satu pilihan yang tepat."
-const LEVEL2_FOOD_TEXTURES := {
-	"food_rice": "res://assets/visual/foods/food_rice.png",
-	"food_cassava": "res://assets/visual/foods/food_cassava.png",
-	"food_water_spinach": "res://assets/visual/foods/food_water_spinach.png",
-	"food_spinach": "res://assets/visual/foods/food_spinach.png",
-	"food_banana": "res://assets/visual/foods/food_banana.png",
-	"food_papaya": "res://assets/visual/foods/food_papaya.png",
-	"food_corn": "res://assets/visual/foods/food_corn.png",
-	"food_sweet_potato": "res://assets/visual/foods/food_sweet_potato.png",
-	"food_eggplant": "res://assets/visual/foods/food_eggplant.png",
-	"food_cucumber": "res://assets/visual/foods/food_cucumber.png",
-	"food_mango": "res://assets/visual/foods/food_mango.png",
-	"food_guava": "res://assets/visual/foods/food_guava.png"
-}
-
 @onready var theme_panel: Control = %ThemePanel
 @onready var dialogue_panel: Control = %DialoguePanel
 
@@ -1356,7 +1341,7 @@ func _render_info() -> void:
 func _load_food_information_texture(food: Dictionary) -> Texture2D:
 	var food_id: String = str(food.get("food_id", "")).strip_edges()
 	var canonical_path: String = str(
-		LEVEL2_FOOD_TEXTURES.get(food_id, "")
+		VisualAssets.food_texture_paths().get(food_id, "")
 	).strip_edges()
 
 	if (

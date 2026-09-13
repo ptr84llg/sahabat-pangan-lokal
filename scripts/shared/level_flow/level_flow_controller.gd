@@ -37,29 +37,6 @@ const LEVEL_BADGE_REWARD_SCENE: PackedScene = preload(
 	"res://scenes/shared/level_flow/level_badge_reward.tscn"
 )
 
-const LEVEL_BACKGROUND_PATHS: Dictionary = {
-	2: "res://assets/visual/backgrounds/levels/level_02_class_room.png",
-	3: "res://assets/visual/backgrounds/levels/level_03_market.png",
-	4: "res://assets/visual/backgrounds/levels/level_04_dapur.png",
-	5: "res://assets/visual/backgrounds/levels/level_05_festival.png"
-}
-
-const LEVEL_INTRO_NAMES: Dictionary = {
-	1: "RUMAH",
-	2: "SEKOLAH",
-	3: "PASAR",
-	4: "DAPUR",
-	5: "FESTIVAL"
-}
-
-const LEVEL_INTRO_FALLBACK: Dictionary = {
-	1: "Kenali pangan lokal di sekitar rumah dan siapkan diri untuk memulai permainan.",
-	2: "[color=#fd6001][b]Mengelompokkan pangan lokal[/b][/color]\nKita akan mengelompokkan pangan lokal sesuai jenis dan kategorinya.",
-	3: "[color=#fd6001][b]Mari berbelanja dengan Koin.[/b][/color]\nPilih pangan yang tepat saat berbelanja dan gunakan Koin Pangan dengan cermat.",
-	4: "[color=#fd6001][b]Mari kita mengolah pangan.[/b][/color]\nPadukan dua bahan pangan lokal,\nlalu pilih proses pengolahan yang tepat untuk menjadi sebuah pangan olahan.",
-	5: "[color=#fd6001][b]Persiapkan semua pengetahuan mu.[/b][/color]\nGunakan seluruh pengetahuanmu untuk menyelesaikan tantangan Festival Pangan Lokal."
-}
-
 var current_state: String = ""
 var _level_background: TextureRect
 var _active_window: Control
@@ -285,7 +262,7 @@ func _refresh_level_intro_presenter() -> void:
 
 	var level_no: int = int(get_meta("level_no", 0))
 	var level_name: String = str(
-		LEVEL_INTRO_NAMES.get(level_no, "LEVEL")
+		PresentationRegistry.level_intro_names().get(level_no, "LEVEL")
 	)
 	var intro_text: String = _resolve_level_intro_text(
 		_active_window,
@@ -1332,7 +1309,7 @@ func _build_level_complete_data(
 	native_button: Button
 ) -> Dictionary:
 	var level_no: int = int(get_meta("level_no", 0))
-	var level_name: String = str(LEVEL_INTRO_NAMES.get(level_no, ""))
+	var level_name: String = str(PresentationRegistry.level_intro_names().get(level_no, ""))
 	var message_text: String = "Kamu berhasil menyelesaikan level ini."
 	if not level_name.is_empty():
 		message_text = "Kamu berhasil menyelesaikan seluruh kegiatan di " + level_name.to_lower().capitalize() + "."
@@ -3721,7 +3698,7 @@ func _resolve_level_intro_text(
 				return value
 
 	return str(
-		LEVEL_INTRO_FALLBACK.get(
+		PresentationRegistry.level_intro_fallback().get(
 			level_no,
 			""
 		)
@@ -3771,7 +3748,7 @@ func _find_descendant_by_name(
 func _apply_level_background() -> void:
 	var level_no: int = int(get_meta("level_no", 0))
 	var texture_path: String = str(
-		LEVEL_BACKGROUND_PATHS.get(level_no, "")
+		PresentationRegistry.level_background_paths().get(level_no, "")
 	)
 
 	if texture_path.is_empty():

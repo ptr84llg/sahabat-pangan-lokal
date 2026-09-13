@@ -3,19 +3,6 @@ extends Control
 const REFERENCE_SIZE := Vector2(1671.0, 941.0)
 
 
-const HAPPY_CHARACTER_TEXTURES := {
-	"rara": "res://assets/visual/character_select/character_01_female_happy.png",
-	"budi": "res://assets/visual/character_select/character_02_male_happy.png",
-	"anjani": "res://assets/visual/character_select/character_03_female_happy.png",
-	"riski": "res://assets/visual/character_select/character_04_male_happy.png"
-}
-
-const STAR_TEXTURE_PATHS: Dictionary = {
-	"full": "res://assets/visual/ui/stars/star_full.png",
-	"half": "res://assets/visual/ui/stars/star_half.png",
-	"empty": "res://assets/visual/ui/stars/star_empty.png"
-}
-
 const LOCATION_DATA := [
 	{
 		"level_no": 1,
@@ -144,7 +131,7 @@ func _refresh_profile() -> void:
 	player_name_label.text = GameState.player_display_name()
 
 	var character_id: String = GameState.selected_character_id()
-	var texture_path: String = str(HAPPY_CHARACTER_TEXTURES.get(character_id, ""))
+	var texture_path: String = VisualAssets.character_pose_path(character_id, "happy")
 
 	if texture_path.is_empty():
 		texture_path = GameState.selected_character_texture_path()
@@ -357,7 +344,7 @@ func _set_level_result_stars(star_value: float) -> void:
 		var star: TextureRect = _level_result_stars[index]
 		var slot: String = str(slots[index])
 		var texture_path: String = str(
-			STAR_TEXTURE_PATHS.get(slot, "")
+			VisualAssets.star_texture_paths().get(slot, "")
 		)
 		star.texture = load(texture_path) as Texture2D
 

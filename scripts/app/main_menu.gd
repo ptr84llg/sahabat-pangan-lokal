@@ -1,20 +1,5 @@
 extends Control
 
-const PROCESSED_FOOD_TEXTURE_PATHS := {
-	"processed_banana_cassava_compote": "res://assets/visual/processed_foods/processed_banana_cassava_compote.png",
-	"processed_spinach_corn_clear_soup": "res://assets/visual/processed_foods/processed_spinach_corn_clear_soup.png",
-	"processed_water_spinach_eggplant_stirfry": "res://assets/visual/processed_foods/processed_water_spinach_eggplant_stirfry.png",
-	"processed_papaya_mango_rujak": "res://assets/visual/processed_foods/processed_papaya_mango_rujak.png"
-}
-
-const BADGE_TEXTURE_PATHS := {
-	"badge_level_01": "res://assets/visual/badges/badge-1.png",
-	"badge_level_02": "res://assets/visual/badges/badge-2.png",
-	"badge_level_03": "res://assets/visual/badges/badge-3.png",
-	"badge_level_04": "res://assets/visual/badges/badge-4.png",
-	"badge_level_05": "res://assets/visual/badges/badge-5.png"
-}
-
 const HISTORY_VIEW_BUILDER_SCRIPT := preload("res://scripts/app/history_view_builder.gd")
 
 const RESET_CONFIRMATION_RESET := "reset"
@@ -972,9 +957,9 @@ func _make_gallery_state_chip(state_text: String, palette: Dictionary) -> Contro
 
 func _resolve_gallery_texture_path(entry_kind: String, entry_id: String) -> String:
 	if entry_kind == "processed":
-		return str(PROCESSED_FOOD_TEXTURE_PATHS.get(entry_id, ""))
+		return str(VisualAssets.processed_food_texture_paths().get(entry_id, ""))
 	if entry_kind == "badge":
-		return str(BADGE_TEXTURE_PATHS.get(entry_id, ""))
+		return str(VisualAssets.badge_texture_paths().get(entry_id, ""))
 	return ""
 
 func _load_texture_or_null(texture_path: String) -> Texture2D:

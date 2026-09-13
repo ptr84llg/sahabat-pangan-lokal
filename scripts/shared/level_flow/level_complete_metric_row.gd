@@ -1,12 +1,6 @@
 extends HBoxContainer
 class_name LevelCompleteMetricRow
 
-const STAR_TEXTURE_PATHS: Dictionary = {
-	"full": "res://assets/visual/ui/stars/star_full.png",
-	"half": "res://assets/visual/ui/stars/star_half.png",
-	"empty": "res://assets/visual/ui/stars/star_empty.png"
-}
-
 @onready var metric_label: Label = %MetricLabel
 @onready var metric_value: Label = %MetricValue
 @onready var star_slots: HBoxContainer = %StarSlots
@@ -68,7 +62,7 @@ func _load_star_texture(
 		return cached_value as Texture2D
 
 	var path: String = str(
-		STAR_TEXTURE_PATHS.get(slot, "")
+		VisualAssets.star_texture_paths().get(slot, "")
 	)
 
 	if path.is_empty():

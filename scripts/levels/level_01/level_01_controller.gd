@@ -13,15 +13,6 @@ const V3_LITERACY_GAME_TYPE: String = "literacy_question"
 const V3_LITERACY_INSTRUCTION_ID: String = "INST-L1-G02-LITERACY"
 const V3_LITERACY_INSTRUCTION_TEXT: String = "Jawab lima pertanyaan tentang pangan yang baru dipelajari."
 
-const FOOD_TEXTURES := {
-	"food_rice": "res://assets/visual/foods/food_rice.png",
-	"food_cassava": "res://assets/visual/foods/food_cassava.png",
-	"food_water_spinach": "res://assets/visual/foods/food_water_spinach.png",
-	"food_spinach": "res://assets/visual/foods/food_spinach.png",
-	"food_banana": "res://assets/visual/foods/food_banana.png",
-	"food_papaya": "res://assets/visual/foods/food_papaya.png"
-}
-
 @onready var theme_panel: Control = %ThemePanel
 @onready var dialogue_panel: Control = %DialoguePanel
 @onready var tutorial_panel: Control = %TutorialPanel
@@ -890,7 +881,7 @@ func _render_info() -> void:
 	info_glyph.food_id = food_id
 	info_glyph.visible = false
 
-	var texture_path: String = str(FOOD_TEXTURES.get(food_id, ""))
+	var texture_path: String = str(VisualAssets.food_texture_paths().get(food_id, ""))
 
 	if not texture_path.is_empty() and ResourceLoader.exists(texture_path):
 		var loaded_resource: Resource = load(texture_path)

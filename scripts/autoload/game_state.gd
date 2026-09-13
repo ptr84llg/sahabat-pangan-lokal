@@ -10,23 +10,19 @@ const STAR_THREE_THRESHOLD = 80
 const CHARACTER_DATA = {
     "budi": {
         "display_name": "Budi",
-        "gender": "male",
-        "texture_path": "res://assets/visual/character_select/character_02_male_standing.png"
+        "gender": "male"
     },
     "rara": {
         "display_name": "Rara",
-        "gender": "female",
-        "texture_path": "res://assets/visual/character_select/character_01_female_standing.png"
+        "gender": "female"
     },
     "riski": {
         "display_name": "Riski",
-        "gender": "male",
-        "texture_path": "res://assets/visual/character_select/character_04_male_standing.png"
+        "gender": "male"
     },
     "anjani": {
         "display_name": "Anjani",
-        "gender": "female",
-        "texture_path": "res://assets/visual/character_select/character_03_female_standing.png"
+        "gender": "female"
     }
 }
 
@@ -339,7 +335,7 @@ func selected_character_texture_path() -> String:
     if not CHARACTER_DATA.has(character_id):
         return ""
 
-    return str(CHARACTER_DATA[character_id].get("texture_path", ""))
+    return VisualAssets.character_pose_path(character_id, "standing")
 
 func total_points() -> int:
     var total: int = 0
