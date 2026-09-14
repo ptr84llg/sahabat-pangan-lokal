@@ -415,6 +415,202 @@ static func play_pulse(control: Control, peak_scale: float = -1.0) -> void:
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 
 
+static func play_badge_reveal(control: Control) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+
+	var config := _config()
+
+	if config == null:
+		return
+
+	_prepare_control(control)
+	_stop_active_tween(control)
+
+	if not config.motion_enabled:
+		control.offset_transform_position = NEUTRAL_POSITION
+		control.offset_transform_scale = NEUTRAL_SCALE
+		_set_canvas_alpha(control, 1.0)
+		return
+
+	var rise_duration: float = maxf(
+		config.badge_reveal_duration * 0.68,
+		0.01
+	)
+	var settle_duration: float = maxf(
+		config.badge_reveal_duration - rise_duration,
+		0.01
+	)
+	control.offset_transform_position = config.reward_start_position
+	control.offset_transform_scale = config.reward_start_scale
+	_set_canvas_alpha(control, 0.0)
+
+	var tween := control.create_tween()
+	control.set_meta(META_TWEEN, tween)
+	tween.set_parallel(true)
+	tween.tween_property(
+		control,
+		"offset_transform_position",
+		NEUTRAL_POSITION,
+		rise_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(
+		control,
+		"offset_transform_scale",
+		config.reward_peak_scale,
+		rise_duration
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(
+		control,
+		"modulate:a",
+		1.0,
+		minf(rise_duration, 0.22)
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.chain().tween_property(
+		control,
+		"offset_transform_scale",
+		NEUTRAL_SCALE,
+		settle_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+
+static func play_star_reveal(
+	control: Control,
+	delay: float = 0.0
+) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+
+	if not control.visible:
+		return
+
+	var config := _config()
+
+	if config == null:
+		return
+
+	_prepare_control(control)
+	_stop_active_tween(control)
+
+	if not config.motion_enabled:
+		control.offset_transform_position = NEUTRAL_POSITION
+		control.offset_transform_scale = NEUTRAL_SCALE
+		_set_canvas_alpha(control, 1.0)
+		return
+
+	var safe_delay: float = maxf(delay, 0.0)
+	control.offset_transform_position = NEUTRAL_POSITION
+	control.offset_transform_scale = config.reward_start_scale
+	_set_canvas_alpha(control, 0.0)
+
+	var tween := control.create_tween()
+	control.set_meta(META_TWEEN, tween)
+	tween.set_parallel(true)
+	tween.tween_property(
+		control,
+		"offset_transform_scale",
+		config.reward_peak_scale,
+		config.pop_up_duration
+	).set_delay(safe_delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(
+		control,
+		"modulate:a",
+		1.0,
+		config.pop_up_duration
+	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.chain().tween_property(
+		control,
+		"offset_transform_scale",
+		NEUTRAL_SCALE,
+		config.pop_return_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+
+static func play_score_count(
+	label: Label,
+	final_text: String
+) -> void:
+	if label == null or not is_instance_valid(label):
+		return
+
+	var config := _config()
+
+	if config == null or not config.motion_enabled:
+		label.text = final_text
+		return
+
+	var regex := RegEx.new()
+
+	if regex.compile("-?\\d+") != OK:
+		label.text = final_text
+		return
+
+	var match_result := regex.search(final_text)
+
+	if match_result == null:
+		label.text = final_text
+		return
+
+	var target_value: int = int(match_result.get_string())
+	var start_index: int = match_result.get_start()
+	var end_index: int = match_result.get_end()
+	var prefix: String = final_text.substr(0, start_index)
+	var suffix: String = final_text.substr(end_index)
+
+	_stop_active_tween(label)
+	_set_score_count_value(
+		0.0,
+		label,
+		prefix,
+		suffix
+	)
+
+	var tween := label.create_tween()
+	label.set_meta(META_TWEEN, tween)
+	tween.tween_method(
+		_set_score_count_value.bind(
+			label,
+			prefix,
+			suffix
+		),
+		0.0,
+		float(target_value),
+		config.score_count_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.finished.connect(
+		_finalize_score_count.bind(
+			label,
+			final_text
+		),
+		CONNECT_ONE_SHOT
+	)
+
+
+static func _set_score_count_value(
+	value: float,
+	label: Label,
+	prefix: String,
+	suffix: String
+) -> void:
+	if label == null or not is_instance_valid(label):
+		return
+
+	label.text = (
+		prefix
+		+ str(roundi(value))
+		+ suffix
+	)
+
+
+static func _finalize_score_count(
+	label: Label,
+	final_text: String
+) -> void:
+	if label == null or not is_instance_valid(label):
+		return
+
+	label.text = final_text
+
 static func play_reward(control: Control) -> void:
 	if control == null or not is_instance_valid(control):
 		return

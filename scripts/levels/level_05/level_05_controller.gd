@@ -212,7 +212,7 @@ func _connect_schema_editor_signals() -> void:
 		if not button.pressed.is_connected(callback):
 			button.pressed.connect(callback)
 
-		UIMotion.bind_button(button)
+		ScreenMotionPresenter.bind_button(button)
 
 func _show_theme() -> void:
 	set_state("THEME_INTRO")
@@ -893,7 +893,7 @@ func _render_schema4_process_choices(
 		label.text = ProcessVisuals.get_display_name(
 			process_id
 		)
-		UIMotion.play_pop(
+		ScreenMotionPresenter.gameplay_pop(
 			button,
 			1.02
 		)
@@ -1041,7 +1041,7 @@ func _complete_schema(schema_id: String) -> void:
 	)
 
 	moving_lane.return_all_held()
-	UIMotion.play_reward(%MissionArea)
+	ScreenMotionPresenter.gameplay_reward(%MissionArea)
 	await get_tree().create_timer(0.35).timeout
 
 	if schema_index < 3:
@@ -1135,6 +1135,7 @@ func _on_main_time_changed(seconds: int) -> void:
 
 func _on_main_warning_30() -> void:
 	_feedback("Waktu tinggal 30 detik.", false)
+	ScreenMotionPresenter.timer_warning(%MainCountdownLabel)
 	AnalyticsLogger.log_event("l5_timer_warning", {"level_session_id":str(level_session.get("level_session_id", "")),"threshold":30,"schema_index":schema_index+1})
 
 func _on_main_timer_expired() -> void:
@@ -2235,9 +2236,9 @@ func _feedback(text: String, good: bool) -> void:
 	)
 
 	if good:
-		UIMotion.play_pop(%SchemaFeedback, 1.035)
+		ScreenMotionPresenter.gameplay_pop(%SchemaFeedback, 1.035)
 	else:
-		UIMotion.play_shake(%SchemaFeedback, 5.0)
+		ScreenMotionPresenter.gameplay_wrong(%SchemaFeedback, 5.0)
 
 func _clear_container(node: Node) -> void:
 	for child in node.get_children():

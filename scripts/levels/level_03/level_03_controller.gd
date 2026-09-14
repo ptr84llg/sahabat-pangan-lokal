@@ -105,7 +105,7 @@ func _bind_motion_controls() -> void:
 		var button: BaseButton = button_value as BaseButton
 
 		if button != null:
-			UIMotion.bind_button(button)
+			ScreenMotionPresenter.bind_button(button)
 
 func _setup_market() -> void:
 	shopping_controller.configure(level_config, foods)
@@ -134,7 +134,7 @@ func _setup_market() -> void:
 		)
 
 		if cancel_button != null:
-			UIMotion.bind_button(cancel_button)
+			ScreenMotionPresenter.bind_button(cancel_button)
 
 func _polish_market_card(card: FoodCard) -> void:
 	var glyph: Control = card.get_node_or_null("%Glyph") as Control
@@ -312,7 +312,7 @@ func _on_shopping_success(final_ids: Array) -> void:
 	_set_market_blocked(false, "")
 	set_state("MAIN_GAME_SUCCESS")
 	show_only(screens, main_success_panel)
-	UIMotion.play_reward(main_success_panel)
+	ScreenMotionPresenter.gameplay_reward(main_success_panel)
 
 	var penalty_text: String = (
         ""
@@ -390,7 +390,7 @@ func _show_dead_end_modal() -> void:
 	)
 
 	if dead_end_dialog != null:
-		UIMotion.play_pop(dead_end_dialog, 1.025)
+		ScreenMotionPresenter.gameplay_pop(dead_end_dialog, 1.025)
 
 	%DeadEndConfirmButton.call_deferred("grab_focus")
 
@@ -525,7 +525,7 @@ func _render_select_round(round_data: Dictionary) -> void:
 	)
 	_style_literacy_drop_slot(slot)
 	slot.drop_received.connect(_on_select_round_drop.bind(round_data))
-	UIMotion.play_pulse(slot, 1.04)
+	ScreenMotionPresenter.gameplay_hint(slot, 1.04)
 
 	literacy_display_choice_ids = round_data.get(
 		"choice_ids",
@@ -547,10 +547,10 @@ func _render_select_round(round_data: Dictionary) -> void:
 			true
 		)
 		_style_literacy_card(card, false)
-		UIMotion.play_pop(card, 1.025)
+		ScreenMotionPresenter.gameplay_pop(card, 1.025)
 
-	UIMotion.play_pop(%ReferenceCoinValue, 1.025)
-	UIMotion.play_pop(%ReferenceTargetValue, 1.025)
+	ScreenMotionPresenter.gameplay_pop(%ReferenceCoinValue, 1.025)
+	ScreenMotionPresenter.gameplay_pop(%ReferenceTargetValue, 1.025)
 
 
 func _on_select_round_drop(
@@ -603,8 +603,8 @@ func _on_select_round_drop(
 		slot.accept_card(card)
 		slot.title_label.text = "TARGET TERPENUHI"
 		_style_literacy_card(card, true)
-		UIMotion.play_pop(card, 1.06)
-		UIMotion.play_reward(slot)
+		ScreenMotionPresenter.gameplay_pop(card, 1.06)
+		ScreenMotionPresenter.gameplay_reward(slot)
 		_award_literacy_round(attempt_no)
 
 		_record_l3_literacy_answer(
@@ -616,7 +616,7 @@ func _on_select_round_drop(
 		%ChallengeFeedback.text = (
             "HEBAT! Kelompok dan jumlah Koin pilihanmu sudah tepat."
 		)
-		UIMotion.play_reward(%ChallengeFeedback)
+		ScreenMotionPresenter.gameplay_reward(%ChallengeFeedback)
 		_schedule_literacy_auto_advance()
 		return
 
@@ -643,8 +643,8 @@ func _on_select_round_drop(
 
 	AudioManager.play_drop_feedback(false)
 	card.show_wrong_feedback()
-	UIMotion.play_shake(card, 6.0)
-	UIMotion.play_shake(%ReferenceTargetValue, 5.0)
+	ScreenMotionPresenter.gameplay_wrong(card, 6.0)
+	ScreenMotionPresenter.gameplay_wrong(%ReferenceTargetValue, 5.0)
 	DurationTracker.resume_active_play()
 	_begin_l3_literacy_occurrence(round_data)
 
@@ -771,8 +771,8 @@ func _on_replacement_selected(
 			_on_rearrange_fruit_selected.bind(fruit_id, round_data)
 		)
 
-	UIMotion.play_reward(%RearrangeCoinValue)
-	UIMotion.play_pop(%ChallengeChoiceTray, 1.03)
+	ScreenMotionPresenter.gameplay_reward(%RearrangeCoinValue)
+	ScreenMotionPresenter.gameplay_pop(%ChallengeChoiceTray, 1.03)
 
 
 func _on_rearrange_fruit_selected(
@@ -860,7 +860,7 @@ func _on_rearrange_fruit_selected(
             "HEBAT! Kamu berhasil menghemat Koin dan melengkapi kelompok Buah."
 		)
 		_clear_container(%ChallengeChoiceTray)
-		UIMotion.play_reward(%ChallengeFeedback)
+		ScreenMotionPresenter.gameplay_reward(%ChallengeFeedback)
 		_schedule_literacy_auto_advance()
 		return
 
@@ -879,7 +879,7 @@ func _on_rearrange_fruit_selected(
             "Buah ini belum sesuai dengan Koin yang tersedia. Coba kembali."
 		)
 
-	UIMotion.play_shake(%ChallengeFeedback, 5.0)
+	ScreenMotionPresenter.gameplay_wrong(%ChallengeFeedback, 5.0)
 	r3_freed_coin = 0
 	r3_replacement_id = ""
 	_render_rearrange_step_one(round_data)
@@ -913,7 +913,7 @@ func _register_rearrange_invalid(
 	) + 1
 
 	%ChallengeFeedback.text = message
-	UIMotion.play_shake(%ChallengeFeedback, 5.0)
+	ScreenMotionPresenter.gameplay_wrong(%ChallengeFeedback, 5.0)
 
 	AnalyticsLogger.log_event(
 		"literacy_answer",
@@ -1284,8 +1284,8 @@ func _add_visual_food_option(
 	option.add_child(button)
 	_style_literacy_action_button(button)
 	button.pressed.connect(pressed_callback)
-	UIMotion.bind_button(button)
-	UIMotion.play_pop(option, 1.02)
+	ScreenMotionPresenter.bind_button(button)
+	ScreenMotionPresenter.gameplay_pop(option, 1.02)
 
 
 func _style_literacy_card(
@@ -1507,7 +1507,7 @@ func _show_result() -> void:
 	level_session["completed_at"] = Time.get_unix_time_from_system()
 	GameState.update_level_session(level_session)
 	show_only(screens, result_panel)
-	UIMotion.play_pop(result_panel, 1.03)
+	ScreenMotionPresenter.gameplay_pop(result_panel, 1.03)
 	%ResultScore.text = "%d / 100" % final_score
 	%ResultSummary.text = (
         "Belanja: 4/4 kelompok\n"
@@ -1565,7 +1565,7 @@ func _advance_info() -> void:
 func _show_badge() -> void:
 	set_state("BADGE_REWARD")
 	show_only(screens, badge_panel)
-	UIMotion.play_reward(badge_panel)
+	ScreenMotionPresenter.gameplay_reward(badge_panel)
 	var badge: Dictionary = level_config.get("badge", {})
 	%BadgeName.text = str(badge.get("display_name", ""))
 	%BadgeDescription.text = str(badge.get("description", ""))
@@ -1604,9 +1604,9 @@ func _show_feedback(text: String, correct: bool) -> void:
 	%FeedbackToast.visible = true
 
 	if correct:
-		UIMotion.play_pop(%FeedbackToast, 1.04)
+		ScreenMotionPresenter.gameplay_pop(%FeedbackToast, 1.04)
 	else:
-		UIMotion.play_shake(%FeedbackToast, 5.0)
+		ScreenMotionPresenter.gameplay_wrong(%FeedbackToast, 5.0)
 
 	var tween := create_tween()
 	tween.tween_interval(1.3)

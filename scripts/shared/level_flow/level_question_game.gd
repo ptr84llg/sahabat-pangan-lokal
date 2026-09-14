@@ -47,6 +47,7 @@ func _ready() -> void:
 	preview_answer_list.visible = false
 	_force_landscape()
 	action_button.pressed.connect(_on_action_pressed)
+	ScreenMotionPresenter.bind_button(action_button)
 	get_viewport().size_changed.connect(_check_orientation)
 	_check_orientation()
 	set_process(false)

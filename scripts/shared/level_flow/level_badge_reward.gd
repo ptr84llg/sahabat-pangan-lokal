@@ -22,6 +22,7 @@ func _ready() -> void:
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	action_button.pressed.connect(_on_action_button_pressed)
+	ScreenMotionPresenter.bind_button(action_button)
 	get_viewport().size_changed.connect(_check_orientation)
 	_check_orientation()
 
@@ -79,6 +80,13 @@ func show_reward(
 		AudioManager.play_sfx("scene_badge")
 
 	_check_orientation()
+
+	if not was_visible and reward_ui.visible:
+		ScreenMotionPresenter.enter_screen(reward_ui)
+
+		if badge_image.visible:
+			ScreenMotionPresenter.reveal_badge(badge_image)
+
 	action_button.call_deferred("grab_focus")
 
 

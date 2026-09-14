@@ -127,7 +127,7 @@ func _bind_motion_controls() -> void:
 		var button := button_value as BaseButton
 
 		if button != null:
-			UIMotion.bind_button(button)
+			ScreenMotionPresenter.bind_button(button)
 
 func _apply_responsive_layout() -> void:
 	var viewport_width: float = size.x
@@ -472,9 +472,9 @@ func _show_feedback(text: String, correct: bool) -> void:
 		)
 
 	if correct:
-		UIMotion.play_pop(feedback_toast, 1.04)
+		ScreenMotionPresenter.gameplay_pop(feedback_toast, 1.04)
 	else:
-		UIMotion.play_shake(feedback_toast, 5.0)
+		ScreenMotionPresenter.gameplay_wrong(feedback_toast, 5.0)
 
 	var tween: Tween = create_tween()
 	tween.tween_interval(1.2)
@@ -510,7 +510,7 @@ func _on_all_matched(score: int) -> void:
 	set_state("GAMEPLAY_SUCCESS")
 	show_only(screens, gameplay_success_panel)
 	%GameplaySuccessText.text = "Hebat! Semua pangan berhasil kamu kenali."
-	UIMotion.play_reward(gameplay_success_panel)
+	ScreenMotionPresenter.gameplay_reward(gameplay_success_panel)
 
 func _show_literacy_dialogue() -> void:
 	set_state("DIALOGUE_LITERACY")
@@ -781,7 +781,7 @@ func _on_literacy_answer(answer_id: String) -> void:
 		)
 		%LiteracyRetryButton.visible = false
 		%LiteracyResultButton.visible = true
-		UIMotion.play_reward(%LiteracyFeedback)
+		ScreenMotionPresenter.gameplay_reward(%LiteracyFeedback)
 
 		var last_question: bool = (
 			literacy_question_index >= literacy_questions.size() - 1
@@ -826,7 +826,7 @@ func _on_literacy_answer(answer_id: String) -> void:
 	%LiteracyFeedbackText.text = str(
 		question.get("feedback_retry", "Belum tepat.")
 	)
-	UIMotion.play_shake(%LiteracyFeedback, 5.0)
+	ScreenMotionPresenter.gameplay_wrong(%LiteracyFeedback, 5.0)
 	%LiteracyRetryButton.visible = true
 	%LiteracyResultButton.visible = false
 
@@ -860,7 +860,7 @@ func _show_result() -> void:
 	GameState.update_level_session(level_session)
 
 	show_only(screens, result_panel)
-	UIMotion.play_pop(result_panel, 1.03)
+	ScreenMotionPresenter.gameplay_pop(result_panel, 1.03)
 	%ResultScore.text = "%d / 100" % final_score
 	%ResultSummary.text = (
 		"Pangan dikenali: 6/6\n"
@@ -915,7 +915,7 @@ func _advance_info() -> void:
 func _show_badge() -> void:
 	set_state("BADGE_REWARD")
 	show_only(screens, badge_panel)
-	UIMotion.play_reward(badge_panel)
+	ScreenMotionPresenter.gameplay_reward(badge_panel)
 
 	var badge: Dictionary = level_config.get("badge", {})
 	%BadgeName.text = str(

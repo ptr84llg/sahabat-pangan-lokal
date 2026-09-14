@@ -14,6 +14,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_force_landscape()
 	continue_button.pressed.connect(_on_continue_pressed)
+	ScreenMotionPresenter.bind_button(continue_button)
 	get_viewport().size_changed.connect(_check_orientation)
 	_check_orientation()
 
@@ -42,6 +43,9 @@ func present(
 		AudioManager.play_sfx("scene_game_success")
 
 	_check_orientation()
+
+	if not was_visible and success_ui.visible:
+		ScreenMotionPresenter.enter_screen(success_ui)
 
 
 func hide_presenter() -> void:

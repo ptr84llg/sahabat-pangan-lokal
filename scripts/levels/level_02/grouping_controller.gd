@@ -164,8 +164,8 @@ func _on_drop_received(
 				)
 			)
 		)
-		UIMotion.play_pop(card, 1.06)
-		UIMotion.play_pop(zone, 1.035)
+		ScreenMotionPresenter.gameplay_pop(card, 1.06)
+		ScreenMotionPresenter.gameplay_pop(zone, 1.035)
 		feedback.emit(
 			"Tepat! Pangan masuk ke kelompok yang sesuai.",
 			true
@@ -191,7 +191,7 @@ func _on_drop_received(
 			"wrong_target_drop"
 		)
 		card.show_wrong_feedback()
-		UIMotion.play_shake(card, 6.0)
+		ScreenMotionPresenter.gameplay_wrong(card, 6.0)
 		feedback.emit(
 			"Belum tepat. Coba perhatikan kembali jenis pangan ini.",
 			false

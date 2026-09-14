@@ -84,6 +84,90 @@ static func swap_content(
 	)
 
 
+static func bind_button(button: BaseButton) -> void:
+	UIMotion.bind_button(button)
+
+
+static func gameplay_pop(
+	control: Control,
+	_legacy_peak_scale: float = -1.0
+) -> void:
+	UIMotion.play_pop(control)
+
+
+static func gameplay_wrong(
+	control: Control,
+	_legacy_strength: float = -1.0
+) -> void:
+	UIMotion.play_shake(control)
+
+
+static func gameplay_hint(
+	control: Control,
+	_legacy_peak_scale: float = -1.0
+) -> void:
+	UIMotion.play_pulse(control)
+
+
+static func gameplay_reward(control: Control) -> void:
+	UIMotion.play_reward(control)
+
+
+static func timer_warning(control: Control) -> void:
+	UIMotion.play_pulse(control)
+
+
+static func reset_control(
+	control: Control,
+	duration: float = -1.0
+) -> void:
+	UIMotion.reset(control, duration)
+
+
+static func cancel_control(
+	control: Control,
+	restore_neutral: bool = true
+) -> void:
+	UIMotion.cancel(control, restore_neutral)
+
+
+static func reveal_badge(control: Control) -> void:
+	UIMotion.play_badge_reveal(control)
+
+
+static func reveal_stars(star_values: Array) -> void:
+	var config := _config()
+	var stagger: float = (
+		config.star_reveal_stagger
+		if config != null
+		else 0.0
+	)
+	var visible_index: int = 0
+
+	for star_value in star_values:
+		var star := star_value as Control
+
+		if star == null or not is_instance_valid(star):
+			continue
+
+		if not star.visible:
+			continue
+
+		UIMotion.play_star_reveal(
+			star,
+			stagger * float(visible_index)
+		)
+		visible_index += 1
+
+
+static func count_score(
+	label: Label,
+	final_text: String
+) -> void:
+	UIMotion.play_score_count(
+		label,
+		final_text
+	)
 static func _config() -> MotionConfig:
 	var resource := load(UIMotion.CONFIG_PATH)
 

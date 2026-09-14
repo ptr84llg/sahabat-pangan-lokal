@@ -263,9 +263,9 @@ func _bind_action_buttons() -> void:
 		if not _reset_button.pressed.is_connected(reset_callable):
 			_reset_button.pressed.connect(reset_callable)
 
-	UIMotion.bind_button(_hint_button)
-	UIMotion.bind_button(_reset_button)
-	UIMotion.bind_button(_back_button)
+	ScreenMotionPresenter.bind_button(_hint_button)
+	ScreenMotionPresenter.bind_button(_reset_button)
+	ScreenMotionPresenter.bind_button(_back_button)
 
 
 func _sync_native_text() -> void:

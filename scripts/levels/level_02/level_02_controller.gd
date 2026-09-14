@@ -111,7 +111,7 @@ func _bind_motion_controls() -> void:
 		var button := button_value as BaseButton
 
 		if button != null:
-			UIMotion.bind_button(button)
+			ScreenMotionPresenter.bind_button(button)
 
 func _setup_grouping() -> void:
 	grouping_controller.configure(level_config, foods)
@@ -661,7 +661,7 @@ func _on_batch_completed(batch_id: int) -> void:
 	%FeedbackToast.visible = false
 	set_state("BATCH_TRANSITION")
 	show_only(screens, batch_transition_panel)
-	UIMotion.play_pop(batch_transition_panel, 1.02)
+	ScreenMotionPresenter.gameplay_pop(batch_transition_panel, 1.02)
 	var tween: Tween = create_tween()
 	tween.tween_interval(2.6)
 	tween.tween_callback(_start_batch_2)
@@ -704,7 +704,7 @@ func _on_all_grouped(score: int) -> void:
 		"Hebat! Semua pangan sudah berada pada kelompok yang tepat.\n"
 		+ "Main Game: %d/60" % main_score
 	)
-	UIMotion.play_reward(gameplay_success_panel)
+	ScreenMotionPresenter.gameplay_reward(gameplay_success_panel)
 
 func _show_literacy_dialogue() -> void:
 	set_state("DIALOGUE_LITERACY")
@@ -1003,8 +1003,8 @@ func _on_challenge_drop(
 		slot.accept_card(card)
 		_style_literacy_target_card(card)
 		_style_literacy_target_slot(slot)
-		UIMotion.play_pop(card, 1.06)
-		UIMotion.play_pop(
+		ScreenMotionPresenter.gameplay_pop(card, 1.06)
+		ScreenMotionPresenter.gameplay_pop(
 			%TargetPanel,
 			1.03
 		)
@@ -1060,7 +1060,7 @@ func _on_challenge_drop(
 			)
 
 		card.show_wrong_feedback()
-		UIMotion.play_shake(
+		ScreenMotionPresenter.gameplay_wrong(
 			card,
 			6.0
 		)
@@ -1112,7 +1112,7 @@ Sudah Lengkap"
 	)
 
 	if round_panel != null:
-		UIMotion.play_pop(round_panel, 1.025)
+		ScreenMotionPresenter.gameplay_pop(round_panel, 1.025)
 
 
 func _hide_round_complete_modal() -> void:
@@ -1303,7 +1303,7 @@ func _show_result() -> void:
 		screens,
 		result_panel
 	)
-	UIMotion.play_pop(
+	ScreenMotionPresenter.gameplay_pop(
 		result_panel,
 		1.03
 	)
@@ -1392,7 +1392,7 @@ func _advance_info() -> void:
 func _show_badge() -> void:
 	set_state("BADGE_REWARD")
 	show_only(screens, badge_panel)
-	UIMotion.play_reward(badge_panel)
+	ScreenMotionPresenter.gameplay_reward(badge_panel)
 	var badge: Dictionary = level_config.get("badge", {})
 	%BadgeName.text = str(badge.get("display_name", ""))
 	%BadgeDescription.text = str(badge.get("description", ""))
@@ -1461,9 +1461,9 @@ func _show_feedback(
 	%FeedbackToast.visible = true
 
 	if correct:
-		UIMotion.play_pop(%FeedbackToast, 1.04)
+		ScreenMotionPresenter.gameplay_pop(%FeedbackToast, 1.04)
 	else:
-		UIMotion.play_shake(%FeedbackToast, 5.0)
+		ScreenMotionPresenter.gameplay_wrong(%FeedbackToast, 5.0)
 
 	var tween: Tween = create_tween()
 	tween.tween_interval(1.2)

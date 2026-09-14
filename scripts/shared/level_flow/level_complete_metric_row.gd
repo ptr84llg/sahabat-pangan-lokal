@@ -17,6 +17,12 @@ func bind_metric(
 	metric_value.visible = true
 	star_slots.visible = false
 
+	if label_text.strip_edges().to_upper() == "POIN":
+		ScreenMotionPresenter.count_score(
+			metric_value,
+			value_text
+		)
+
 
 func bind_stars(
 	label_text: String,
@@ -48,6 +54,8 @@ func bind_stars(
 		var texture: Texture2D = _load_star_texture(slot)
 		star.texture = texture
 		star.visible = texture != null
+
+	ScreenMotionPresenter.reveal_stars(star_nodes)
 
 
 func _load_star_texture(

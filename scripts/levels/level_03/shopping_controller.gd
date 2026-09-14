@@ -52,7 +52,7 @@ func _on_basket_drop(food_id: String, card: FoodCard, slot: BasketSlot) -> void:
             "invalid_drop"
         )
         card.show_wrong_feedback()
-        UIMotion.play_shake(card, 6.0)
+        ScreenMotionPresenter.gameplay_wrong(card, 6.0)
         AudioManager.play_drop_feedback(false)
         feedback.emit(
             "Keranjangmu sudah memiliki pangan dari kelompok ini. Pilih satu saja.",
@@ -69,7 +69,7 @@ func _on_basket_drop(food_id: String, card: FoodCard, slot: BasketSlot) -> void:
             "invalid_drop"
         )
         card.show_wrong_feedback()
-        UIMotion.play_shake(card, 6.0)
+        ScreenMotionPresenter.gameplay_wrong(card, 6.0)
         AudioManager.play_drop_feedback(false)
         feedback.emit(
             "Koin Panganmu belum cukup untuk pilihan ini. Coba pertimbangkan pilihan lain.",
@@ -82,8 +82,8 @@ func _on_basket_drop(food_id: String, card: FoodCard, slot: BasketSlot) -> void:
     AudioManager.play_drop_feedback(true)
     slot.hold_card(card)
     card.custom_minimum_size = Vector2(106, 116)
-    UIMotion.play_pop(card, 1.06)
-    UIMotion.play_pop(slot, 1.035)
+    ScreenMotionPresenter.gameplay_pop(card, 1.06)
+    ScreenMotionPresenter.gameplay_pop(slot, 1.035)
 
     _record_v3_basket_drop(
         food_id,
@@ -116,7 +116,7 @@ func _on_basket_cancel_requested(slot: BasketSlot) -> void:
         return
     selected_by_group.erase(group_id)
     _return_card_to_market(card)
-    UIMotion.play_pop(card, 1.03)
+    ScreenMotionPresenter.gameplay_pop(card, 1.03)
     slot.restore_placeholder()
     AnalyticsLogger.log_event("basket_remove", {"level_no":3,"level_session_id":DurationTracker.session_id,"food_id":food_id,"group_id":group_id,"coin_remaining":coin_remaining(),"source":"cancel_button"})
     _emit_basket()

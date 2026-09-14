@@ -35,6 +35,7 @@ func _ready() -> void:
 	answer_text.scroll_active = false
 	answer_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	image_content.visible = false
+	ScreenMotionPresenter.bind_button(self)
 	set_visual_state("neutral", true)
 
 
@@ -91,6 +92,7 @@ func set_option_presentation(
 	answer_image.texture = loaded_resource as Texture2D
 	_loaded_image_path = normalized_path
 func set_visual_state(state_name: String, interactive: bool) -> void:
+	var previous_state: String = _visual_state
 	_visual_state = state_name
 	disabled = not interactive
 
@@ -140,4 +142,15 @@ func set_visual_state(state_name: String, interactive: bool) -> void:
 		"font_color",
 		text_color
 	)
+
+	if state_name == previous_state:
+		return
+
+	match state_name:
+		"correct":
+			ScreenMotionPresenter.gameplay_reward(self)
+		"wrong":
+			ScreenMotionPresenter.gameplay_wrong(self)
+		_:
+			pass
 

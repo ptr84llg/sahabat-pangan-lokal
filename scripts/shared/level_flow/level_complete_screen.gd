@@ -29,6 +29,7 @@ func _ready() -> void:
 	primary_button.pressed.connect(
 		_on_primary_button_pressed
 	)
+	ScreenMotionPresenter.bind_button(primary_button)
 
 
 func show_completion(
@@ -88,6 +89,7 @@ func show_completion(
 
 	if not was_visible:
 		AudioManager.play_sfx("scene_level_done")
+		ScreenMotionPresenter.enter_screen(overlay_root)
 
 	primary_button.call_deferred("grab_focus")
 

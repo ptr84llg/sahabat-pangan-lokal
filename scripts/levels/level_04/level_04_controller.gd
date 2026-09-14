@@ -314,9 +314,9 @@ func _load_order(index: int) -> void:
 			false,
             "ingredient_food_card"
 		)
-		UIMotion.play_pop(card, 1.02)
+		ScreenMotionPresenter.gameplay_pop(card, 1.02)
 
-	UIMotion.play_pop(%TargetResultPanel, 1.025)
+	ScreenMotionPresenter.gameplay_pop(%TargetResultPanel, 1.025)
 	_begin_l4_main_occurrence("ingredient")
 
 func _on_ingredient_drop(_food_id: String, card: FoodCard, slot: IngredientSlot) -> void:
@@ -433,16 +433,16 @@ func _validate_ingredient_pair() -> void:
 		_set_level4_helper_message(
 			"LANGKAH 2 - Bahan sudah tepat. Pilih proses yang sesuai."
 		)
-		UIMotion.play_reward(ingredient_slot_a)
-		UIMotion.play_reward(ingredient_slot_b)
-		UIMotion.play_pop(%ProcessPanel, 1.03)
+		ScreenMotionPresenter.gameplay_reward(ingredient_slot_a)
+		ScreenMotionPresenter.gameplay_reward(ingredient_slot_b)
+		ScreenMotionPresenter.gameplay_pop(%ProcessPanel, 1.03)
 		_begin_l4_main_occurrence("process")
 		return
 
 	card_a.show_wrong_feedback()
 	card_b.show_wrong_feedback()
-	UIMotion.play_shake(card_a, 6.0)
-	UIMotion.play_shake(card_b, 6.0)
+	ScreenMotionPresenter.gameplay_wrong(card_a, 6.0)
+	ScreenMotionPresenter.gameplay_wrong(card_b, 6.0)
 	AudioManager.play_drop_feedback(false)
 	_show_feedback(
 		"Kombinasi bahan belum tepat. Kedua bahan dikembalikan.",
@@ -480,7 +480,7 @@ func _populate_process_choices() -> void:
 			card,
 			process_id
 		)
-		UIMotion.play_pop(card, 1.025)
+		ScreenMotionPresenter.gameplay_pop(card, 1.025)
 
 func _on_process_drop(
 	process_id: String,
@@ -539,7 +539,7 @@ func _on_process_drop(
 
 	if not correct:
 		card.show_wrong_feedback()
-		UIMotion.play_shake(card, 6.0)
+		ScreenMotionPresenter.gameplay_wrong(card, 6.0)
 		AudioManager.play_drop_feedback(false)
 		_show_feedback(
 			"Proses belum tepat. Hubungkan bahan dengan hasil olahan.",
@@ -557,8 +557,8 @@ func _on_process_drop(
 	%MainInstructionLabel.text = (
 		"BENAR - RANTAI BAHAN, PROSES, DAN HASIL SUDAH LENGKAP"
 	)
-	UIMotion.play_reward(slot)
-	UIMotion.play_reward(%TargetResultPanel)
+	ScreenMotionPresenter.gameplay_reward(slot)
+	ScreenMotionPresenter.gameplay_reward(%TargetResultPanel)
 	_set_level4_helper_message(
 		"BENAR - Pesanan selesai. Menyiapkan pesanan berikutnya."
 	)
@@ -575,7 +575,7 @@ func _complete_current_order() -> void:
 
 	%MainScoreLabel.text = "%d / 60" % order_controller.main_score
 	_show_feedback("Pesanan selesai!", true)
-	UIMotion.play_reward(%TargetResultPanel)
+	ScreenMotionPresenter.gameplay_reward(%TargetResultPanel)
 
 	AnalyticsLogger.log_event(
 		"l4_order_complete",
@@ -656,10 +656,7 @@ func _on_warning_30() -> void:
 	AnalyticsLogger.log_event("l4_timer_warning", {"level_session_id":str(level_session.get("level_session_id", "")), "threshold":30, "attempt_id":order_controller.attempt_id})
 
 func _on_warning_10() -> void:
-	var tween := create_tween()
-	tween.set_loops(3)
-	tween.tween_property(%CountdownLabel, "modulate", Color(1.0, 0.55, 0.40, 1.0), 0.14)
-	tween.tween_property(%CountdownLabel, "modulate", Color.WHITE, 0.14)
+	ScreenMotionPresenter.timer_warning(%CountdownLabel)
 	AnalyticsLogger.log_event("l4_timer_warning", {"level_session_id":str(level_session.get("level_session_id", "")), "threshold":10, "attempt_id":order_controller.attempt_id})
 
 func _on_timeout() -> void:
@@ -1424,7 +1421,7 @@ func _add_missing_food_chain_slot(round_data: Dictionary) -> void:
 	slot.drop_received.connect(
 		_on_food_literacy_drop.bind(round_data)
 	)
-	UIMotion.play_pulse(slot, 1.035)
+	ScreenMotionPresenter.gameplay_hint(slot, 1.035)
 
 
 func _add_missing_named_chain_slot(
@@ -1444,7 +1441,7 @@ func _add_missing_named_chain_slot(
 	slot.drop_received.connect(
 		_on_named_literacy_drop.bind(round_data)
 	)
-	UIMotion.play_pulse(slot, 1.035)
+	ScreenMotionPresenter.gameplay_hint(slot, 1.035)
 
 
 func _populate_literacy_choices(round_data: Dictionary) -> void:
@@ -1466,7 +1463,7 @@ func _populate_literacy_choices(round_data: Dictionary) -> void:
                     "processed_food_card"
 				)
 				_decorate_processed_choice_card(card, item_id, true)
-				UIMotion.play_pop(card, 1.025)
+				ScreenMotionPresenter.gameplay_pop(card, 1.025)
 
 		"food":
 			for item_id_value in ids:
@@ -1484,7 +1481,7 @@ func _populate_literacy_choices(round_data: Dictionary) -> void:
                     "food_card"
 				)
 				card.custom_minimum_size = Vector2(126, 112)
-				UIMotion.play_pop(card, 1.025)
+				ScreenMotionPresenter.gameplay_pop(card, 1.025)
 
 		"process":
 			for item_id_value in ids:
@@ -1503,7 +1500,7 @@ func _populate_literacy_choices(round_data: Dictionary) -> void:
 					card,
 					process_id
 				)
-				UIMotion.play_pop(card, 1.025)
+				ScreenMotionPresenter.gameplay_pop(card, 1.025)
 
 
 func _decorate_processed_choice_card(
@@ -1593,8 +1590,8 @@ func _on_named_literacy_drop(
 		%ChallengeFeedback.text = (
             "TEPAT! Rantai bahan, proses, dan hasil sudah lengkap."
 		)
-		UIMotion.play_reward(slot)
-		UIMotion.play_reward(%ChallengeFeedback)
+		ScreenMotionPresenter.gameplay_reward(slot)
+		ScreenMotionPresenter.gameplay_reward(%ChallengeFeedback)
 		_schedule_literacy_auto_advance()
 		return
 
@@ -1604,7 +1601,7 @@ func _on_named_literacy_drop(
 	)
 	AudioManager.play_drop_feedback(false)
 	card.show_wrong_feedback()
-	UIMotion.play_shake(card, 6.0)
+	ScreenMotionPresenter.gameplay_wrong(card, 6.0)
 	%ChallengeFeedback.text = (
         "Belum tepat. Perhatikan kembali bagian lain pada rantai."
 	)
@@ -1642,8 +1639,8 @@ func _on_food_literacy_drop(
 		%ChallengeFeedback.text = (
             "TEPAT! Bahan yang hilang sudah melengkapi rantai olahan."
 		)
-		UIMotion.play_reward(slot)
-		UIMotion.play_reward(%ChallengeFeedback)
+		ScreenMotionPresenter.gameplay_reward(slot)
+		ScreenMotionPresenter.gameplay_reward(%ChallengeFeedback)
 		_schedule_literacy_auto_advance()
 		return
 
@@ -1653,7 +1650,7 @@ func _on_food_literacy_drop(
 	)
 	AudioManager.play_drop_feedback(false)
 	card.show_wrong_feedback()
-	UIMotion.play_shake(card, 6.0)
+	ScreenMotionPresenter.gameplay_wrong(card, 6.0)
 	%ChallengeFeedback.text = (
         "Belum tepat. Cocokkan bahan dengan proses dan hasil olahan."
 	)
@@ -1849,9 +1846,9 @@ func _show_feedback(text: String, correct: bool) -> void:
 	feedback_toast.visible = true
 
 	if correct:
-		UIMotion.play_pop(feedback_toast, 1.035)
+		ScreenMotionPresenter.gameplay_pop(feedback_toast, 1.035)
 	else:
-		UIMotion.play_shake(feedback_toast, 5.0)
+		ScreenMotionPresenter.gameplay_wrong(feedback_toast, 5.0)
 
 	var tween := create_tween()
 	tween.tween_interval(1.2)
