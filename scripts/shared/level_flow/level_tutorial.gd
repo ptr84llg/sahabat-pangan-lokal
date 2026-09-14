@@ -106,6 +106,7 @@ var _level3_intro_active: bool = true
 var _level1_active: bool = false
 var _level1_completed: bool = false
 var _level1_demo_drag_active: bool = false
+var _tutorial_reveal_signature: String = ""
 
 
 func _ready() -> void:
@@ -236,6 +237,7 @@ func present(
 
 	visible = true
 	_check_orientation()
+	_request_tutorial_reveal()
 
 func hide_presenter() -> void:
 	visible = false
@@ -246,6 +248,7 @@ func hide_presenter() -> void:
 	_level3_intro_active = true
 	_level1_active = false
 	_level1_demo_drag_active = false
+	_tutorial_reveal_signature = ""
 
 
 func _reset_level1_interactive() -> void:
@@ -632,6 +635,7 @@ func _on_continue_pressed() -> void:
 			_level1_intro_active = false
 			_sync_level1_stage_visibility()
 			_sync_level1_continue_state()
+			_request_tutorial_reveal(true)
 			return
 
 		if not _level1_completed:
@@ -641,6 +645,7 @@ func _on_continue_pressed() -> void:
 		_level3_intro_active = false
 		_sync_level3_stage_visibility()
 		_sync_level3_continue_state()
+		_request_tutorial_reveal(true)
 		return
 
 	_continue_target.emit_signal("pressed")
@@ -654,6 +659,151 @@ func _on_continue_pressed() -> void:
 		host.call_deferred(
 			"_refresh_level_tutorial_presenter"
 		)
+
+func _request_tutorial_reveal(force: bool = false) -> void:
+	var signature: String = (
+		str(_level_no)
+		+ "|"
+		+ str(_level1_intro_active)
+		+ "|"
+		+ str(_level3_intro_active)
+		+ "|"
+		+ str(level1_rich_content.visible)
+		+ "|"
+		+ str(level1_interactive_content.visible)
+		+ "|"
+		+ str(level2_rich_content.visible)
+		+ "|"
+		+ str(level3_rich_content.visible)
+		+ "|"
+		+ str(illustration_row.visible)
+		+ "|"
+		+ str(instruction_text.visible)
+	)
+
+	if not force and signature == _tutorial_reveal_signature:
+		return
+
+	_tutorial_reveal_signature = signature
+	call_deferred("_reveal_visible_tutorial_items")
+
+
+func _reveal_visible_tutorial_items() -> void:
+	if not visible:
+		return
+
+	var items: Array = []
+
+	if step_label.visible:
+		items.append(step_label)
+
+	if illustration_row.visible:
+		for illustration_value in [
+			illustration_a,
+			illustration_b,
+			illustration_c
+		]:
+			var illustration := illustration_value as Control
+
+			if illustration != null and illustration.visible:
+				items.append(illustration)
+
+	if instruction_text.visible:
+		items.append(instruction_text)
+
+	if level1_rich_content.visible:
+		_append_rich_tutorial_group(
+			level1_rich_content,
+			[
+				level1_food_1,
+				level1_food_2,
+				level1_food_3,
+				level1_food_4,
+				level1_food_5,
+				level1_food_6
+			],
+			"Level1FoodRow",
+			items
+		)
+
+	if level1_interactive_content.visible:
+		_append_direct_visible_children(
+			level1_interactive_content,
+			items
+		)
+
+	if level2_rich_content.visible:
+		_append_rich_tutorial_group(
+			level2_rich_content,
+			[
+				level2_food_1,
+				level2_food_2,
+				level2_food_3,
+				level2_food_4,
+				level2_food_5,
+				level2_food_6
+			],
+			"Level2FoodRow",
+			items
+		)
+
+	if level3_rich_content.visible:
+		_append_rich_tutorial_group(
+			level3_rich_content,
+			[
+				level3_food_1,
+				level3_food_2
+			],
+			"Level3FoodRow",
+			items
+		)
+
+	if continue_button != null and continue_button.visible:
+		items.append(continue_button)
+
+	ScreenMotionPresenter.tutorial_reveal(items)
+
+
+func _append_rich_tutorial_group(
+	container: Control,
+	card_values: Array,
+	food_row_name: String,
+	output: Array
+) -> void:
+	if container == null or not is_instance_valid(container):
+		return
+
+	for child_value in container.get_children():
+		var child := child_value as Control
+
+		if child == null or not child.visible:
+			continue
+
+		if str(child.name) == food_row_name:
+			for card_value in card_values:
+				var card := card_value as Control
+
+				if card != null and card.visible:
+					output.append(card)
+
+			continue
+
+		output.append(child)
+
+
+func _append_direct_visible_children(
+	container: Control,
+	output: Array
+) -> void:
+	if container == null or not is_instance_valid(container):
+		return
+
+	for child_value in container.get_children():
+		var child := child_value as Control
+
+		if child != null and child.visible:
+			output.append(child)
+
 
 func _force_landscape() -> void:
 	if DisplayServer.has_feature(

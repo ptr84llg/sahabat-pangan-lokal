@@ -72,6 +72,7 @@ var _last_presented_body_text: String = ""
 var _typing_active: bool = false
 var _typing_progress: float = 0.0
 var _typing_total_characters: int = 0
+var _typing_generation: int = 0
 
 
 func _ready() -> void:
@@ -112,9 +113,13 @@ func present(
 		body_text
 	)
 
+	var body_changed: bool = (
+		_last_presented_body_text != formatted_body_text
+	)
+
 	if not was_visible:
 		AudioManager.play_sfx("scene_dialogue_open")
-	elif _last_presented_body_text != formatted_body_text:
+	elif body_changed:
 		AudioManager.play_sfx("dialogue_change")
 
 	_last_presented_body_text = formatted_body_text
@@ -126,11 +131,39 @@ func present(
 
 	_refresh_character_state()
 	visible = true
-	_start_typing()
 	_check_orientation()
+
+	if not was_visible or body_changed:
+		_prepare_typing_wait()
+
+		var reveal_generation: int = _typing_generation
+		var start_typing_callback := Callable(
+			self,
+			"_start_typing_if_generation"
+		).bind(reveal_generation)
+		var name_panels: Array = [
+			npc_name_panel,
+			player_name_panel
+		]
+
+		if not was_visible:
+			ScreenMotionPresenter.dialogue_enter(
+				npc_portrait,
+				player_portrait,
+				name_panels,
+				dialogue_text,
+				start_typing_callback
+			)
+		else:
+			ScreenMotionPresenter.dialogue_line_reveal(
+				name_panels,
+				dialogue_text,
+				start_typing_callback
+			)
 
 
 func hide_presenter() -> void:
+	_typing_generation += 1
 	_typing_active = false
 	_typing_progress = 0.0
 	_typing_total_characters = 0
@@ -159,6 +192,29 @@ func _process(delta: float) -> void:
 
 	if visible_count >= _typing_total_characters:
 		_finish_typing()
+
+
+func _prepare_typing_wait() -> void:
+	_typing_generation += 1
+	_typing_active = false
+	_typing_progress = 0.0
+	dialogue_text.visible_characters = 0
+	_typing_total_characters = (
+		dialogue_text.get_total_character_count()
+	)
+	continue_button.disabled = true
+
+
+func _start_typing_if_generation(
+	generation: int
+) -> void:
+	if generation != _typing_generation:
+		return
+
+	if not visible:
+		return
+
+	_start_typing()
 
 
 func _start_typing() -> void:

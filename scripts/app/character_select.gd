@@ -63,7 +63,7 @@ func _select_character(character_id: String) -> void:
 	_render()
 
 	var card: Control = %SlotACard if character_id == available_character_ids[0] else %SlotBCard
-	ScreenMotionPresenter.select_control(card)
+	ScreenMotionPresenter.character_selected_flip_x(card)
 
 func _continue_to_intro() -> void:
 	if selected_character_id.is_empty():

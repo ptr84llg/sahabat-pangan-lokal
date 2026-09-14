@@ -70,6 +70,7 @@ func _ready() -> void:
 	%ButtonHoverCheckBox.toggled.connect(_on_button_hover_toggled)
 	%ButtonClickCheckBox.toggled.connect(_on_button_click_toggled)
 	%MouseClickCheckBox.toggled.connect(_on_mouse_click_toggled)
+	%GalleryTabs.tab_changed.connect(_on_gallery_tab_changed)
 
 	%AutosaveLabel.text = "Tersimpan otomatis di perangkat ini"
 
@@ -163,10 +164,25 @@ func _setup_motion_presenter() -> void:
 		_history_close_button
 	])
 
-	var safe := get_node_or_null("Safe") as Control
+	var menu_panel := get_node_or_null(
+		"Safe/HBox/MenuPanel"
+	) as Control
+	var logo := get_node_or_null(
+		"Safe/HBox/Brand/GameLogo"
+	) as Control
+	var description := get_node_or_null(
+		"Safe/HBox/Brand/Desc"
+	) as Control
 
-	if safe != null:
-		ScreenMotionPresenter.enter_screen(safe)
+	ScreenMotionPresenter.main_menu_entrance(
+		menu_panel,
+		logo,
+		[
+			description,
+			%GalleryPreview,
+			%AutosaveLabel
+		]
+	)
 
 func _set_modal_input_state(opened: bool) -> void:
 	var safe := get_node_or_null("Safe") as Control
@@ -230,6 +246,68 @@ func _open_gallery() -> void:
 	_build_gallery_lists()
 	%GalleryTabs.current_tab = 0
 	_open_modal(%GalleryPanel)
+	_reveal_gallery_tab(0)
+
+
+func _on_gallery_tab_changed(tab_index: int) -> void:
+	if not %GalleryPanel.visible:
+		return
+
+	_reveal_gallery_tab(tab_index)
+
+
+func _reveal_gallery_tab(tab_index: int) -> void:
+	if not %GalleryPanel.visible:
+		return
+
+	var items: Array = _gallery_reveal_items_for_tab(
+		tab_index
+	)
+
+	ScreenMotionPresenter.collection_reveal(items)
+
+
+func _gallery_reveal_items_for_tab(
+	tab_index: int
+) -> Array:
+	var host: Node = null
+
+	match tab_index:
+		0:
+			host = %FreshFoodList
+		1:
+			host = %ProcessedFoodList
+		2:
+			host = _medal_list
+		3:
+			host = _title_list
+		_:
+			return []
+
+	var items: Array = []
+
+	for child_value in host.get_children():
+		var child := child_value as Node
+
+		if child == null:
+			continue
+
+		if child is GridContainer:
+			for item_value in child.get_children():
+				var item := item_value as Control
+
+				if item != null and item.visible:
+					items.append(item)
+
+			continue
+
+		var direct_item := child as Control
+
+		if direct_item != null and direct_item.visible:
+			items.append(direct_item)
+
+	return items
+
 
 func _open_audio_panel() -> void:
 	_refresh_audio_ui()
@@ -242,6 +320,39 @@ func _open_device_panel() -> void:
 func _open_history_panel() -> void:
 	_populate_history_modal()
 	_open_modal(_history_panel)
+	_reveal_history_items()
+
+
+func _reveal_history_items() -> void:
+	if not _history_panel.visible:
+		return
+
+	var items: Array = []
+	var intro_note := _history_body.get_node_or_null(
+		"HistoryIntroNote"
+	) as Control
+	var state_label := _history_body.get_node_or_null(
+		"HistoryStateLabel"
+	) as Control
+	var cards_host := _history_body.get_node_or_null(
+		"HistoryCardsHost"
+	) as Node
+
+	if intro_note != null and intro_note.visible:
+		items.append(intro_note)
+
+	if state_label != null and state_label.visible:
+		items.append(state_label)
+
+	if cards_host != null:
+		for card_value in cards_host.get_children():
+			var card := card_value as Control
+
+			if card != null and card.visible:
+				items.append(card)
+
+	ScreenMotionPresenter.collection_reveal(items)
+
 
 func _show_reset_confirmation() -> void:
 	if not GameState.has_active_run():

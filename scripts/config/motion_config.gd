@@ -32,6 +32,39 @@ extends Resource
 @export_range(0.01, 2.0, 0.01) var content_in_duration: float = 0.14
 @export_range(0.0, 1.0, 0.005) var item_stagger_duration: float = 0.045
 
+@export_category("Main Menu Entrance")
+@export_range(0.0, 512.0, 1.0) var main_menu_side_offset: float = 72.0
+@export_range(0.0, 256.0, 1.0) var main_menu_text_bottom_offset: float = 28.0
+@export_range(0.01, 2.0, 0.01) var main_menu_panel_duration: float = 0.32
+@export_range(0.01, 2.0, 0.01) var main_menu_logo_duration: float = 0.32
+@export_range(0.01, 2.0, 0.01) var main_menu_text_duration: float = 0.28
+@export_range(0.0, 1.0, 0.01) var main_menu_panel_delay: float = 0.04
+@export_range(0.0, 1.0, 0.01) var main_menu_text_delay: float = 0.10
+@export_range(0.0, 1.0, 0.005) var main_menu_text_stagger: float = 0.045
+
+@export_category("Collection Reveal")
+@export var collection_item_position: Vector2 = Vector2(0.0, 10.0)
+@export_range(0.01, 2.0, 0.01) var collection_item_duration: float = 0.18
+@export_range(0.0, 1.0, 0.005) var collection_item_stagger: float = 0.045
+@export_range(0.0, 1.0, 0.01) var collection_initial_delay: float = 0.16
+
+@export_category("Character Selection")
+@export_range(0.0, 1080.0, 1.0) var character_flip_degrees: float = 360.0
+@export_range(0.01, 2.0, 0.01) var character_flip_duration: float = 0.50
+
+@export_category("Dialogue")
+@export_range(0.0, 512.0, 1.0) var dialogue_character_offset: float = 90.0
+@export_range(0.01, 2.0, 0.01) var dialogue_character_duration: float = 0.30
+@export_range(0.01, 2.0, 0.01) var dialogue_name_fade_duration: float = 0.14
+@export_range(0.01, 2.0, 0.01) var dialogue_text_fade_duration: float = 0.18
+@export_range(0.0, 1.0, 0.01) var dialogue_name_delay: float = 0.30
+@export_range(0.0, 1.0, 0.01) var dialogue_text_delay: float = 0.48
+@export_range(0.0, 1.0, 0.01) var dialogue_line_text_delay: float = 0.16
+
+@export_category("Tutorial")
+@export_range(0.01, 2.0, 0.01) var tutorial_item_fade_duration: float = 0.14
+@export_range(0.0, 1.0, 0.005) var tutorial_item_stagger: float = 0.15
+
 @export_category("Scene")
 @export_range(0.01, 2.0, 0.01) var scene_out_duration: float = 0.16
 @export_range(0.01, 2.0, 0.01) var scene_in_duration: float = 0.22

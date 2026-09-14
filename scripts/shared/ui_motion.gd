@@ -125,6 +125,147 @@ static func play_panel_enter(
 	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 
+static func play_slide_fade_in(
+	control: Control,
+	from_position: Vector2,
+	duration: float,
+	delay: float = 0.0,
+	on_finished: Callable = Callable()
+) -> void:
+	if control == null or not is_instance_valid(control):
+		if on_finished.is_valid():
+			on_finished.call()
+		return
+
+	var config := _config()
+
+	if config == null:
+		if on_finished.is_valid():
+			on_finished.call()
+		return
+
+	_prepare_control(control)
+	_stop_active_tween(control)
+
+	var safe_duration: float = maxf(duration, 0.0)
+	var safe_delay: float = maxf(delay, 0.0)
+
+	if not config.motion_enabled or is_zero_approx(safe_duration):
+		control.offset_transform_position = NEUTRAL_POSITION
+		control.offset_transform_scale = NEUTRAL_SCALE
+		_set_canvas_alpha(control, 1.0)
+
+		if on_finished.is_valid():
+			on_finished.call()
+
+		return
+
+	control.offset_transform_position = from_position
+	control.offset_transform_scale = NEUTRAL_SCALE
+	_set_canvas_alpha(control, 0.0)
+
+	var tween := control.create_tween()
+	control.set_meta(META_TWEEN, tween)
+	tween.set_parallel(true)
+	tween.tween_property(
+		control,
+		"offset_transform_position",
+		NEUTRAL_POSITION,
+		safe_duration
+	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(
+		control,
+		"modulate:a",
+		1.0,
+		safe_duration
+	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	if on_finished.is_valid():
+		tween.finished.connect(
+			on_finished,
+			CONNECT_ONE_SHOT
+		)
+
+
+static func play_fade_in(
+	control: Control,
+	duration: float,
+	delay: float = 0.0,
+	on_finished: Callable = Callable()
+) -> void:
+	play_slide_fade_in(
+		control,
+		Vector2.ZERO,
+		duration,
+		delay,
+		on_finished
+	)
+
+
+static func play_flip_x_once(
+	control: Control,
+	degrees: float,
+	duration: float
+) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+
+	var config := _config()
+
+	if config == null:
+		return
+
+	_prepare_control(control)
+	_stop_active_tween(control)
+	control.offset_transform_position = NEUTRAL_POSITION
+	control.offset_transform_scale = NEUTRAL_SCALE
+
+	if (
+		not config.motion_enabled
+		or is_zero_approx(duration)
+		or is_zero_approx(degrees)
+	):
+		return
+
+	var tween := control.create_tween()
+	control.set_meta(META_TWEEN, tween)
+	tween.tween_method(
+		_set_flip_x_angle.bind(control),
+		0.0,
+		degrees,
+		maxf(duration, 0.01)
+	).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+	tween.finished.connect(
+		_finalize_flip_x.bind(control),
+		CONNECT_ONE_SHOT
+	)
+
+
+static func _set_flip_x_angle(
+	angle_degrees: float,
+	control: Control
+) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+
+	_prepare_control(control)
+
+	var radians: float = deg_to_rad(angle_degrees)
+	control.offset_transform_scale = Vector2(
+		cos(radians),
+		1.0
+	)
+
+
+static func _finalize_flip_x(
+	control: Control
+) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+
+	control.offset_transform_scale = NEUTRAL_SCALE
+
+
 static func play_content_swap(
 	control: Control,
 	apply_content: Callable
