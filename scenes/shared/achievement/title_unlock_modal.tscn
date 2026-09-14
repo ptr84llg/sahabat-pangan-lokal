@@ -1,0 +1,162 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/shared/achievement/title_unlock_modal.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="ModalStyle"]
+content_margin_left = 28.0
+content_margin_top = 24.0
+content_margin_right = 28.0
+content_margin_bottom = 24.0
+bg_color = Color(0.984314, 0.976471, 0.905882, 0.995)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.054902, 0.360784, 0.219608, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+shadow_color = Color(0.02, 0.05, 0.02, 0.38)
+shadow_size = 14
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormal"]
+bg_color = Color(0.054902, 0.360784, 0.219608, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.345098, 0.560784, 0.196078, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="ButtonHover"]
+bg_color = Color(0.4, 0.62, 0.24, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.62, 0.24, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressed"]
+bg_color = Color(0.27, 0.47, 0.16, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.27, 0.47, 0.16, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[node name="TitleUnlockModal" type="Control"]
+visible = false
+z_index = 1100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_script")
+
+[node name="TitleUnlockMask" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.0156863, 0.0470588, 0.0313725, 0.62)
+
+[node name="ModalCenter" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TitleUnlockPanel" type="PanelContainer" parent="ModalCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(900, 540)
+layout_mode = 2
+offset_transform_enabled = true
+theme_override_styles/panel = SubResource("ModalStyle")
+
+[node name="ModalVBox" type="VBoxContainer" parent="ModalCenter/TitleUnlockPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="Label" parent="ModalCenter/TitleUnlockPanel/ModalVBox"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.054902, 0.360784, 0.219608, 1)
+theme_override_font_sizes/font_size = 34
+text = "GELAR BARU DIPEROLEH!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TitleUnlockSubtitle" type="Label" parent="ModalCenter/TitleUnlockPanel/ModalVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.28, 0.38, 0.14, 1)
+theme_override_font_sizes/font_size = 20
+text = "Kamu berhasil mendapatkan gelar baru!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ItemsCenter" type="CenterContainer" parent="ModalCenter/TitleUnlockPanel/ModalVBox"]
+custom_minimum_size = Vector2(0, 320)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TitleUnlockItems" type="GridContainer" parent="ModalCenter/TitleUnlockPanel/ModalVBox/ItemsCenter"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="GalleryInfo" type="Label" parent="ModalCenter/TitleUnlockPanel/ModalVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.25, 0.36, 0.18, 1)
+theme_override_font_sizes/font_size = 17
+text = "Gelar ini dapat dilihat kembali di Galeri pada Menu Utama."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+offset_transform_enabled = true
+
+[node name="ButtonCenter" type="CenterContainer" parent="ModalCenter/TitleUnlockPanel/ModalVBox"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="KerenButton" type="Button" parent="ModalCenter/TitleUnlockPanel/ModalVBox/ButtonCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 56)
+layout_mode = 2
+offset_transform_enabled = true
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("ButtonNormal")
+theme_override_styles/hover = SubResource("ButtonHover")
+theme_override_styles/pressed = SubResource("ButtonPressed")
+theme_override_styles/focus = SubResource("ButtonNormal")
+text = "KEREN!"

@@ -107,6 +107,7 @@ func evaluate_level_completion(
 		achievements[title_id] = {
 			"earned": true,
 			"earned_at": Time.get_unix_time_from_system(),
+			"map_notified": false,
 			"display_name": str(
 				definition.get(
 					"display_name",
@@ -163,9 +164,75 @@ func title_entries() -> Array[Dictionary]:
 			"earned_at",
 			null
 		)
+		entry["map_notified"] = bool(
+			earned_data.get(
+				"map_notified",
+				true
+			)
+		)
 		entries.append(entry)
 
 	return entries
+
+func pending_title_notifications() -> Array[Dictionary]:
+	var pending: Array[Dictionary] = []
+
+	for entry in title_entries():
+		if not bool(entry.get("earned", false)):
+			continue
+
+		if bool(entry.get("map_notified", true)):
+			continue
+
+		pending.append(entry.duplicate(true))
+
+	return pending
+
+
+func acknowledge_title_notifications(
+	title_ids: Array
+) -> void:
+	_ensure_profile_state()
+
+	var achievements: Dictionary = GameState.profile.get(
+		"achievements",
+		{}
+	)
+	var changed: bool = false
+
+	for title_id_value in title_ids:
+		var title_id: String = str(
+			title_id_value
+		).strip_edges()
+
+		if title_id.is_empty():
+			continue
+
+		var earned_data_value: Variant = achievements.get(
+			title_id,
+			{}
+		)
+
+		if not earned_data_value is Dictionary:
+			continue
+
+		var earned_data: Dictionary = earned_data_value
+
+		if not bool(earned_data.get("earned", false)):
+			continue
+
+		if bool(earned_data.get("map_notified", true)):
+			continue
+
+		earned_data["map_notified"] = true
+		achievements[title_id] = earned_data
+		changed = true
+
+	if not changed:
+		return
+
+	GameState.profile["achievements"] = achievements
+	SaveManager.request_save()
 
 func earned_count() -> int:
 	var total: int = 0

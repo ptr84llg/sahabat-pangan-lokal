@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://jd4bt62x3nic" path="res://assets/visual/main_map/festival_active.png" id="17_festival_active"]
 [ext_resource type="Texture2D" uid="uid://c0lkkfw7b0gsj" path="res://assets/visual/main_map/festival_hover.png" id="18_festival_hover"]
 [ext_resource type="Texture2D" uid="uid://dqi4cy7ipdchc" path="res://assets/visual/main_map/festival_disabled.png" id="19_festival_disabled"]
+[ext_resource type="PackedScene" path="res://scenes/shared/achievement/title_unlock_modal.tscn" id="20_title_unlock_modal"]
 
 [sub_resource type="StyleBoxFlat" id="NavNormal"]
 bg_color = Color(0.95, 0.98, 0.86, 0.98)
@@ -608,3 +609,5 @@ theme_override_styles/normal = SubResource("ExitDanger")
 theme_override_styles/pressed = SubResource("ExitDangerHover")
 theme_override_styles/hover = SubResource("ExitDangerHover")
 text = "KELUAR"
+
+[node name="TitleUnlockModal" parent="." instance=ExtResource("20_title_unlock_modal")]

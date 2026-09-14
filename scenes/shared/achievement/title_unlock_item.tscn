@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/shared/achievement/title_unlock_item.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="TitleCardStyle"]
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(1, 0.968627, 0.858824, 0.985)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.780392, 0.607843, 0.160784, 0.82)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0.09, 0.08, 0.02, 0.18)
+shadow_size = 5
+
+[node name="TitleUnlockItem" type="PanelContainer"]
+custom_minimum_size = Vector2(350, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_enabled = true
+theme_override_styles/panel = SubResource("TitleCardStyle")
+script = ExtResource("1_script")
+
+[node name="ContentRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="IconCenter" type="CenterContainer" parent="ContentRow"]
+custom_minimum_size = Vector2(104, 104)
+layout_mode = 2
+
+[node name="TitleIcon" type="TextureRect" parent="ContentRow/IconCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+offset_transform_enabled = true
+
+[node name="TextVBox" type="VBoxContainer" parent="ContentRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 7
+alignment = 1
+
+[node name="TitleName" type="Label" parent="ContentRow/TextVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.32, 0.22, 0.04, 1)
+theme_override_font_sizes/font_size = 22
+text = "Bintang Rumah"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="RequirementLabel" type="Label" parent="ContentRow/TextVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.24, 0.36, 0.16, 1)
+theme_override_font_sizes/font_size = 15
+text = "Raih pencapaian untuk mendapatkan gelar ini."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

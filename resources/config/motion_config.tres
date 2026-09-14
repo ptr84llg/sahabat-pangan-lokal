@@ -22,6 +22,7 @@ modal_exit_scale = Vector2(0.98, 0.98)
 modal_mask_enter_duration = 0.14
 modal_panel_enter_duration = 0.19
 modal_exit_duration = 0.13
+title_unlock_map_delay = 0.35
 content_out_duration = 0.11
 content_in_duration = 0.14
 item_stagger_duration = 0.045
@@ -47,7 +48,8 @@ dialogue_name_delay = 0.3
 dialogue_text_delay = 0.48
 dialogue_line_text_delay = 0.16
 tutorial_item_fade_duration = 0.14
-tutorial_item_stagger = 0.15gameplay_item_fade_duration = 0.12
+tutorial_item_stagger = 0.15
+gameplay_item_fade_duration = 0.12
 gameplay_item_stagger = 0.08
 drop_start_position = Vector2(0, 6)
 drop_start_scale = Vector2(0.94, 0.94)

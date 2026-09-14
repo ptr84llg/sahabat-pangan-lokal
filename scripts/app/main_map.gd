@@ -50,6 +50,7 @@ const LOCATION_DATA := [
 @onready var medal_label: Label = %MedalLabel
 @onready var player_name_label: Label = %PlayerNameLabel
 @onready var player_avatar: TextureRect = %PlayerAvatar
+@onready var title_unlock_modal: TitleUnlockModal = $TitleUnlockModal
 
 var location_buttons: Dictionary = {}
 var selected_level_no: int = 1
@@ -80,6 +81,60 @@ func _ready() -> void:
 	if info_panel != null:
 		ScreenMotionPresenter.enter_screen(info_panel)
 
+	_schedule_title_unlock_notification()
+
+func _schedule_title_unlock_notification() -> void:
+	var pending: Array[Dictionary] = (
+		AchievementManager.pending_title_notifications()
+	)
+
+	if pending.is_empty():
+		return
+
+	var delay: float = 0.35
+	var motion_resource := load(
+		UIMotion.CONFIG_PATH
+	)
+
+	if motion_resource is MotionConfig:
+		var motion_config := motion_resource as MotionConfig
+		delay = maxf(
+			motion_config.title_unlock_map_delay,
+			0.0
+		)
+
+	if is_zero_approx(delay):
+		_show_pending_title_notifications()
+		return
+
+	var timer := get_tree().create_timer(delay)
+	timer.timeout.connect(
+		_show_pending_title_notifications,
+		CONNECT_ONE_SHOT
+	)
+
+
+func _show_pending_title_notifications() -> void:
+	if not is_instance_valid(title_unlock_modal):
+		return
+
+	var pending: Array[Dictionary] = (
+		AchievementManager.pending_title_notifications()
+	)
+
+	if pending.is_empty():
+		return
+
+	title_unlock_modal.present_titles(pending)
+
+
+func _on_title_unlock_dismissed(
+	title_ids: Array
+) -> void:
+	AchievementManager.acknowledge_title_notifications(
+		title_ids
+	)
+
 func _bind_scene_authored_ui() -> void:
 	location_buttons = {
 		1: %Location_1,
@@ -94,6 +149,9 @@ func _bind_scene_authored_ui() -> void:
 	start_button.pressed.connect(_on_start_pressed)
 	exit_cancel_button.pressed.connect(_close_exit_confirmation)
 	exit_confirm_button.pressed.connect(_confirm_exit)
+	title_unlock_modal.dismissed.connect(
+		_on_title_unlock_dismissed
+	)
 
 	ScreenMotionPresenter.bind_buttons([
 		%BackButton,

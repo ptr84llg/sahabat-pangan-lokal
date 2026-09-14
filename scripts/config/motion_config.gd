@@ -27,6 +27,9 @@ extends Resource
 @export_range(0.01, 2.0, 0.01) var modal_panel_enter_duration: float = 0.19
 @export_range(0.01, 2.0, 0.01) var modal_exit_duration: float = 0.13
 
+@export_category("Title Unlock")
+@export_range(0.0, 2.0, 0.01) var title_unlock_map_delay: float = 0.35
+
 @export_category("Content")
 @export_range(0.01, 2.0, 0.01) var content_out_duration: float = 0.11
 @export_range(0.01, 2.0, 0.01) var content_in_duration: float = 0.14
