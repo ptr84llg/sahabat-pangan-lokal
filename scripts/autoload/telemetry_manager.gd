@@ -1,6 +1,40 @@
 extends Node
 const SCHEMA_VERSION: int = 3
 const L1_MAIN_GAME_ID: String = "L1-G01"
+
+func log_event(
+    event_name: String,
+    payload: Dictionary = {}
+) -> bool:
+    var clean_event_name: String = event_name.strip_edges()
+
+    if clean_event_name.is_empty():
+        return false
+
+    var event: Dictionary = {
+        "event_id": IdUtil.uuid_v4(),
+        "schema_version": SCHEMA_VERSION,
+        "event_type": "app_event",
+        "event_name": clean_event_name,
+        "timestamp_unix": Time.get_unix_time_from_system(),
+        "content_version": ContentDatabase.content_version,
+        "payload": payload.duplicate(true)
+    }
+
+    var queue_ok: bool = SaveManager.append_v3_pending_event(event)
+
+    if not queue_ok:
+        push_warning(
+            "App telemetry event gagal ditambahkan ke pending queue V3."
+        )
+        return false
+
+    if not SaveManager.refresh_v3_sync_metadata():
+        push_warning(
+            "Metadata sync V3 gagal diperbarui setelah app telemetry event."
+        )
+
+    return true
 func begin_level_attempt(level_no: int) -> Dictionary:
     if level_no <= 0:
         return {}

@@ -1,4 +1,4 @@
-﻿# Godot generated files
+# Godot generated files
 .godot/
 .import/
 
@@ -12,3 +12,19 @@ Thumbs.db
 
 # Local runtime artifacts
 *.log
+# Private signing / credentials
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+.env
+.env.*
+local.properties
+export_credentials.cfg
+.godot/export_credentials.cfg
+
+# Packaged Android artifacts
+*.apk
+*.aab

@@ -1,12 +1,5 @@
 extends Control
 
-const INTRO_HAPPY_TEXTURES := {
-    "rara": "res://assets/visual/character_select/character_01_female_happy.png",
-    "budi": "res://assets/visual/character_select/character_02_male_happy.png",
-    "anjani": "res://assets/visual/character_select/character_03_female_happy.png",
-    "riski": "res://assets/visual/character_select/character_04_male_happy.png"
-}
-
 var page: int = 0
 var lines: Array[String] = []
 
@@ -16,9 +9,7 @@ func _ready() -> void:
         return
 
     var selected_character_id: String = GameState.selected_character_id()
-    var texture_path: String = str(
-        INTRO_HAPPY_TEXTURES.get(selected_character_id, "")
-    )
+    var texture_path: String = VisualAssets.character_pose_path(selected_character_id, "happy")
 
     if texture_path.is_empty():
         texture_path = GameState.selected_character_texture_path()

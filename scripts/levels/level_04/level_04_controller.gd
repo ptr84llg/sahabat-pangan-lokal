@@ -21,12 +21,6 @@ const V3_LITERACY_GAME_ID: String = "L4-G02"
 const V3_LITERACY_GAME_TYPE: String = "literacy_question"
 const V3_LITERACY_INSTRUCTION_ID: String = "INST-L4-G02-LITERACY"
 const V3_LITERACY_INSTRUCTION_TEXT: String = "Lengkapi bagian yang hilang pada rantai bahan, proses, dan hasil olahan."
-const PROCESSED_TEXTURE_PATHS := {
-	"processed_banana_cassava_compote": "res://assets/visual/processed_foods/processed_banana_cassava_compote.png",
-	"processed_spinach_corn_clear_soup": "res://assets/visual/processed_foods/processed_spinach_corn_clear_soup.png",
-	"processed_water_spinach_eggplant_stirfry": "res://assets/visual/processed_foods/processed_water_spinach_eggplant_stirfry.png",
-	"processed_papaya_mango_rujak": "res://assets/visual/processed_foods/processed_papaya_mango_rujak.png"
-}
 
 @onready var theme_panel: Control = %ThemePanel
 @onready var dialogue_panel: Control = %DialoguePanel
@@ -206,7 +200,7 @@ func _start_main_attempt() -> void:
 	show_only(screens, main_game_hud)
 	_load_order(order_index)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"level_main_started",
 		{
 			"level_session_id": str(
@@ -245,7 +239,7 @@ func _load_order(index: int) -> void:
 
 	var result_id := str(order_data.get("result_id", ""))
 	var result: Dictionary = ContentDatabase.get_processed_food(result_id)
-	var result_texture_path := str(PROCESSED_TEXTURE_PATHS.get(result_id, ""))
+	var result_texture_path := VisualAssets.processed_food_texture_path(result_id)
 
 	%OrderProgress.text = "%d / %d" % [index + 1, orders.size()]
 	%MainScoreLabel.text = "%d / 60" % order_controller.main_score
@@ -405,7 +399,7 @@ func _validate_ingredient_pair() -> void:
 		telemetry_score
 	)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"l4_ingredient_pair",
 		{
 			"level_session_id": str(
@@ -560,7 +554,7 @@ func _on_process_drop(
 		telemetry_score
 	)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"l4_process_attempt",
 		{
 			"level_session_id": str(
@@ -629,7 +623,7 @@ func _complete_current_order() -> void:
 	_show_feedback("Pesanan selesai!", true)
 	ScreenMotionPresenter.gameplay_reward(%TargetResultPanel)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"l4_order_complete",
 		{
 			"level_session_id": str(
@@ -705,11 +699,11 @@ func _on_countdown_changed(seconds_remaining: int) -> void:
 
 func _on_warning_30() -> void:
 	_show_feedback("Waktu tinggal 30 detik.", false)
-	AnalyticsLogger.log_event("l4_timer_warning", {"level_session_id":str(level_session.get("level_session_id", "")), "threshold":30, "attempt_id":order_controller.attempt_id})
+	TelemetryManager.log_event("l4_timer_warning", {"level_session_id":str(level_session.get("level_session_id", "")), "threshold":30, "attempt_id":order_controller.attempt_id})
 
 func _on_warning_10() -> void:
 	ScreenMotionPresenter.timer_warning(%CountdownLabel)
-	AnalyticsLogger.log_event("l4_timer_warning", {"level_session_id":str(level_session.get("level_session_id", "")), "threshold":10, "attempt_id":order_controller.attempt_id})
+	TelemetryManager.log_event("l4_timer_warning", {"level_session_id":str(level_session.get("level_session_id", "")), "threshold":10, "attempt_id":order_controller.attempt_id})
 
 func _on_timeout() -> void:
 	if current_state not in ["MAIN_GAME_PLAYER_CONTROL", "ORDER_SUCCESS_ANIMATION", "ORDER_TRANSITION"]:
@@ -744,7 +738,7 @@ func _on_timeout() -> void:
 	set_state("TIMEOUT")
 	show_only(screens, timeout_panel)
 	%TimeoutText.text = "WAKTU HABIS\nEmpat pesanan belum selesai.\nCoba lagi dan susun bahan dengan lebih teliti.\nTimeout tercatat: %d" % timeout_count
-	AnalyticsLogger.log_event("l4_timeout", {
+	TelemetryManager.log_event("l4_timeout", {
 		"level_session_id":str(level_session.get("level_session_id", "")),
 		"attempt_id":order_controller.attempt_id,
 		"order_index":order_index + 1,
@@ -755,7 +749,7 @@ func _request_hint() -> void:
 	if current_state != "MAIN_GAME_PLAYER_CONTROL":
 		return
 	order_controller.mark_hint_used()
-	AnalyticsLogger.log_event("hint_used", {
+	TelemetryManager.log_event("hint_used", {
 		"level_no":4,
 		"level_session_id":str(level_session.get("level_session_id", "")),
 		"attempt_id":order_controller.attempt_id,
@@ -1566,9 +1560,7 @@ func _decorate_processed_choice_card(
 	var processed: Dictionary = ContentDatabase.get_processed_food(
 		processed_id
 	)
-	var texture_path := str(
-		PROCESSED_TEXTURE_PATHS.get(processed_id, "")
-	)
+	var texture_path := VisualAssets.processed_food_texture_path(processed_id)
 	var preview_texture: Texture2D = _load_processed_texture(texture_path)
 
 	card.custom_minimum_size = (
@@ -1715,7 +1707,7 @@ func _register_literacy_attempt(round_data: Dictionary, selected_id: String, cor
 	var round_id := str(round_data.get("round_id", ""))
 	literacy_attempts[round_id] = int(literacy_attempts.get(round_id, 0)) + 1
 	var attempt_no := int(literacy_attempts[round_id])
-	AnalyticsLogger.log_event("literacy_answer", {
+	TelemetryManager.log_event("literacy_answer", {
 		"level_no":4,
 		"level_session_id":str(level_session.get("level_session_id", "")),
 		"literacy_round":literacy_round_index + 1,
@@ -1837,7 +1829,7 @@ func _render_info() -> void:
 		return
 	var item: Dictionary = processed_foods[info_index]
 	var processed_id: String = str(item.get("processed_food_id", ""))
-	var processed_texture_path: String = str(PROCESSED_TEXTURE_PATHS.get(processed_id, ""))
+	var processed_texture_path: String = VisualAssets.processed_food_texture_path(processed_id)
 	%InfoProcessedImage.texture = _load_processed_texture(processed_texture_path)
 	%InfoTitle.text = str(item.get("display_name", ""))
 	%InfoIngredients.text = "%s + %s" % [str(item.get("ingredient_a_name", "")), str(item.get("ingredient_b_name", ""))]
@@ -1962,5 +1954,5 @@ func _ensure_level_runtime_ready() -> bool:
 	if not GameState.initialized:
 		GameState.initialize()
 
-	AnalyticsLogger.initialize()
+	TelemetryManager.initialize()
 	return true

@@ -78,6 +78,7 @@ static func cancel(control: Control, restore_neutral: bool = true) -> void:
 		return
 
 	_stop_active_tween(control)
+	_stop_active_alpha_tween(control)
 
 	if restore_neutral:
 		_prepare_control(control)
@@ -128,6 +129,7 @@ static func play_panel_enter(
 
 	_prepare_control(control)
 	_stop_active_tween(control)
+	_stop_active_alpha_tween(control)
 
 	if not config.motion_enabled:
 		control.offset_transform_position = NEUTRAL_POSITION
@@ -140,22 +142,25 @@ static func play_panel_enter(
 	control.offset_transform_scale = config.panel_enter_scale
 	_set_canvas_alpha(control, 0.0)
 
-	var tween := control.create_tween()
-	control.set_meta(META_TWEEN, tween)
-	tween.set_parallel(true)
-	tween.tween_property(
+	var transform_tween := control.create_tween()
+	control.set_meta(META_TWEEN, transform_tween)
+	transform_tween.set_parallel(true)
+	transform_tween.tween_property(
 		control,
 		"offset_transform_position",
 		NEUTRAL_POSITION,
 		config.panel_enter_duration
 	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(
+	transform_tween.tween_property(
 		control,
 		"offset_transform_scale",
 		NEUTRAL_SCALE,
 		config.panel_enter_duration
 	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(
+
+	var alpha_tween := control.create_tween()
+	control.set_meta(META_ALPHA_TWEEN, alpha_tween)
+	alpha_tween.tween_property(
 		control,
 		"modulate:a",
 		1.0,
@@ -184,6 +189,7 @@ static func play_slide_fade_in(
 
 	_prepare_control(control)
 	_stop_active_tween(control)
+	_stop_active_alpha_tween(control)
 
 	var safe_duration: float = maxf(duration, 0.0)
 	var safe_delay: float = maxf(delay, 0.0)
@@ -202,16 +208,18 @@ static func play_slide_fade_in(
 	control.offset_transform_scale = NEUTRAL_SCALE
 	_set_canvas_alpha(control, 0.0)
 
-	var tween := control.create_tween()
-	control.set_meta(META_TWEEN, tween)
-	tween.set_parallel(true)
-	tween.tween_property(
+	var transform_tween := control.create_tween()
+	control.set_meta(META_TWEEN, transform_tween)
+	transform_tween.tween_property(
 		control,
 		"offset_transform_position",
 		NEUTRAL_POSITION,
 		safe_duration
 	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(
+
+	var alpha_tween := control.create_tween()
+	control.set_meta(META_ALPHA_TWEEN, alpha_tween)
+	alpha_tween.tween_property(
 		control,
 		"modulate:a",
 		1.0,
@@ -219,7 +227,7 @@ static func play_slide_fade_in(
 	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 	if on_finished.is_valid():
-		tween.finished.connect(
+		alpha_tween.finished.connect(
 			on_finished,
 			CONNECT_ONE_SHOT
 		)
@@ -386,7 +394,7 @@ static func play_content_swap(
 			apply_content.call()
 		return
 
-	_stop_active_tween(control)
+	_stop_active_alpha_tween(control)
 
 	if not config.motion_enabled:
 		if apply_content.is_valid():
@@ -394,9 +402,9 @@ static func play_content_swap(
 		_set_canvas_alpha(control, 1.0)
 		return
 
-	var tween := control.create_tween()
-	control.set_meta(META_TWEEN, tween)
-	tween.tween_property(
+	var alpha_tween := control.create_tween()
+	control.set_meta(META_ALPHA_TWEEN, alpha_tween)
+	alpha_tween.tween_property(
 		control,
 		"modulate:a",
 		0.0,
@@ -404,9 +412,9 @@ static func play_content_swap(
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 
 	if apply_content.is_valid():
-		tween.tween_callback(apply_content)
+		alpha_tween.tween_callback(apply_content)
 
-	tween.tween_property(
+	alpha_tween.tween_property(
 		control,
 		"modulate:a",
 		1.0,
@@ -429,7 +437,7 @@ static func play_modal_open(
 	_stop_active_tween(panel)
 
 	if mask != null and is_instance_valid(mask):
-		_stop_active_canvas_tween(mask)
+		_stop_active_alpha_tween(mask)
 
 	if not config.motion_enabled:
 		panel.offset_transform_position = NEUTRAL_POSITION
@@ -445,35 +453,25 @@ static func play_modal_open(
 	panel.offset_transform_scale = config.modal_enter_scale
 	_set_canvas_alpha(panel, 1.0)
 
-	if mask != null and is_instance_valid(mask):
-		_set_canvas_alpha(mask, 0.0)
-
-	var tween := panel.create_tween()
-	panel.set_meta(META_TWEEN, tween)
-
-	if mask != null and is_instance_valid(mask):
-		mask.set_meta(META_TWEEN, tween)
-		tween.set_parallel(true)
-		tween.tween_property(
-			mask,
-			"modulate:a",
-			1.0,
-			config.modal_mask_enter_duration
-		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		tween.tween_property(
-			panel,
-			"offset_transform_scale",
-			NEUTRAL_SCALE,
-			config.modal_panel_enter_duration
-		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		return
-
-	tween.tween_property(
+	var transform_tween := panel.create_tween()
+	panel.set_meta(META_TWEEN, transform_tween)
+	transform_tween.tween_property(
 		panel,
 		"offset_transform_scale",
 		NEUTRAL_SCALE,
 		config.modal_panel_enter_duration
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	if mask != null and is_instance_valid(mask):
+		_set_canvas_alpha(mask, 0.0)
+		var mask_alpha_tween := mask.create_tween()
+		mask.set_meta(META_ALPHA_TWEEN, mask_alpha_tween)
+		mask_alpha_tween.tween_property(
+			mask,
+			"modulate:a",
+			1.0,
+			config.modal_mask_enter_duration
+		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 
 static func play_modal_close(
@@ -494,28 +492,27 @@ static func play_modal_close(
 
 	_prepare_control(panel)
 	_stop_active_tween(panel)
+	_stop_active_alpha_tween(panel)
 
 	if mask != null and is_instance_valid(mask):
-		_stop_active_canvas_tween(mask)
+		_stop_active_alpha_tween(mask)
 
 	if not config.motion_enabled:
 		_finalize_modal_close(panel, mask, on_finished)
 		return
 
-	var tween := panel.create_tween()
-	panel.set_meta(META_TWEEN, tween)
-
-	if mask != null and is_instance_valid(mask):
-		mask.set_meta(META_TWEEN, tween)
-
-	tween.set_parallel(true)
-	tween.tween_property(
+	var transform_tween := panel.create_tween()
+	panel.set_meta(META_TWEEN, transform_tween)
+	transform_tween.tween_property(
 		panel,
 		"offset_transform_scale",
 		config.modal_exit_scale,
 		config.modal_exit_duration
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	tween.tween_property(
+
+	var panel_alpha_tween := panel.create_tween()
+	panel.set_meta(META_ALPHA_TWEEN, panel_alpha_tween)
+	panel_alpha_tween.tween_property(
 		panel,
 		"modulate:a",
 		0.0,
@@ -523,14 +520,16 @@ static func play_modal_close(
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 
 	if mask != null and is_instance_valid(mask):
-		tween.tween_property(
+		var mask_alpha_tween := mask.create_tween()
+		mask.set_meta(META_ALPHA_TWEEN, mask_alpha_tween)
+		mask_alpha_tween.tween_property(
 			mask,
 			"modulate:a",
 			0.0,
 			config.modal_exit_duration
 		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 
-	tween.finished.connect(
+	panel_alpha_tween.finished.connect(
 		_finalize_modal_close.bind(
 			panel,
 			mask,
@@ -712,6 +711,7 @@ static func play_badge_reveal(control: Control) -> void:
 
 	_prepare_control(control)
 	_stop_active_tween(control)
+	_stop_active_alpha_tween(control)
 
 	if not config.motion_enabled:
 		control.offset_transform_position = NEUTRAL_POSITION
@@ -731,32 +731,35 @@ static func play_badge_reveal(control: Control) -> void:
 	control.offset_transform_scale = config.reward_start_scale
 	_set_canvas_alpha(control, 0.0)
 
-	var tween := control.create_tween()
-	control.set_meta(META_TWEEN, tween)
-	tween.set_parallel(true)
-	tween.tween_property(
+	var transform_tween := control.create_tween()
+	control.set_meta(META_TWEEN, transform_tween)
+	transform_tween.set_parallel(true)
+	transform_tween.tween_property(
 		control,
 		"offset_transform_position",
 		NEUTRAL_POSITION,
 		rise_duration
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(
+	transform_tween.tween_property(
 		control,
 		"offset_transform_scale",
 		config.reward_peak_scale,
 		rise_duration
 	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tween.tween_property(
-		control,
-		"modulate:a",
-		1.0,
-		minf(rise_duration, 0.22)
-	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.chain().tween_property(
+	transform_tween.chain().tween_property(
 		control,
 		"offset_transform_scale",
 		NEUTRAL_SCALE,
 		settle_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	var alpha_tween := control.create_tween()
+	control.set_meta(META_ALPHA_TWEEN, alpha_tween)
+	alpha_tween.tween_property(
+		control,
+		"modulate:a",
+		1.0,
+		minf(rise_duration, 0.22)
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 
@@ -777,6 +780,7 @@ static func play_star_reveal(
 
 	_prepare_control(control)
 	_stop_active_tween(control)
+	_stop_active_alpha_tween(control)
 
 	if not config.motion_enabled:
 		control.offset_transform_position = NEUTRAL_POSITION
@@ -789,27 +793,29 @@ static func play_star_reveal(
 	control.offset_transform_scale = config.reward_start_scale
 	_set_canvas_alpha(control, 0.0)
 
-	var tween := control.create_tween()
-	control.set_meta(META_TWEEN, tween)
-	tween.set_parallel(true)
-	tween.tween_property(
+	var transform_tween := control.create_tween()
+	control.set_meta(META_TWEEN, transform_tween)
+	transform_tween.tween_property(
 		control,
 		"offset_transform_scale",
 		config.reward_peak_scale,
 		config.pop_up_duration
 	).set_delay(safe_delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tween.tween_property(
+	transform_tween.tween_property(
+		control,
+		"offset_transform_scale",
+		NEUTRAL_SCALE,
+		config.pop_return_duration
+	).set_delay(safe_delay + config.pop_up_duration).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	var alpha_tween := control.create_tween()
+	control.set_meta(META_ALPHA_TWEEN, alpha_tween)
+	alpha_tween.tween_property(
 		control,
 		"modulate:a",
 		1.0,
 		config.pop_up_duration
 	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.chain().tween_property(
-		control,
-		"offset_transform_scale",
-		NEUTRAL_SCALE,
-		config.pop_return_duration
-	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 
 static func play_score_count(
@@ -1170,14 +1176,14 @@ static func _stop_active_canvas_tween(item: CanvasItem) -> void:
 	item.remove_meta(META_TWEEN)
 
 
-static func _stop_active_alpha_tween(control: Control) -> void:
-	if control == null or not is_instance_valid(control):
+static func _stop_active_alpha_tween(item: CanvasItem) -> void:
+	if item == null or not is_instance_valid(item):
 		return
 
-	if not control.has_meta(META_ALPHA_TWEEN):
+	if not item.has_meta(META_ALPHA_TWEEN):
 		return
 
-	var tween_value: Variant = control.get_meta(META_ALPHA_TWEEN)
+	var tween_value: Variant = item.get_meta(META_ALPHA_TWEEN)
 
 	if tween_value is Tween:
 		var active_tween := tween_value as Tween
@@ -1185,7 +1191,7 @@ static func _stop_active_alpha_tween(control: Control) -> void:
 		if active_tween != null and active_tween.is_valid():
 			active_tween.kill()
 
-	control.remove_meta(META_ALPHA_TWEEN)
+	item.remove_meta(META_ALPHA_TWEEN)
 
 
 static func _stop_active_tween(control: Control) -> void:

@@ -92,7 +92,7 @@ func _on_basket_drop(food_id: String, card: FoodCard, slot: BasketSlot) -> void:
         "correct_drop"
     )
 
-    AnalyticsLogger.log_event(
+    TelemetryManager.log_event(
         "basket_add",
         {
             "level_no": 3,
@@ -118,7 +118,7 @@ func _on_basket_cancel_requested(slot: BasketSlot) -> void:
     _return_card_to_market(card)
     ScreenMotionPresenter.gameplay_pop(card, 1.03)
     slot.restore_placeholder()
-    AnalyticsLogger.log_event("basket_remove", {"level_no":3,"level_session_id":DurationTracker.session_id,"food_id":food_id,"group_id":group_id,"coin_remaining":coin_remaining(),"source":"cancel_button"})
+    TelemetryManager.log_event("basket_remove", {"level_no":3,"level_session_id":DurationTracker.session_id,"food_id":food_id,"group_id":group_id,"coin_remaining":coin_remaining(),"source":"cancel_button"})
     _emit_basket()
 
 func _return_card_to_market(card: FoodCard) -> void:
@@ -135,7 +135,7 @@ func check_shopping() -> void:
     check_attempt += 1
     var budget := int(config.get("coin_budget", 15))
     var valid := selected_by_group.size() == 4 and coin_used() <= budget
-    AnalyticsLogger.log_event("shopping_check", {"level_no":3,"level_session_id":DurationTracker.session_id,"check_attempt":check_attempt,"selected_ids":selected_ids(),"coin_used":coin_used(),"valid":valid})
+    TelemetryManager.log_event("shopping_check", {"level_no":3,"level_session_id":DurationTracker.session_id,"check_attempt":check_attempt,"selected_ids":selected_ids(),"coin_used":coin_used(),"valid":valid})
     if valid:
         feedback.emit("Belanjamu lengkap dan Koin Panganmu cukup!", true)
         shopping_success.emit(selected_ids())
@@ -149,7 +149,7 @@ func request_hint() -> void:
         if selected_by_group.has(group_id):
             continue
 
-        AnalyticsLogger.log_event(
+        TelemetryManager.log_event(
             "hint_used",
             {
                 "level_no": 3,
@@ -310,4 +310,4 @@ func _emit_basket() -> void:
     basket_changed.emit(selected_ids(), coin_remaining(), selected_by_group.duplicate(true))
 
 func _log_invalid(food_id: String, reason: String) -> void:
-    AnalyticsLogger.log_event("shopping_invalid", {"level_no":3,"level_session_id":DurationTracker.session_id,"food_id":food_id,"invalid_reason":reason,"coin_remaining":coin_remaining()})
+    TelemetryManager.log_event("shopping_invalid", {"level_no":3,"level_session_id":DurationTracker.session_id,"food_id":food_id,"invalid_reason":reason,"coin_remaining":coin_remaining()})

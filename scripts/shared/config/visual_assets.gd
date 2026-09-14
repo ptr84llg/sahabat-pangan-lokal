@@ -18,6 +18,14 @@ static func character_pose_texture_paths() -> Dictionary:
 	var config := _config()
 	return config.character_pose_texture_paths if config != null else {}
 
+static func npc_pose_texture_paths() -> Dictionary:
+	var config := _config()
+	return config.npc_pose_texture_paths if config != null else {}
+
+static func ui_texture_paths() -> Dictionary:
+	var config := _config()
+	return config.ui_texture_paths if config != null else {}
+
 static func processed_food_texture_paths() -> Dictionary:
 	var config := _config()
 	return config.processed_food_texture_paths if config != null else {}
@@ -44,6 +52,13 @@ static func food_texture_path(food_id: String, fallback: String = "") -> String:
 static func character_pose_path(character_id: String, pose: String, fallback: String = "") -> String:
 	var poses: Dictionary = character_pose_texture_paths().get(character_id, {})
 	return str(poses.get(pose, fallback))
+
+static func npc_pose_path(level_no: int, pose: String, fallback: String = "") -> String:
+	var poses: Dictionary = npc_pose_texture_paths().get(str(level_no), {})
+	return str(poses.get(pose, fallback))
+
+static func ui_texture_path(asset_id: String, fallback: String = "") -> String:
+	return str(ui_texture_paths().get(asset_id, fallback))
 
 static func processed_food_texture_path(processed_food_id: String, fallback: String = "") -> String:
 	return str(processed_food_texture_paths().get(processed_food_id, fallback))

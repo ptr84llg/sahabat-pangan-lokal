@@ -26,6 +26,7 @@ definitions = {
 "icon_path": "res://assets/visual/achievements/title_l1_speed_master.png",
 "google_play_id": "",
 "level_no": 1,
+"required_score": 100,
 "max_game_duration_ms": 30000,
 "requirement_text": "Level 1 mendapat skor 100, lalu Permainan 1 dan 2 masing-masing selesai maksimal 30 detik.",
 "rule_type": "level_speed_perfect",
@@ -45,6 +46,7 @@ definitions = {
 "icon_path": "res://assets/visual/achievements/title_l2_speed_master.png",
 "google_play_id": "",
 "level_no": 2,
+"required_score": 100,
 "max_game_duration_ms": 30000,
 "requirement_text": "Level 2 mendapat skor 100, lalu Permainan 1 dan 2 masing-masing selesai maksimal 30 detik.",
 "rule_type": "level_speed_perfect",
@@ -64,6 +66,7 @@ definitions = {
 "icon_path": "res://assets/visual/achievements/title_l3_clean_master.png",
 "google_play_id": "",
 "level_no": 3,
+"required_score": 100,
 "requirement_text": "Selesaikan Level 3 dengan skor 100 tanpa kesalahan, hint, reset, atau kembali ke peta pada percobaan yang berhasil.",
 "rule_type": "level_clean_perfect",
 "sort_order": 5
@@ -82,6 +85,7 @@ definitions = {
 "icon_path": "res://assets/visual/achievements/title_l4_clean_master.png",
 "google_play_id": "",
 "level_no": 4,
+"required_score": 100,
 "requirement_text": "Selesaikan Level 4 dengan skor 100 tanpa kesalahan, hint, reset, timeout, atau kembali ke peta pada percobaan yang berhasil.",
 "rule_type": "level_clean_perfect",
 "sort_order": 7
@@ -100,6 +104,7 @@ definitions = {
 "icon_path": "res://assets/visual/achievements/title_l5_clean_master.png",
 "google_play_id": "",
 "level_no": 5,
+"required_score": 100,
 "requirement_text": "Selesaikan Level 5 dengan skor 100 tanpa kesalahan, hint, reset, timeout, atau kembali ke peta pada percobaan yang berhasil.",
 "rule_type": "level_clean_perfect",
 "sort_order": 9

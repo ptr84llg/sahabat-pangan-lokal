@@ -144,8 +144,8 @@ func _persist_back_to_map(scene: Node) -> void:
     else:
         _persist_generic_level_session(scene)
 
-    if AnalyticsLogger != null:
-        AnalyticsLogger.log_event(
+    if TelemetryManager != null:
+        TelemetryManager.log_event(
             "level_exit_to_map",
             {
                 "level_no": level_no,

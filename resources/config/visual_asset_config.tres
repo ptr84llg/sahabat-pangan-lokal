@@ -42,6 +42,17 @@ character_pose_texture_paths = {
 "talking": "res://assets/visual/character_select/character_04_male_talking.png"
 }
 }
+npc_pose_texture_paths = {
+"1": {"standing": "res://assets/visual/npc/ibu/standing.png", "talking": "res://assets/visual/npc/ibu/talking.png"},
+"2": {"standing": "res://assets/visual/npc/ibu_guru/standing.png", "talking": "res://assets/visual/npc/ibu_guru/talking.png"},
+"3": {"standing": "res://assets/visual/npc/pedagang/standing.png", "talking": "res://assets/visual/npc/pedagang/talking.png"},
+"4": {"standing": "res://assets/visual/npc/nenek/standing.png", "talking": "res://assets/visual/npc/nenek/talking.png"},
+"5": {"standing": "res://assets/visual/npc/lurah/standing.png", "talking": "res://assets/visual/npc/lurah/talking.png"}
+}
+ui_texture_paths = {
+"gameplay_logo": "res://assets/visual/ui/logo_game.png",
+"main_map_small_logo": "res://assets/visual/main_map/small_logo.png"
+}
 processed_food_texture_paths = {
 "processed_banana_cassava_compote": "res://assets/visual/processed_foods/processed_banana_cassava_compote.png",
 "processed_spinach_corn_clear_soup": "res://assets/visual/processed_foods/processed_spinach_corn_clear_soup.png",

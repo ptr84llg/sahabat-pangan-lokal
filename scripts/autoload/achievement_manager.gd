@@ -424,15 +424,22 @@ func _rule_met(
 		_:
 			return false
 
-func _level_speed_perfect(
+func _score_requirement_met(
 	definition: Dictionary,
+	final_score: int
+) -> bool:
+	var required_score: int = int(definition.get("required_score", -1))
+	return required_score >= 0 and final_score == required_score
+
+
+func _level_speed_perfect(	definition: Dictionary,
 	level_no: int,
 	final_score: int
 ) -> bool:
 	if int(definition.get("level_no", 0)) != level_no:
 		return false
 
-	if final_score != 100:
+	if not _score_requirement_met(definition, final_score):
 		return false
 
 	var snapshot: Dictionary = _telemetry_level_snapshot(
@@ -482,7 +489,7 @@ func _level_clean_perfect(
 	if int(definition.get("level_no", 0)) != level_no:
 		return false
 
-	if final_score != 100:
+	if not _score_requirement_met(definition, final_score):
 		return false
 
 	var snapshot: Dictionary = _telemetry_level_snapshot(

@@ -1,13 +1,6 @@
 extends Control
 class_name LevelBadgeReward
 
-const BADGE_PATHS: Dictionary = {
-	"1": "res://assets/visual/badges/badge-1.png",
-	"2": "res://assets/visual/badges/badge-2.png",
-	"3": "res://assets/visual/badges/badge-3.png",
-	"4": "res://assets/visual/badges/badge-4.png",
-	"5": "res://assets/visual/badges/badge-5.png"
-}
 @onready var reward_ui: Control = %RewardUI
 @onready var badge_image: TextureRect = %BadgeImage
 @onready var reward_message: Label = %RewardMessage
@@ -129,9 +122,8 @@ func _check_orientation() -> void:
 func _load_badge_texture(
 	level_number: String
 ) -> Texture2D:
-	var badge_path: String = str(
-		BADGE_PATHS.get(level_number, "")
-	)
+	var badge_id: String = "badge_level_%02d" % int(level_number)
+	var badge_path: String = VisualAssets.badge_texture_path(badge_id)
 
 	if badge_path.is_empty():
 		return null

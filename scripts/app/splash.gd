@@ -81,8 +81,6 @@ func _ready() -> void:
 
 	_set_progress(95.0)
 	await get_tree().create_timer(0.10).timeout
-
-	AnalyticsLogger.initialize()
 	AchievementManager.reconcile_current_run()
 	if not SaveManager.save_now():
 		_fail("Pencapaian permainan gagal disimpan.")

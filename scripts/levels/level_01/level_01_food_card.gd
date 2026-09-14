@@ -1,14 +1,5 @@
 extends FoodCard
 
-const FOOD_TEXTURES: Dictionary = {
-	"food_rice": "res://assets/visual/foods/food_rice.png",
-	"food_cassava": "res://assets/visual/foods/food_cassava.png",
-	"food_water_spinach": "res://assets/visual/foods/food_water_spinach.png",
-	"food_spinach": "res://assets/visual/foods/food_spinach.png",
-	"food_banana": "res://assets/visual/foods/food_banana.png",
-	"food_papaya": "res://assets/visual/foods/food_papaya.png"
-}
-
 @onready var food_image: TextureRect = %FoodImage
 
 var _drag_visual_active: bool = false
@@ -33,9 +24,7 @@ func _apply_visual(
 	coin_label.visible = false
 	food_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	var texture_path: String = str(
-		FOOD_TEXTURES.get(food_id, "")
-	)
+	var texture_path: String = VisualAssets.food_texture_path(food_id)
 
 	if texture_path.is_empty():
 		food_image.texture = null

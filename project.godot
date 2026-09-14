@@ -27,7 +27,7 @@ ProgressManager="*res://scripts/autoload/progress_manager.gd"
 SaveManager="*res://scripts/autoload/save_manager.gd"
 CompletedHistorySyncManager="*res://scripts/autoload/completed_history_sync_manager.gd"
 TelemetryManager="*res://scripts/autoload/telemetry_manager.gd"
-AnalyticsLogger="*res://scripts/autoload/analytics_logger.gd"
+
 DurationTracker="*res://scripts/autoload/duration_tracker.gd"
 AudioManager="*res://scripts/autoload/audio_manager.gd"
 SceneRouter="*res://scripts/autoload/scene_router.gd"

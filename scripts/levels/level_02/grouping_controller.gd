@@ -107,7 +107,7 @@ func _on_drop_received(
 		actual_group == zone.accepted_group_id
 	)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"drag_attempt",
 		{
 			"level_session_id": DurationTracker.session_id,
@@ -223,7 +223,7 @@ func request_hint() -> void:
 		)
 		zone.pulse_hint()
 
-		AnalyticsLogger.log_event(
+		TelemetryManager.log_event(
 			"hint_used",
 			{
 				"level_no": 2,

@@ -231,7 +231,7 @@ func start_new_run(player_name: String = "", player_gender: String = "male") -> 
 
     profile["active_run_id"] = run_id
 
-    AnalyticsLogger.log_event("run_started", {
+    TelemetryManager.log_event("run_started", {
         "run_id": run_id,
         "content_version": ContentDatabase.content_version,
         "installation_id": SaveManager.get_installation_id(),
@@ -305,7 +305,7 @@ func set_selected_character(character_id: String) -> bool:
 
     active_run["selected_character_id"] = character_id
 
-    AnalyticsLogger.log_event("character_selected", {
+    TelemetryManager.log_event("character_selected", {
         "run_id": active_run.get("run_id", ""),
         "character_id": character_id,
         "player_name": player_display_name(),
@@ -461,7 +461,7 @@ func complete_level(level_no: int, score: int, duration_ms: int, badge_id: Strin
     if level_no == 5:
         _archive_completed_run()
 
-    AnalyticsLogger.log_event("level_complete", {
+    TelemetryManager.log_event("level_complete", {
         "level_session_id": level_session_id,
         "level_no": level_no,
         "score": score,

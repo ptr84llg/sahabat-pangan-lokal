@@ -115,7 +115,7 @@ func set_state(new_state: String) -> void:
 	if not _is_dialogue_state():
 		_pending_speaker = ""
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"level_state_changed",
 		{
 			"level": get_meta("level_no", 0),

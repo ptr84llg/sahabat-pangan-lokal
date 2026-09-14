@@ -2,19 +2,6 @@ extends LevelFlowController
 
 const GALLERY_FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
 const ProcessVisuals = preload("res://scripts/shared/gameplay/process_visuals.gd")
-const GALLERY_PROCESSED_TEXTURE_PATHS := {
-	"processed_banana_cassava_compote": "res://assets/visual/processed_foods/processed_banana_cassava_compote.png",
-	"processed_spinach_corn_clear_soup": "res://assets/visual/processed_foods/processed_spinach_corn_clear_soup.png",
-	"processed_water_spinach_eggplant_stirfry": "res://assets/visual/processed_foods/processed_water_spinach_eggplant_stirfry.png",
-	"processed_papaya_mango_rujak": "res://assets/visual/processed_foods/processed_papaya_mango_rujak.png"
-}
-const FINAL_CHARACTER_HAPPY_TEXTURES := {
-	"rara": "res://assets/visual/character_select/character_01_female_happy.png",
-	"budi": "res://assets/visual/character_select/character_02_male_happy.png",
-	"anjani": "res://assets/visual/character_select/character_03_female_happy.png",
-	"riski": "res://assets/visual/character_select/character_04_male_happy.png"
-}
-
 const V3_MAIN_GAME_ID: String = "L5-G01"
 const V3_MAIN_GAME_TYPE: String = "festival_pangan_lokal"
 const V3_MAIN_INSTRUCTION_ID: String = "INST-L5-G01-FESTIVAL"
@@ -321,7 +308,7 @@ func _start_main_game() -> void:
 	main_timer.start()
 	show_only(screens, main_game_hud)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"level_main_started",
 		{
 			"level_session_id": str(
@@ -894,12 +881,7 @@ func _render_schema4_process_choices(
 		)
 	)
 
-	var processed_texture_path := str(
-		GALLERY_PROCESSED_TEXTURE_PATHS.get(
-			processed_id,
-            ""
-		)
-	)
+	var processed_texture_path := VisualAssets.processed_food_texture_path(processed_id)
 
 	result_image.texture = null
 
@@ -1055,7 +1037,7 @@ func _register_invalid(
 
 	_begin_l5_schema_occurrence(schema_id)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"l5_invalid_event",
 		{
 			"level_session_id": str(
@@ -1103,7 +1085,7 @@ func _complete_schema(schema_id: String) -> void:
             "Telemetry v3 Level 5 Game 1 belum dapat merekam penyelesaian mechanic skema."
 		)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"l5_schema_complete",
 		{
 			"level_session_id": str(
@@ -1214,12 +1196,12 @@ func _on_main_time_changed(seconds: int) -> void:
 func _on_main_warning_30() -> void:
 	_feedback("Waktu tinggal 30 detik.", false)
 	ScreenMotionPresenter.timer_warning(%MainCountdownLabel)
-	AnalyticsLogger.log_event("l5_timer_warning", {"level_session_id":str(level_session.get("level_session_id", "")),"threshold":30,"schema_index":schema_index+1})
+	TelemetryManager.log_event("l5_timer_warning", {"level_session_id":str(level_session.get("level_session_id", "")),"threshold":30,"schema_index":schema_index+1})
 
 func _on_main_timer_expired() -> void:
 	%MainCountdownLabel.text = "00:00"
 	_feedback("Bonus waktu habis. Permainan tetap lanjut sampai Skema 4 selesai.", false)
-	AnalyticsLogger.log_event("l5_main_timer_expired", {"level_session_id":str(level_session.get("level_session_id", "")),"schema_id":"schema_%d" % [schema_index+1]})
+	TelemetryManager.log_event("l5_main_timer_expired", {"level_session_id":str(level_session.get("level_session_id", "")),"schema_id":"schema_%d" % [schema_index+1]})
 
 func _l5_schema_data(schema_id: String) -> Dictionary:
 	for schema_value in config.get("schemas", []):
@@ -1965,7 +1947,7 @@ func _log_quiz_response(result: Dictionary) -> void:
 	var response: Dictionary = result.get("response", {})
 	response["level_session_id"] = str(level_session.get("level_session_id", ""))
 	response["final_status"] = str(result.get("status", ""))
-	AnalyticsLogger.log_event("quiz_answer", response)
+	TelemetryManager.log_event("quiz_answer", response)
 
 func _lock_answer_buttons() -> void:
 	for b in [%AnswerA,%AnswerB,%AnswerC,%AnswerD]:
@@ -2140,12 +2122,7 @@ func _render_gallery_processed_cards() -> void:
 
 
 func _gallery_processed_texture(processed_id: String) -> Texture2D:
-	var texture_path := str(
-		GALLERY_PROCESSED_TEXTURE_PATHS.get(
-			processed_id,
-            ""
-		)
-	)
+	var texture_path := VisualAssets.processed_food_texture_path(processed_id)
 
 	if texture_path.is_empty():
 		return null
@@ -2255,12 +2232,7 @@ func _show_final_map() -> void:
 
 func _apply_final_player_texture() -> void:
 	var selected_character_id := GameState.selected_character_id()
-	var texture_path := str(
-		FINAL_CHARACTER_HAPPY_TEXTURES.get(
-			selected_character_id,
-            ""
-		)
-	)
+	var texture_path := VisualAssets.character_pose_path(selected_character_id, "happy")
 
 	if texture_path.is_empty():
 		texture_path = str(
@@ -2356,5 +2328,5 @@ func _ensure_level_runtime_ready() -> bool:
 	if not GameState.initialized:
 		GameState.initialize()
 
-	AnalyticsLogger.initialize()
+	TelemetryManager.initialize()
 	return true

@@ -213,8 +213,8 @@ func _configure_gameplay_layout() -> void:
 	%Game2Logo.visible = false
 
 	var logo_paths: Array[String] = [
-		"res://assets/visual/ui/logo_game.png",
-        "res://assets/visual/main_map/small_logo.png"
+		VisualAssets.ui_texture_path("gameplay_logo"),
+		VisualAssets.ui_texture_path("main_map_small_logo")
 	]
 
 	for logo_path in logo_paths:
@@ -368,7 +368,7 @@ func _show_tutorial() -> void:
 			preview_flag_key,
 			true
 		)
-		AnalyticsLogger.log_event(
+		TelemetryManager.log_event(
 			"content_preview_seen",
 			{
 				"level_no": 2,
@@ -453,7 +453,7 @@ func _start_gameplay() -> void:
 	)
 	_play_grouping_reveal()
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"level_main_started",
 		{
 			"level_session_id": level_session.get(
@@ -573,7 +573,7 @@ func _on_reset_pressed() -> void:
 
 	_persist_level_interaction_snapshot("reset")
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"level_game_reset",
 		{
 			"level_session_id": level_session.get(
@@ -1010,7 +1010,7 @@ func _on_challenge_drop(
 		food_id == correct_food_id
 	)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"literacy_answer",
 		{
 			"level_no": 2,
@@ -1521,5 +1521,5 @@ func _ensure_level_runtime_ready() -> bool:
 	if not GameState.initialized:
 		GameState.initialize()
 
-	AnalyticsLogger.initialize()
+	TelemetryManager.initialize()
 	return true

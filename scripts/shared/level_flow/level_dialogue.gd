@@ -2,51 +2,12 @@ extends Control
 
 const TYPEWRITER_CHARACTERS_PER_SECOND: float = 20.0
 
-const PLAYER_POSES: Dictionary = {
-	"rara": {
-		"standing": "res://assets/visual/character_select/character_01_female_standing.png",
-		"talking": "res://assets/visual/character_select/character_01_female_talking.png"
-	},
-	"budi": {
-		"standing": "res://assets/visual/character_select/character_02_male_standing.png",
-		"talking": "res://assets/visual/character_select/character_02_male_talking.png"
-	},
-	"anjani": {
-		"standing": "res://assets/visual/character_select/character_03_female_standing.png",
-		"talking": "res://assets/visual/character_select/character_03_female_talking.png"
-	},
-	"riski": {
-		"standing": "res://assets/visual/character_select/character_04_male_standing.png",
-		"talking": "res://assets/visual/character_select/character_04_male_talking.png"
-	}
-}
-
-const NPC_PROFILES: Dictionary = {
-	1: {
-		"name": "IBU",
-		"standing": "res://assets/visual/npc/ibu/standing.png",
-		"talking": "res://assets/visual/npc/ibu/talking.png"
-	},
-	2: {
-		"name": "IBU GURU",
-		"standing": "res://assets/visual/npc/ibu_guru/standing.png",
-		"talking": "res://assets/visual/npc/ibu_guru/talking.png"
-	},
-	3: {
-		"name": "PEDAGANG",
-		"standing": "res://assets/visual/npc/pedagang/standing.png",
-		"talking": "res://assets/visual/npc/pedagang/talking.png"
-	},
-	4: {
-		"name": "NENEK",
-		"standing": "res://assets/visual/npc/nenek/standing.png",
-		"talking": "res://assets/visual/npc/nenek/talking.png"
-	},
-	5: {
-		"name": "LURAH",
-		"standing": "res://assets/visual/npc/lurah/standing.png",
-		"talking": "res://assets/visual/npc/lurah/talking.png"
-	}
+const NPC_NAMES: Dictionary = {
+	1: "IBU",
+	2: "IBU GURU",
+	3: "PEDAGANG",
+	4: "NENEK",
+	5: "LURAH"
 }
 
 @export var name_inactive_style: StyleBoxFlat
@@ -266,13 +227,7 @@ func _format_dialogue_text(body_text: String) -> String:
 
 
 func _refresh_character_state() -> void:
-	var profile: Dictionary = NPC_PROFILES.get(
-		_level_no,
-		{}
-	)
-	var npc_display_name: String = str(
-		profile.get("name", "NPC")
-	)
+	var npc_display_name: String = str(NPC_NAMES.get(_level_no, "NPC"))
 
 	var player_display_name: String = "PEMAIN"
 
@@ -317,7 +272,7 @@ func _refresh_character_state() -> void:
 	)
 
 	npc_portrait.texture = _load_texture(
-		str(profile.get(npc_pose_name, ""))
+		VisualAssets.npc_pose_path(_level_no, npc_pose_name)
 	)
 
 	var character_id: String = ""
@@ -330,13 +285,8 @@ func _refresh_character_state() -> void:
 			GameState.selected_character_id()
 		)
 
-	var pose_map: Dictionary = PLAYER_POSES.get(
-		character_id,
-		{}
-	)
-
 	player_portrait.texture = _load_texture(
-		str(pose_map.get(player_pose_name, ""))
+		VisualAssets.character_pose_path(character_id, player_pose_name)
 	)
 
 

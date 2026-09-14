@@ -47,7 +47,7 @@ func _on_drop_received(food_id: String, card: FoodCard, slot: FoodDropSlot) -> v
     attempts_by_food[food_id] = int(attempts_by_food.get(food_id, 0)) + 1
     var attempt_no := int(attempts_by_food[food_id])
     var correct := food_id == slot.accepted_food_id
-    AnalyticsLogger.log_event("drag_attempt", {
+    TelemetryManager.log_event("drag_attempt", {
         "level_session_id": DurationTracker.session_id,
         "level_no": 1,
         "food_id": food_id,
@@ -89,7 +89,7 @@ func request_hint() -> void:
             var card: FoodCard = cards_by_id[food_id]
             _pulse_food_hint(card)
 
-        AnalyticsLogger.log_event(
+        TelemetryManager.log_event(
             "hint_used",
             {
                 "level_no": 1,

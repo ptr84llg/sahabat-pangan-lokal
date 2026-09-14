@@ -245,7 +245,7 @@ func _start_gameplay() -> void:
 	)
 	_play_shopping_reveal()
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"level_main_started",
 		{
 			"level_session_id": level_session.get(
@@ -348,7 +348,7 @@ func _on_shopping_success(final_ids: Array) -> void:
 		]
 	)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"shopping_success",
 		{
 			"level_no": 3,
@@ -396,7 +396,7 @@ func _apply_dead_end_penalty(coin_remaining: int, selected_ids: Array, selected_
 	var penalty := int(level_config.get("scoring", {}).get("main_game_dead_end_penalty", 5))
 	main_game_penalty_total += penalty
 	%DeadEndPenaltyLabel.text = "Skor permainan utama berkurang %d poin." % penalty
-	AnalyticsLogger.log_event("shopping_dead_end", {"level_no":3,"level_session_id":DurationTracker.session_id,"selected_ids":selected_ids,"selected_groups":selected_groups.keys(),"coin_remaining":coin_remaining,"penalty":penalty,"main_game_penalty_total":main_game_penalty_total})
+	TelemetryManager.log_event("shopping_dead_end", {"level_no":3,"level_session_id":DurationTracker.session_id,"selected_ids":selected_ids,"selected_groups":selected_groups.keys(),"coin_remaining":coin_remaining,"penalty":penalty,"main_game_penalty_total":main_game_penalty_total})
 
 func _show_dead_end_modal() -> void:
 	%DeadEndMessageLabel.text = "Koin tersisa sudah habis atau tidak cukup untuk membeli pangan yang masih tersedia. Silakan batalkan salah satu pangan yang sudah masuk ke keranjang, lalu pilih kembali."
@@ -606,7 +606,7 @@ func _on_select_round_drop(
 	)
 	var correct: bool = food_id == correct_food_id
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"literacy_answer",
 		{
 			"level_no": 3,
@@ -854,7 +854,7 @@ func _on_rearrange_fruit_selected(
 		literacy_attempts[round_id]
 	)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"literacy_answer",
 		{
 			"level_no": 3,
@@ -932,7 +932,7 @@ func _register_rearrange_invalid(
 	%ChallengeFeedback.text = message
 	ScreenMotionPresenter.gameplay_wrong(%ChallengeFeedback, 5.0)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"literacy_answer",
 		{
 			"level_no": 3,
@@ -1672,5 +1672,5 @@ func _ensure_level_runtime_ready() -> bool:
 	if not GameState.initialized:
 		GameState.initialize()
 
-	AnalyticsLogger.initialize()
+	TelemetryManager.initialize()
 	return true

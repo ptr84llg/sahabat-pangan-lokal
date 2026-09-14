@@ -289,7 +289,7 @@ func _start_gameplay() -> void:
 	progress_label.text = "Pangan 0/6"
 	score_label.text = "Skor Main Game: 0/60"
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"level_main_started",
 		{
 			"level_session_id": level_session.get("level_session_id", ""),
@@ -407,7 +407,7 @@ func _on_reset_pressed() -> void:
 
 	_persist_level_interaction_snapshot("reset")
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"level_game_reset",
 		{
 			"level_session_id": level_session.get(
@@ -746,7 +746,7 @@ func _on_literacy_answer(answer_id: String) -> void:
 			"POIN %d / 30" % literacy_score
 		)
 
-	AnalyticsLogger.log_event(
+	TelemetryManager.log_event(
 		"quiz_answer",
 		{
 			"level_no": 1,
@@ -809,7 +809,7 @@ func _on_literacy_answer(answer_id: String) -> void:
 					"Telemetry v3 Level 1 Game 2 belum dapat menyelesaikan game."
 				)
 
-			AnalyticsLogger.log_event(
+			TelemetryManager.log_event(
 				"literacy_complete",
 				{
 					"level_no": 1,

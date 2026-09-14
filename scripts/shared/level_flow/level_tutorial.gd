@@ -4,65 +4,65 @@ extends Control
 const LEVEL1_TUTORIAL_FOODS: Array[Dictionary] = [
 	{
 		"name": "Beras",
-		"path": "res://assets/visual/foods/food_rice.png"
+		"food_id": "food_rice"
 	},
 	{
 		"name": "Singkong",
-		"path": "res://assets/visual/foods/food_cassava.png"
+		"food_id": "food_cassava"
 	},
 	{
 		"name": "Kangkung",
-		"path": "res://assets/visual/foods/food_water_spinach.png"
+		"food_id": "food_water_spinach"
 	},
 	{
 		"name": "Bayam",
-		"path": "res://assets/visual/foods/food_spinach.png"
+		"food_id": "food_spinach"
 	},
 	{
 		"name": "Pisang",
-		"path": "res://assets/visual/foods/food_banana.png"
+		"food_id": "food_banana"
 	},
 	{
 		"name": "Pepaya",
-		"path": "res://assets/visual/foods/food_papaya.png"
+		"food_id": "food_papaya"
 	}
 ]
 
 const LEVEL3_TUTORIAL_FOODS: Array[Dictionary] = [
     {
         "name": "Ikan Nila",
-        "path": "res://assets/visual/foods/food_tilapia.png"
+        "food_id": "food_tilapia"
     },
     {
         "name": "Ikan Lele",
-        "path": "res://assets/visual/foods/food_catfish.png"
+        "food_id": "food_catfish"
     }
 ]
 
 const LEVEL2_TUTORIAL_FOODS: Array[Dictionary] = [
 	{
 		"name": "Jagung",
-		"path": "res://assets/visual/foods/food_corn.png"
+		"food_id": "food_corn"
 	},
 	{
 		"name": "Ubi Jalar",
-		"path": "res://assets/visual/foods/food_sweet_potato.png"
+		"food_id": "food_sweet_potato"
 	},
 	{
 		"name": "Terung",
-		"path": "res://assets/visual/foods/food_eggplant.png"
+		"food_id": "food_eggplant"
 	},
 	{
 		"name": "Ketimun",
-		"path": "res://assets/visual/foods/food_cucumber.png"
+		"food_id": "food_cucumber"
 	},
 	{
 		"name": "Mangga",
-		"path": "res://assets/visual/foods/food_mango.png"
+		"food_id": "food_mango"
 	},
 	{
 		"name": "Jambu Biji",
-		"path": "res://assets/visual/foods/food_guava.png"
+		"food_id": "food_guava"
 	}
 ]
 
@@ -387,7 +387,7 @@ func _present_level1_rich_content() -> void:
 			food_data.get("name", "")
 		)
 		var texture_path: String = str(
-			food_data.get("path", "")
+			VisualAssets.food_texture_path(str(food_data.get("food_id", "")))
 		)
 		var food_texture: Texture2D = null
 
@@ -476,7 +476,7 @@ func _present_level3_rich_content() -> void:
 			food_data.get("name", "")
 		)
 		var texture_path: String = str(
-			food_data.get("path", "")
+			VisualAssets.food_texture_path(str(food_data.get("food_id", "")))
 		)
 		var food_texture: Texture2D = null
 
@@ -587,7 +587,7 @@ func _present_level2_rich_content() -> void:
 			food_data.get("name", "")
 		)
 		var texture_path: String = str(
-			food_data.get("path", "")
+			VisualAssets.food_texture_path(str(food_data.get("food_id", "")))
 		)
 		var food_texture: Texture2D = null
 
