@@ -361,6 +361,44 @@ static func gameplay_reveal(control_values: Array) -> void:
 		)
 		visible_index += 1
 
+static func level_complete_reveal(
+	control_values: Array
+) -> void:
+	var config := _config()
+
+	if config == null:
+		return
+
+	var visible_index: int = 0
+
+	for control_value in control_values:
+		var control := control_value as Control
+
+		if control == null or not is_instance_valid(control):
+			continue
+
+		if not control.visible:
+			continue
+
+		var delay: float = (
+			config.collection_initial_delay
+			+ config.collection_item_stagger
+			* float(visible_index)
+		)
+
+		UIMotion.play_fade_in(
+			control,
+			config.collection_item_duration,
+			delay
+		)
+		UIMotion.play_rise_in(
+			control,
+			config.collection_item_position,
+			config.collection_item_duration,
+			delay
+		)
+		visible_index += 1
+
 static func gameplay_pop(
 	control: Control,
 	_legacy_peak_scale: float = -1.0

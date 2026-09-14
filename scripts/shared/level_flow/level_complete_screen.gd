@@ -13,14 +13,15 @@ const GAME_SECTION_SCENE: PackedScene = preload(
 @onready var overlay_root: Control = %OverlayRoot
 @onready var title_label: Label = %LevelCompleteTitle
 @onready var completion_message: RichTextLabel = %CompletionMessage
-@onready var primary_button: Button = %PrimaryButton
+@onready var summary_card: PanelContainer = %SummaryCard
 @onready var level_summary_vbox: VBoxContainer = %LevelSummaryVBox
-@onready var top_summary_separator: HSeparator = %TopSummarySeparator
-@onready var game_sections: VBoxContainer = %GameSections
+@onready var game_cards_row: HBoxContainer = %GameCardsRow
 @onready var fallback_text: Label = %FallbackText
+@onready var primary_button: Button = %PrimaryButton
 
 var _source_panel: Control
 var _native_button: Button
+var _game_cards: Array[Control] = []
 
 
 func _ready() -> void:
@@ -91,6 +92,7 @@ func show_completion(
 		AudioManager.play_sfx("scene_level_done")
 		ScreenMotionPresenter.enter_screen(overlay_root)
 
+	_play_result_motion.call_deferred()
 	primary_button.call_deferred("grab_focus")
 
 
@@ -158,7 +160,7 @@ func _render_completion_detail(data: Dictionary) -> void:
 		detail.get("star_slots", [])
 	)
 	_add_level_metric(
-		"WAKTU",
+		"DURASI",
 		str(
 			detail.get(
 				"duration_text",
@@ -173,16 +175,24 @@ func _render_completion_detail(data: Dictionary) -> void:
 	)
 
 	if not games_value is Array:
+		game_cards_row.visible = false
 		return
 
 	var games: Array = games_value
-	top_summary_separator.visible = not games.is_empty()
+
+	if games.size() > 2:
+		push_warning(
+			"LevelCompleteScreen menerima lebih dari dua permainan. "
+			+ "Semua card tetap ditampilkan."
+		)
 
 	for game_value in games:
 		if not game_value is Dictionary:
 			continue
 
 		_add_game_section(game_value)
+
+	game_cards_row.visible = not _game_cards.is_empty()
 
 
 func _render_fallback_detail(
@@ -208,7 +218,7 @@ func _render_fallback_detail(
 			)
 
 	_add_level_metric(
-		"WAKTU",
+		"DURASI",
 		str(data.get("duration_text", ""))
 	)
 
@@ -216,12 +226,11 @@ func _render_fallback_detail(
 		data.get("result_text", "")
 	).strip_edges()
 
-	if result_text.is_empty():
-		return
+	if not result_text.is_empty():
+		fallback_text.text = result_text
+		fallback_text.visible = true
 
-	top_summary_separator.visible = true
-	fallback_text.text = result_text
-	fallback_text.visible = true
+	game_cards_row.visible = false
 
 
 func _add_level_metric(
@@ -253,18 +262,44 @@ func _add_level_stars(
 func _add_game_section(
 	game: Dictionary
 ) -> void:
-	var section: Node = GAME_SECTION_SCENE.instantiate()
-	game_sections.add_child(section)
+	var section := GAME_SECTION_SCENE.instantiate() as Control
+
+	if section == null:
+		push_error("LevelCompleteScreen gagal membuat game card.")
+		return
+
+	section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	section.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	game_cards_row.add_child(section)
 	section.call(
 		"bind_game",
 		game
+	)
+	_game_cards.append(section)
+
+
+func _play_result_motion() -> void:
+	if not visible or not is_inside_tree():
+		return
+
+	var reveal_controls: Array = [
+		summary_card
+	]
+
+	for game_card in _game_cards:
+		reveal_controls.append(game_card)
+
+	reveal_controls.append(primary_button)
+	ScreenMotionPresenter.level_complete_reveal(
+		reveal_controls
 	)
 
 
 func _clear_dynamic_content() -> void:
 	_clear_container(level_summary_vbox)
-	_clear_container(game_sections)
-	top_summary_separator.visible = false
+	_clear_container(game_cards_row)
+	_game_cards.clear()
+	game_cards_row.visible = true
 	fallback_text.text = ""
 	fallback_text.visible = false
 

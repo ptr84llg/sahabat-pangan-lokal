@@ -1,35 +1,18 @@
-extends VBoxContainer
+extends PanelContainer
 class_name LevelCompleteGameSection
 
 const METRIC_ROW_SCENE: PackedScene = preload(
 	"res://scenes/shared/level_flow/level_complete_metric_row.tscn"
 )
-const MISSION_SECTION_SCENE: PackedScene = preload(
-	"res://scenes/shared/level_flow/level_complete_mission_section.tscn"
-)
-const ATTEMPT_SECTION_SCENE: PackedScene = preload(
-	"res://scenes/shared/level_flow/level_complete_attempt_section.tscn"
-)
 
 @onready var game_heading: Label = %GameHeading
 @onready var summary_rows: VBoxContainer = %SummaryRows
-@onready var game_attempt_history_heading: Label = %GameAttemptHistoryHeading
-@onready var game_attempt_history_vbox: VBoxContainer = %GameAttemptHistoryVBox
-@onready var result_heading: Label = %ResultHeading
-@onready var missions_vbox: VBoxContainer = %MissionsVBox
 
 
 func bind_game(
 	data: Dictionary
 ) -> void:
 	_clear_container(summary_rows)
-	_clear_container(game_attempt_history_vbox)
-	_clear_container(missions_vbox)
-
-	game_attempt_history_heading.visible = false
-	game_attempt_history_vbox.visible = false
-	result_heading.visible = false
-	missions_vbox.visible = false
 
 	var game_no: int = int(
 		data.get("game_no", 0)
@@ -43,7 +26,7 @@ func bind_game(
 		heading += " %d" % game_no
 
 	if not game_title.is_empty():
-		heading += " · " + game_title
+		heading += " · " + game_title.to_upper()
 
 	game_heading.text = heading
 
@@ -52,9 +35,10 @@ func bind_game(
 		str(data.get("score_text", ""))
 	)
 	_add_metric(
-		"WAKTU",
+		"DURASI",
 		str(data.get("duration_text", ""))
 	)
+
 
 func _add_metric(
 	label_text: String,

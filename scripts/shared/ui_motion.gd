@@ -339,6 +339,37 @@ static func _finalize_flip_x(
 	control.offset_transform_scale = NEUTRAL_SCALE
 
 
+static func play_rise_in(
+	control: Control,
+	from_position: Vector2,
+	duration: float,
+	delay: float = 0.0
+) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+
+	_prepare_control(control)
+	_stop_active_tween(control)
+
+	var safe_duration: float = maxf(duration, 0.0)
+	var safe_delay: float = maxf(delay, 0.0)
+
+	control.offset_transform_position = from_position
+	control.offset_transform_scale = NEUTRAL_SCALE
+
+	if is_zero_approx(safe_duration):
+		control.offset_transform_position = NEUTRAL_POSITION
+		return
+
+	var tween := control.create_tween()
+	control.set_meta(META_TWEEN, tween)
+	tween.tween_property(
+		control,
+		"offset_transform_position",
+		NEUTRAL_POSITION,
+		safe_duration
+	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
 static func play_content_swap(
 	control: Control,
 	apply_content: Callable

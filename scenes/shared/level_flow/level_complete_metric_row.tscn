@@ -3,23 +3,23 @@
 [ext_resource type="Script" path="res://scripts/shared/level_flow/level_complete_metric_row.gd" id="1_script"]
 
 [sub_resource type="StyleBoxFlat" id="MetricCardStyle"]
-content_margin_left = 14.0
-content_margin_top = 8.0
-content_margin_right = 14.0
-content_margin_bottom = 8.0
-bg_color = Color(0.964706, 0.94902, 0.862745, 0.96)
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.992157, 0.984314, 0.929412, 0.98)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.054902, 0.360784, 0.219608, 0.55)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
+border_color = Color(0.054902, 0.360784, 0.219608, 0.45)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="LevelCompleteMetricRow" type="HBoxContainer"]
-custom_minimum_size = Vector2(0, 54)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("1_script")
@@ -32,14 +32,14 @@ theme_override_styles/panel = SubResource("MetricCardStyle")
 [node name="MetricRow" type="HBoxContainer" parent="MetricCard"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
 [node name="MetricLabel" type="Label" parent="MetricCard/MetricRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 0)
+custom_minimum_size = Vector2(112, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.054902, 0.360784, 0.219608, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "POIN"
 autowrap_mode = 3
 vertical_alignment = 1
@@ -49,7 +49,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.054902, 0.360784, 0.219608, 1)
-theme_override_font_sizes/font_size = 23
+theme_override_font_sizes/font_size = 20
 text = "100"
 horizontal_alignment = 2
 vertical_alignment = 1
@@ -59,25 +59,25 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 5
+theme_override_constants/separation = 4
 alignment = 2
 
 [node name="Star1" type="TextureRect" parent="MetricCard/MetricRow/StarSlots"]
-custom_minimum_size = Vector2(34, 34)
+custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Star2" type="TextureRect" parent="MetricCard/MetricRow/StarSlots"]
-custom_minimum_size = Vector2(34, 34)
+custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Star3" type="TextureRect" parent="MetricCard/MetricRow/StarSlots"]
-custom_minimum_size = Vector2(34, 34)
+custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 mouse_filter = 2
 expand_mode = 1
