@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://bg6hyv5wwpkyk" path="res://scripts/app/main_menu.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://hibs2uavf70q" path="res://assets/visual/backgrounds/app/bg_main_menu.jpg" id="2"]
 [ext_resource type="Texture2D" uid="uid://d3n01qo5f4ffo" path="res://assets/visual/ui/logo_game.png" id="3"]
-
 [ext_resource type="PackedScene" path="res://scenes/app/main_menu_modal_layer.tscn" id="70A_modal_layer"]
 
 [sub_resource type="StyleBoxFlat" id="MenuPanel"]
@@ -104,6 +103,10 @@ shadow_color = Color(0.02, 0.04, 0.02, 0.34)
 shadow_size = 12
 
 [sub_resource type="StyleBoxFlat" id="GalleryPanelStyle70A"]
+content_margin_left = 14.0
+content_margin_top = 14.0
+content_margin_right = 14.0
+content_margin_bottom = 14.0
 bg_color = Color(0.97, 0.96, 0.92, 0.98)
 border_width_left = 1
 border_width_top = 1
@@ -114,26 +117,12 @@ corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
-content_margin_left = 14.0
-content_margin_top = 14.0
-content_margin_right = 14.0
-content_margin_bottom = 14.0
 
-[sub_resource type="StyleBoxFlat" id="GalleryTabSelected70A"]
-bg_color = Color(0.93, 0.7, 0.1, 0.96)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.74, 0.56, 0.1, 0.6)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
+[sub_resource type="StyleBoxFlat" id="GalleryTabUnselected70A"]
 content_margin_left = 16.0
 content_margin_top = 8.0
 content_margin_right = 16.0
 content_margin_bottom = 8.0
-
-[sub_resource type="StyleBoxFlat" id="GalleryTabUnselected70A"]
 bg_color = Color(0.92, 0.91, 0.87, 0.96)
 border_width_left = 1
 border_width_top = 1
@@ -142,12 +131,12 @@ border_width_bottom = 1
 border_color = Color(0.56, 0.51, 0.42, 0.26)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
+
+[sub_resource type="StyleBoxFlat" id="GalleryTabHovered70A"]
 content_margin_left = 16.0
 content_margin_top = 8.0
 content_margin_right = 16.0
 content_margin_bottom = 8.0
-
-[sub_resource type="StyleBoxFlat" id="GalleryTabHovered70A"]
 bg_color = Color(0.96, 0.88, 0.58, 0.98)
 border_width_left = 1
 border_width_top = 1
@@ -156,10 +145,20 @@ border_width_bottom = 1
 border_color = Color(0.74, 0.56, 0.1, 0.4)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
+
+[sub_resource type="StyleBoxFlat" id="GalleryTabSelected70A"]
 content_margin_left = 16.0
 content_margin_top = 8.0
 content_margin_right = 16.0
 content_margin_bottom = 8.0
+bg_color = Color(0.93, 0.7, 0.1, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.74, 0.56, 0.1, 0.6)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
 
 [node name="MainMenuScene" type="Control" unique_id=118514520]
 layout_mode = 3
@@ -320,8 +319,9 @@ theme_override_styles/hover = SubResource("SecondaryHover")
 theme_override_styles/focus = SubResource("SecondaryHover")
 text = "GALERI PANGAN"
 
-[node name="DeviceButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu"]
+[node name="DeviceButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu" unique_id=713751754]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
@@ -334,7 +334,7 @@ theme_override_styles/hover = SubResource("SecondaryHover")
 theme_override_styles/focus = SubResource("SecondaryHover")
 text = "PERANGKAT ANDA"
 
-[node name="HistoryButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu"]
+[node name="HistoryButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu" unique_id=348666763]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
@@ -433,22 +433,21 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="NoticeHeader" type="Label" parent="NoticePanel/NoticeMargin/NoticeVBox"]
+[node name="NoticeHeader" type="Label" parent="NoticePanel/NoticeMargin/NoticeVBox" unique_id=466266086]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
 theme_override_font_sizes/font_size = 26
 text = "INFORMASI"
 
-[node name="NoticeHeaderSeparator" type="HSeparator" parent="NoticePanel/NoticeMargin/NoticeVBox"]
+[node name="NoticeHeaderSeparator" type="HSeparator" parent="NoticePanel/NoticeMargin/NoticeVBox" unique_id=393854756]
 layout_mode = 2
 
-[node name="NoticeBodyScroll" type="ScrollContainer" parent="NoticePanel/NoticeMargin/NoticeVBox"]
+[node name="NoticeBodyScroll" type="ScrollContainer" parent="NoticePanel/NoticeMargin/NoticeVBox" unique_id=1306732338]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 1
 
-[node name="NoticeBody" type="VBoxContainer" parent="NoticePanel/NoticeMargin/NoticeVBox/NoticeBodyScroll"]
+[node name="NoticeBody" type="VBoxContainer" parent="NoticePanel/NoticeMargin/NoticeVBox/NoticeBodyScroll" unique_id=1836507330]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -461,10 +460,10 @@ text = "Pesan"
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="NoticeFooterSeparator" type="HSeparator" parent="NoticePanel/NoticeMargin/NoticeVBox"]
+[node name="NoticeFooterSeparator" type="HSeparator" parent="NoticePanel/NoticeMargin/NoticeVBox" unique_id=936038217]
 layout_mode = 2
 
-[node name="NoticeFooter" type="HBoxContainer" parent="NoticePanel/NoticeMargin/NoticeVBox"]
+[node name="NoticeFooter" type="HBoxContainer" parent="NoticePanel/NoticeMargin/NoticeVBox" unique_id=1836620809]
 layout_mode = 2
 
 [node name="NoticeClose" type="Button" parent="NoticePanel/NoticeMargin/NoticeVBox/NoticeFooter" unique_id=906548155]
@@ -516,10 +515,10 @@ theme_override_font_sizes/font_size = 18
 text = "Bahan pangan, pangan olahan, dan medali mengikuti perjalanan saat ini. Gelar tersimpan permanen sebagai pencapaian."
 autowrap_mode = 3
 
-[node name="GalleryHeaderSeparator" type="HSeparator" parent="GalleryPanel/GalleryMargin/GalleryVBox"]
+[node name="GalleryHeaderSeparator" type="HSeparator" parent="GalleryPanel/GalleryMargin/GalleryVBox" unique_id=66416290]
 layout_mode = 2
 
-[node name="GalleryBody" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox"]
+[node name="GalleryBody" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox" unique_id=2011104270]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
@@ -535,20 +534,21 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="GalleryTabs" type="TabContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody"]
+[node name="GalleryTabs" type="TabContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody" unique_id=1869862566]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 0
 theme_override_font_sizes/font_size = 18
 theme_override_styles/panel = SubResource("GalleryPanelStyle70A")
-theme_override_styles/tab_selected = SubResource("GalleryTabSelected70A")
 theme_override_styles/tab_unselected = SubResource("GalleryTabUnselected70A")
 theme_override_styles/tab_hovered = SubResource("GalleryTabHovered70A")
+theme_override_styles/tab_selected = SubResource("GalleryTabSelected70A")
+current_tab = 0
 
-[node name="BAHAN PANGAN" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs"]
+[node name="BAHAN PANGAN" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs" unique_id=777463952]
 layout_mode = 2
 theme_override_constants/separation = 10
+metadata/_tab_index = 0
 
 [node name="FreshCountLabel" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/BAHAN PANGAN" unique_id=949902797]
 unique_name_in_owner = true
@@ -558,12 +558,11 @@ theme_override_font_sizes/font_size = 20
 text = "0 bahan ditemukan"
 horizontal_alignment = 1
 
-[node name="FreshScroll" type="ScrollContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/BAHAN PANGAN"]
+[node name="FreshScroll" type="ScrollContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/BAHAN PANGAN" unique_id=467031561]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 1
 
 [node name="FreshFoodList" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/BAHAN PANGAN/FreshScroll" unique_id=1292471213]
 unique_name_in_owner = true
@@ -571,9 +570,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="PANGAN OLAHAN" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs"]
+[node name="PANGAN OLAHAN" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs" unique_id=684558053]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 10
+metadata/_tab_index = 1
 
 [node name="ProcessedCountLabel" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/PANGAN OLAHAN" unique_id=1770190213]
 unique_name_in_owner = true
@@ -583,12 +584,11 @@ theme_override_font_sizes/font_size = 20
 text = "0 olahan ditemukan"
 horizontal_alignment = 1
 
-[node name="ProcessedScroll" type="ScrollContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/PANGAN OLAHAN"]
+[node name="ProcessedScroll" type="ScrollContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/PANGAN OLAHAN" unique_id=980500008]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 1
 
 [node name="ProcessedFoodList" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/PANGAN OLAHAN/ProcessedScroll" unique_id=920536854]
 unique_name_in_owner = true
@@ -596,11 +596,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="MEDALI" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs"]
+[node name="MEDALI" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs" unique_id=1657578591]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 10
+metadata/_tab_index = 2
 
-[node name="MedalCountLabel" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/MEDALI"]
+[node name="MedalCountLabel" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/MEDALI" unique_id=135237769]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.38, 0.08, 1)
@@ -608,24 +610,25 @@ theme_override_font_sizes/font_size = 20
 text = "0 medali diperoleh"
 horizontal_alignment = 1
 
-[node name="MedalScroll" type="ScrollContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/MEDALI"]
+[node name="MedalScroll" type="ScrollContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/MEDALI" unique_id=1684723109]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 1
 
-[node name="MedalList" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/MEDALI/MedalScroll"]
+[node name="MedalList" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/MEDALI/MedalScroll" unique_id=1910453578]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="GELAR" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs"]
+[node name="GELAR" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs" unique_id=431419729]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 10
+metadata/_tab_index = 3
 
-[node name="TitleCountLabel" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/GELAR"]
+[node name="TitleCountLabel" type="Label" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/GELAR" unique_id=614850108]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.25, 0.56, 1)
@@ -633,22 +636,22 @@ theme_override_font_sizes/font_size = 20
 text = "0/14 gelar diperoleh"
 horizontal_alignment = 1
 
-[node name="TitleScroll" type="ScrollContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/GELAR"]
+[node name="TitleScroll" type="ScrollContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/GELAR" unique_id=42721082]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 1
 
-[node name="TitleList" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/GELAR/TitleScroll"]
+[node name="TitleList" type="VBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryBody/GalleryTabs/GELAR/TitleScroll" unique_id=1985143834]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
-[node name="GalleryFooterSeparator" type="HSeparator" parent="GalleryPanel/GalleryMargin/GalleryVBox"]
+
+[node name="GalleryFooterSeparator" type="HSeparator" parent="GalleryPanel/GalleryMargin/GalleryVBox" unique_id=2103239094]
 layout_mode = 2
 
-[node name="GalleryFooter" type="HBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox"]
+[node name="GalleryFooter" type="HBoxContainer" parent="GalleryPanel/GalleryMargin/GalleryVBox" unique_id=990891370]
 layout_mode = 2
 
 [node name="GalleryClose" type="Button" parent="GalleryPanel/GalleryMargin/GalleryVBox/GalleryFooter" unique_id=1861585633]
@@ -661,7 +664,7 @@ theme_override_styles/normal = SubResource("PrimaryButton")
 theme_override_styles/hover = SubResource("PrimaryHover")
 text = "TUTUP GALERI"
 
-[node name="AudioPanel" type="PanelContainer" parent="."]
+[node name="AudioPanel" type="PanelContainer" parent="." unique_id=1578009545]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -678,166 +681,163 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("ModalPanel")
 
-[node name="AudioMargin" type="MarginContainer" parent="AudioPanel"]
+[node name="AudioMargin" type="MarginContainer" parent="AudioPanel" unique_id=1102960630]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="AudioVBox" type="VBoxContainer" parent="AudioPanel/AudioMargin"]
+[node name="AudioVBox" type="VBoxContainer" parent="AudioPanel/AudioMargin" unique_id=1507000028]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="AudioTitle" type="Label" parent="AudioPanel/AudioMargin/AudioVBox"]
+[node name="AudioTitle" type="Label" parent="AudioPanel/AudioMargin/AudioVBox" unique_id=1296139851]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
 theme_override_font_sizes/font_size = 28
 text = "PENGATURAN AUDIO"
 
-[node name="AudioHeaderSeparator" type="HSeparator" parent="AudioPanel/AudioMargin/AudioVBox"]
+[node name="AudioHeaderSeparator" type="HSeparator" parent="AudioPanel/AudioMargin/AudioVBox" unique_id=696812940]
 layout_mode = 2
 
-[node name="AudioBodyScroll" type="ScrollContainer" parent="AudioPanel/AudioMargin/AudioVBox"]
+[node name="AudioBodyScroll" type="ScrollContainer" parent="AudioPanel/AudioMargin/AudioVBox" unique_id=1314981136]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 1
 
-[node name="AudioBody" type="VBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll"]
+[node name="AudioBody" type="VBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll" unique_id=1358492327]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 14
 
-[node name="GlobalSoundRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody"]
+[node name="GlobalSoundRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody" unique_id=1597280752]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="GlobalSoundLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/GlobalSoundRow"]
-layout_mode = 2
+[node name="GlobalSoundLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/GlobalSoundRow" unique_id=2076644092]
 custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
 theme_override_font_sizes/font_size = 20
 text = "Suara Global"
 
-[node name="GlobalSoundCheckBox" type="CheckBox" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/GlobalSoundRow"]
+[node name="GlobalSoundCheckBox" type="CheckBox" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/GlobalSoundRow" unique_id=1289006898]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 button_pressed = true
 
-[node name="MusicRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody"]
+[node name="MusicRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody" unique_id=1406377202]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="MusicLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MusicRow"]
-layout_mode = 2
+[node name="MusicLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MusicRow" unique_id=934878388]
 custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
 theme_override_font_sizes/font_size = 20
 text = "Suara Musik Latar"
 
-[node name="MusicSlider" type="HSlider" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MusicRow"]
+[node name="MusicSlider" type="HSlider" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MusicRow" unique_id=1757049582]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-max_value = 100.0
 value = 80.0
 
-[node name="MusicValue" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MusicRow"]
+[node name="MusicValue" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MusicRow" unique_id=1661731805]
 unique_name_in_owner = true
-layout_mode = 2
 custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.38, 0.08, 1)
 theme_override_font_sizes/font_size = 18
 text = "80%"
 horizontal_alignment = 2
 
-[node name="SfxRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody"]
+[node name="SfxRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody" unique_id=733497512]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="SfxLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/SfxRow"]
-layout_mode = 2
+[node name="SfxLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/SfxRow" unique_id=1649175636]
 custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
 theme_override_font_sizes/font_size = 20
 text = "Suara Efek"
 
-[node name="SfxSlider" type="HSlider" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/SfxRow"]
+[node name="SfxSlider" type="HSlider" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/SfxRow" unique_id=542711537]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-max_value = 100.0
 value = 80.0
 
-[node name="SfxValue" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/SfxRow"]
+[node name="SfxValue" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/SfxRow" unique_id=1352620516]
 unique_name_in_owner = true
-layout_mode = 2
 custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.38, 0.08, 1)
 theme_override_font_sizes/font_size = 18
 text = "80%"
 horizontal_alignment = 2
 
-[node name="ButtonHoverRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody"]
+[node name="ButtonHoverRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody" unique_id=793214187]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="ButtonHoverLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/ButtonHoverRow"]
-layout_mode = 2
+[node name="ButtonHoverLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/ButtonHoverRow" unique_id=1770627807]
 custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
 theme_override_font_sizes/font_size = 20
 text = "Efek Tombol Hover"
 
-[node name="ButtonHoverCheckBox" type="CheckBox" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/ButtonHoverRow"]
+[node name="ButtonHoverCheckBox" type="CheckBox" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/ButtonHoverRow" unique_id=118480816]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 button_pressed = true
 
-[node name="ButtonClickRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody"]
+[node name="ButtonClickRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody" unique_id=497837459]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="ButtonClickLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/ButtonClickRow"]
-layout_mode = 2
+[node name="ButtonClickLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/ButtonClickRow" unique_id=2013896992]
 custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
 theme_override_font_sizes/font_size = 20
 text = "Efek Tombol Click"
 
-[node name="ButtonClickCheckBox" type="CheckBox" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/ButtonClickRow"]
+[node name="ButtonClickCheckBox" type="CheckBox" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/ButtonClickRow" unique_id=210797688]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 button_pressed = true
 
-[node name="MouseClickRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody"]
+[node name="MouseClickRow" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody" unique_id=1721778811]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="MouseClickLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MouseClickRow"]
-layout_mode = 2
+[node name="MouseClickLabel" type="Label" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MouseClickRow" unique_id=164661267]
 custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.22, 0.22, 0.16, 1)
 theme_override_font_sizes/font_size = 20
 text = "Efek Mouse Click"
 
-[node name="MouseClickCheckBox" type="CheckBox" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MouseClickRow"]
+[node name="MouseClickCheckBox" type="CheckBox" parent="AudioPanel/AudioMargin/AudioVBox/AudioBodyScroll/AudioBody/MouseClickRow" unique_id=945164097]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 button_pressed = true
 
-[node name="AudioFooterSeparator" type="HSeparator" parent="AudioPanel/AudioMargin/AudioVBox"]
+[node name="AudioFooterSeparator" type="HSeparator" parent="AudioPanel/AudioMargin/AudioVBox" unique_id=1157729874]
 layout_mode = 2
 
-[node name="AudioFooter" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox"]
+[node name="AudioFooter" type="HBoxContainer" parent="AudioPanel/AudioMargin/AudioVBox" unique_id=310552650]
 layout_mode = 2
 
-[node name="AudioClose" type="Button" parent="AudioPanel/AudioMargin/AudioVBox/AudioFooter"]
+[node name="AudioClose" type="Button" parent="AudioPanel/AudioMargin/AudioVBox/AudioFooter" unique_id=1385658904]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
@@ -847,4 +847,4 @@ theme_override_styles/normal = SubResource("PrimaryButton")
 theme_override_styles/hover = SubResource("PrimaryHover")
 text = "TUTUP"
 
-[node name="ManualModalLayer" parent="." instance=ExtResource("70A_modal_layer")]
+[node name="ManualModalLayer" parent="." unique_id=1301156593 instance=ExtResource("70A_modal_layer")]
