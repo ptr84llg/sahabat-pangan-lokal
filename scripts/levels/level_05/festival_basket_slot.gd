@@ -17,6 +17,7 @@ func _ready() -> void:
 
 func _prepare_drop_surface() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	ScreenMotionPresenter.bind_gameplay_hover(self, true)
 	_set_non_interactive_children_ignore(self)
 
 func _set_non_interactive_children_ignore(root_node: Node) -> void:
@@ -67,3 +68,7 @@ func _refresh() -> void:
 	if is_node_ready():
 		placeholder.visible = not occupied
 		return_button.visible = occupied
+		ScreenMotionPresenter.set_gameplay_hover_enabled(
+			self,
+			not occupied
+		)

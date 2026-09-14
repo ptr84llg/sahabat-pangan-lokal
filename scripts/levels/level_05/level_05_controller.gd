@@ -390,7 +390,70 @@ func _load_schema(index: int) -> void:
 			%SchemaInstructionLabel.text = "LENGKAPI 2 OLAHAN PANGAN"
 			_setup_schema4(data)
 
+	_play_schema_reveal(index)
 	_begin_l5_schema_occurrence(schema_id)
+
+func _play_schema_reveal(index: int) -> void:
+	var reveal_controls: Array = [
+		%SchemaLabel,
+		%SchemaInstructionLabel,
+		%SchemaProgress
+	]
+
+	if %SchemaDetailLabel.visible and not %SchemaDetailLabel.text.is_empty():
+		reveal_controls.append(%SchemaDetailLabel)
+
+	reveal_controls.append_array(%MovingLaneTop.get_children())
+	reveal_controls.append_array(%MovingLaneBottom.get_children())
+
+	match index:
+		0:
+			reveal_controls.append(
+				%Schema1MissionContent.get_node("TargetNameLabel")
+			)
+			reveal_controls.append(
+				%Schema1MissionContent.get_node("TargetHolder/TargetSlot")
+			)
+		1:
+			reveal_controls.append_array(_schema2_slots())
+		2:
+			reveal_controls.append_array(_schema3_slots())
+		3:
+			var mission_view := %Schema4MissionContent as Control
+			reveal_controls.append(
+				mission_view.get_node("IngredientPhase/TargetStepLabel")
+			)
+			reveal_controls.append(
+				mission_view.get_node("IngredientPhase/TargetNameLabel")
+			)
+			reveal_controls.append_array(schema4_slots)
+
+	ScreenMotionPresenter.gameplay_reveal(reveal_controls)
+
+
+func _play_schema4_target_reveal() -> void:
+	var mission_view := %Schema4MissionContent as Control
+	var reveal_controls: Array = [
+		%SchemaInstructionLabel,
+		%SchemaProgress,
+		mission_view.get_node("IngredientPhase/TargetStepLabel"),
+		mission_view.get_node("IngredientPhase/TargetNameLabel")
+	]
+	reveal_controls.append_array(schema4_slots)
+	reveal_controls.append_array(%MovingLaneTop.get_children())
+	reveal_controls.append_array(%MovingLaneBottom.get_children())
+	ScreenMotionPresenter.gameplay_reveal(reveal_controls)
+
+
+func _play_schema4_process_reveal() -> void:
+	var mission_view := %Schema4MissionContent as Control
+	var reveal_controls: Array = [
+		%SchemaInstructionLabel,
+		%SchemaProgress,
+		mission_view.get_node("ProcessPhase/HBoxContainer/PanelJejakOlahan")
+	]
+	reveal_controls.append_array(_schema4_process_buttons())
+	ScreenMotionPresenter.gameplay_reveal(reveal_controls)
 
 func _setup_schema1(data: Dictionary) -> void:
 	if schema1_targets.is_empty():
@@ -430,7 +493,7 @@ func _render_schema1_target() -> void:
 func _on_schema1_drop(
 	food_id: String,
 	card: FoodCard,
-	_slot: FestivalFoodSlot
+	slot: FestivalFoodSlot
 ) -> void:
 	var target_id := str(
 		schema1_targets[schema1_target_index]
@@ -443,6 +506,7 @@ func _on_schema1_drop(
 			food_id
 		)
 		card.show_wrong_feedback()
+		ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
 		_feedback(
 			"Belum tepat. Cari pangan yang sesuai dengan nama target.",
 			false
@@ -451,6 +515,7 @@ func _on_schema1_drop(
 
 	AudioManager.play_drop_feedback(true)
 	moving_lane.hold_card(card, %HeldPool)
+	ScreenMotionPresenter.gameplay_drop_success(card, slot)
 	schema1_target_index += 1
 
 	if schema1_target_index >= schema1_targets.size():
@@ -512,6 +577,7 @@ func _on_schema2_drop(
 			food_id
 		)
 		card.show_wrong_feedback()
+		ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
 		_feedback(
 			"Belum sesuai dengan kelompok ini. Coba perhatikan kembali jenis pangannya.",
 			false
@@ -523,6 +589,7 @@ func _on_schema2_drop(
 
 	AudioManager.play_drop_feedback(true)
 	slot.hold_card(card)
+	ScreenMotionPresenter.gameplay_drop_success(card, slot)
 	schema2_completed_groups[group_id] = food_id
 	%SchemaProgress.text = "Kelompok %d/4" % (
 		schema2_completed_groups.size()
@@ -559,16 +626,19 @@ func _on_schema3_drop(food_id: String, card: FoodCard, slot: FestivalBasketSlot)
 	if schema3_selected.has(group_id):
 		_register_invalid("schema_3", "duplicate_group_drop", food_id)
 		card.show_wrong_feedback()
+		ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
 		_feedback("Kelompok ini sudah terisi. Pilih pangan dari kelompok lain.", false)
 		return
 	var coin := int(food.get("coin_value", 0))
 	if schema3_total_coin + coin > int(config.get("schemas", [])[2].get("coin_budget", 15)):
 		_register_invalid("schema_3", "insufficient_coin_drop", food_id)
 		card.show_wrong_feedback()
+		ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
 		_feedback("Koin Pangan tidak cukup untuk pilihan ini. Coba pertimbangkan pilihan lain.", false)
 		return
 	AudioManager.play_drop_feedback(true)
 	slot.hold_card(card)
+	ScreenMotionPresenter.gameplay_drop_success(card, slot)
 	schema3_selected[group_id] = {"food_id":food_id,"coin":coin,"slot":slot}
 	schema3_total_coin += coin
 	_refresh_schema3_ui()
@@ -676,6 +746,7 @@ func _on_schema4_ingredient_drop(
 	slot: FestivalFoodSlot
 ) -> void:
 	slot.hold_card(card)
+	ScreenMotionPresenter.gameplay_drop_success(card, slot)
 
 	if (
 		schema4_slots[0].current_card() == null
@@ -714,6 +785,10 @@ func _on_schema4_ingredient_drop(
 			if wrong != null:
 				wrong.show_wrong_feedback()
 				moving_lane.return_card(wrong)
+				ScreenMotionPresenter.gameplay_drop_wrong(
+					wrong,
+					schema_slot
+				)
 
 		return
 
@@ -898,6 +973,8 @@ func _render_schema4_process_choices(
 			1.02
 		)
 
+	_play_schema4_process_reveal()
+
 func _on_schema4_process_button_pressed(
 	button: Button
 ) -> void:
@@ -932,6 +1009,7 @@ func _on_schema4_process(process_id: String, correct_id: String) -> void:
 	else:
 		_feedback("Olahan pertama selesai. Lanjut ke olahan berikutnya.", true)
 		_render_schema4_target()
+		_play_schema4_target_reveal()
 
 func _register_invalid(
 	schema_id: String,

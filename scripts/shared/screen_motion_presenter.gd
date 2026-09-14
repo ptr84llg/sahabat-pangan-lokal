@@ -178,7 +178,7 @@ static func dialogue_enter(
 
 
 static func dialogue_line_reveal(
-	name_panel_values: Array,
+	_name_panel_values: Array,
 	text_control: Control,
 	on_text_start: Callable = Callable()
 ) -> void:
@@ -188,17 +188,6 @@ static func dialogue_line_reveal(
 		if on_text_start.is_valid():
 			on_text_start.call()
 		return
-
-	for panel_value in name_panel_values:
-		var panel := panel_value as Control
-
-		if panel == null or not is_instance_valid(panel):
-			continue
-
-		UIMotion.play_fade_in(
-			panel,
-			config.dialogue_name_fade_duration
-		)
 
 	UIMotion.play_fade_in(
 		text_control,
@@ -312,6 +301,65 @@ static func swap_content(
 static func bind_button(button: BaseButton) -> void:
 	UIMotion.bind_button(button)
 
+
+static func bind_gameplay_hover(
+	control: Control,
+	enabled: bool = true
+) -> void:
+	UIMotion.bind_hover_control(control, enabled)
+
+
+static func set_gameplay_hover_enabled(
+	control: Control,
+	enabled: bool
+) -> void:
+	UIMotion.set_hover_control_enabled(control, enabled)
+
+
+static func gameplay_drop_success(
+	source_control: Control,
+	target_control: Control
+) -> void:
+	UIMotion.cancel(source_control, true)
+	UIMotion.cancel(target_control, true)
+	UIMotion.play_drop_landing(source_control)
+	UIMotion.play_pulse(target_control)
+
+
+static func gameplay_drop_wrong(
+	source_control: Control,
+	target_control: Control
+) -> void:
+	UIMotion.cancel(source_control, true)
+	UIMotion.cancel(target_control, true)
+	UIMotion.play_shake(source_control)
+	UIMotion.play_shake(target_control)
+
+
+static func gameplay_reveal(control_values: Array) -> void:
+	var config := _config()
+
+	if config == null:
+		return
+
+	var visible_index: int = 0
+
+	for control_value in control_values:
+		var control := control_value as Control
+
+		if control == null or not is_instance_valid(control):
+			continue
+
+		if not control.visible:
+			continue
+
+		UIMotion.play_fade_in(
+			control,
+			config.gameplay_item_fade_duration,
+			config.gameplay_item_stagger
+			* float(visible_index)
+		)
+		visible_index += 1
 
 static func gameplay_pop(
 	control: Control,

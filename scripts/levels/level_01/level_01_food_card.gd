@@ -57,6 +57,7 @@ func _get_drag_data(
 	if locked or food_id.is_empty():
 		return null
 
+	ScreenMotionPresenter.cancel_control(self, true)
 	set_meta("spl_drag_started_ticks_ms", Time.get_ticks_msec())
 	set_meta("spl_drag_started_at_unix", Time.get_unix_time_from_system())
 

@@ -37,6 +37,7 @@ var _score_source: Node
 
 var _adopted: bool = false
 var _bind_failed: bool = false
+var _gameplay_was_active: bool = false
 
 
 
@@ -61,6 +62,7 @@ func _process(_delta: float) -> void:
 	var gameplay_active: bool = state_name == "GAMEPLAY"
 
 	if not gameplay_active:
+		_gameplay_was_active = false
 		visible = false
 		return
 
@@ -77,6 +79,29 @@ func _process(_delta: float) -> void:
 		_native_gameplay.visible = false
 
 	visible = true
+
+	if not _gameplay_was_active:
+		_gameplay_was_active = true
+		call_deferred("_play_gameplay_reveal")
+
+
+func _play_gameplay_reveal() -> void:
+	if not _adopted or not visible:
+		return
+
+	var reveal_controls: Array = [
+		_mission_value,
+		_score_value,
+		_progress_value
+	]
+	reveal_controls.append_array(_matching_board.get_children())
+	reveal_controls.append_array(_food_tray.get_children())
+	reveal_controls.append_array([
+		_hint_button,
+		_reset_button,
+		_back_button
+	])
+	ScreenMotionPresenter.gameplay_reveal(reveal_controls)
 
 
 func _bind_and_adopt_native_gameplay() -> void:

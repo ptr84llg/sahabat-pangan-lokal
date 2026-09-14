@@ -52,7 +52,7 @@ func _on_basket_drop(food_id: String, card: FoodCard, slot: BasketSlot) -> void:
             "invalid_drop"
         )
         card.show_wrong_feedback()
-        ScreenMotionPresenter.gameplay_wrong(card, 6.0)
+        ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
         AudioManager.play_drop_feedback(false)
         feedback.emit(
             "Keranjangmu sudah memiliki pangan dari kelompok ini. Pilih satu saja.",
@@ -69,7 +69,7 @@ func _on_basket_drop(food_id: String, card: FoodCard, slot: BasketSlot) -> void:
             "invalid_drop"
         )
         card.show_wrong_feedback()
-        ScreenMotionPresenter.gameplay_wrong(card, 6.0)
+        ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
         AudioManager.play_drop_feedback(false)
         feedback.emit(
             "Koin Panganmu belum cukup untuk pilihan ini. Coba pertimbangkan pilihan lain.",
@@ -82,8 +82,8 @@ func _on_basket_drop(food_id: String, card: FoodCard, slot: BasketSlot) -> void:
     AudioManager.play_drop_feedback(true)
     slot.hold_card(card)
     card.custom_minimum_size = Vector2(106, 116)
-    ScreenMotionPresenter.gameplay_pop(card, 1.06)
-    ScreenMotionPresenter.gameplay_pop(slot, 1.035)
+    ScreenMotionPresenter.gameplay_drop_success(card, slot)
+
 
     _record_v3_basket_drop(
         food_id,

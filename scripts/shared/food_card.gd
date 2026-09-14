@@ -18,6 +18,7 @@ func setup(new_food_id: String, new_display_name: String = "", new_group_id: Str
 	coin_value = new_coin_value
 	drag_kind = new_drag_kind
 	if is_node_ready():
+		ScreenMotionPresenter.set_gameplay_hover_enabled(self, not locked)
 		_apply_visual(show_name, show_coin)
 	else:
 		set_meta("show_name", show_name)
@@ -31,6 +32,7 @@ func _ready() -> void:
 func _prepare_drag_surface() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	ScreenMotionPresenter.bind_gameplay_hover(self, not locked)
 	_set_descendant_mouse_ignore(self)
 
 func _set_descendant_mouse_ignore(root_node: Node) -> void:
@@ -49,6 +51,7 @@ func _apply_visual(show_name: bool, show_coin: bool) -> void:
 func _get_drag_data(_at_position: Vector2):
 	if locked or food_id.is_empty():
 		return null
+	ScreenMotionPresenter.cancel_control(self, true)
 	set_meta("spl_drag_started_ticks_ms", Time.get_ticks_msec())
 	set_meta("spl_drag_started_at_unix", Time.get_unix_time_from_system())
 
@@ -89,11 +92,13 @@ func lock_card() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	mouse_default_cursor_shape = Control.CURSOR_ARROW
 	modulate = Color(0.82, 0.96, 0.84, 1.0)
+	ScreenMotionPresenter.set_gameplay_hover_enabled(self, false)
 
 func set_static_preview() -> void:
 	locked = true
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	mouse_default_cursor_shape = Control.CURSOR_ARROW
+	ScreenMotionPresenter.set_gameplay_hover_enabled(self, false)
 
 func set_market_selected(selected: bool) -> void:
 	locked = false

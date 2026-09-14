@@ -24,6 +24,7 @@ func _ready() -> void:
 func _prepare_drag_surface() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	ScreenMotionPresenter.bind_gameplay_hover(self, not locked)
 	_set_descendant_mouse_ignore(self)
 
 func _set_descendant_mouse_ignore(root_node: Node) -> void:
@@ -49,6 +50,7 @@ func _get_drag_data(_at_position: Vector2):
 	if locked or item_id.is_empty():
 		return null
 
+	ScreenMotionPresenter.cancel_control(self, true)
 	var preview: Control
 
 	if drag_preview_texture != null:
@@ -88,6 +90,7 @@ func lock_card() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	mouse_default_cursor_shape = Control.CURSOR_ARROW
 	modulate = Color(0.82, 0.96, 0.84, 1.0)
+	ScreenMotionPresenter.set_gameplay_hover_enabled(self, false)
 
 func show_wrong_feedback() -> void:
 	var tween := create_tween()

@@ -61,8 +61,7 @@ func _on_drop_received(food_id: String, card: FoodCard, slot: FoodDropSlot) -> v
         _record_v3_drop(food_id, card, slot, "correct_drop")
         matched_ids.append(food_id)
         slot.accept_card(card)
-        ScreenMotionPresenter.gameplay_pop(card, 1.06)
-        ScreenMotionPresenter.gameplay_pop(slot, 1.035)
+        ScreenMotionPresenter.gameplay_drop_success(card, slot)
         feedback.emit("Cocok!", true)
         progress_changed.emit(matched_ids.size(), foods.size(), score)
         if matched_ids.size() == foods.size():
@@ -70,7 +69,7 @@ func _on_drop_received(food_id: String, card: FoodCard, slot: FoodDropSlot) -> v
     else:
         _record_v3_drop(food_id, card, slot, "wrong_target_drop")
         card.show_wrong_feedback()
-        ScreenMotionPresenter.gameplay_wrong(card, 6.0)
+        ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
         feedback.emit("Belum cocok. Coba lihat kembali nama pangannya.", false)
 
 func request_hint() -> void:

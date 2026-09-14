@@ -4,6 +4,9 @@ extends RefCounted
 const CONFIG_PATH: String = "res://resources/config/motion_config.tres"
 const META_BOUND: StringName = &"spl_ui_motion_bound"
 const META_TWEEN: StringName = &"spl_ui_motion_tween"
+const META_ALPHA_TWEEN: StringName = &"spl_ui_motion_alpha_tween"
+const META_HOVER_BOUND: StringName = &"spl_ui_motion_hover_bound"
+const META_HOVER_ENABLED: StringName = &"spl_ui_motion_hover_enabled"
 const NEUTRAL_POSITION := Vector2.ZERO
 const NEUTRAL_SCALE := Vector2.ONE
 
@@ -34,6 +37,41 @@ static func bind_button(button: BaseButton) -> void:
 	button.focus_entered.connect(_on_button_focus_enter.bind(button))
 	button.focus_exited.connect(_on_button_focus_exit.bind(button))
 
+
+static func bind_hover_control(
+	control: Control,
+	enabled: bool = true
+) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+
+	_prepare_control(control)
+	control.set_meta(META_HOVER_ENABLED, enabled)
+
+	if bool(control.get_meta(META_HOVER_BOUND, false)):
+		return
+
+	control.set_meta(META_HOVER_BOUND, true)
+	control.mouse_entered.connect(
+		_on_hover_control_enter.bind(control)
+	)
+	control.mouse_exited.connect(
+		_on_hover_control_exit.bind(control)
+	)
+
+
+static func set_hover_control_enabled(
+	control: Control,
+	enabled: bool
+) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+
+	_prepare_control(control)
+	control.set_meta(META_HOVER_ENABLED, enabled)
+
+	if not enabled:
+		cancel(control, true)
 
 static func cancel(control: Control, restore_neutral: bool = true) -> void:
 	if control == null or not is_instance_valid(control):
@@ -193,13 +231,48 @@ static func play_fade_in(
 	delay: float = 0.0,
 	on_finished: Callable = Callable()
 ) -> void:
-	play_slide_fade_in(
+	if control == null or not is_instance_valid(control):
+		if on_finished.is_valid():
+			on_finished.call()
+		return
+
+	var config := _config()
+
+	if config == null:
+		if on_finished.is_valid():
+			on_finished.call()
+		return
+
+	_prepare_control(control)
+	_stop_active_alpha_tween(control)
+
+	var safe_duration: float = maxf(duration, 0.0)
+	var safe_delay: float = maxf(delay, 0.0)
+
+	if not config.motion_enabled or is_zero_approx(safe_duration):
+		_set_canvas_alpha(control, 1.0)
+
+		if on_finished.is_valid():
+			on_finished.call()
+
+		return
+
+	_set_canvas_alpha(control, 0.0)
+
+	var tween := control.create_tween()
+	control.set_meta(META_ALPHA_TWEEN, tween)
+	tween.tween_property(
 		control,
-		Vector2.ZERO,
-		duration,
-		delay,
-		on_finished
-	)
+		"modulate:a",
+		1.0,
+		safe_duration
+	).set_delay(safe_delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	if on_finished.is_valid():
+		tween.finished.connect(
+			on_finished,
+			CONNECT_ONE_SHOT
+		)
 
 
 static func play_flip_x_once(
@@ -473,6 +546,47 @@ static func play_pop(control: Control, peak_scale: float = -1.0) -> void:
 		config.pop_return_duration
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
+
+static func play_drop_landing(control: Control) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+
+	var config := _config()
+
+	if config == null:
+		return
+
+	_prepare_control(control)
+	_stop_active_tween(control)
+
+	if not config.motion_enabled:
+		cancel(control, true)
+		return
+
+	control.offset_transform_position = config.drop_start_position
+	control.offset_transform_scale = config.drop_start_scale
+
+	var tween := control.create_tween()
+	control.set_meta(META_TWEEN, tween)
+	tween.set_parallel(true)
+	tween.tween_property(
+		control,
+		"offset_transform_position",
+		NEUTRAL_POSITION,
+		config.drop_rise_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(
+		control,
+		"offset_transform_scale",
+		config.drop_peak_scale,
+		config.drop_rise_duration
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.chain().tween_property(
+		control,
+		"offset_transform_scale",
+		NEUTRAL_SCALE,
+		config.drop_settle_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 static func play_shake(control: Control, strength: float = -1.0) -> void:
 	if control == null or not is_instance_valid(control):
@@ -800,6 +914,36 @@ static func _prepare_control(control: Control) -> void:
 	control.offset_transform_pivot_ratio = Vector2(0.5, 0.5)
 
 
+static func _on_hover_control_enter(control: Control) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+
+	if not bool(control.get_meta(META_HOVER_ENABLED, true)):
+		cancel(control, true)
+		return
+
+	var config := _config()
+
+	if config == null:
+		return
+
+	if not config.motion_enabled:
+		cancel(control, true)
+		return
+
+	_animate_transform(
+		control,
+		config.hover_position,
+		config.hover_scale,
+		config.hover_duration,
+		Tween.TRANS_QUAD,
+		Tween.EASE_OUT
+	)
+
+
+static func _on_hover_control_exit(control: Control) -> void:
+	reset(control)
+
 static func _on_button_hover_enter(button: BaseButton) -> void:
 	if button.disabled:
 		reset(button)
@@ -993,6 +1137,24 @@ static func _stop_active_canvas_tween(item: CanvasItem) -> void:
 			active_tween.kill()
 
 	item.remove_meta(META_TWEEN)
+
+
+static func _stop_active_alpha_tween(control: Control) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+
+	if not control.has_meta(META_ALPHA_TWEEN):
+		return
+
+	var tween_value: Variant = control.get_meta(META_ALPHA_TWEEN)
+
+	if tween_value is Tween:
+		var active_tween := tween_value as Tween
+
+		if active_tween != null and active_tween.is_valid():
+			active_tween.kill()
+
+	control.remove_meta(META_ALPHA_TWEEN)
 
 
 static func _stop_active_tween(control: Control) -> void:

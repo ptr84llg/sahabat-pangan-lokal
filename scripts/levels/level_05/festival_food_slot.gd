@@ -13,6 +13,7 @@ func _ready() -> void:
 
 func _prepare_drop_surface() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	ScreenMotionPresenter.bind_gameplay_hover(self, true)
 	_set_non_interactive_children_ignore(self)
 
 func _set_non_interactive_children_ignore(root_node: Node) -> void:
@@ -26,6 +27,10 @@ func _set_non_interactive_children_ignore(root_node: Node) -> void:
 func setup(title: String, placeholder_text: String = "LETAKKAN PANGAN") -> void:
 	title_label.text = title
 	placeholder.text = placeholder_text
+	ScreenMotionPresenter.set_gameplay_hover_enabled(
+		self,
+		current_card() == null
+	)
 
 func _can_drop_data(_at_position: Vector2, data) -> bool:
 	return data is Dictionary and str(data.get("kind", "")) == accepted_kind and current_card() == null
@@ -44,6 +49,7 @@ func hold_card(card: FoodCard, lock_card: bool = true) -> void:
 	placeholder.visible = false
 	if lock_card:
 		card.lock_card()
+	ScreenMotionPresenter.set_gameplay_hover_enabled(self, false)
 
 func release_card() -> FoodCard:
 	var card := current_card()
@@ -51,6 +57,7 @@ func release_card() -> FoodCard:
 		return null
 	holder.remove_child(card)
 	placeholder.visible = true
+	ScreenMotionPresenter.set_gameplay_hover_enabled(self, true)
 	return card
 
 func current_card() -> FoodCard:
@@ -60,4 +67,6 @@ func current_card() -> FoodCard:
 	return null
 
 func clear_visual() -> void:
-	placeholder.visible = current_card() == null
+	var empty: bool = current_card() == null
+	placeholder.visible = empty
+	ScreenMotionPresenter.set_gameplay_hover_enabled(self, empty)

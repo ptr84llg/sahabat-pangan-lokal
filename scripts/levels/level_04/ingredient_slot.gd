@@ -12,6 +12,7 @@ func _ready() -> void:
 
 func _prepare_drop_surface() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	ScreenMotionPresenter.bind_gameplay_hover(self, true)
 	_set_non_interactive_children_ignore(self)
 
 func _set_non_interactive_children_ignore(root_node: Node) -> void:
@@ -24,6 +25,7 @@ func _set_non_interactive_children_ignore(root_node: Node) -> void:
 
 func setup(title: String) -> void:
 	title_label.text = title
+	ScreenMotionPresenter.set_gameplay_hover_enabled(self, true)
 
 func _can_drop_data(_at_position: Vector2, data) -> bool:
 	return data is Dictionary and str(data.get("kind", "")) == "ingredient_food_card"
@@ -68,3 +70,4 @@ func lock_current() -> void:
 	var card := current_card()
 	if card != null:
 		card.lock_card()
+		ScreenMotionPresenter.set_gameplay_hover_enabled(self, false)

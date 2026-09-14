@@ -243,6 +243,7 @@ func _start_gameplay() -> void:
 		int(level_config.get("coin_budget", 15)),
 		{}
 	)
+	_play_shopping_reveal()
 
 	AnalyticsLogger.log_event(
 		"level_main_started",
@@ -256,6 +257,24 @@ func _start_gameplay() -> void:
 		}
 	)
 
+func _play_shopping_reveal() -> void:
+	var reveal_controls: Array = [
+		%CoinLabel,
+		%TotalValueLabel,
+		%ChecklistStapleLabel,
+		%ChecklistVegetableLabel,
+		%ChecklistFruitLabel,
+		%ChecklistFishLabel
+	]
+	reveal_controls.append_array(%MarketTray.get_children())
+	reveal_controls.append_array(%BasketGrid.get_children())
+	reveal_controls.append_array([
+		%HintButton,
+		%CheckShoppingButton,
+		%BackButton
+	])
+	ScreenMotionPresenter.gameplay_reveal(reveal_controls)
+
 func _on_basket_changed(selected_ids: Array, coin_remaining: int, selected_groups: Dictionary) -> void:
 	%CoinLabel.text = str(coin_remaining)
 	%TotalValueLabel.text = str(shopping_controller.coin_used())
@@ -268,7 +287,7 @@ func _on_basket_changed(selected_ids: Array, coin_remaining: int, selected_group
 	]
 	for i in range(min(group_ids.size(), check_labels.size())):
 		var group_id := str(group_ids[i])
-		check_labels[i].text = ("[X] " if selected_groups.has(group_id) else "[ ] ") + _short_group_name(group_id)
+		check_labels[i].text = ("✓ " if selected_groups.has(group_id) else "[ ] ") + _short_group_name(group_id)
 	%CheckShoppingButton.disabled = selected_ids.size() != 4
 	_refresh_main_gameplay_state(selected_ids, coin_remaining, selected_groups)
 
@@ -603,8 +622,7 @@ func _on_select_round_drop(
 		slot.accept_card(card)
 		slot.title_label.text = "TARGET TERPENUHI"
 		_style_literacy_card(card, true)
-		ScreenMotionPresenter.gameplay_pop(card, 1.06)
-		ScreenMotionPresenter.gameplay_reward(slot)
+		ScreenMotionPresenter.gameplay_drop_success(card, slot)
 		_award_literacy_round(attempt_no)
 
 		_record_l3_literacy_answer(
@@ -643,8 +661,7 @@ func _on_select_round_drop(
 
 	AudioManager.play_drop_feedback(false)
 	card.show_wrong_feedback()
-	ScreenMotionPresenter.gameplay_wrong(card, 6.0)
-	ScreenMotionPresenter.gameplay_wrong(%ReferenceTargetValue, 5.0)
+	ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
 	DurationTracker.resume_active_play()
 	_begin_l3_literacy_occurrence(round_data)
 

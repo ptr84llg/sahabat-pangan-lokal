@@ -451,6 +451,7 @@ func _start_gameplay() -> void:
 		0,
 		{}
 	)
+	_play_grouping_reveal()
 
 	AnalyticsLogger.log_event(
 		"level_main_started",
@@ -604,6 +605,7 @@ func _on_reset_pressed() -> void:
 		0,
 		{}
 	)
+	_play_grouping_reveal()
 
 	main_game_start_active_ms = (
 		DurationTracker.current_active_ms()
@@ -641,6 +643,28 @@ func _load_batch_cards(batch_index: int) -> void:
 		%FoodTray.add_child(card)
 		card.setup(food_id, "", str(food.get("group_id", "")), -1, false, false)
 
+func _play_grouping_reveal() -> void:
+	var reveal_controls: Array = [
+		%ProgressLabel,
+		%ScoreLabel
+	]
+	reveal_controls.append_array(%GroupBoard.get_children())
+
+	for card_value in %FoodTray.get_children():
+		var card := card_value as Control
+
+		if card == null or card.is_queued_for_deletion():
+			continue
+
+		reveal_controls.append(card)
+
+	reveal_controls.append_array([
+		%HintButton,
+		%ResetButton,
+		%BackButton
+	])
+	ScreenMotionPresenter.gameplay_reveal(reveal_controls)
+
 func _on_progress_changed(matched: int, total: int, score: int, counts: Dictionary) -> void:
 	main_score = score
 	%ProgressLabel.text = "%d / %d" % [matched, total]
@@ -671,6 +695,7 @@ func _start_batch_2() -> void:
 	show_only(screens, gameplay_layer)
 	grouping_controller.activate_batch(1)
 	_load_batch_cards(1)
+	_play_grouping_reveal()
 	DurationTracker.resume_active_play()
 	grouping_controller.begin_mission_timing()
 
@@ -1003,11 +1028,7 @@ func _on_challenge_drop(
 		slot.accept_card(card)
 		_style_literacy_target_card(card)
 		_style_literacy_target_slot(slot)
-		ScreenMotionPresenter.gameplay_pop(card, 1.06)
-		ScreenMotionPresenter.gameplay_pop(
-			%TargetPanel,
-			1.03
-		)
+		ScreenMotionPresenter.gameplay_drop_success(card, slot)
 
 		var scoring: Dictionary = (
 			level_config.get(
@@ -1060,10 +1081,7 @@ func _on_challenge_drop(
 			)
 
 		card.show_wrong_feedback()
-		ScreenMotionPresenter.gameplay_wrong(
-			card,
-			6.0
-		)
+		ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
 		%ChallengeFeedback.text = (
 			"Belum melengkapi kelompok ini. "
 			+ "Coba lihat kembali pangan yang sudah tersusun."

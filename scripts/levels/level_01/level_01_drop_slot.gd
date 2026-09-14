@@ -8,6 +8,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_set_non_interactive_children_ignore(self)
 	set_process(true)
+	ScreenMotionPresenter.bind_gameplay_hover(self, true)
 	_apply_slot_style()
 
 
@@ -19,6 +20,7 @@ func setup(
 	title_label.text = display_name.to_upper()
 	_matched_visual = false
 	_drag_hover_active = false
+	ScreenMotionPresenter.set_gameplay_hover_enabled(self, true)
 	_apply_slot_style()
 
 
@@ -99,6 +101,7 @@ func accept_card(
 	# E35 guard: do not append decorative Unicode status symbols.
 	# The matched card itself and green slot background are the status.
 	_matched_visual = true
+	ScreenMotionPresenter.set_gameplay_hover_enabled(self, false)
 	_drag_hover_active = false
 	_apply_slot_style()
 

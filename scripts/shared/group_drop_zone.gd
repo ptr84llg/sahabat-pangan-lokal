@@ -13,6 +13,7 @@ func _ready() -> void:
 
 func _prepare_drop_surface() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	ScreenMotionPresenter.bind_gameplay_hover(self, true)
 	_set_non_interactive_children_ignore(self)
 
 func _set_non_interactive_children_ignore(root_node: Node) -> void:
@@ -43,6 +44,10 @@ func accept_card(card: FoodCard, matched_count: int, target_count: int) -> void:
 	accepted_grid.add_child(card)
 	card.lock_card()
 	progress_label.text = "%d/%d" % [matched_count, target_count]
+	ScreenMotionPresenter.set_gameplay_hover_enabled(
+		self,
+		matched_count < target_count
+	)
 
 func pulse_hint() -> void:
 	var tween := create_tween()

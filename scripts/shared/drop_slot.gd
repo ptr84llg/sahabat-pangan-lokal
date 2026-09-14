@@ -12,6 +12,7 @@ func _ready() -> void:
 
 func _prepare_drop_surface() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	ScreenMotionPresenter.bind_gameplay_hover(self, true)
 	_set_non_interactive_children_ignore(self)
 
 func _set_non_interactive_children_ignore(root_node: Node) -> void:
@@ -40,6 +41,7 @@ func accept_card(card: FoodCard) -> void:
 		old_parent.remove_child(card)
 	holder.add_child(card)
 	card.lock_card()
+	ScreenMotionPresenter.set_gameplay_hover_enabled(self, false)
 	title_label.text = "%s  ✓" % title_label.text
 
 func pulse_hint() -> void:

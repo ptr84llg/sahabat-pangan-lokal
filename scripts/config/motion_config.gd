@@ -64,6 +64,16 @@ extends Resource
 @export_category("Tutorial")
 @export_range(0.01, 2.0, 0.01) var tutorial_item_fade_duration: float = 0.14
 @export_range(0.0, 1.0, 0.005) var tutorial_item_stagger: float = 0.15
+@export_category("Gameplay Reveal")
+@export_range(0.01, 2.0, 0.01) var gameplay_item_fade_duration: float = 0.12
+@export_range(0.0, 1.0, 0.005) var gameplay_item_stagger: float = 0.08
+
+@export_category("Drag & Drop")
+@export var drop_start_position: Vector2 = Vector2(0.0, 6.0)
+@export var drop_start_scale: Vector2 = Vector2(0.94, 0.94)
+@export var drop_peak_scale: Vector2 = Vector2(1.045, 1.045)
+@export_range(0.01, 2.0, 0.01) var drop_rise_duration: float = 0.12
+@export_range(0.01, 2.0, 0.01) var drop_settle_duration: float = 0.11
 
 @export_category("Scene")
 @export_range(0.01, 2.0, 0.01) var scene_out_duration: float = 0.16

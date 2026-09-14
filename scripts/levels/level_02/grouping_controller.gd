@@ -164,8 +164,7 @@ func _on_drop_received(
 				)
 			)
 		)
-		ScreenMotionPresenter.gameplay_pop(card, 1.06)
-		ScreenMotionPresenter.gameplay_pop(zone, 1.035)
+		ScreenMotionPresenter.gameplay_drop_success(card, zone)
 		feedback.emit(
 			"Tepat! Pangan masuk ke kelompok yang sesuai.",
 			true
@@ -191,7 +190,7 @@ func _on_drop_received(
 			"wrong_target_drop"
 		)
 		card.show_wrong_feedback()
-		ScreenMotionPresenter.gameplay_wrong(card, 6.0)
+		ScreenMotionPresenter.gameplay_drop_wrong(card, zone)
 		feedback.emit(
 			"Belum tepat. Coba perhatikan kembali jenis pangan ini.",
 			false

@@ -47,7 +47,13 @@ dialogue_name_delay = 0.3
 dialogue_text_delay = 0.48
 dialogue_line_text_delay = 0.16
 tutorial_item_fade_duration = 0.14
-tutorial_item_stagger = 0.15
+tutorial_item_stagger = 0.15gameplay_item_fade_duration = 0.12
+gameplay_item_stagger = 0.08
+drop_start_position = Vector2(0, 6)
+drop_start_scale = Vector2(0.94, 0.94)
+drop_peak_scale = Vector2(1.045, 1.045)
+drop_rise_duration = 0.12
+drop_settle_duration = 0.11
 scene_out_duration = 0.16
 scene_in_duration = 0.22
 pop_peak_scale = 1.08

@@ -317,7 +317,31 @@ func _load_order(index: int) -> void:
 		ScreenMotionPresenter.gameplay_pop(card, 1.02)
 
 	ScreenMotionPresenter.gameplay_pop(%TargetResultPanel, 1.025)
+	_play_order_reveal()
 	_begin_l4_main_occurrence("ingredient")
+
+func _play_order_reveal() -> void:
+	var reveal_controls: Array = [
+		%OrderProgress,
+		%MainScoreLabel,
+		%MainStatusLabel,
+		%TargetResultPanel,
+		%MainInstructionLabel,
+		ingredient_slot_a,
+		ingredient_slot_b,
+		process_slot,
+		%HintButton
+	]
+
+	for card_value in %CandidateFoodGrid.get_children():
+		var card := card_value as Control
+
+		if card == null or card.is_queued_for_deletion():
+			continue
+
+		reveal_controls.append(card)
+
+	ScreenMotionPresenter.gameplay_reveal(reveal_controls)
 
 func _on_ingredient_drop(_food_id: String, card: FoodCard, slot: IngredientSlot) -> void:
 	if current_state != "MAIN_GAME_PLAYER_CONTROL" or order_controller.current_pair_correct:
@@ -328,6 +352,7 @@ func _on_ingredient_drop(_food_id: String, card: FoodCard, slot: IngredientSlot)
 	if slot.current_card() != null and slot.current_card() != card:
 		slot.release_current_to(%CandidateFoodGrid)
 	slot.hold_card(card)
+	ScreenMotionPresenter.gameplay_drop_success(card, slot)
 	if ingredient_slot_a.current_card() != null and ingredient_slot_b.current_card() != null:
 		_validate_ingredient_pair()
 
@@ -441,8 +466,14 @@ func _validate_ingredient_pair() -> void:
 
 	card_a.show_wrong_feedback()
 	card_b.show_wrong_feedback()
-	ScreenMotionPresenter.gameplay_wrong(card_a, 6.0)
-	ScreenMotionPresenter.gameplay_wrong(card_b, 6.0)
+	ScreenMotionPresenter.gameplay_drop_wrong(
+		card_a,
+		ingredient_slot_a
+	)
+	ScreenMotionPresenter.gameplay_drop_wrong(
+		card_b,
+		ingredient_slot_b
+	)
 	AudioManager.play_drop_feedback(false)
 	_show_feedback(
 		"Kombinasi bahan belum tepat. Kedua bahan dikembalikan.",
@@ -481,6 +512,26 @@ func _populate_process_choices() -> void:
 			process_id
 		)
 		ScreenMotionPresenter.gameplay_pop(card, 1.025)
+
+	_play_process_reveal()
+
+func _play_process_reveal() -> void:
+	var reveal_controls: Array = [
+		%MainStatusLabel,
+		%MainInstructionLabel,
+		process_slot
+	]
+
+	for card_value in %ProcessTray.get_children():
+		var card := card_value as Control
+
+		if card == null or card.is_queued_for_deletion():
+			continue
+
+		reveal_controls.append(card)
+
+	ScreenMotionPresenter.gameplay_reveal(reveal_controls)
+
 
 func _on_process_drop(
 	process_id: String,
@@ -539,7 +590,7 @@ func _on_process_drop(
 
 	if not correct:
 		card.show_wrong_feedback()
-		ScreenMotionPresenter.gameplay_wrong(card, 6.0)
+		ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
 		AudioManager.play_drop_feedback(false)
 		_show_feedback(
 			"Proses belum tepat. Hubungkan bahan dengan hasil olahan.",
@@ -553,6 +604,7 @@ func _on_process_drop(
 
 	AudioManager.play_drop_feedback(true)
 	slot.accept_card(card)
+	ScreenMotionPresenter.gameplay_drop_success(card, slot)
 	%MainStatusLabel.text = "PESANAN SELESAI"
 	%MainInstructionLabel.text = (
 		"BENAR - RANTAI BAHAN, PROSES, DAN HASIL SUDAH LENGKAP"
@@ -1581,6 +1633,7 @@ func _on_named_literacy_drop(
 	if correct:
 		AudioManager.play_drop_feedback(true)
 		slot.accept_card(card)
+		ScreenMotionPresenter.gameplay_drop_success(card, slot)
 		_award_literacy_round(attempt_no)
 		_record_l4_literacy_answer(
 			item_id,
@@ -1590,8 +1643,8 @@ func _on_named_literacy_drop(
 		%ChallengeFeedback.text = (
             "TEPAT! Rantai bahan, proses, dan hasil sudah lengkap."
 		)
-		ScreenMotionPresenter.gameplay_reward(slot)
 		ScreenMotionPresenter.gameplay_reward(%ChallengeFeedback)
+
 		_schedule_literacy_auto_advance()
 		return
 
@@ -1601,7 +1654,7 @@ func _on_named_literacy_drop(
 	)
 	AudioManager.play_drop_feedback(false)
 	card.show_wrong_feedback()
-	ScreenMotionPresenter.gameplay_wrong(card, 6.0)
+	ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
 	%ChallengeFeedback.text = (
         "Belum tepat. Perhatikan kembali bagian lain pada rantai."
 	)
@@ -1630,6 +1683,7 @@ func _on_food_literacy_drop(
 	if correct:
 		AudioManager.play_drop_feedback(true)
 		slot.accept_card(card)
+		ScreenMotionPresenter.gameplay_drop_success(card, slot)
 		_award_literacy_round(attempt_no)
 		_record_l4_literacy_answer(
 			food_id,
@@ -1639,8 +1693,8 @@ func _on_food_literacy_drop(
 		%ChallengeFeedback.text = (
             "TEPAT! Bahan yang hilang sudah melengkapi rantai olahan."
 		)
-		ScreenMotionPresenter.gameplay_reward(slot)
 		ScreenMotionPresenter.gameplay_reward(%ChallengeFeedback)
+
 		_schedule_literacy_auto_advance()
 		return
 
@@ -1650,7 +1704,7 @@ func _on_food_literacy_drop(
 	)
 	AudioManager.play_drop_feedback(false)
 	card.show_wrong_feedback()
-	ScreenMotionPresenter.gameplay_wrong(card, 6.0)
+	ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
 	%ChallengeFeedback.text = (
         "Belum tepat. Cocokkan bahan dengan proses dan hasil olahan."
 	)

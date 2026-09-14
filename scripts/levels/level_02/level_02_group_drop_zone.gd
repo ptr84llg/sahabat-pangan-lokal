@@ -10,6 +10,7 @@ var _hover_active: bool = false
 
 
 func _ready() -> void:
+    ScreenMotionPresenter.bind_gameplay_hover(self, true)
     var source_style: StyleBox = get_theme_stylebox("panel")
 
     if source_style is StyleBoxFlat:

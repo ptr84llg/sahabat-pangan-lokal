@@ -14,6 +14,7 @@ func _ready() -> void:
 
 func _prepare_drop_surface() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	ScreenMotionPresenter.bind_gameplay_hover(self, true)
 	_set_non_interactive_children_ignore(self)
 
 func _set_non_interactive_children_ignore(root_node: Node) -> void:
@@ -30,10 +31,18 @@ func setup(new_accepted_id: String, display_name: String, new_kind: String, enab
 	drop_enabled = enabled
 	title_label.text = display_name
 	modulate = Color.WHITE if enabled else Color(0.72, 0.72, 0.72, 1.0)
+	ScreenMotionPresenter.set_gameplay_hover_enabled(
+		self,
+		enabled and current_card() == null
+	)
 
 func set_drop_enabled(enabled: bool) -> void:
 	drop_enabled = enabled
 	modulate = Color.WHITE if enabled else Color(0.72, 0.72, 0.72, 1.0)
+	ScreenMotionPresenter.set_gameplay_hover_enabled(
+		self,
+		enabled and current_card() == null
+	)
 
 func _can_drop_data(_at_position: Vector2, data) -> bool:
 	return drop_enabled and data is Dictionary and str(data.get("kind", "")) == accepted_kind and current_card() == null
@@ -49,6 +58,7 @@ func accept_card(card: NamedDragCard) -> void:
 		old_parent.remove_child(card)
 	holder.add_child(card)
 	card.lock_card()
+	ScreenMotionPresenter.set_gameplay_hover_enabled(self, false)
 	title_label.text = "%s  âœ“" % title_label.text
 
 func current_card() -> NamedDragCard:
