@@ -1,6 +1,8 @@
 class_name NamedDragCard
 extends PanelContainer
 
+const DRAG_PREVIEW_FACTORY := preload("res://scripts/shared/gameplay/drag_preview_factory.gd")
+
 @export var item_id := ""
 @export var drag_kind := "named_card"
 var display_name := ""
@@ -51,34 +53,17 @@ func _get_drag_data(_at_position: Vector2):
 		return null
 
 	ScreenMotionPresenter.cancel_control(self, true)
-	var preview: Control
-
-	if drag_preview_texture != null:
-		var image_preview := TextureRect.new()
-		image_preview.custom_minimum_size = drag_preview_size
-		image_preview.size = drag_preview_size
-		image_preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		image_preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		image_preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		image_preview.texture = drag_preview_texture
-		preview = image_preview
-	else:
-		var text_preview := PanelContainer.new()
-		text_preview.custom_minimum_size = Vector2(150, 72)
-		text_preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
-		var label := Label.new()
-		label.text = display_name
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		text_preview.add_child(label)
-		preview = text_preview
-
-	preview.modulate.a = 0.92
+	var preview_size := (
+		drag_preview_size
+		if drag_preview_texture != null
+		else Vector2(150.0, 72.0)
+	)
+	var preview := DRAG_PREVIEW_FACTORY.create_preview(
+		drag_preview_texture,
+		display_name,
+		preview_size
+	)
 	set_drag_preview(preview)
-
 	return {
 		"kind": drag_kind,
 		"item_id": item_id,

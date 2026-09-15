@@ -933,6 +933,7 @@ func _render_schema4_process_choices(
 		) as Label
 
 		button.visible = true
+		button.focus_mode = Control.FOCUS_NONE
 		button.set_meta(
 			"schema4_process_id",
 			process_id
@@ -960,6 +961,9 @@ func _render_schema4_process_choices(
 func _on_schema4_process_button_pressed(
 	button: Button
 ) -> void:
+	button.release_focus()
+	button.set_pressed_no_signal(false)
+	ScreenMotionPresenter.reset_control(button, 0.0)
 	_on_schema4_process(
 		str(
 			button.get_meta(
@@ -2278,18 +2282,9 @@ func _save_final_completion() -> void:
 	GameState.complete_level(5, final_score, active_duration_ms, str(badge.get("badge_id", "badge_level_05")), str(badge.get("display_name", "Duta Pangan Lokal")), str(level_session.get("level_session_id", "")))
 
 func _feedback(text: String, good: bool) -> void:
-	%SchemaFeedback.text = text
-	%SchemaFeedback.modulate = (
-		Color(0.18, 0.46, 0.24, 1)
-		if good
-		else Color(0.68, 0.28, 0.18, 1)
-	)
-
-	if good:
-		ScreenMotionPresenter.gameplay_pop(%SchemaFeedback, 1.035)
-	else:
-		ScreenMotionPresenter.gameplay_wrong(%SchemaFeedback, 5.0)
-
+	%SchemaFeedback.text = ""
+	%SchemaFeedback.visible = false
+	_present_gameplay_feedback(text, good, 1.05)
 func _clear_container(node: Node) -> void:
 	for child in node.get_children():
 		child.queue_free()

@@ -37,6 +37,10 @@ const LEVEL_BADGE_REWARD_SCENE: PackedScene = preload(
 	"res://scenes/shared/level_flow/level_badge_reward.tscn"
 )
 
+const GAMEPLAY_FEEDBACK_OVERLAY_SCENE: PackedScene = preload(
+	"res://scenes/shared/gameplay/gameplay_feedback_overlay.tscn"
+)
+
 var current_state: String = ""
 var _level_background: TextureRect
 var _active_window: Control
@@ -52,6 +56,8 @@ var _level_question_game_presenter: Control
 var _level_complete_presenter: Control
 var _level_food_information_presenter: Control
 var _level_badge_reward_presenter: Control
+var _gameplay_feedback_overlay: GameplayFeedbackOverlay
+var _feedback_suspended_timers: Array[Node] = []
 var _level_attempt_started: bool = false
 var _level_attempt_id: String = ""
 var _level_attempt_no: int = 0
@@ -70,6 +76,7 @@ func _prepare_level_presentation() -> void:
 	_ensure_level_complete_presenter()
 	_ensure_level_food_information_presenter()
 	_ensure_level_badge_reward_presenter()
+	_ensure_gameplay_feedback_overlay()
 	call_deferred("_refresh_level_intro_presenter")
 	call_deferred("_refresh_level_dialogue_presenter")
 	call_deferred("_refresh_level_tutorial_presenter")
@@ -80,6 +87,91 @@ func _prepare_level_presentation() -> void:
 	call_deferred("_refresh_level_food_information_presenter")
 	call_deferred("_refresh_level_badge_reward_presenter")
 
+
+
+func _ensure_gameplay_feedback_overlay() -> void:
+	if is_instance_valid(_gameplay_feedback_overlay):
+		return
+
+	var overlay_node := GAMEPLAY_FEEDBACK_OVERLAY_SCENE.instantiate()
+	var overlay := overlay_node as GameplayFeedbackOverlay
+
+	if overlay == null:
+		push_error("GameplayFeedbackOverlay scene root tidak valid.")
+		return
+
+	overlay.name = "SharedGameplayFeedbackOverlay"
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.z_index = 1900
+	add_child(overlay)
+	_gameplay_feedback_overlay = overlay
+	_gameplay_feedback_overlay.dismissed.connect(
+		_on_gameplay_feedback_dismissed
+	)
+
+
+func _present_gameplay_feedback(
+	message: String,
+	correct: bool,
+	auto_close_seconds: float = 1.05
+) -> void:
+	var clean_message := message.strip_edges()
+
+	if clean_message.is_empty():
+		return
+
+	_ensure_gameplay_feedback_overlay()
+
+	if not is_instance_valid(_gameplay_feedback_overlay):
+		return
+
+	_suspend_feedback_timers()
+	_gameplay_feedback_overlay.present_feedback(
+		clean_message,
+		correct,
+		auto_close_seconds
+	)
+
+
+func _suspend_feedback_timers() -> void:
+	if not _feedback_suspended_timers.is_empty():
+		return
+
+	for timer_name in [
+		"CountdownController",
+		"MainTimerController"
+	]:
+		var timer_node := find_child(
+			timer_name,
+			true,
+			false
+		) as Node
+
+		if timer_node == null:
+			continue
+
+		var running_value: Variant = timer_node.get("running")
+
+		if not bool(running_value):
+			continue
+
+		if timer_node.has_method("pause"):
+			timer_node.call("pause")
+		else:
+			timer_node.set("running", false)
+
+		_feedback_suspended_timers.append(timer_node)
+
+
+func _on_gameplay_feedback_dismissed() -> void:
+	for timer_node in _feedback_suspended_timers:
+		if not is_instance_valid(timer_node):
+			continue
+
+		if timer_node.has_method("resume"):
+			timer_node.call("resume")
+
+	_feedback_suspended_timers.clear()
 
 func _ensure_level_attempt_started() -> void:
 	if _level_attempt_started:

@@ -366,7 +366,7 @@ func _refresh_main_gameplay_state(selected_ids: Array, coin_remaining: int, sele
 	if selected_ids.size() >= 4:
 		dead_end_state_active = false
 		%DeadEndMask.visible = false
-		_set_market_blocked(true, "Keranjang sudah penuh. Batalkan satu pangan jika ingin mengganti pilihan.")
+		_set_market_blocked(true, "Belanja sudah lengkap. Silakan klik tombol BAYAR.")
 		return
 
 	var has_affordable_choice := _has_affordable_remaining_choice(coin_remaining, selected_groups)
@@ -1617,18 +1617,9 @@ func _finish_level() -> void:
 	SceneRouter.goto("main_map")
 
 func _show_feedback(text: String, correct: bool) -> void:
-	%FeedbackToast.text = text
-	%FeedbackToast.visible = true
-
-	if correct:
-		ScreenMotionPresenter.gameplay_pop(%FeedbackToast, 1.04)
-	else:
-		ScreenMotionPresenter.gameplay_wrong(%FeedbackToast, 5.0)
-
-	var tween := create_tween()
-	tween.tween_interval(1.3)
-	tween.tween_callback(func(): %FeedbackToast.visible = false)
-
+	%FeedbackToast.text = ""
+	%FeedbackToast.visible = false
+	_present_gameplay_feedback(text, correct, 1.05)
 func _short_group_name(group_id: String) -> String:
 	match group_id:
 		"group_staple_root": return "Pokok/Umbi"

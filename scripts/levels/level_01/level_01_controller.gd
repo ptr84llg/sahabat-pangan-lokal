@@ -456,33 +456,10 @@ func _on_progress_changed(matched: int, total: int, score: int) -> void:
 	score_label.text = "Skor Main Game: %d/60" % main_score
 
 func _show_feedback(text: String, correct: bool) -> void:
-	feedback_toast.text = text
-	feedback_toast.visible = true
+	feedback_toast.text = ""
+	feedback_toast.visible = false
 	AudioManager.play_drop_feedback(correct)
-
-	if correct:
-		feedback_toast.add_theme_color_override(
-			"font_color",
-			Color(0.12, 0.42, 0.16)
-		)
-	else:
-		feedback_toast.add_theme_color_override(
-			"font_color",
-			Color(0.66, 0.18, 0.12)
-		)
-
-	if correct:
-		ScreenMotionPresenter.gameplay_pop(feedback_toast, 1.04)
-	else:
-		ScreenMotionPresenter.gameplay_wrong(feedback_toast, 5.0)
-
-	var tween: Tween = create_tween()
-	tween.tween_interval(1.2)
-	tween.tween_callback(
-		func() -> void:
-			feedback_toast.visible = false
-	)
-
+	_present_gameplay_feedback(text, correct, 1.05)
 func _on_all_matched(score: int) -> void:
 	main_score = score
 	var main_game_duration_ms: int = 0

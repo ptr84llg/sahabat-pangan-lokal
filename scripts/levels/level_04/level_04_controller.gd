@@ -1647,8 +1647,11 @@ func _on_named_literacy_drop(
 	AudioManager.play_drop_feedback(false)
 	card.show_wrong_feedback()
 	ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
-	%ChallengeFeedback.text = (
-        "Belum tepat. Perhatikan kembali bagian lain pada rantai."
+	%ChallengeFeedback.text = ""
+	_present_gameplay_feedback(
+		"Belum tepat. Perhatikan kembali bagian lain pada rantai.",
+		false,
+		1.05
 	)
 	DurationTracker.resume_active_play()
 	_begin_l4_literacy_occurrence(round_data)
@@ -1697,8 +1700,11 @@ func _on_food_literacy_drop(
 	AudioManager.play_drop_feedback(false)
 	card.show_wrong_feedback()
 	ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
-	%ChallengeFeedback.text = (
-        "Belum tepat. Cocokkan bahan dengan proses dan hasil olahan."
+	%ChallengeFeedback.text = ""
+	_present_gameplay_feedback(
+		"Belum tepat. Cocokkan bahan dengan proses dan hasil olahan.",
+		false,
+		1.05
 	)
 	DurationTracker.resume_active_play()
 	_begin_l4_literacy_occurrence(round_data)
@@ -1883,27 +1889,9 @@ func _finish_level() -> void:
 	SceneRouter.goto("main_map")
 
 func _show_feedback(text: String, correct: bool) -> void:
-	feedback_toast.text = text
-	feedback_toast.modulate = (
-		Color(0.76, 1.0, 0.78, 1.0)
-		if correct
-		else Color(1.0, 0.86, 0.72, 1.0)
-	)
-	feedback_toast.visible = true
-
-	if correct:
-		ScreenMotionPresenter.gameplay_pop(feedback_toast, 1.035)
-	else:
-		ScreenMotionPresenter.gameplay_wrong(feedback_toast, 5.0)
-
-	var tween := create_tween()
-	tween.tween_interval(1.2)
-	tween.tween_callback(
-		func():
-			if is_instance_valid(feedback_toast):
-				feedback_toast.visible = false
-	)
-
+	feedback_toast.text = ""
+	feedback_toast.visible = false
+	_present_gameplay_feedback(text, correct, 1.05)
 func _pulse_control(control: Control) -> void:
 	var tween := create_tween()
 	tween.set_loops(2)

@@ -28,6 +28,13 @@ func start() -> void:
 	reset()
 	running = true
 
+func pause() -> void:
+	running = false
+
+func resume() -> void:
+	if remaining_seconds > 0.0 and not is_expired:
+		running = true
+
 func stop() -> void:
 	running = false
 

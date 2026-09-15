@@ -410,6 +410,7 @@ static func gameplay_wrong(
 	control: Control,
 	_legacy_strength: float = -1.0
 ) -> void:
+	_mirror_legacy_feedback(control, false)
 	UIMotion.play_shake(control)
 
 
@@ -421,6 +422,7 @@ static func gameplay_hint(
 
 
 static func gameplay_reward(control: Control) -> void:
+	_mirror_legacy_feedback(control, true)
 	UIMotion.play_reward(control)
 
 
@@ -479,6 +481,43 @@ static func count_score(
 		label,
 		final_text
 	)
+
+static func _mirror_legacy_feedback(
+	control: Control,
+	correct: bool
+) -> void:
+	if not control is Label:
+		return
+
+	if str(control.name) not in [
+		"FeedbackToast",
+		"ChallengeFeedback",
+		"SchemaFeedback"
+	]:
+		return
+
+	var label := control as Label
+	var message := label.text.strip_edges()
+
+	if message.is_empty():
+		return
+
+	var current: Node = control
+
+	while current != null:
+		if current.has_method("_present_gameplay_feedback"):
+			current.call(
+				"_present_gameplay_feedback",
+				message,
+				correct,
+				1.05
+			)
+			label.text = ""
+			label.visible = false
+			return
+
+		current = current.get_parent()
+
 static func _config() -> MotionConfig:
 	var resource := load(UIMotion.CONFIG_PATH)
 

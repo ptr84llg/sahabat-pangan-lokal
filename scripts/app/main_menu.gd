@@ -1,6 +1,7 @@
 extends Control
 
 const HISTORY_VIEW_BUILDER_SCRIPT := preload("res://scripts/app/history_view_builder.gd")
+const TITLE_UNLOCK_MODAL_SCENE: PackedScene = preload("res://scenes/shared/achievement/title_unlock_modal.tscn")
 
 const RESET_CONFIRMATION_RESET := "reset"
 const RESET_CONFIRMATION_NEW_RUN := "new_run"
@@ -29,6 +30,8 @@ var _history_panel: PanelContainer
 var _history_close_button: Button
 var _history_body: VBoxContainer
 var _history_view_builder: RefCounted
+var _title_unlock_modal: TitleUnlockModal
+var _pending_title_notifications: Array[Dictionary] = []
 
 func _ready() -> void:
 	if not _bind_scene_authored_modals():
@@ -46,6 +49,7 @@ func _ready() -> void:
 	%ContinueButton.pressed.connect(_continue_run)
 	%NewRunButton.pressed.connect(_new_run)
 	%GalleryButton.pressed.connect(_open_gallery)
+	%AchievementProgressButton.pressed.connect(_open_title_gallery)
 	%DeviceButton.pressed.connect(_open_device_panel)
 	%HistoryButton.pressed.connect(_open_history_panel)
 	%SettingsButton.pressed.connect(_open_audio_panel)
@@ -81,7 +85,9 @@ func _ready() -> void:
 
 	_refresh_audio_ui()
 	_populate_gallery_preview()
+	_refresh_achievement_progress_card()
 	_setup_motion_presenter()
+	_schedule_title_unlock_notifications()
 
 func _bind_scene_authored_modals() -> bool:
 	var layer: Control = get_node_or_null("ManualModalLayer") as Control
@@ -146,6 +152,7 @@ func _setup_motion_presenter() -> void:
 		%ContinueButton,
 		%NewRunButton,
 		%GalleryButton,
+		%AchievementProgressButton,
 		%DeviceButton,
 		%HistoryButton,
 		%SettingsButton,
@@ -241,6 +248,95 @@ func _show_exit_confirmation() -> void:
 
 func _confirm_exit() -> void:
 	get_tree().quit()
+
+func _refresh_achievement_progress_card() -> void:
+	var earned: int = AchievementManager.earned_count()
+	var total: int = AchievementManager.total_count()
+	var remaining: int = maxi(0, total - earned)
+
+	%AchievementProgressBar.max_value = maxf(1.0, float(total))
+	%AchievementProgressBar.value = float(earned)
+
+	if total <= 0:
+		%AchievementProgressButton.text = "GELAR BELUM TERSEDIA"
+		return
+
+	if remaining <= 0:
+		%AchievementProgressButton.text = (
+			"%d/%d GELAR DIRAIH\n"
+			+ "SEMUA GELAR BERHASIL DIKUMPULKAN!"
+		) % [earned, total]
+		return
+
+	%AchievementProgressButton.text = (
+		"%d/%d GELAR DIRAIH\n"
+		+ "%d GELAR LAGI MENUNGGUMU!"
+	) % [earned, total, remaining]
+
+
+func _open_title_gallery() -> void:
+	_build_gallery_lists()
+	%GalleryTabs.current_tab = 3
+	_open_modal(%GalleryPanel)
+	_reveal_gallery_tab(3)
+
+
+func _schedule_title_unlock_notifications() -> void:
+	_pending_title_notifications = (
+		AchievementManager.pending_title_notifications()
+	)
+
+	if _pending_title_notifications.is_empty():
+		return
+
+	var timer := get_tree().create_timer(0.40)
+	timer.timeout.connect(
+		_show_next_title_notification,
+		CONNECT_ONE_SHOT
+	)
+
+
+func _show_next_title_notification() -> void:
+	if _pending_title_notifications.is_empty():
+		_refresh_achievement_progress_card()
+		_populate_gallery_preview()
+		return
+
+	if not is_instance_valid(_title_unlock_modal):
+		var modal_node := TITLE_UNLOCK_MODAL_SCENE.instantiate()
+		var modal := modal_node as TitleUnlockModal
+
+		if modal == null:
+			push_error("MainMenu gagal membuat TitleUnlockModal.")
+			return
+
+		modal.name = "MainMenuTitleUnlockModal"
+		modal.set_anchors_and_offsets_preset(
+			Control.PRESET_FULL_RECT
+		)
+		modal.z_index = 2400
+		add_child(modal)
+		_title_unlock_modal = modal
+		_title_unlock_modal.dismissed.connect(
+			_on_main_menu_title_dismissed
+		)
+
+	var entry: Dictionary = (
+		_pending_title_notifications.pop_front()
+	)
+	var entries: Array[Dictionary] = [entry]
+	_title_unlock_modal.present_titles(entries)
+
+
+func _on_main_menu_title_dismissed(
+	title_ids: Array
+) -> void:
+	AchievementManager.acknowledge_title_notifications(
+		title_ids
+	)
+	_refresh_achievement_progress_card()
+	_populate_gallery_preview()
+	call_deferred("_show_next_title_notification")
 
 func _open_gallery() -> void:
 	_build_gallery_lists()

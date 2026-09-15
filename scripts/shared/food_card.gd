@@ -1,6 +1,8 @@
 class_name FoodCard
 extends PanelContainer
 
+const DRAG_PREVIEW_FACTORY := preload("res://scripts/shared/gameplay/drag_preview_factory.gd")
+
 @export var food_id := ""
 @export var group_id := ""
 @export var drag_kind := "food_card"
@@ -55,30 +57,20 @@ func _get_drag_data(_at_position: Vector2):
 	set_meta("spl_drag_started_ticks_ms", Time.get_ticks_msec())
 	set_meta("spl_drag_started_at_unix", Time.get_unix_time_from_system())
 
-	var preview := PanelContainer.new()
-	preview.custom_minimum_size = Vector2(112, 104)
-	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var preview_texture: Texture2D = null
+	var texture_path: String = VisualAssets.food_texture_path(food_id)
 
-	var preview_box := VBoxContainer.new()
-	preview_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	preview.add_child(preview_box)
+	if (
+		not texture_path.is_empty()
+		and ResourceLoader.exists(texture_path)
+	):
+		preview_texture = load(texture_path) as Texture2D
 
-	var preview_glyph := FoodGlyph.new()
-	preview_glyph.custom_minimum_size = Vector2(104, 76)
-	preview_glyph.food_id = food_id
-	preview_glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	preview_box.add_child(preview_glyph)
-
-	if not display_name.is_empty() and name_label.visible:
-		var label := Label.new()
-		label.text = display_name
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		preview_box.add_child(label)
-
-	preview.modulate.a = 0.92
+	var preview := DRAG_PREVIEW_FACTORY.create_preview(
+		preview_texture,
+		display_name if not display_name.is_empty() else food_id
+	)
 	set_drag_preview(preview)
-
 	return {
 		"kind": drag_kind,
 		"food_id": food_id,

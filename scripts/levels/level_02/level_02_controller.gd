@@ -1082,9 +1082,11 @@ func _on_challenge_drop(
 
 		card.show_wrong_feedback()
 		ScreenMotionPresenter.gameplay_drop_wrong(card, slot)
-		%ChallengeFeedback.text = (
-			"Belum melengkapi kelompok ini. "
-			+ "Coba lihat kembali pangan yang sudah tersusun."
+		%ChallengeFeedback.text = ""
+		_present_gameplay_feedback(
+			"Belum melengkapi kelompok ini. Coba lihat kembali pangan yang sudah tersusun.",
+			false,
+			1.05
 		)
 		DurationTracker.resume_active_play()
 		_begin_literacy_v3_occurrence(
@@ -1475,21 +1477,9 @@ func _show_feedback(
 	elif text.begins_with("Belum tepat."):
 		AudioManager.play_drop_feedback(false)
 
-	%FeedbackToast.text = text
-	%FeedbackToast.visible = true
-
-	if correct:
-		ScreenMotionPresenter.gameplay_pop(%FeedbackToast, 1.04)
-	else:
-		ScreenMotionPresenter.gameplay_wrong(%FeedbackToast, 5.0)
-
-	var tween: Tween = create_tween()
-	tween.tween_interval(1.2)
-	tween.tween_callback(
-		func() -> void:
-			%FeedbackToast.visible = false
-	)
-
+	%FeedbackToast.text = ""
+	%FeedbackToast.visible = false
+	_present_gameplay_feedback(text, correct, 1.05)
 func _format_ms(ms: int) -> String:
 	var safe_ms: int = maxi(0, ms)
 	var total_centiseconds: int = int(

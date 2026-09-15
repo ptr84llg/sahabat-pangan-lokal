@@ -85,7 +85,6 @@ func _ready() -> void:
 	if info_panel != null:
 		ScreenMotionPresenter.enter_screen(info_panel)
 
-	_schedule_title_unlock_notification()
 
 func _schedule_title_unlock_notification() -> void:
 	var pending: Array[Dictionary] = (
@@ -153,9 +152,6 @@ func _bind_scene_authored_ui() -> void:
 	start_button.pressed.connect(_on_start_pressed)
 	exit_cancel_button.pressed.connect(_close_exit_confirmation)
 	exit_confirm_button.pressed.connect(_confirm_exit)
-	title_unlock_modal.dismissed.connect(
-		_on_title_unlock_dismissed
-	)
 
 	ScreenMotionPresenter.bind_buttons([
 		%BackButton,

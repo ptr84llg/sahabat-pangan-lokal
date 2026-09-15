@@ -64,6 +64,20 @@ corner_radius_top_right = 14
 corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 
+[sub_resource type="StyleBoxFlat" id="AchievementProgressBackground"]
+bg_color = Color(0.91, 0.90, 0.84, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="StyleBoxFlat" id="AchievementProgressFill"]
+bg_color = Color(0.32, 0.62, 0.20, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
 [sub_resource type="StyleBoxFlat" id="DangerButton"]
 bg_color = Color(0.99, 0.94, 0.9, 0.99)
 border_width_left = 1
@@ -404,6 +418,35 @@ theme_override_styles/pressed = SubResource("DangerHover")
 theme_override_styles/hover = SubResource("DangerHover")
 theme_override_styles/focus = SubResource("DangerHover")
 text = "KELUAR"
+
+[node name="AchievementProgressDivider" type="HSeparator" parent="Safe/HBox/MenuPanel/MenuMargin/Menu"]
+layout_mode = 2
+
+[node name="AchievementProgressButton" type="Button" parent="Safe/HBox/MenuPanel/MenuMargin/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.25, 0.30, 0.14, 1)
+theme_override_colors/font_focus_color = Color(0.18, 0.34, 0.10, 1)
+theme_override_colors/font_pressed_color = Color(0.18, 0.34, 0.10, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.34, 0.10, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("SecondaryButton")
+theme_override_styles/pressed = SubResource("SecondaryHover")
+theme_override_styles/hover = SubResource("SecondaryHover")
+theme_override_styles/focus = SubResource("SecondaryHover")
+text = "0/14 GELAR DIRAIH
+14 GELAR LAGI MENUNGGUMU!"
+
+[node name="AchievementProgressBar" type="ProgressBar" parent="Safe/HBox/MenuPanel/MenuMargin/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("AchievementProgressBackground")
+theme_override_styles/fill = SubResource("AchievementProgressFill")
+max_value = 14.0
+show_percentage = false
 
 [node name="NoticePanel" type="PanelContainer" parent="." unique_id=187620403]
 unique_name_in_owner = true

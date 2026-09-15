@@ -1,5 +1,7 @@
 extends FoodCard
 
+const LEVEL1_DRAG_PREVIEW_FACTORY := preload("res://scripts/shared/gameplay/drag_preview_factory.gd")
+
 @onready var food_image: TextureRect = %FoodImage
 
 var _drag_visual_active: bool = false
@@ -50,41 +52,12 @@ func _get_drag_data(
 	set_meta("spl_drag_started_ticks_ms", Time.get_ticks_msec())
 	set_meta("spl_drag_started_at_unix", Time.get_unix_time_from_system())
 
-	var preview: PanelContainer = PanelContainer.new()
-	preview.custom_minimum_size = Vector2(116.0, 98.0)
-	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	preview.z_index = 4090
-
-	var style: StyleBoxFlat = StyleBoxFlat.new()
-	style.bg_color = Color(1.0, 0.98, 0.90, 0.98)
-	style.border_width_left = 3
-	style.border_width_top = 3
-	style.border_width_right = 3
-	style.border_width_bottom = 3
-	style.border_color = Color(0.33, 0.55, 0.20, 1.0)
-	style.corner_radius_top_left = 14
-	style.corner_radius_top_right = 14
-	style.corner_radius_bottom_right = 14
-	style.corner_radius_bottom_left = 14
-	preview.add_theme_stylebox_override(
-		"panel",
-		style
+	var preview := LEVEL1_DRAG_PREVIEW_FACTORY.create_preview(
+		food_image.texture,
+		food_id,
+		Vector2(116.0, 98.0)
 	)
-
-	var preview_image: TextureRect = TextureRect.new()
-	preview_image.custom_minimum_size = Vector2(108.0, 90.0)
-	preview_image.texture = food_image.texture
-	preview_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	preview_image.stretch_mode = (
-		TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	)
-	preview_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	preview_image.z_index = 4091
-	preview.add_child(preview_image)
-
-	preview.modulate.a = 0.98
 	set_drag_preview(preview)
-
 	_drag_visual_active = true
 	set_process(true)
 	DisplayServer.cursor_set_shape(DisplayServer.CURSOR_DRAG)
