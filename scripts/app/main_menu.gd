@@ -445,8 +445,8 @@ func _refresh_audio_ui() -> void:
 	%MouseClickCheckBox.set_pressed_no_signal(mouse_click_enabled)
 
 func _populate_gallery_preview() -> void:
-	var fresh_unlocks: Array = GameState.current_gallery_unlocks()
-	var processed_unlocks: Array = GameState.current_processed_gallery_unlocks()
+	var fresh_unlocks: Array = GameState.gallery_unlocks_for_menu()
+	var processed_unlocks: Array = GameState.processed_gallery_unlocks_for_menu()
 	var medal_count: int = _count_earned_badges()
 	var title_count: int = AchievementManager.earned_count()
 	var bullet: String = String.chr(0x2022)
@@ -480,9 +480,9 @@ func _build_gallery_lists() -> void:
 	var medal_grid: GridContainer = _create_gallery_grid(_medal_list)
 	var title_grid: GridContainer = _create_gallery_grid(_title_list)
 
-	var fresh_unlocks: Array = GameState.current_gallery_unlocks()
-	var processed_unlocks: Array = GameState.current_processed_gallery_unlocks()
-	var badges: Dictionary = GameState.current_run_badges()
+	var fresh_unlocks: Array = GameState.gallery_unlocks_for_menu()
+	var processed_unlocks: Array = GameState.processed_gallery_unlocks_for_menu()
+	var badges: Dictionary = GameState.badges_for_menu()
 	var title_entries: Array[Dictionary] = AchievementManager.title_entries()
 
 	%FreshCountLabel.text = "%d bahan ditemukan" % fresh_unlocks.size()
@@ -914,7 +914,7 @@ func _clear_runtime_children(parent: Node) -> void:
 		child.queue_free()
 
 func _count_earned_badges() -> int:
-	return GameState.current_run_badges().size()
+	return GameState.badges_for_menu().size()
 
 func _clear_children(node: Node) -> void:
 	for child in node.get_children():

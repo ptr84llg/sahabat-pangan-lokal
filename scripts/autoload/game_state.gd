@@ -601,6 +601,54 @@ func _reconcile_profile_star_policy() -> void:
 
     profile["best_stars_by_level"] = best_stars
 
+func gallery_unlocks_for_menu() -> Array:
+    if has_active_run():
+        return current_gallery_unlocks()
+
+    var stored_value: Variant = profile.get(
+        "gallery_unlocks",
+        []
+    )
+
+    if stored_value is Array:
+        var stored: Array = stored_value
+        return stored.duplicate()
+
+    return []
+
+
+func processed_gallery_unlocks_for_menu() -> Array:
+    if has_active_run():
+        return current_processed_gallery_unlocks()
+
+    var stored_value: Variant = profile.get(
+        "processed_gallery_unlocks",
+        []
+    )
+
+    if stored_value is Array:
+        var stored: Array = stored_value
+        return stored.duplicate()
+
+    return []
+
+
+func badges_for_menu() -> Dictionary:
+    if has_active_run():
+        return current_run_badges()
+
+    var stored_value: Variant = profile.get(
+        "badges",
+        {}
+    )
+
+    if stored_value is Dictionary:
+        var stored: Dictionary = stored_value
+        return stored.duplicate(true)
+
+    return {}
+
+
 func current_gallery_unlocks(include_completed: bool = false) -> Array:
     var unlocks: Array = []
 

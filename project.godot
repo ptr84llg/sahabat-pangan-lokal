@@ -52,6 +52,10 @@ window/handheld/orientation=4
 
 theme/custom_font="res://assets/fonts/aptos-narrow.ttf"
 
+[input_devices]
+
+pointing/android/disable_scroll_deadzone=true
+
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true

@@ -37,6 +37,8 @@ const LOCATION_DATA := [
 ]
 
 @onready var canvas: Control = %MapCanvas
+@onready var outer_background: ColorRect = $OuterBackground
+@onready var map_background: TextureRect = $MapCanvas/Background
 @onready var info_title: Label = %LevelTitle
 @onready var info_title_underline: ColorRect = %LevelTitleUnderline
 @onready var info_status: Label = %LevelStatus
@@ -58,6 +60,7 @@ var _confirmation_mode: String = "exit"
 var _pending_replay_scene_key: String = ""
 var _level_result_star_row: HBoxContainer
 var _level_result_stars: Array[TextureRect] = []
+var _full_bleed_background: TextureRect
 
 
 func _ready() -> void:
@@ -71,6 +74,7 @@ func _ready() -> void:
 		return
 
 	_bind_scene_authored_ui()
+	_ensure_full_bleed_background()
 	_ensure_level_result_star_row()
 	resized.connect(_layout_canvas)
 	_refresh_map()
@@ -168,6 +172,32 @@ func _bind_scene_authored_ui() -> void:
 	ScreenMotionPresenter.bind_buttons(
 		location_buttons.values()
 	)
+
+func _ensure_full_bleed_background() -> void:
+	if is_instance_valid(_full_bleed_background):
+		return
+
+	if not is_instance_valid(map_background):
+		return
+
+	if map_background.texture == null:
+		return
+
+	var fill := TextureRect.new()
+	fill.name = "ResponsiveBackgroundFill"
+	fill.texture = map_background.texture
+	fill.set_anchors_and_offsets_preset(
+		Control.PRESET_FULL_RECT
+	)
+	fill.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	fill.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	add_child(fill)
+	move_child(fill, canvas.get_index())
+	outer_background.visible = false
+	_full_bleed_background = fill
+
 
 func _layout_canvas() -> void:
 	if not is_instance_valid(canvas):

@@ -21,8 +21,118 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_build_orientation_guard()
 	get_tree().root.size_changed.connect(_refresh_layout_state)
+	get_tree().node_added.connect(_on_tree_node_added)
 	_request_native_landscape()
 	call_deferred("_refresh_layout_state")
+	call_deferred("_configure_existing_touch_scroll")
+
+func _configure_existing_touch_scroll() -> void:
+	if not _supports_native_orientation():
+		return
+
+	_configure_touch_scroll_tree(
+		get_tree().root
+	)
+
+
+func _on_tree_node_added(node: Node) -> void:
+	if not _supports_native_orientation():
+		return
+
+	if node is ScrollContainer:
+		call_deferred(
+			"_configure_touch_scroll_container",
+			node
+		)
+		return
+
+	if not node is Control:
+		return
+
+	if _find_scroll_ancestor(node) != null:
+		call_deferred(
+			"_configure_touch_scroll_descendant",
+			node
+		)
+
+
+func _configure_touch_scroll_tree(node: Node) -> void:
+	if node == null:
+		return
+
+	if node is ScrollContainer:
+		_configure_touch_scroll_container(
+			node as ScrollContainer
+		)
+		return
+
+	for child_value in node.get_children():
+		var child := child_value as Node
+
+		if child != null:
+			_configure_touch_scroll_tree(child)
+
+
+func _configure_touch_scroll_container(
+	scroll: ScrollContainer
+) -> void:
+	if scroll == null or not is_instance_valid(scroll):
+		return
+
+	scroll.scroll_deadzone = 0
+	scroll.mouse_filter = Control.MOUSE_FILTER_STOP
+
+	for child_value in scroll.get_children():
+		var child := child_value as Node
+
+		if child != null:
+			_configure_touch_scroll_descendant(child)
+
+
+func _configure_touch_scroll_descendant(node: Node) -> void:
+	if node == null or not is_instance_valid(node):
+		return
+
+	if node is ScrollBar:
+		return
+
+	if node is ScrollContainer:
+		_configure_touch_scroll_container(
+			node as ScrollContainer
+		)
+		return
+
+	if (
+		node is Slider
+		or node is LineEdit
+		or node is TextEdit
+	):
+		return
+
+	if node is Control:
+		var control := node as Control
+
+		if control.mouse_filter == Control.MOUSE_FILTER_STOP:
+			control.mouse_filter = Control.MOUSE_FILTER_PASS
+
+	for child_value in node.get_children():
+		var child := child_value as Node
+
+		if child != null:
+			_configure_touch_scroll_descendant(child)
+
+
+func _find_scroll_ancestor(node: Node) -> ScrollContainer:
+	var current := node.get_parent()
+
+	while current != null:
+		if current is ScrollContainer:
+			return current as ScrollContainer
+
+		current = current.get_parent()
+
+	return null
+
 
 func _supports_native_orientation() -> bool:
 	return OS.has_feature("android") or OS.has_feature("ios")

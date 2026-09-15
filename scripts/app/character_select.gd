@@ -1,7 +1,10 @@
 extends Control
 
+const REFERENCE_VIEWPORT_WIDTH: float = 1280.0
+
 var selected_character_id: String = ""
 var available_character_ids: Array[String] = []
+var _authored_horizontal_positions: Dictionary = {}
 
 func _ready() -> void:
 	if not GameState.has_active_run():
@@ -26,6 +29,12 @@ func _ready() -> void:
 		%ContinueButton
 	])
 
+	_capture_authored_horizontal_positions()
+
+	if not resized.is_connected(_layout_reference_content):
+		resized.connect(_layout_reference_content)
+
+	_layout_reference_content()
 	selected_character_id = GameState.selected_character_id()
 
 	if selected_character_id not in available_character_ids:
@@ -36,6 +45,54 @@ func _ready() -> void:
 		%SlotACard,
 		%SlotBCard
 	])
+
+func _reference_horizontal_controls() -> Array[Control]:
+	return [
+		%GreetingLabel,
+		$InstructionLabel,
+		%SlotACard,
+		%SlotBCard,
+		$GameLogo,
+		%SelectedLabel,
+		%BackButton,
+		%ContinueButton
+	]
+
+
+func _capture_authored_horizontal_positions() -> void:
+	_authored_horizontal_positions.clear()
+
+	for control in _reference_horizontal_controls():
+		if control == null or not is_instance_valid(control):
+			continue
+
+		_authored_horizontal_positions[
+			control.get_instance_id()
+		] = control.position.x
+
+
+func _layout_reference_content() -> void:
+	if _authored_horizontal_positions.is_empty():
+		return
+
+	var horizontal_offset: float = maxf(
+		(size.x - REFERENCE_VIEWPORT_WIDTH) * 0.5,
+		0.0
+	)
+
+	for control in _reference_horizontal_controls():
+		if control == null or not is_instance_valid(control):
+			continue
+
+		var authored_x: float = float(
+			_authored_horizontal_positions.get(
+				control.get_instance_id(),
+				control.position.x
+			)
+		)
+
+		control.position.x = authored_x + horizontal_offset
+
 
 func _apply_character_pose(
 	texture_node: TextureRect,
