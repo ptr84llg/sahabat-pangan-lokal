@@ -10,10 +10,14 @@ config_version=5
 
 [application]
 
+config/icon="res://assets/visual/ui/logo_game.png"
 config/name="Sahabat Pangan Lokal"
 run/main_scene="res://scenes/app/splash_scene.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
+boot_splash/show_image=true
+boot_splash/image="res://assets/visual/branding/android/boot_splash_logo.png"
+boot_splash/bg_color=Color(1, 1, 1, 1)
 [autoload]
 
 UpdateManager="*res://scripts/autoload/update_manager.gd"
@@ -50,6 +54,7 @@ theme/custom_font="res://assets/fonts/aptos-narrow.ttf"
 
 [rendering]
 
+textures/vram_compression/import_etc2_astc=true
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.945, 0.965, 0.945, 1)

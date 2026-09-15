@@ -28,3 +28,4 @@ export_credentials.cfg
 # Packaged Android artifacts
 *.apk
 *.aab
+/android/.build_version
