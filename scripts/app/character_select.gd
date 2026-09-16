@@ -2,6 +2,19 @@ extends Control
 
 const REFERENCE_VIEWPORT_WIDTH: float = 1280.0
 
+const SELECTED_NORMAL_STYLE: StyleBoxFlat = preload(
+	"res://resources/ui_styles/character_select_selected_normal.tres"
+)
+const SELECTED_HOVER_STYLE: StyleBoxFlat = preload(
+	"res://resources/ui_styles/character_select_selected_hover.tres"
+)
+const UNSELECTED_NORMAL_STYLE: StyleBoxFlat = preload(
+	"res://resources/ui_styles/character_select_unselected_normal.tres"
+)
+const UNSELECTED_HOVER_STYLE: StyleBoxFlat = preload(
+	"res://resources/ui_styles/character_select_unselected_hover.tres"
+)
+
 var selected_character_id: String = ""
 var available_character_ids: Array[String] = []
 var _authored_horizontal_positions: Dictionary = {}
@@ -171,29 +184,37 @@ func _render() -> void:
 		)
 
 func _apply_choice_button_style(button: Button, selected: bool) -> void:
-	var normal := StyleBoxFlat.new()
-	normal.corner_radius_top_left = 8
-	normal.corner_radius_top_right = 8
-	normal.corner_radius_bottom_left = 8
-	normal.corner_radius_bottom_right = 8
-
-	var hover := StyleBoxFlat.new()
-	hover.corner_radius_top_left = 8
-	hover.corner_radius_top_right = 8
-	hover.corner_radius_bottom_left = 8
-	hover.corner_radius_bottom_right = 8
+	var normal: StyleBoxFlat = (
+		SELECTED_NORMAL_STYLE
+		if selected
+		else UNSELECTED_NORMAL_STYLE
+	)
+	var hover: StyleBoxFlat = (
+		SELECTED_HOVER_STYLE
+		if selected
+		else UNSELECTED_HOVER_STYLE
+	)
 
 	if selected:
-		normal.bg_color = Color(0.35, 0.52, 0.22, 1)
-		hover.bg_color = Color(0.40, 0.59, 0.25, 1)
-		button.add_theme_color_override("font_color", Color(1, 1, 1, 1))
-		button.add_theme_color_override("font_hover_color", Color(1, 1, 1, 1))
+		button.add_theme_color_override(
+			"font_color",
+			Color(1, 1, 1, 1)
+		)
+		button.add_theme_color_override(
+			"font_hover_color",
+			Color(1, 1, 1, 1)
+		)
 	else:
-		normal.bg_color = Color(0.48, 0.50, 0.44, 0.92)
-		hover.bg_color = Color(0.38, 0.52, 0.28, 0.96)
-		button.add_theme_color_override("font_color", Color(0.98, 0.98, 0.92, 1))
-		button.add_theme_color_override("font_hover_color", Color(1, 1, 1, 1))
+		button.add_theme_color_override(
+			"font_color",
+			Color(0.98, 0.98, 0.92, 1)
+		)
+		button.add_theme_color_override(
+			"font_hover_color",
+			Color(1, 1, 1, 1)
+		)
 
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("pressed", hover)
+

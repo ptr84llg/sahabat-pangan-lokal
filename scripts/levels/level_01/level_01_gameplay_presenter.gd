@@ -15,6 +15,13 @@ extends Control
 # ============================================================================
 
 
+const TARGET_PANEL_STYLE: StyleBoxFlat = preload(
+	"res://resources/ui_styles/l1_presenter_target.tres"
+)
+const CARD_TRANSPARENT_STYLE: StyleBoxFlat = preload(
+	"res://resources/ui_styles/l1_presenter_card_transparent.tres"
+)
+
 var _level_root: Control
 var _native_gameplay: Control
 var _matching_board: GridContainer
@@ -197,12 +204,7 @@ func _apply_interaction_layout() -> void:
 			var slot_panel: PanelContainer = slot_control as PanelContainer
 			slot_panel.add_theme_stylebox_override(
 				"panel",
-				_make_panel_style(
-					Color(0.99, 0.99, 0.975, 1.0),
-					Color(0.012, 0.35, 0.23, 1.0),
-					3,
-					0
-				)
+				TARGET_PANEL_STYLE
 			)
 
 		var title_node: Node = _find_descendant_by_name(
@@ -249,12 +251,7 @@ func _apply_interaction_layout() -> void:
 			var card_panel: PanelContainer = card_control as PanelContainer
 			card_panel.add_theme_stylebox_override(
 				"panel",
-				_make_panel_style(
-					Color(1.0, 1.0, 1.0, 0.0),
-					Color(1.0, 1.0, 1.0, 0.0),
-					0,
-					0
-				)
+				CARD_TRANSPARENT_STYLE
 			)
 
 
@@ -388,23 +385,3 @@ func _find_descendant_by_name(
 func _apply_responsive_geometry() -> void:
 	if _adopted:
 		_apply_interaction_layout()
-
-
-func _make_panel_style(
-	background: Color,
-	border: Color,
-	border_width: int,
-	radius: int
-) -> StyleBoxFlat:
-	var style: StyleBoxFlat = StyleBoxFlat.new()
-	style.bg_color = background
-	style.border_color = border
-	style.border_width_left = border_width
-	style.border_width_top = border_width
-	style.border_width_right = border_width
-	style.border_width_bottom = border_width
-	style.corner_radius_top_left = radius
-	style.corner_radius_top_right = radius
-	style.corner_radius_bottom_right = radius
-	style.corner_radius_bottom_left = radius
-	return style

@@ -6,6 +6,10 @@ const V3_GAME_TYPE: String = "matching_drag_drop"
 const V3_INSTRUCTION_ID: String = "INST-L1-G01-MATCH"
 const V3_INSTRUCTION_TEXT: String = "Misi: Cocokkan gambar pangan dengan namanya."
 
+const FOOD_HINT_STYLE: StyleBoxFlat = preload(
+    "res://resources/ui_styles/l1_food_hint.tres"
+)
+
 signal progress_changed(matched: int, total: int, score: int)
 signal all_matched(score: int)
 signal feedback(text: String, correct: bool)
@@ -62,9 +66,11 @@ func _on_drop_received(food_id: String, card: FoodCard, slot: FoodDropSlot) -> v
         matched_ids.append(food_id)
         slot.accept_card(card)
         ScreenMotionPresenter.gameplay_drop_success(card, slot)
-        feedback.emit("Cocok!", true)
+        var mission_complete: bool = matched_ids.size() == foods.size()
+        if not mission_complete:
+            feedback.emit("Cocok!", true)
         progress_changed.emit(matched_ids.size(), foods.size(), score)
-        if matched_ids.size() == foods.size():
+        if mission_complete:
             all_matched.emit(score)
     else:
         _record_v3_drop(food_id, card, slot, "wrong_target_drop")
@@ -119,25 +125,9 @@ func _pulse_food_hint(card: FoodCard) -> void:
     if current_style != null:
         restore_style = current_style.duplicate() as StyleBox
 
-    var hint_style: StyleBoxFlat = StyleBoxFlat.new()
-
-    if current_style is StyleBoxFlat:
-        hint_style = current_style.duplicate() as StyleBoxFlat
-
-    hint_style.bg_color = Color(1.0, 0.94, 0.55, 0.96)
-    hint_style.border_color = Color(0.95, 0.66, 0.05, 1.0)
-    hint_style.border_width_left = 4
-    hint_style.border_width_top = 4
-    hint_style.border_width_right = 4
-    hint_style.border_width_bottom = 4
-    hint_style.corner_radius_top_left = 12
-    hint_style.corner_radius_top_right = 12
-    hint_style.corner_radius_bottom_right = 12
-    hint_style.corner_radius_bottom_left = 12
-
     card.add_theme_stylebox_override(
         "panel",
-        hint_style
+        FOOD_HINT_STYLE
     )
     ScreenMotionPresenter.gameplay_hint(card, 1.08)
 
@@ -149,7 +139,6 @@ func _pulse_food_hint(card: FoodCard) -> void:
             restore_style
         )
     )
-
 
 func _restore_food_hint(
     card: FoodCard,

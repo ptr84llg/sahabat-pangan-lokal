@@ -165,10 +165,15 @@ func _on_drop_received(
 			)
 		)
 		ScreenMotionPresenter.gameplay_drop_success(card, zone)
-		feedback.emit(
-			"Tepat! Pangan masuk ke kelompok yang sesuai.",
-			true
-		)
+		var mission_complete: bool = matched_ids.size() == foods.size()
+		var batch_complete: bool = _active_batch_complete()
+
+		if not mission_complete and not batch_complete:
+			feedback.emit(
+				"Tepat! Pangan masuk ke kelompok yang sesuai.",
+				true
+			)
+
 		progress_changed.emit(
 			matched_ids.size(),
 			foods.size(),
@@ -176,9 +181,9 @@ func _on_drop_received(
 			group_counts.duplicate(true)
 		)
 
-		if matched_ids.size() == foods.size():
+		if mission_complete:
 			all_grouped.emit(score)
-		elif _active_batch_complete():
+		elif batch_complete:
 			batch_completed.emit(
 				active_batch_index + 1
 			)

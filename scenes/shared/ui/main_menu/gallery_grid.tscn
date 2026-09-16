@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[node name="GalleryGrid" type="GridContainer"]
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+columns = 2

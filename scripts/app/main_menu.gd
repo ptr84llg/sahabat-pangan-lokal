@@ -3,6 +3,26 @@ extends Control
 const HISTORY_VIEW_BUILDER_SCRIPT := preload("res://scripts/app/history_view_builder.gd")
 const TITLE_UNLOCK_MODAL_SCENE: PackedScene = preload("res://scenes/shared/achievement/title_unlock_modal.tscn")
 
+const GALLERY_PALETTE_CONFIG_PATH := "res://resources/config/gallery_palette_config.tres"
+const GALLERY_GRID_SCENE: PackedScene = preload(
+	"res://scenes/shared/ui/main_menu/gallery_grid.tscn"
+)
+const GALLERY_CARD_SCENE: PackedScene = preload(
+	"res://scenes/shared/ui/main_menu/gallery_card.tscn"
+)
+const GALLERY_TITLE_CARD_SCENE: PackedScene = preload(
+	"res://scenes/shared/ui/main_menu/gallery_title_card.tscn"
+)
+const GALLERY_EMPTY_CARD_SCENE: PackedScene = preload(
+	"res://scenes/shared/ui/main_menu/gallery_empty_card.tscn"
+)
+const INFORMATION_SECTION_SCENE: PackedScene = preload(
+	"res://scenes/shared/ui/main_menu/information_section.tscn"
+)
+const INFORMATION_ROW_SCENE: PackedScene = preload(
+	"res://scenes/shared/ui/main_menu/information_row.tscn"
+)
+
 const RESET_CONFIRMATION_RESET := "reset"
 const RESET_CONFIRMATION_NEW_RUN := "new_run"
 
@@ -33,8 +53,13 @@ var _history_view_builder: RefCounted
 var _title_unlock_modal: TitleUnlockModal
 var _pending_title_notifications: Array[Dictionary] = []
 
+var _gallery_palette_config: GalleryPaletteConfig
+
 func _ready() -> void:
 	if not _bind_scene_authored_modals():
+		return
+
+	if not _load_gallery_palette_config():
 		return
 
 	_medal_count_label = %MedalCountLabel
@@ -88,6 +113,17 @@ func _ready() -> void:
 	_refresh_achievement_progress_card()
 	_setup_motion_presenter()
 	_schedule_title_unlock_notifications()
+
+func _load_gallery_palette_config() -> bool:
+	var loaded := load(GALLERY_PALETTE_CONFIG_PATH)
+
+	if not loaded is GalleryPaletteConfig:
+		push_error("GalleryPaletteConfig tidak dapat dimuat.")
+		return false
+
+	_gallery_palette_config = loaded as GalleryPaletteConfig
+	return true
+
 
 func _bind_scene_authored_modals() -> bool:
 	var layer: Control = get_node_or_null("ManualModalLayer") as Control
@@ -937,43 +973,57 @@ func _dictionary_rows(source_value: Variant, labels: Dictionary) -> Array:
 		rows.append([str(labels.get(key, key)), source.get(key, null)])
 	return rows
 
-func _add_information_section(parent: VBoxContainer, title_text: String, rows: Array) -> void:
-	var title := Label.new()
-	title.text = title_text
-	title.add_theme_color_override("font_color", Color(0.55, 0.38, 0.08, 1))
-	title.add_theme_font_size_override("font_size", 18)
-	parent.add_child(title)
+func _add_information_section(
+	parent: VBoxContainer,
+	title_text: String,
+	rows: Array
+) -> void:
+	var section := INFORMATION_SECTION_SCENE.instantiate() as VBoxContainer
 
-	var grid := GridContainer.new()
-	grid.columns = 2
-	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	grid.add_theme_constant_override("h_separation", 18)
-	grid.add_theme_constant_override("v_separation", 8)
-	parent.add_child(grid)
+	if section == null:
+		push_error("InformationSection scene root harus VBoxContainer.")
+		return
+
+	parent.add_child(section)
+	var title := section.get_node("SectionTitle") as Label
+	var rows_host := section.get_node("Rows") as VBoxContainer
+
+	if title == null or rows_host == null:
+		push_error("InformationSection scene-authored structure tidak lengkap.")
+		section.queue_free()
+		return
+
+	title.text = title_text
 
 	for row_value in rows:
-		if not (row_value is Array):
+		if not row_value is Array:
 			continue
+
 		var row: Array = row_value
+
 		if row.size() < 2:
 			continue
-		var key_label := Label.new()
+
+		var row_control := (
+			INFORMATION_ROW_SCENE.instantiate()
+			as HBoxContainer
+		)
+
+		if row_control == null:
+			push_error("InformationRow scene root harus HBoxContainer.")
+			continue
+
+		rows_host.add_child(row_control)
+		var key_label := row_control.get_node("KeyLabel") as Label
+		var value_label := row_control.get_node("ValueLabel") as Label
+
+		if key_label == null or value_label == null:
+			push_error("InformationRow scene-authored structure tidak lengkap.")
+			row_control.queue_free()
+			continue
+
 		key_label.text = str(row[0])
-		key_label.custom_minimum_size = Vector2(230, 0)
-		key_label.add_theme_color_override("font_color", Color(0.36, 0.36, 0.28, 1))
-		key_label.add_theme_font_size_override("font_size", 15)
-		grid.add_child(key_label)
-
-		var value_label := Label.new()
 		value_label.text = _display_optional_value(row[1])
-		value_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		value_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		value_label.add_theme_color_override("font_color", Color(0.20, 0.20, 0.16, 1))
-		value_label.add_theme_font_size_override("font_size", 15)
-		grid.add_child(value_label)
-
-	var separator := HSeparator.new()
-	parent.add_child(separator)
 
 func _display_optional_value(value: Variant) -> String:
 	if value == null:
@@ -1017,11 +1067,12 @@ func _clear_children(node: Node) -> void:
 		child.queue_free()
 
 func _create_gallery_grid(host: VBoxContainer) -> GridContainer:
-	var grid := GridContainer.new()
-	grid.columns = 2
-	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	grid.add_theme_constant_override("h_separation", 14)
-	grid.add_theme_constant_override("v_separation", 14)
+	var grid := GALLERY_GRID_SCENE.instantiate() as GridContainer
+
+	if grid == null:
+		push_error("GalleryGrid scene root harus GridContainer.")
+		return null
+
 	host.add_child(grid)
 	return grid
 
@@ -1032,186 +1083,191 @@ func _make_gallery_card(
 	entry_kind: String,
 	entry_id: String
 ) -> Control:
+	var scene := (
+		GALLERY_TITLE_CARD_SCENE
+		if entry_kind.begins_with("title_")
+		else GALLERY_CARD_SCENE
+	)
+	var panel := scene.instantiate() as PanelContainer
+
+	if panel == null:
+		push_error("GalleryCard scene root harus PanelContainer.")
+		return null
+
+	var title_label := panel.get_node(
+		"Margin/Row/Content/TitleLabel"
+	) as Label
+	var subtitle_label := panel.get_node(
+		"Margin/Row/Content/SubtitleLabel"
+	) as Label
+	var thumbnail_frame := panel.get_node(
+		"Margin/Row/ThumbnailFrame"
+	) as PanelContainer
+	var glyph := panel.get_node(
+		"Margin/Row/ThumbnailFrame/ThumbnailCenter/FoodGlyph"
+	) as FoodGlyph
+	var texture_rect := panel.get_node(
+		"Margin/Row/ThumbnailFrame/ThumbnailCenter/ThumbnailTexture"
+	) as TextureRect
+	var fallback := panel.get_node(
+		"Margin/Row/ThumbnailFrame/ThumbnailCenter/ThumbnailFallback"
+	) as Label
+	var state_chip := panel.get_node(
+		"Margin/Row/Content/StateChip"
+	) as PanelContainer
+	var state_label := panel.get_node(
+		"Margin/Row/Content/StateChip/StateLabel"
+	) as Label
+
+	if (
+		title_label == null
+		or subtitle_label == null
+		or thumbnail_frame == null
+		or glyph == null
+		or texture_rect == null
+		or fallback == null
+		or state_chip == null
+		or state_label == null
+	):
+		push_error("GalleryCard scene-authored structure tidak lengkap.")
+		panel.queue_free()
+		return null
+
 	var palette: Dictionary = _gallery_palette(entry_kind)
+	_apply_gallery_palette(
+		panel,
+		thumbnail_frame,
+		title_label,
+		state_chip,
+		state_label,
+		fallback,
+		palette
+	)
 
-	var panel := PanelContainer.new()
-	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.custom_minimum_size = Vector2(0, 156 if entry_kind.begins_with("title_") else 136)
-
-	var style := StyleBoxFlat.new()
-	style.bg_color = palette.get("panel")
-	style.border_width_left = 1
-	style.border_width_top = 1
-	style.border_width_right = 1
-	style.border_width_bottom = 1
-	style.border_color = palette.get("border")
-	style.corner_radius_top_left = 14
-	style.corner_radius_top_right = 14
-	style.corner_radius_bottom_right = 14
-	style.corner_radius_bottom_left = 14
-	panel.add_theme_stylebox_override("panel", style)
-
-	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 14)
-	margin.add_theme_constant_override("margin_top", 14)
-	margin.add_theme_constant_override("margin_right", 14)
-	margin.add_theme_constant_override("margin_bottom", 14)
-	panel.add_child(margin)
-
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 14)
-	margin.add_child(row)
-
-	row.add_child(_make_gallery_thumbnail(entry_kind, entry_id, palette))
-
-	var content := VBoxContainer.new()
-	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	content.alignment = BoxContainer.ALIGNMENT_CENTER
-	content.add_theme_constant_override("separation", 6)
-	row.add_child(content)
-
-	var title_label := Label.new()
 	title_label.text = title
-	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	title_label.add_theme_color_override("font_color", palette.get("title"))
-	title_label.add_theme_font_size_override("font_size", 19)
-	content.add_child(title_label)
-
-	var subtitle_label := Label.new()
 	subtitle_label.text = subtitle
-	subtitle_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	subtitle_label.add_theme_color_override("font_color", Color(0.37, 0.39, 0.30, 1))
-	subtitle_label.add_theme_font_size_override("font_size", 14)
-	content.add_child(subtitle_label)
-
-	content.add_child(_make_gallery_state_chip(state_text, palette))
-
-	return panel
-
-func _gallery_palette(entry_kind: String) -> Dictionary:
-	match entry_kind:
-		"title_earned":
-			return AchievementManager.gallery_palette_for(true)
-		"title_locked":
-			return AchievementManager.gallery_palette_for(false)
-		"badge":
-			return {
-				"panel": Color(1.00, 0.97, 0.88, 0.98),
-				"border": Color(0.78, 0.61, 0.16, 0.52),
-				"thumb": Color(1.00, 0.93, 0.68, 0.98),
-				"title": Color(0.54, 0.36, 0.05, 1),
-				"chip_bg": Color(0.97, 0.84, 0.39, 0.96),
-				"chip_border": Color(0.80, 0.61, 0.08, 0.48),
-				"chip_text": Color(0.47, 0.31, 0.04, 1)
-			}
-		"processed":
-			return {
-				"panel": Color(1.00, 0.96, 0.92, 0.98),
-				"border": Color(0.78, 0.55, 0.30, 0.46),
-				"thumb": Color(1.00, 0.90, 0.78, 0.98),
-				"title": Color(0.34, 0.40, 0.23, 1),
-				"chip_bg": Color(0.98, 0.86, 0.72, 0.96),
-				"chip_border": Color(0.78, 0.55, 0.30, 0.38),
-				"chip_text": Color(0.46, 0.26, 0.12, 1)
-			}
-		_:
-			return {
-				"panel": Color(0.95, 0.98, 0.91, 0.98),
-				"border": Color(0.46, 0.60, 0.27, 0.44),
-				"thumb": Color(0.88, 0.95, 0.78, 0.98),
-				"title": Color(0.22, 0.38, 0.14, 1),
-				"chip_bg": Color(0.84, 0.94, 0.72, 0.96),
-				"chip_border": Color(0.46, 0.60, 0.27, 0.34),
-				"chip_text": Color(0.25, 0.41, 0.15, 1)
-			}
-
-func _make_gallery_thumbnail(entry_kind: String, entry_id: String, palette: Dictionary) -> Control:
-	var frame := PanelContainer.new()
-	frame.custom_minimum_size = Vector2(96, 96)
-
-	var frame_style := StyleBoxFlat.new()
-	frame_style.bg_color = palette.get("thumb")
-	frame_style.border_width_left = 1
-	frame_style.border_width_top = 1
-	frame_style.border_width_right = 1
-	frame_style.border_width_bottom = 1
-	frame_style.border_color = palette.get("border")
-	frame_style.corner_radius_top_left = 12
-	frame_style.corner_radius_top_right = 12
-	frame_style.corner_radius_bottom_right = 12
-	frame_style.corner_radius_bottom_left = 12
-	frame.add_theme_stylebox_override("panel", frame_style)
-
-	var center := CenterContainer.new()
-	frame.add_child(center)
+	state_label.text = state_text
+	glyph.visible = false
+	texture_rect.visible = false
+	fallback.visible = false
 
 	if entry_kind == "fresh":
-		var glyph := FoodGlyph.new()
-		glyph.custom_minimum_size = Vector2(78, 78)
 		glyph.food_id = entry_id
-		center.add_child(glyph)
-		return frame
+		glyph.visible = true
+		return panel
 
-	var texture_path: String = _resolve_gallery_texture_path(entry_kind, entry_id)
+	var texture_path: String = _resolve_gallery_texture_path(
+		entry_kind,
+		entry_id
+	)
 	var texture: Texture2D = _load_texture_or_null(texture_path)
 
 	if texture != null:
-		var texture_rect := TextureRect.new()
 		texture_rect.texture = texture
-		texture_rect.custom_minimum_size = Vector2(78, 78)
-		texture_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		texture_rect.visible = true
 
 		if entry_kind.begins_with("title_"):
 			texture_rect.modulate = AchievementManager.icon_modulate_for(
 				entry_kind == "title_earned"
 			)
 
-		center.add_child(texture_rect)
-		return frame
+		return panel
 
-	var fallback := Label.new()
-	if entry_kind == "badge":
-		fallback.text = "MEDALI"
-	elif entry_kind.begins_with("title_"):
-		fallback.text = "GELAR"
-	else:
-		fallback.text = "OLAHAN"
-	fallback.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	fallback.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	fallback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	fallback.custom_minimum_size = Vector2(76, 76)
-	fallback.add_theme_color_override("font_color", palette.get("title"))
-	fallback.add_theme_font_size_override("font_size", 13)
-	center.add_child(fallback)
-	return frame
+	fallback.text = (
+		"MEDALI"
+		if entry_kind == "badge"
+		else (
+			"GELAR"
+			if entry_kind.begins_with("title_")
+			else "OLAHAN"
+		)
+	)
+	fallback.visible = true
+	return panel
 
-func _make_gallery_state_chip(state_text: String, palette: Dictionary) -> Control:
-	var chip := PanelContainer.new()
+func _gallery_palette(entry_kind: String) -> Dictionary:
+	if entry_kind == "title_earned":
+		return AchievementManager.gallery_palette_for(true)
 
-	var chip_style := StyleBoxFlat.new()
-	chip_style.bg_color = palette.get("chip_bg")
-	chip_style.border_width_left = 1
-	chip_style.border_width_top = 1
-	chip_style.border_width_right = 1
-	chip_style.border_width_bottom = 1
-	chip_style.border_color = palette.get("chip_border")
-	chip_style.corner_radius_top_left = 999
-	chip_style.corner_radius_top_right = 999
-	chip_style.corner_radius_bottom_right = 999
-	chip_style.corner_radius_bottom_left = 999
-	chip_style.content_margin_left = 10.0
-	chip_style.content_margin_top = 5.0
-	chip_style.content_margin_right = 10.0
-	chip_style.content_margin_bottom = 5.0
-	chip.add_theme_stylebox_override("panel", chip_style)
+	if entry_kind == "title_locked":
+		return AchievementManager.gallery_palette_for(false)
 
-	var label := Label.new()
-	label.text = state_text
-	label.add_theme_color_override("font_color", palette.get("chip_text"))
-	label.add_theme_font_size_override("font_size", 13)
-	chip.add_child(label)
-	return chip
+	if _gallery_palette_config == null:
+		return {}
+
+	return _gallery_palette_config.palette_for(entry_kind)
+
+func _apply_gallery_palette(
+	panel: PanelContainer,
+	thumbnail_frame: PanelContainer,
+	title_label: Label,
+	state_chip: PanelContainer,
+	state_label: Label,
+	fallback: Label,
+	palette: Dictionary
+) -> void:
+	var panel_style := panel.get_theme_stylebox("panel") as StyleBoxFlat
+	var thumbnail_style := (
+		thumbnail_frame.get_theme_stylebox("panel")
+		as StyleBoxFlat
+	)
+	var chip_style := state_chip.get_theme_stylebox("panel") as StyleBoxFlat
+
+	if panel_style != null:
+		panel_style = panel_style.duplicate() as StyleBoxFlat
+		panel_style.bg_color = palette.get(
+			"panel",
+			panel_style.bg_color
+		)
+		panel_style.border_color = palette.get(
+			"border",
+			panel_style.border_color
+		)
+		panel.add_theme_stylebox_override("panel", panel_style)
+
+	if thumbnail_style != null:
+		thumbnail_style = thumbnail_style.duplicate() as StyleBoxFlat
+		thumbnail_style.bg_color = palette.get(
+			"thumb",
+			thumbnail_style.bg_color
+		)
+		thumbnail_style.border_color = palette.get(
+			"border",
+			thumbnail_style.border_color
+		)
+		thumbnail_frame.add_theme_stylebox_override(
+			"panel",
+			thumbnail_style
+		)
+
+	if chip_style != null:
+		chip_style = chip_style.duplicate() as StyleBoxFlat
+		chip_style.bg_color = palette.get(
+			"chip_bg",
+			chip_style.bg_color
+		)
+		chip_style.border_color = palette.get(
+			"chip_border",
+			chip_style.border_color
+		)
+		state_chip.add_theme_stylebox_override(
+			"panel",
+			chip_style
+		)
+
+	title_label.add_theme_color_override(
+		"font_color",
+		palette.get("title", Color(0.22, 0.38, 0.14, 1))
+	)
+	state_label.add_theme_color_override(
+		"font_color",
+		palette.get("chip_text", Color(0.25, 0.41, 0.15, 1))
+	)
+	fallback.add_theme_color_override(
+		"font_color",
+		palette.get("title", Color(0.22, 0.38, 0.14, 1))
+	)
+
 
 func _resolve_gallery_texture_path(entry_kind: String, entry_id: String) -> String:
 	if entry_kind == "processed":
@@ -1234,34 +1290,18 @@ func _load_texture_or_null(texture_path: String) -> Texture2D:
 	return null
 
 func _make_empty_card(message: String) -> Control:
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(0, 118)
+	var panel := GALLERY_EMPTY_CARD_SCENE.instantiate() as PanelContainer
 
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.98, 0.98, 0.96, 0.96)
-	style.border_width_left = 1
-	style.border_width_top = 1
-	style.border_width_right = 1
-	style.border_width_bottom = 1
-	style.border_color = Color(0.48, 0.40, 0.24, 0.28)
-	style.corner_radius_top_left = 12
-	style.corner_radius_top_right = 12
-	style.corner_radius_bottom_right = 12
-	style.corner_radius_bottom_left = 12
-	panel.add_theme_stylebox_override("panel", style)
+	if panel == null:
+		push_error("GalleryEmptyCard scene root harus PanelContainer.")
+		return null
 
-	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 12)
-	margin.add_theme_constant_override("margin_top", 12)
-	margin.add_theme_constant_override("margin_right", 12)
-	margin.add_theme_constant_override("margin_bottom", 12)
-	panel.add_child(margin)
+	var label := panel.get_node("Margin/MessageLabel") as Label
 
-	var label := Label.new()
+	if label == null:
+		push_error("GalleryEmptyCard MessageLabel tidak ditemukan.")
+		panel.queue_free()
+		return null
+
 	label.text = message
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.add_theme_color_override("font_color", Color(0.36, 0.37, 0.28, 1))
-	label.add_theme_font_size_override("font_size", 14)
-	margin.add_child(label)
-
 	return panel

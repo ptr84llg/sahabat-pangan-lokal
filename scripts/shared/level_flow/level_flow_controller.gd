@@ -5,6 +5,10 @@ const LEVEL_INTRO_SCENE: PackedScene = preload(
 	"res://scenes/shared/level_flow/level_intro.tscn"
 )
 
+const LEVEL_BACKGROUND_SCENE: PackedScene = preload(
+	"res://scenes/shared/level_flow/level_background.tscn"
+)
+
 const LEVEL_DIALOGUE_SCENE: PackedScene = preload(
 	"res://scenes/shared/level_flow/level_dialogue.tscn"
 )
@@ -132,6 +136,27 @@ func _present_gameplay_feedback(
 		auto_close_seconds
 	)
 
+
+
+
+func _present_gameplay_feedback_and_wait(
+	message: String,
+	correct: bool,
+	auto_close_seconds: float = 1.05
+) -> void:
+	_present_gameplay_feedback(
+		message,
+		correct,
+		auto_close_seconds
+	)
+
+	if not is_instance_valid(_gameplay_feedback_overlay):
+		return
+
+	if not _gameplay_feedback_overlay.visible:
+		return
+
+	await _gameplay_feedback_overlay.dismissed
 
 func _suspend_feedback_timers() -> void:
 	if not _feedback_suspended_timers.is_empty():
@@ -3845,21 +3870,18 @@ func _apply_level_background() -> void:
 	if not loaded_resource is Texture2D:
 		return
 
-	_level_background = TextureRect.new()
-	_level_background.name = "LevelBackgroundTexture"
-	_level_background.set_anchors_and_offsets_preset(
-		Control.PRESET_FULL_RECT
+	_level_background = (
+		LEVEL_BACKGROUND_SCENE.instantiate()
+		as TextureRect
 	)
+
+	if _level_background == null:
+		push_error("LevelBackground scene root harus TextureRect.")
+		return
+
 	_level_background.texture = loaded_resource as Texture2D
-	_level_background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_level_background.stretch_mode = (
-		TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	)
-	_level_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_level_background.z_index = -100
 	add_child(_level_background)
 	move_child(_level_background, 0)
-
 
 func _set_rect(
 	control: Control,

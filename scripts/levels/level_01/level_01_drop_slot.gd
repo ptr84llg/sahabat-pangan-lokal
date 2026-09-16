@@ -1,5 +1,15 @@
 extends FoodDropSlot
 
+const SLOT_NORMAL_STYLE: StyleBoxFlat = preload(
+	"res://resources/ui_styles/l1_drop_normal.tres"
+)
+const SLOT_HOVER_STYLE: StyleBoxFlat = preload(
+	"res://resources/ui_styles/l1_drop_hover.tres"
+)
+const SLOT_MATCHED_STYLE: StyleBoxFlat = preload(
+	"res://resources/ui_styles/l1_drop_matched.tres"
+)
+
 var _drag_hover_active: bool = false
 var _matched_visual: bool = false
 
@@ -124,26 +134,13 @@ func pulse_hint() -> void:
 
 
 func _apply_slot_style() -> void:
-	var style: StyleBoxFlat = StyleBoxFlat.new()
-	style.border_width_left = 3
-	style.border_width_top = 3
-	style.border_width_right = 3
-	style.border_width_bottom = 3
-	style.corner_radius_top_left = 0
-	style.corner_radius_top_right = 0
-	style.corner_radius_bottom_left = 0
-	style.corner_radius_bottom_right = 0
+	var style: StyleBoxFlat = SLOT_NORMAL_STYLE
 
 	if _matched_visual:
-		style.bg_color = Color(0.90, 0.97, 0.87, 1.0)
-		style.border_color = Color(0.18, 0.50, 0.16, 1.0)
+		style = SLOT_MATCHED_STYLE
 	elif _drag_hover_active:
 		# Neutral hover only. It does NOT reveal correctness.
-		style.bg_color = Color(1.0, 0.96, 0.72, 1.0)
-		style.border_color = Color(0.33, 0.55, 0.20, 1.0)
-	else:
-		style.bg_color = Color(0.99, 0.99, 0.975, 1.0)
-		style.border_color = Color(0.012, 0.35, 0.23, 1.0)
+		style = SLOT_HOVER_STYLE
 
 	add_theme_stylebox_override(
 		"panel",

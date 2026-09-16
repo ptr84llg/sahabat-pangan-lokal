@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/shared/food_card.tscn" id="1_food_card"]
+
+[node name="GalleryFoodItem" type="VBoxContainer"]
+custom_minimum_size = Vector2(190, 154)
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="Holder" type="CenterContainer" parent="."]
+custom_minimum_size = Vector2(0, 112)
+layout_mode = 2
+
+[node name="FoodCard" parent="Holder" instance=ExtResource("1_food_card")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GroupLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "KELOMPOK"
+horizontal_alignment = 1
+autowrap_mode = 3

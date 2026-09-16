@@ -1,6 +1,9 @@
 extends LevelFlowController
 
 const GALLERY_FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
+const GALLERY_FOOD_ITEM_SCENE: PackedScene = preload(
+	"res://scenes/levels/level_05/gallery_food_item.tscn"
+)
 const ProcessVisuals = preload("res://scripts/shared/gameplay/process_visuals.gd")
 const V3_MAIN_GAME_ID: String = "L5-G01"
 const V3_MAIN_GAME_TYPE: String = "festival_pangan_lokal"
@@ -2033,18 +2036,24 @@ func _render_gallery_food_cards() -> void:
 		if food.is_empty():
 			continue
 
-		var wrapper := VBoxContainer.new()
-		wrapper.custom_minimum_size = Vector2(190, 154)
-		wrapper.alignment = BoxContainer.ALIGNMENT_CENTER
-		wrapper.add_theme_constant_override("separation", 3)
+		var wrapper := (
+			GALLERY_FOOD_ITEM_SCENE.instantiate()
+			as VBoxContainer
+		)
+
+		if wrapper == null:
+			push_error("GalleryFoodItem scene root harus VBoxContainer.")
+			return
+
 		%GalleryFoodGrid.add_child(wrapper)
+		var card := wrapper.get_node("Holder/FoodCard") as FoodCard
+		var group_label := wrapper.get_node("GroupLabel") as Label
 
-		var holder := CenterContainer.new()
-		holder.custom_minimum_size = Vector2(0, 112)
-		wrapper.add_child(holder)
+		if card == null or group_label == null:
+			push_error("GalleryFoodItem scene-authored structure tidak lengkap.")
+			wrapper.queue_free()
+			continue
 
-		var card: FoodCard = GALLERY_FOOD_CARD_SCENE.instantiate()
-		holder.add_child(card)
 		card.setup(
 			food_id,
 			str(food.get("display_name", food_id)),
@@ -2052,19 +2061,12 @@ func _render_gallery_food_cards() -> void:
 			-1,
 			true,
 			false,
-            "gallery_food_card"
+			"gallery_food_card"
 		)
 		card.set_static_preview()
-
-		var group_label := Label.new()
 		group_label.text = ContentDatabase.get_group_name(
 			str(food.get("group_id", ""))
 		).to_upper()
-		group_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		group_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		group_label.add_theme_font_size_override("font_size", 13)
-		wrapper.add_child(group_label)
-
 
 func _render_gallery_processed_cards() -> void:
 	var processed_items := ContentDatabase.get_level_04_processed_foods()

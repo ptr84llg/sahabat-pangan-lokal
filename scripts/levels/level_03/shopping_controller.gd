@@ -137,7 +137,7 @@ func check_shopping() -> void:
     var valid := selected_by_group.size() == 4 and coin_used() <= budget
     TelemetryManager.log_event("shopping_check", {"level_no":3,"level_session_id":DurationTracker.session_id,"check_attempt":check_attempt,"selected_ids":selected_ids(),"coin_used":coin_used(),"valid":valid})
     if valid:
-        feedback.emit("Belanjamu lengkap dan Koin Panganmu cukup!", true)
+        AudioManager.play_drop_feedback(true)
         shopping_success.emit(selected_ids())
     else:
         feedback.emit("Masih ada kelompok pangan yang belum ada di keranjang.", false)

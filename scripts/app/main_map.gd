@@ -52,15 +52,18 @@ const LOCATION_DATA := [
 @onready var medal_label: Label = %MedalLabel
 @onready var player_name_label: Label = %PlayerNameLabel
 @onready var player_avatar: TextureRect = %PlayerAvatar
-@onready var title_unlock_modal: TitleUnlockModal = $TitleUnlockModal
 
 var location_buttons: Dictionary = {}
 var selected_level_no: int = 1
 var _confirmation_mode: String = "exit"
 var _pending_replay_scene_key: String = ""
-var _level_result_star_row: HBoxContainer
-var _level_result_stars: Array[TextureRect] = []
-var _full_bleed_background: TextureRect
+@onready var _full_bleed_background: TextureRect = %ResponsiveBackgroundFill
+@onready var _level_result_star_row: HBoxContainer = %LevelResultStarRow
+@onready var _level_result_stars: Array[TextureRect] = [
+	%LevelResultStar1,
+	%LevelResultStar2,
+	%LevelResultStar3
+]
 
 
 func _ready() -> void:
@@ -85,58 +88,6 @@ func _ready() -> void:
 	if info_panel != null:
 		ScreenMotionPresenter.enter_screen(info_panel)
 
-
-func _schedule_title_unlock_notification() -> void:
-	var pending: Array[Dictionary] = (
-		AchievementManager.pending_title_notifications()
-	)
-
-	if pending.is_empty():
-		return
-
-	var delay: float = 0.35
-	var motion_resource := load(
-		UIMotion.CONFIG_PATH
-	)
-
-	if motion_resource is MotionConfig:
-		var motion_config := motion_resource as MotionConfig
-		delay = maxf(
-			motion_config.title_unlock_map_delay,
-			0.0
-		)
-
-	if is_zero_approx(delay):
-		_show_pending_title_notifications()
-		return
-
-	var timer := get_tree().create_timer(delay)
-	timer.timeout.connect(
-		_show_pending_title_notifications,
-		CONNECT_ONE_SHOT
-	)
-
-
-func _show_pending_title_notifications() -> void:
-	if not is_instance_valid(title_unlock_modal):
-		return
-
-	var pending: Array[Dictionary] = (
-		AchievementManager.pending_title_notifications()
-	)
-
-	if pending.is_empty():
-		return
-
-	title_unlock_modal.present_titles(pending)
-
-
-func _on_title_unlock_dismissed(
-	title_ids: Array
-) -> void:
-	AchievementManager.acknowledge_title_notifications(
-		title_ids
-	)
 
 func _bind_scene_authored_ui() -> void:
 	location_buttons = {
@@ -170,30 +121,16 @@ func _bind_scene_authored_ui() -> void:
 	)
 
 func _ensure_full_bleed_background() -> void:
-	if is_instance_valid(_full_bleed_background):
+	if not is_instance_valid(_full_bleed_background):
+		push_error("MainMap ResponsiveBackgroundFill scene-authored node tidak ditemukan.")
 		return
 
 	if not is_instance_valid(map_background):
 		return
 
-	if map_background.texture == null:
-		return
-
-	var fill := TextureRect.new()
-	fill.name = "ResponsiveBackgroundFill"
-	fill.texture = map_background.texture
-	fill.set_anchors_and_offsets_preset(
-		Control.PRESET_FULL_RECT
-	)
-	fill.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	fill.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
-	add_child(fill)
-	move_child(fill, canvas.get_index())
+	_full_bleed_background.texture = map_background.texture
+	_full_bleed_background.visible = map_background.texture != null
 	outer_background.visible = false
-	_full_bleed_background = fill
-
 
 func _layout_canvas() -> void:
 	if not is_instance_valid(canvas):
@@ -418,28 +355,16 @@ func _configure_confirmation_modal(
 
 
 func _ensure_level_result_star_row() -> void:
-	if is_instance_valid(_level_result_star_row):
+	if not is_instance_valid(_level_result_star_row):
+		push_error("MainMap LevelResultStarRow scene-authored node tidak ditemukan.")
 		return
 
-	_level_result_star_row = HBoxContainer.new()
-	_level_result_star_row.name = "LevelResultStarRow"
-	_level_result_star_row.position = Vector2(990.0, 166.0)
-	_level_result_star_row.size = Vector2(170.0, 50.0)
-	_level_result_star_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_level_result_star_row.add_theme_constant_override("separation", 4)
-	canvas.add_child(_level_result_star_row)
-
-	for _index in range(3):
-		var star := TextureRect.new()
-		star.custom_minimum_size = Vector2(48.0, 48.0)
-		star.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		star.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		star.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		_level_result_star_row.add_child(star)
-		_level_result_stars.append(star)
+	for star in _level_result_stars:
+		if not is_instance_valid(star):
+			push_error("MainMap star slot scene-authored tidak lengkap.")
+			return
 
 	_level_result_star_row.visible = false
-
 
 func _set_level_result_stars(star_value: float) -> void:
 	_ensure_level_result_star_row()

@@ -4,6 +4,16 @@ const FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
 const GROUP_ZONE_SCENE := preload("res://scenes/levels/level_02/level_02_group_drop_zone.tscn")
 const DROP_SLOT_SCENE := preload("res://scenes/shared/drop_slot.tscn")
 
+const LITERACY_TARGET_HOVER_STYLE: StyleBoxFlat = preload(
+	"res://resources/ui_styles/l2_literacy_hover.tres"
+)
+const LITERACY_TARGET_SLOT_STYLE: StyleBoxFlat = preload(
+	"res://resources/ui_styles/l2_literacy_target_slot.tres"
+)
+const ROUND_COMPLETE_FOOD_PREVIEW_SCENE: PackedScene = preload(
+	"res://scenes/levels/level_02/round_complete_food_preview.tscn"
+)
+
 const V3_MAIN_GAME_ID: String = "L2-G01"
 const V3_MAIN_GAME_TYPE: String = "classification_drag_drop"
 const V3_MAIN_INSTRUCTION_ID: String = "INST-L2-G01-CLASSIFY"
@@ -237,46 +247,16 @@ func _configure_literacy_target_hover_styles() -> void:
 		"panel"
 	)
 
-	if source_style is StyleBoxFlat:
-		game2_target_normal_style = (
-			source_style.duplicate() as StyleBoxFlat
-		)
-	else:
-		game2_target_normal_style = StyleBoxFlat.new()
-		game2_target_normal_style.bg_color = Color(
-			0.99,
-			0.99,
-			0.98,
-			1.0
-		)
-		game2_target_normal_style.border_color = Color(
-			0.0,
-			0.36,
-			0.22,
-			1.0
-		)
-		game2_target_normal_style.set_border_width_all(2)
+	if not source_style is StyleBoxFlat:
+		push_error("Level 2 TargetPanel membutuhkan StyleBoxFlat scene-authored.")
+		return
 
-	game2_target_hover_style = (
-		game2_target_normal_style.duplicate() as StyleBoxFlat
+	game2_target_normal_style = (
+		source_style.duplicate() as StyleBoxFlat
 	)
-	game2_target_hover_style.bg_color = Color(
-		1.0,
-		0.96,
-		0.68,
-		1.0
-	)
-	game2_target_hover_style.border_color = Color(
-		0.92,
-		0.70,
-		0.08,
-		1.0
-	)
-	game2_target_hover_style.set_border_width_all(4)
-
+	game2_target_hover_style = LITERACY_TARGET_HOVER_STYLE
 	game2_target_hover_active = true
 	_set_literacy_target_hover(false)
-
 
 func _set_literacy_target_hover(
 	active: bool
@@ -681,6 +661,7 @@ func _on_progress_changed(matched: int, total: int, score: int, counts: Dictiona
 func _on_batch_completed(batch_id: int) -> void:
 	if batch_id != 1:
 		return
+	AudioManager.play_drop_feedback(true)
 	DurationTracker.pause_active_play()
 	%FeedbackToast.visible = false
 	set_state("BATCH_TRANSITION")
@@ -701,6 +682,7 @@ func _start_batch_2() -> void:
 
 func _on_all_grouped(score: int) -> void:
 	main_score = score
+	AudioManager.play_drop_feedback(true)
 	var main_game_duration_ms: int = 0
 
 	if main_game_start_active_ms >= 0:
@@ -1172,19 +1154,17 @@ func _populate_round_complete_modal(round_data: Dictionary) -> void:
 		var preview_texture: Texture2D = (
 			_load_food_information_texture(food)
 		)
-		var preview_image: TextureRect = TextureRect.new()
-
-		preview_image.custom_minimum_size = Vector2(144, 144)
-		preview_image.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-		preview_image.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		preview_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		preview_image.stretch_mode = (
-			TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		var preview_image := (
+			ROUND_COMPLETE_FOOD_PREVIEW_SCENE.instantiate()
+			as TextureRect
 		)
-		preview_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+		if preview_image == null:
+			push_error("RoundCompleteFoodPreview scene root harus TextureRect.")
+			continue
+
 		preview_image.texture = preview_texture
 		holder_node.add_child(preview_image)
-
 
 func _resolve_round_group_name(round_data: Dictionary) -> String:
 	var correct_food_id: String = str(round_data.get("correct_food_id", ""))
@@ -1210,21 +1190,10 @@ func _style_literacy_target_slot(slot: FoodDropSlot) -> void:
 	if slot == null:
 		return
 
-	var style: StyleBoxFlat = StyleBoxFlat.new()
-	style.bg_color = Color(1.0, 1.0, 1.0, 0.0)
-	style.border_width_left = 0
-	style.border_width_top = 0
-	style.border_width_right = 0
-	style.border_width_bottom = 0
-	style.corner_radius_top_left = 0
-	style.corner_radius_top_right = 0
-	style.corner_radius_bottom_right = 0
-	style.corner_radius_bottom_left = 0
 	slot.add_theme_stylebox_override(
 		"panel",
-		style
+		LITERACY_TARGET_SLOT_STYLE
 	)
-
 
 func _style_literacy_target_card(card: FoodCard) -> void:
 	if card == null:

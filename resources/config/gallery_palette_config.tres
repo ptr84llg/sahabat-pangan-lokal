@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="GalleryPaletteConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/config/gallery_palette_config.gd" id="1_palette"]
+
+[resource]
+script = ExtResource("1_palette")
+fresh_panel = Color(0.95, 0.98, 0.91, 0.98)
+fresh_border = Color(0.46, 0.60, 0.27, 0.44)
+fresh_thumb = Color(0.88, 0.95, 0.78, 0.98)
+fresh_title = Color(0.22, 0.38, 0.14, 1)
+fresh_chip_bg = Color(0.84, 0.94, 0.72, 0.96)
+fresh_chip_border = Color(0.46, 0.60, 0.27, 0.34)
+fresh_chip_text = Color(0.25, 0.41, 0.15, 1)
+processed_panel = Color(1, 0.96, 0.92, 0.98)
+processed_border = Color(0.78, 0.55, 0.30, 0.46)
+processed_thumb = Color(1, 0.90, 0.78, 0.98)
+processed_title = Color(0.34, 0.40, 0.23, 1)
+processed_chip_bg = Color(0.98, 0.86, 0.72, 0.96)
+processed_chip_border = Color(0.78, 0.55, 0.30, 0.38)
+processed_chip_text = Color(0.46, 0.26, 0.12, 1)
+badge_panel = Color(1, 0.97, 0.88, 0.98)
+badge_border = Color(0.78, 0.61, 0.16, 0.52)
+badge_thumb = Color(1, 0.93, 0.68, 0.98)
+badge_title = Color(0.54, 0.36, 0.05, 1)
+badge_chip_bg = Color(0.97, 0.84, 0.39, 0.96)
+badge_chip_border = Color(0.80, 0.61, 0.08, 0.48)
+badge_chip_text = Color(0.47, 0.31, 0.04, 1)

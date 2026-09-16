@@ -462,6 +462,7 @@ func _show_feedback(text: String, correct: bool) -> void:
 	_present_gameplay_feedback(text, correct, 1.05)
 func _on_all_matched(score: int) -> void:
 	main_score = score
+	AudioManager.play_drop_feedback(true)
 	var main_game_duration_ms: int = 0
 
 	if main_game_start_active_ms >= 0:

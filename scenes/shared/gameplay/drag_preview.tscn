@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/shared/gameplay/drag_preview.gd" id="1_drag_preview"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxDragPreview"]
+bg_color = Color(1, 0.98, 0.9, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.33, 0.55, 0.2, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[node name="DragPreview" type="PanelContainer"]
+custom_minimum_size = Vector2(116, 98)
+offset_right = 116.0
+offset_bottom = 98.0
+mouse_filter = 2
+z_index = 4090
+modulate = Color(1, 1, 1, 0.98)
+theme_override_styles/panel = SubResource("StyleBoxDragPreview")
+script = ExtResource("1_drag_preview")
+image_inset = Vector2(8, 8)
+fallback_inset = Vector2(16, 16)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PreviewImage" type="TextureRect" parent="Center"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(108, 90)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PreviewFallback" type="Label" parent="Center"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(100, 82)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.18, 0.31, 0.12, 1)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

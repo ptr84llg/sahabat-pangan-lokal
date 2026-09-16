@@ -12,6 +12,10 @@ const PROCESSED_RESULT_CARD_CONTENT_SCENE := preload(
 )
 const FOOD_DROP_SLOT_SCENE := preload("res://scenes/shared/drop_slot.tscn")
 
+const LITERACY_CHAIN_SEPARATOR_SCENE: PackedScene = preload(
+    "res://scenes/levels/level_04/literacy_chain_separator.tscn"
+)
+
 const V3_MAIN_GAME_ID: String = "L4-G01"
 const V3_MAIN_GAME_TYPE: String = "olah_pangan"
 const V3_MAIN_INSTRUCTION_ID: String = "INST-L4-G01-OLAH"
@@ -620,7 +624,6 @@ func _complete_current_order() -> void:
 	)
 
 	%MainScoreLabel.text = "%d / 60" % order_controller.main_score
-	_show_feedback("Pesanan selesai!", true)
 	ScreenMotionPresenter.gameplay_reward(%TargetResultPanel)
 
 	TelemetryManager.log_event(
@@ -634,20 +637,25 @@ func _complete_current_order() -> void:
 		}
 	)
 
-	await get_tree().create_timer(1.1).timeout
-
 	var orders: Array = level_config.get("orders", [])
+	var final_order: bool = order_index >= orders.size() - 1
 
-	if order_index < orders.size() - 1:
-		order_index += 1
-		set_state("ORDER_TRANSITION")
-		_load_order(order_index)
-		DurationTracker.resume_active_play()
-		countdown_controller.resume()
+	if final_order:
+		_save_main_attempt_success()
+		_show_main_success()
 		return
 
-	_save_main_attempt_success()
-	_show_main_success()
+	await _present_gameplay_feedback_and_wait(
+		"Pesanan selesai!",
+		true,
+		1.05
+	)
+
+	order_index += 1
+	set_state("ORDER_TRANSITION")
+	_load_order(order_index)
+	DurationTracker.resume_active_play()
+	countdown_controller.resume()
 
 func _save_main_attempt_success() -> void:
 	if main_attempt_saved:
@@ -1393,18 +1401,17 @@ func _build_literacy_chain(
 
 
 func _add_literacy_chain_separator(text: String) -> void:
-	var label := Label.new()
-	label.custom_minimum_size = Vector2(38, 0)
-	label.text = text
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", 32)
-	label.add_theme_color_override(
-		"font_color",
-		Color(0.055, 0.36, 0.22, 1)
+	var label := (
+		LITERACY_CHAIN_SEPARATOR_SCENE.instantiate()
+		as Label
 	)
-	%LiteracyChainRow.add_child(label)
 
+	if label == null:
+		push_error("LiteracyChainSeparator scene root harus Label.")
+		return
+
+	label.text = text
+	%LiteracyChainRow.add_child(label)
 
 func _add_static_food_chain_card(food_id: String) -> void:
 	var food: Dictionary = ContentDatabase.get_food(food_id)

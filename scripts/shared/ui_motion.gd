@@ -435,6 +435,7 @@ static func play_modal_open(
 
 	_prepare_control(panel)
 	_stop_active_tween(panel)
+	_stop_active_alpha_tween(panel)
 
 	if mask != null and is_instance_valid(mask):
 		_stop_active_alpha_tween(mask)
@@ -451,7 +452,7 @@ static func play_modal_open(
 
 	panel.offset_transform_position = NEUTRAL_POSITION
 	panel.offset_transform_scale = config.modal_enter_scale
-	_set_canvas_alpha(panel, 1.0)
+	_set_canvas_alpha(panel, 0.0)
 
 	var transform_tween := panel.create_tween()
 	panel.set_meta(META_TWEEN, transform_tween)
@@ -459,6 +460,15 @@ static func play_modal_open(
 		panel,
 		"offset_transform_scale",
 		NEUTRAL_SCALE,
+		config.modal_panel_enter_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	var panel_alpha_tween := panel.create_tween()
+	panel.set_meta(META_ALPHA_TWEEN, panel_alpha_tween)
+	panel_alpha_tween.tween_property(
+		panel,
+		"modulate:a",
+		1.0,
 		config.modal_panel_enter_duration
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
@@ -472,7 +482,6 @@ static func play_modal_open(
 			1.0,
 			config.modal_mask_enter_duration
 		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-
 
 static func play_modal_close(
 	panel: Control,

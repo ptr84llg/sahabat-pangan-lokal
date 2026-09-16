@@ -19,7 +19,6 @@
 [ext_resource type="Texture2D" uid="uid://jd4bt62x3nic" path="res://assets/visual/main_map/festival_active.png" id="17_festival_active"]
 [ext_resource type="Texture2D" uid="uid://c0lkkfw7b0gsj" path="res://assets/visual/main_map/festival_hover.png" id="18_festival_hover"]
 [ext_resource type="Texture2D" uid="uid://dqi4cy7ipdchc" path="res://assets/visual/main_map/festival_disabled.png" id="19_festival_disabled"]
-[ext_resource type="PackedScene" path="res://scenes/shared/achievement/title_unlock_modal.tscn" id="20_title_unlock_modal"]
 
 [sub_resource type="StyleBoxFlat" id="NavNormal"]
 bg_color = Color(0.95, 0.98, 0.86, 0.98)
@@ -213,6 +212,19 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.03, 0.15, 0.11, 1)
 
+[node name="ResponsiveBackgroundFill" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
 [node name="MapCanvas" type="Control" parent="." unique_id=73738961]
 unique_name_in_owner = true
 anchors_preset = 0
@@ -325,6 +337,42 @@ offset_bottom = 165.0
 theme_override_font_sizes/font_size = 27
 text = "TERSEDIA"
 horizontal_alignment = 2
+
+[node name="LevelResultStarRow" type="HBoxContainer" parent="MapCanvas"]
+unique_name_in_owner = true
+visible = false
+z_index = 2
+layout_mode = 0
+offset_left = 990.0
+offset_top = 166.0
+offset_right = 1160.0
+offset_bottom = 216.0
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="LevelResultStar1" type="TextureRect" parent="MapCanvas/LevelResultStarRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LevelResultStar2" type="TextureRect" parent="MapCanvas/LevelResultStarRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LevelResultStar3" type="TextureRect" parent="MapCanvas/LevelResultStarRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="LevelDescription" type="Label" parent="MapCanvas" unique_id=1046187602]
 unique_name_in_owner = true
@@ -609,5 +657,3 @@ theme_override_styles/normal = SubResource("ExitDanger")
 theme_override_styles/pressed = SubResource("ExitDangerHover")
 theme_override_styles/hover = SubResource("ExitDangerHover")
 text = "KELUAR"
-
-[node name="TitleUnlockModal" parent="." instance=ExtResource("20_title_unlock_modal")]

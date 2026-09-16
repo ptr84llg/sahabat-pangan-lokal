@@ -4,6 +4,10 @@ const FOOD_CARD_SCENE := preload("res://scenes/shared/food_card.tscn")
 const BASKET_SLOT_SCENE := preload("res://scenes/levels/level_03/basket_slot.tscn")
 const DROP_SLOT_SCENE := preload("res://scenes/shared/drop_slot.tscn")
 
+const VISUAL_FOOD_OPTION_SCENE: PackedScene = preload(
+	"res://scenes/levels/level_03/visual_food_option.tscn"
+)
+
 const V3_MAIN_GAME_ID: String = "L3-G01"
 const V3_MAIN_GAME_TYPE: String = "belanja_pangan"
 const V3_MAIN_INSTRUCTION_ID: String = "INST-L3-G01-SHOPPING"
@@ -1276,15 +1280,22 @@ func _add_visual_food_option(
 	pressed_callback: Callable
 ) -> void:
 	var food := ContentDatabase.get_food(food_id)
+	var option := VISUAL_FOOD_OPTION_SCENE.instantiate() as VBoxContainer
 
-	var option := VBoxContainer.new()
-	option.custom_minimum_size = Vector2(144, 148)
-	option.alignment = BoxContainer.ALIGNMENT_CENTER
-	option.add_theme_constant_override("separation", 4)
+	if option == null:
+		push_error("VisualFoodOption scene root harus VBoxContainer.")
+		return
+
 	%ChallengeChoiceTray.add_child(option)
 
-	var card: FoodCard = FOOD_CARD_SCENE.instantiate()
-	option.add_child(card)
+	var card := option.get_node("FoodCard") as FoodCard
+	var button := option.get_node("ActionButton") as Button
+
+	if card == null or button == null:
+		push_error("VisualFoodOption scene-authored structure tidak lengkap.")
+		option.queue_free()
+		return
+
 	card.setup(
 		food_id,
 		str(food.get("display_name", "")),
@@ -1296,14 +1307,10 @@ func _add_visual_food_option(
 	card.set_static_preview()
 	_style_literacy_card(card, true)
 
-	var button := Button.new()
 	button.text = button_caption
-	option.add_child(button)
-	_style_literacy_action_button(button)
 	button.pressed.connect(pressed_callback)
 	ScreenMotionPresenter.bind_button(button)
 	ScreenMotionPresenter.gameplay_pop(option, 1.02)
-
 
 func _style_literacy_card(
 	card: FoodCard,
@@ -1352,58 +1359,6 @@ func _style_literacy_drop_slot(slot: Control) -> void:
 
 	if holder != null:
 		holder.custom_minimum_size = Vector2(0, 126)
-
-
-func _style_literacy_action_button(button: Button) -> void:
-	button.custom_minimum_size = Vector2(138, 38)
-	button.add_theme_font_size_override("font_size", 15)
-	button.add_theme_color_override(
-		"font_color",
-		Color(0.055, 0.30, 0.19, 1)
-	)
-	button.add_theme_color_override(
-		"font_hover_color",
-		Color(0.055, 0.30, 0.19, 1)
-	)
-	button.add_theme_color_override(
-		"font_pressed_color",
-		Color.WHITE
-	)
-	button.add_theme_stylebox_override(
-		"normal",
-		_make_literacy_option_style(
-			Color(0.90, 0.95, 0.84, 1)
-		)
-	)
-	button.add_theme_stylebox_override(
-		"hover",
-		_make_literacy_option_style(
-			Color(0.96, 0.96, 0.04, 1)
-		)
-	)
-	button.add_theme_stylebox_override(
-		"pressed",
-		_make_literacy_option_style(
-			Color(0.055, 0.39, 0.24, 1)
-		)
-	)
-
-
-func _make_literacy_option_style(
-	background_color: Color
-) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = background_color
-	style.border_color = Color(0.055, 0.36, 0.22, 1)
-	style.border_width_left = 2
-	style.border_width_top = 2
-	style.border_width_right = 2
-	style.border_width_bottom = 2
-	style.corner_radius_top_left = 12
-	style.corner_radius_top_right = 12
-	style.corner_radius_bottom_left = 12
-	style.corner_radius_bottom_right = 12
-	return style
 
 
 func _find_initial_food_by_group(

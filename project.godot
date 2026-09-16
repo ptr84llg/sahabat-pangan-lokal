@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Sahabat Pangan Lokal"
-run/main_scene="res://scenes/app/splash_scene.tscn"
+run/main_scene="uid://cxwn6bx7xihh3"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/bg_color=Color(1, 1, 1, 1)
 boot_splash/image="res://assets/visual/branding/android/boot_splash_logo.png"

@@ -1,6 +1,42 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/shared/gameplay/gameplay_feedback_overlay.gd" id="1_feedback"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFeedbackCorrect"]
+content_margin_left = 28.0
+content_margin_top = 24.0
+content_margin_right = 28.0
+content_margin_bottom = 24.0
+bg_color = Color(0.95, 0.99, 0.9, 0.99)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.28, 0.57, 0.18, 0.95)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+shadow_color = Color(0.02, 0.04, 0.02, 0.28)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFeedbackWrong"]
+content_margin_left = 28.0
+content_margin_top = 24.0
+content_margin_right = 28.0
+content_margin_bottom = 24.0
+bg_color = Color(1, 0.95, 0.88, 0.99)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.84, 0.39, 0.14, 0.95)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+shadow_color = Color(0.02, 0.04, 0.02, 0.28)
+shadow_size = 12
 
 [node name="GameplayFeedbackOverlay" type="Control"]
 visible = false
@@ -13,6 +49,12 @@ grow_vertical = 2
 mouse_filter = 0
 z_index = 1900
 script = ExtResource("1_feedback")
+correct_panel_style = SubResource("StyleBoxFeedbackCorrect")
+wrong_panel_style = SubResource("StyleBoxFeedbackWrong")
+correct_state_color = Color(0.18, 0.42, 0.12, 1)
+wrong_state_color = Color(0.68, 0.25, 0.09, 1)
+correct_title = "TEPAT!"
+wrong_title = "COBA LAGI"
 
 [node name="FeedbackMask" type="ColorRect" parent="."]
 unique_name_in_owner = true
