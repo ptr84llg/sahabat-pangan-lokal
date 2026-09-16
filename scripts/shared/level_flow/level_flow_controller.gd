@@ -2653,22 +2653,15 @@ func _format_level_complete_drag_mission_duration_ms(
 	duration_ms: int
 ) -> String:
 	var safe_ms: int = maxi(0, duration_ms)
-	var total_centiseconds: int = int(
-		round(float(safe_ms) / 10.0)
-	)
-	var centiseconds: int = total_centiseconds % 100
-	var total_seconds: int = int(
-		float(total_centiseconds) / 100.0
-	)
+	var milliseconds_part: int = safe_ms % 1000
+	var total_seconds: int = int(float(safe_ms) / 1000.0)
 	var seconds: int = total_seconds % 60
-	var minutes: int = int(
-		float(total_seconds) / 60.0
-	)
+	var minutes: int = int(float(total_seconds) / 60.0)
 
-	return "%02d:%02d.%02d" % [
+	return "%02d menit : %02d detik : %03d milidetik" % [
 		minutes,
 		seconds,
-		centiseconds
+		milliseconds_part
 	]
 
 func _resolve_v3_event_duration_ms(event: Dictionary) -> int:
@@ -2876,22 +2869,15 @@ func _format_level_complete_duration_ms(
 	duration_ms: int
 ) -> String:
 	var safe_ms: int = maxi(0, duration_ms)
-	var total_centiseconds: int = int(
-		round(float(safe_ms) / 10.0)
-	)
-	var centiseconds: int = total_centiseconds % 100
-	var total_seconds: int = int(
-		float(total_centiseconds) / 100.0
-	)
+	var milliseconds_part: int = safe_ms % 1000
+	var total_seconds: int = int(float(safe_ms) / 1000.0)
 	var seconds: int = total_seconds % 60
-	var minutes: int = int(
-		float(total_seconds) / 60.0
-	)
+	var minutes: int = int(float(total_seconds) / 60.0)
 
-	return "%02d:%02d.%02d" % [
+	return "%02d menit : %02d detik : %03d milidetik" % [
 		minutes,
 		seconds,
-		centiseconds
+		milliseconds_part
 	]
 
 func _resolve_level_complete_score_from_window(

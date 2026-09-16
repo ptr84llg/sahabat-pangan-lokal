@@ -319,7 +319,9 @@ func _open_title_gallery() -> void:
 
 func _schedule_title_unlock_notifications() -> void:
 	_pending_title_notifications = (
-		AchievementManager.pending_title_notifications()
+		AchievementManager.pending_title_notifications(
+			"main_menu"
+		)
 	)
 
 	if _pending_title_notifications.is_empty():
@@ -327,12 +329,12 @@ func _schedule_title_unlock_notifications() -> void:
 
 	var timer := get_tree().create_timer(0.40)
 	timer.timeout.connect(
-		_show_next_title_notification,
+		_show_title_notifications,
 		CONNECT_ONE_SHOT
 	)
 
 
-func _show_next_title_notification() -> void:
+func _show_title_notifications() -> void:
 	if _pending_title_notifications.is_empty():
 		_refresh_achievement_progress_card()
 		_populate_gallery_preview()
@@ -357,11 +359,9 @@ func _show_next_title_notification() -> void:
 			_on_main_menu_title_dismissed
 		)
 
-	var entry: Dictionary = (
-		_pending_title_notifications.pop_front()
+	_title_unlock_modal.present_titles(
+		_pending_title_notifications
 	)
-	var entries: Array[Dictionary] = [entry]
-	_title_unlock_modal.present_titles(entries)
 
 
 func _on_main_menu_title_dismissed(
@@ -370,9 +370,9 @@ func _on_main_menu_title_dismissed(
 	AchievementManager.acknowledge_title_notifications(
 		title_ids
 	)
+	_pending_title_notifications.clear()
 	_refresh_achievement_progress_card()
 	_populate_gallery_preview()
-	call_deferred("_show_next_title_notification")
 
 func _open_gallery() -> void:
 	_build_gallery_lists()

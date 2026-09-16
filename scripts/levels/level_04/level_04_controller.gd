@@ -1949,5 +1949,4 @@ func _ensure_level_runtime_ready() -> bool:
 	if not GameState.initialized:
 		GameState.initialize()
 
-	TelemetryManager.initialize()
 	return true

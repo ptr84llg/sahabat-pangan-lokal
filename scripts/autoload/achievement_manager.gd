@@ -108,6 +108,11 @@ func evaluate_level_completion(
 			"earned": true,
 			"earned_at": Time.get_unix_time_from_system(),
 			"map_notified": false,
+			"notification_target": (
+				"main_menu"
+				if level_no == 5
+				else "main_map"
+			),
 			"display_name": str(
 				definition.get(
 					"display_name",
@@ -170,11 +175,19 @@ func title_entries() -> Array[Dictionary]:
 				true
 			)
 		)
+		entry["notification_target"] = str(
+			earned_data.get(
+				"notification_target",
+				"main_map"
+			)
+		)
 		entries.append(entry)
 
 	return entries
 
-func pending_title_notifications() -> Array[Dictionary]:
+func pending_title_notifications(
+	notification_target: String = ""
+) -> Array[Dictionary]:
 	var pending: Array[Dictionary] = []
 
 	for entry in title_entries():
@@ -182,6 +195,19 @@ func pending_title_notifications() -> Array[Dictionary]:
 			continue
 
 		if bool(entry.get("map_notified", true)):
+			continue
+
+		var entry_target: String = str(
+			entry.get(
+				"notification_target",
+				"main_map"
+			)
+		)
+
+		if (
+			not notification_target.is_empty()
+			and entry_target != notification_target
+		):
 			continue
 
 		pending.append(entry.duplicate(true))

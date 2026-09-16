@@ -319,15 +319,16 @@ func _duration(value: Variant) -> String:
 	if value == null:
 		return "-"
 
-	var total_seconds: int = maxi(0, int(int(value) / 1000.0))
-	var hours: int = int(total_seconds / 3600.0)
-	var minutes: int = int((total_seconds % 3600) / 60.0)
+	var safe_ms: int = maxi(0, int(value))
+	var milliseconds_part: int = safe_ms % 1000
+	var total_seconds: int = int(float(safe_ms) / 1000.0)
 	var seconds: int = total_seconds % 60
-
-	if hours > 0:
-		return "%02d:%02d:%02d" % [hours, minutes, seconds]
-
-	return "%02d:%02d" % [minutes, seconds]
+	var minutes: int = int(float(total_seconds) / 60.0)
+	return "%02d menit : %02d detik : %03d milidetik" % [
+		minutes,
+		seconds,
+		milliseconds_part
+	]
 
 
 func _date_text(value: Variant) -> String:

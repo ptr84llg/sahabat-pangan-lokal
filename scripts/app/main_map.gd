@@ -1,6 +1,9 @@
 extends Control
 
 const REFERENCE_SIZE := Vector2(1671.0, 941.0)
+const TITLE_UNLOCK_MODAL_SCENE: PackedScene = preload(
+	"res://scenes/shared/achievement/title_unlock_modal.tscn"
+)
 
 
 const LOCATION_DATA := [
@@ -53,6 +56,8 @@ const LOCATION_DATA := [
 @onready var player_name_label: Label = %PlayerNameLabel
 @onready var player_avatar: TextureRect = %PlayerAvatar
 
+var _title_unlock_modal: TitleUnlockModal
+var _pending_title_notifications: Array[Dictionary] = []
 var location_buttons: Dictionary = {}
 var selected_level_no: int = 1
 var _confirmation_mode: String = "exit"
@@ -87,6 +92,62 @@ func _ready() -> void:
 
 	if info_panel != null:
 		ScreenMotionPresenter.enter_screen(info_panel)
+
+	_schedule_title_unlock_notifications()
+
+
+func _schedule_title_unlock_notifications() -> void:
+	_pending_title_notifications = (
+		AchievementManager.pending_title_notifications(
+			"main_map"
+		)
+	)
+
+	if _pending_title_notifications.is_empty():
+		return
+
+	var timer := get_tree().create_timer(0.35)
+	timer.timeout.connect(
+		_show_title_notifications,
+		CONNECT_ONE_SHOT
+	)
+
+
+func _show_title_notifications() -> void:
+	if _pending_title_notifications.is_empty():
+		return
+
+	if not is_instance_valid(_title_unlock_modal):
+		var modal_node := TITLE_UNLOCK_MODAL_SCENE.instantiate()
+		var modal := modal_node as TitleUnlockModal
+
+		if modal == null:
+			push_error("MainMap gagal membuat TitleUnlockModal.")
+			return
+
+		modal.name = "MainMapTitleUnlockModal"
+		modal.set_anchors_and_offsets_preset(
+			Control.PRESET_FULL_RECT
+		)
+		modal.z_index = 2400
+		add_child(modal)
+		_title_unlock_modal = modal
+		_title_unlock_modal.dismissed.connect(
+			_on_title_unlock_dismissed
+		)
+
+	_title_unlock_modal.present_titles(
+		_pending_title_notifications
+	)
+
+
+func _on_title_unlock_dismissed(
+	title_ids: Array
+) -> void:
+	AchievementManager.acknowledge_title_notifications(
+		title_ids
+	)
+	_pending_title_notifications.clear()
 
 
 func _bind_scene_authored_ui() -> void:
