@@ -1169,25 +1169,9 @@ func _complete_main_game() -> void:
 	set_state("MAIN_GAME_COMPLETE")
 	show_only(screens, main_result_panel)
 
-	var snap: Dictionary = schema_controller.snapshot()
-	var scores: Dictionary = snap.get("scores", {})
-
 	%MainResultText.text = (
-        "MAIN GAME SELESAI\n"
-		+ "Skema 1: %d/10\n" % int(scores.get("schema_1", 0))
-		+ "Skema 2: %d/12\n" % int(scores.get("schema_2", 0))
-		+ "Skema 3: %d/13\n" % int(scores.get("schema_3", 0))
-		+ "Skema 4: %d/15\n" % int(scores.get("schema_4", 0))
-		+ "Bonus waktu: %d/10\n" % time_bonus
-		+ "Main Game: %d/60\n" % main_game_score
-		+ "Sisa waktu: %s%s" % [
-			_format_seconds(main_timer.seconds_left()),
-			(
-                " - Bonus waktu habis"
-				if main_timer.is_expired
-				else ""
-			)
-		]
+		"Semua tantangan festival berhasil diselesaikan!\n"
+		+ "Main Game: %d/60" % main_game_score
 	)
 
 func _calculate_time_bonus() -> int:

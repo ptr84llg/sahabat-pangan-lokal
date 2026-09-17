@@ -337,19 +337,9 @@ func _on_shopping_success(final_ids: Array) -> void:
 	show_only(screens, main_success_panel)
 	ScreenMotionPresenter.gameplay_reward(main_success_panel)
 
-	var penalty_text: String = (
-        ""
-		if main_game_penalty_total <= 0
-		else "\nPengurangan skor: -%d" % main_game_penalty_total
-	)
 	%MainSuccessText.text = (
-        "Belanjamu lengkap dan Koin Panganmu cukup!\n"
-		+ "4/4 kelompok • Main Game %d/%d%s"
-		% [
-			main_score,
-			base_main_score,
-			penalty_text
-		]
+		"Belanjamu lengkap dan Koin Panganmu cukup!\n"
+		+ "Main Game: %d/60" % main_score
 	)
 
 	TelemetryManager.log_event(

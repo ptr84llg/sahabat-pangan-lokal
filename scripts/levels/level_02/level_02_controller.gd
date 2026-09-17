@@ -708,7 +708,7 @@ func _on_all_grouped(score: int) -> void:
 	set_state("GAMEPLAY_SUCCESS")
 	show_only(screens, gameplay_success_panel)
 	%SuccessText.text = (
-		"Hebat! Semua pangan sudah berada pada kelompok yang tepat.\n"
+		"Semua pangan sudah berada pada kelompok yang tepat.\n"
 		+ "Main Game: %d/60" % main_score
 	)
 	ScreenMotionPresenter.gameplay_reward(gameplay_success_panel)

@@ -700,7 +700,10 @@ func _show_main_success() -> void:
 	DurationTracker.pause_active_play()
 	set_state("MAIN_GAME_SUCCESS")
 	show_only(screens, main_success_panel)
-	%MainSuccessText.text = "SEMUA PESANAN SELESAI!\n4/4 pesanan\nSisa waktu: %s\nMain Game: %d/60" % [_format_seconds(countdown_controller.seconds_left()), main_score]
+	%MainSuccessText.text = (
+		"Semua pesanan berhasil diselesaikan!\n"
+		+ "Main Game: %d/60" % main_score
+	)
 
 func _on_countdown_changed(seconds_remaining: int) -> void:
 	%CountdownLabel.text = _format_seconds(seconds_remaining)

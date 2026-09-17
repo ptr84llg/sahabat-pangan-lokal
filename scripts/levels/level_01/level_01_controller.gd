@@ -487,7 +487,10 @@ func _on_all_matched(score: int) -> void:
 
 	set_state("GAMEPLAY_SUCCESS")
 	show_only(screens, gameplay_success_panel)
-	%GameplaySuccessText.text = "Hebat! Semua pangan berhasil kamu kenali."
+	%GameplaySuccessText.text = (
+		"Semua pangan berhasil kamu kenali.\n"
+		+ "Main Game: %d/60" % main_score
+	)
 	ScreenMotionPresenter.gameplay_reward(gameplay_success_panel)
 
 func _show_literacy_dialogue() -> void:
