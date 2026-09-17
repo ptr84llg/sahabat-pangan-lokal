@@ -2,6 +2,34 @@
 
 Sahabat Pangan Lokal adalah game edukasi literasi pangan lokal berbasis Godot untuk PC/laptop, tablet, dan smartphone.
 
+<!-- RELEASE_STATUS:START -->
+## Release terbaru
+
+**Sahabat Pangan Lokal v1.0.0** merupakan baseline **Final Production Release**.
+
+- Status: Final Production Release
+- Version Name: 1.0.0
+- Version Code: 100
+- Package ID: id.sahabatpanganlokal.game
+- Target SDK: 36
+- Godot Engine: 4.7.2
+- Git Tag: [v1.0.0](https://github.com/ptr84llg/sahabat-pangan-lokal/releases/tag/v1.0.0)
+- Source Release Commit: c2911a6b94cb5df3eb98f02f2300d43b73b54320
+
+### Ringkasan v1.0.0
+
+- Alur permainan Level 1 sampai Level 5 telah difinalisasi
+- Sistem progress, history, achievement, gallery, settings, dan telemetry telah terintegrasi
+- Sistem 14 gelar atau achievement telah diterapkan
+- Tampilan Main Game Success telah distandardisasi
+- Konfigurasi Android production release telah difinalisasi
+- APK dan AAB production telah ditandatangani dan diverifikasi
+- Penyesuaian scene final sebelum penguncian v1.0.0 telah dimasukkan ke source release
+
+> APK dan AAB production tidak disimpan sebagai file repository Git. Identitas release, source tag, dan catatan perubahan dikelola melalui GitHub Release.
+<!-- RELEASE_STATUS:END -->
+
+
 ## Baseline teknis
 
 - Godot 4.7.2 stable
