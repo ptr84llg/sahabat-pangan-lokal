@@ -236,7 +236,7 @@ theme_override_colors/font_pressed_color = Color(0.050980393, 0.36078432, 0.2196
 theme_override_colors/font_hover_color = Color(0.050980393, 0.36078432, 0.21960784, 1)
 theme_override_colors/font_hover_pressed_color = Color(0.050980393, 0.36078432, 0.21960784, 1)
 theme_override_font_sizes/font_size = 20
-text = "LEWATI ANIMASI PERCAKAPAN"
+text = "MATIKAN ANIMASI PERCAKAPAN KETIK"
 
 [node name="ButtonRight" type="CenterContainer" parent="UIRoot/DialogueLayer/DialoguePanel/BottomMargin/BottomVBox/ActionRow" unique_id=1605172628]
 custom_minimum_size = Vector2(330, 52)

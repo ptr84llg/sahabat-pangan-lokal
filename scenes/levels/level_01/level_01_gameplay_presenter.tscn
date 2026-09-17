@@ -56,7 +56,6 @@ corner_radius_bottom_left = 10
 content_margin_top = 2.0
 content_margin_bottom = 2.0
 bg_color = Color(1, 0.9490196, 0, 1)
-border_width_bottom = 3
 border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
 corner_radius_top_left = 10
 
@@ -73,7 +72,6 @@ corner_radius_bottom_right = 10
 content_margin_top = 2.0
 content_margin_bottom = 2.0
 bg_color = Color(1, 0.9490196, 0, 1)
-border_width_bottom = 3
 border_color = Color(0.05490196, 0.36078432, 0.21960784, 1)
 corner_radius_top_right = 10
 
@@ -217,7 +215,7 @@ anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 40.0
 offset_right = -4.0
-offset_bottom = -32.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -233,6 +231,7 @@ theme_override_constants/margin_bottom = 12
 [node name="GameplayVBox" type="VBoxContainer" parent="RecreatedMainBoard/BoardMargin" unique_id=134486336]
 layout_mode = 2
 theme_override_constants/separation = 0
+alignment = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox" unique_id=921837367]
 custom_minimum_size = Vector2(0, 20)
@@ -313,7 +312,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_5rmbn")
 [node name="ScoreBox" type="VBoxContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelPoin" unique_id=923148881]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 6
+theme_override_constants/separation = 0
 
 [node name="Title" type="Label" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelPoin/ScoreBox" unique_id=197938523]
 layout_mode = 2
@@ -325,10 +324,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Underline" type="ColorRect" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelPoin/ScoreBox" unique_id=526995349]
-visible = false
-custom_minimum_size = Vector2(0, 2)
+custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
-color = Color(1, 0.95, 0, 1)
+color = Color(0.050980393, 0.36078432, 0.21960784, 1)
 
 [node name="ScoreValue" type="Label" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelPoin/ScoreBox" unique_id=612117507]
 unique_name_in_owner = true
@@ -354,7 +352,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_oscwe")
 [node name="ProgressBox" type="VBoxContainer" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelMatches" unique_id=1269096623]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 6
+theme_override_constants/separation = 0
 
 [node name="Title" type="Label" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelMatches/ProgressBox" unique_id=977953979]
 layout_mode = 2
@@ -366,10 +364,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Underline" type="ColorRect" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelMatches/ProgressBox" unique_id=1923755178]
-visible = false
-custom_minimum_size = Vector2(0, 2)
+custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
-color = Color(1, 0.95, 0, 1)
+color = Color(0.050980393, 0.36078432, 0.21960784, 1)
 
 [node name="MatchValue" type="Label" parent="RecreatedMainBoard/BoardMargin/GameplayVBox/InfoRow/StatsPanel/StatsMargin/StatsRow/PanelMatches/ProgressBox" unique_id=1390680090]
 unique_name_in_owner = true
